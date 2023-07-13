@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>"> 
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,400italic,700,800" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Raleway:300,200,100" rel="stylesheet" type="text/css">
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700" rel="stylesheet" type="text/css">
+        
+        {% block stylesheets %}
+            <link href="{{ asset('assets/lib/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('assets/lib/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+            <link href="{{ asset('assets/lib/jquery.nanoscroller/css/nanoscroller.css') }}" rel="stylesheet" type="text/css">
+            <link href="{{ asset('assets/css/style.css') }}" rel="stylesheet">
+         {% endblock %}
+		
+        <title>
+			{% block title %}
+                Route Premium
+			{% endblock %}
+		</title>
+
+     
+        
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('assets/lib/jquery/jquery.min.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('assets/lib/jquery.nanoscroller/javascripts/jquery.nanoscroller.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('assets/js/cleanzone.js') }}"></script>
+            <script src="{{ asset('assets/lib/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+            <script src="{{ asset('assets/js/voice-recognition.js') }}"></script>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                    //initialize the javascript
+                    App.init();
+                });
+            </script>
+        {% endblock %}
+	</head>
+    <body>
+        <div id="head-nav" class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" data-toggle="collapse" data-target=".navbar-collapse" class="navbar-toggle"><span class="fa fa-gear"></span></button>
+                    <a href="#" class="navbar-brand"></a>
+                </div>
+                <div class="navbar-collapse collapse">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div id="cl-wrapper">
+            <div class="cl-sidebar">
+                <div class="cl-toggle"><i class="fa fa-bars"></i></div>
+                <div class="cl-navblock">
+                    <div class="menu-space">
+                        <div class="content">
+                            <ul class="cl-vnavigation">
+                                <li>
+                                    <a href="#"><i class="fa fa-home"></i><span>Dashboard</span></a>
+                                    <ul class="sub-menu">
+                                        <li><a href="index.html">Version 1</a></li>
+                                        <li><a href="dashboard2.html"><span class="label label-primary pull-right">New</span>Version 2</a></li>
+                                    </ul>
+                                </li>
+                                <li>
+                                    <a href="#"><i class="fa fa-home"></i><span>Dashboard</span></a>
+                                    <ul class="sub-menu">
+                                        <li><a href="index.html">Version 1</a></li>
+                                        <li><a href="dashboard2.html"><span class="label label-primary pull-right">New</span>Version 2</a></li>
+                                    </ul>
+                                </li>
+                            </ul> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="pcont" class="container-fluid">
+                {% block body %}{% endblock %}
+            </div>
+        </div>
+    </body>
+</html>
