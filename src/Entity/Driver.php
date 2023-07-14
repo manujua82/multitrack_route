@@ -23,7 +23,7 @@ class Driver
     private ?string $address = null;
 
     #[ORM\Column]
-    private ?bool $active = null;
+    private ?bool $active = true;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $zone = null;

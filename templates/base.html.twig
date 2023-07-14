@@ -68,10 +68,9 @@
                                     </ul>
                                 </li>
                                 <li>
-                                    <a href="#"><i class="fa fa-home"></i><span>Dashboard</span></a>
+                                    <a href="#"><i class="fa  fa-gear "></i><span>Settings</span></a>
                                     <ul class="sub-menu">
-                                        <li><a href="index.html">Version 1</a></li>
-                                        <li><a href="dashboard2.html"><span class="label label-primary pull-right">New</span>Version 2</a></li>
+                                        <li><a href="{{ path('app_driver')}}">Drivers</a></li>
                                     </ul>
                                 </li>
                             </ul> 
@@ -80,6 +79,9 @@
                 </div>
             </div>
             <div id="pcont" class="container-fluid">
+                {% for message in app.flashes('success') %}
+                    <div style="color: green">{{ message }}</div>
+                {% endfor %}
                 {% block body %}{% endblock %}
             </div>
         </div>
