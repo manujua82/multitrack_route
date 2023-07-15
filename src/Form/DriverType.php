@@ -16,8 +16,7 @@ class DriverType extends AbstractType
             ->add('phone')
             ->add('address')
             ->add('active')
-            ->add('zone')
-        ;
+            ->add('zone');
     }
 
     public function configureOptions(OptionsResolver $resolver): void

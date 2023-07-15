@@ -1,0 +1,36 @@
+<table id="datatable-icons" class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Full Name</th>
+            <th>Address</th>
+            <th>Phone</th>
+            <th>Zone</th>
+            <th class="text-center">Active</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for driver in drivers %}
+            {% if driver.active %}
+                {% set activeClass = 'fa fa-check' %}
+            {% else %}
+                {% set activeClass = 'fa fa-close' %}
+            {% endif %}
+            <tr class="odd gradeA">
+                <td>{{ driver.name }}</td>
+                <td>{{ driver.address }}</td>
+                <td>{{ driver.phone }}</td>
+                <td>{{ driver.zone }}</td>
+                <td class="text-center"><i class="{{activeClass}}"></i></td>
+                <td class="center">
+                    <a class="btn btn-primary btn-xs" href="{{ path('app_driver_edit', { driverEntity: driver.id }) }}" data-original-title="Edit" data-toggle="tooltip">
+                        <i class="fa fa-pencil"></i>
+                    </a> 
+                    <a class="btn btn-danger btn-xs" href="#" data-original-title="Remove" data-toggle="tooltip">
+                        <i class="fa fa-times"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

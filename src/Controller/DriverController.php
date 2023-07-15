@@ -21,7 +21,7 @@ class DriverController extends AbstractController
         ]);
     }
 
-    #[Route('/driver/new', name: 'app_driver_add', priority:2)]
+    #[Route('/driver/new', name: 'app_driver_new', priority:2)]
     public function add(Request $request, DriverRepository $driverRepository): Response
     {
         $form = $this->createForm(DriverType::class, new Driver());

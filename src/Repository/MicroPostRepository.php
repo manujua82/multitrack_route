@@ -24,7 +24,6 @@ class MicroPostRepository extends ServiceEntityRepository
     public function add(MicroPost $entity, bool $flush = false): void
     {
         $this->getEntityManager()->persist($entity);
-
         if ($flush) {
             $this->getEntityManager()->flush();
         }
@@ -33,7 +32,6 @@ class MicroPostRepository extends ServiceEntityRepository
     public function remove(MicroPost $entity, bool $flush = false): void
     {
         $this->getEntityManager()->remove($entity);
-
         if ($flush) {
             $this->getEntityManager()->flush();
         }

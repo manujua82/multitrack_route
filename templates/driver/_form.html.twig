@@ -1,11 +1,15 @@
- {{ form_start(form) }}
-    <div>{{ form_errors(form) }}</div>
+ {{ form_start(form, {'attr': { 'novalidate': 'novalidate'}}) }}
+    <div>{{ form_errors(form) }}
+        
+    </div>
 
     <div>
         {{ form_label(form.name,  "Full Name") }}
+        
     </div>
     <div>
         {{ form_widget(form.name, { 'attr': { 'style': 'color: gray'}}) }}
+        {{ form_errors(form.name) }}
     </div>
 
     <div>
