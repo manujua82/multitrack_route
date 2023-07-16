@@ -34,6 +34,10 @@ class Driver
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $zone = null;
 
+    #[ORM\OneToOne(inversedBy: 'driver', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -95,6 +99,18 @@ class Driver
     public function setZone(?string $zone): static
     {
         $this->zone = $zone;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): static
+    {
+        $this->user = $user;
 
         return $this;
     }
