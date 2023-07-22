@@ -9,7 +9,7 @@
                 </div>
                 <div style="margin-bottom: 0px !important;" class="form-horizontal">
                     <div class="content">
-                        <h5 class="title text-center"><strong>Sign Up</strong></h5>
+                        <h5 class="title text-center"><strong>{{ 'signUp'|trans }}</strong></h5>
                         <hr>
                         
                         {{ form_start(registrationForm, {'attr': { 'novalidate': 'novalidate'}}) }}
@@ -17,7 +17,7 @@
                         <div class="form-group">
                             <div class="col-sm-12">
                                 <div class="input-group"><span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',  'placeholder': 'E-mail'}}) }}
+                                    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',  'placeholder': 'email'|trans }}) }}
                                 </div>
                                 <div style="color: red">
                                     {{ form_errors(registrationForm.email) }}
@@ -28,7 +28,14 @@
                         <div class="form-group">
                             <div class="col-sm-6 col-xs-6">
                                 <div class="input-group"><span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                    {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'Password'}}) }}
+                                    {{ form_widget(registrationForm.plainPassword.first, {
+                                            'attr': 
+                                            {
+                                                'class': 'form-control', 
+                                                'placeholder': 'password'|trans
+                                            }
+                                        }) 
+                                    }}
                                 </div>
                                 <div style="color: red">
                                     {{ form_errors(registrationForm.plainPassword.first) }}
@@ -37,7 +44,7 @@
                     
                             <div class="col-sm-6 col-xs-6">
                                 <div class="input-group"><span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                    {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Confirm password'}}) }}
+                                    {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'confirmPassword'|trans }}) }}
                                 </div>
                                 <div style="color: red">
                                     {{ form_errors(registrationForm.plainPassword.second) }}
@@ -57,12 +64,12 @@
                             </div>
                         </div>
 
-                        <button type="submit" class="btn btn-block btn-success btn-rad btn-lg">Sign Up</button>
+                        <button type="submit" class="btn btn-block btn-success btn-rad btn-lg">{{ 'signUp'|trans }}</button>
 
                         <div class="form-group">
                             <div class="col-sm-12 text-center">
                                 <label>
-                                    Already have an account? <a href="{{ path('app_login') }}">Login here</a>
+                                   {{ 'haveAccount'|trans }} <a href="{{ path('app_login') }}">{{ 'loginHere'|trans }}Login here</a>
                                 </label>
                             </div>
                         </div>
