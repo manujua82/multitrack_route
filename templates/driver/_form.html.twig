@@ -1,0 +1,47 @@
+ {{ form_start(form, {'attr': { 'novalidate': 'novalidate'}}) }}
+    <div>{{ form_errors(form) }}
+        
+    </div>
+
+    <div>
+        {{ form_label(form.name,  "Full Name") }}
+        
+    </div>
+    <div>
+        {{ form_widget(form.name, { 'attr': { 'style': 'color: gray'}}) }}
+        {{ form_errors(form.name) }}
+    </div>
+
+    <div>
+        {{ form_label(form.phone, "Phone") }}
+    </div>
+    <div>
+        {{ form_widget(form.phone) }}
+    </div>
+
+    <div>
+        {{ form_label(form.address) }}
+    </div>
+    <div>
+        {{ form_widget(form.address) }}
+    </div>
+
+    <div>
+        {{ form_label(form.zone) }}
+    </div>
+    <div>
+        {{ form_widget(form.zone) }}
+    </div>
+
+    <div>
+        {{ form_label(form.active) }}
+    </div>
+    <div>
+        {{ form_widget(form.active) }}
+    </div>
+
+    <div>
+        <button type="submit">Save</button>
+    </div>
+
+{{ form_end(form) }}
