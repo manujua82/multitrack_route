@@ -2,54 +2,43 @@
 
 {% block body %}
 
-<div id="cl-wrapper" class="login-container">
-    <div class="middle-login">
-        <div class="block-flat">
-            <div class="header">
-                <h3 class="text-center"><img src="assets/img/logo.png" alt="logo" class="logo-img"></h3>
-            </div>
+<div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3"><a class="d-flex flex-center text-decoration-none mb-4" href="">
+    <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img src="{{ asset('assets/img/icons/logo.png') }}" alt="phoenix" width="58" />
+</div>
+</a>
 
-            <div>
-                <form style="margin-bottom: 0px !important;" action="{{ path('app_login') }}" class="form-horizontal" method="POST">
-                    <div class="content">
-                        <h4 class="title">{{ 'Login Access'|trans }}</h4>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-user"></i></span>
-                                    <input type="text"  name="_username" value="{{ lastUsername }}"  placeholder="{{ 'email'|trans }}" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <div class="input-group">
-                                    <span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                    <input type="password" name="_password" placeholder="{{ 'password'|trans }}" class="form-control">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                     
-                    <div class="foot">
-                        <button data-dismiss="modal" type="submit" class="btn btn-primary">{{ 'logIn'|trans }}</button>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-12 text-center">
-                            <label>
-                                {{ "Don't have an account?" |trans }} <a href="{{ path('app_register') }}">{{ "Register here" |trans }}</a>
-                            </label>
-                        </div>
-                    </div>
-                </form>
-            </div>   
-        </div>
-       
-        <div class="text-center out-links"><a href="#">© 2013 Your Company</a></div>
-    </div>
+<div class="text-center mb-7">
+    <h3 class="text-1000">{{ 'logIn'|trans }}</h3>
+    <p class="text-700">{{ 'Get access to your accoun'|trans }}t</p>
 </div>
 
-           
+<form method="POST">
+
+    <div class="mb-3 text-start">
+        <label class="form-label" for="email">{{ 'email'|trans }}</label>
+        <div class="form-icon-container">
+            <input class="form-control form-icon-input" name="_username" type="text"  value="{{ lastUsername }}"  placeholder="name@example.com" /><span class="fas fa-user text-900 fs--1 form-icon"></span>
+        </div>
+    </div>
+
+    <div class="mb-3 text-start">
+        <label class="form-label" for="password">{{ 'password'|trans }}</label>
+        <div class="form-icon-container">
+            <input class="form-control form-icon-input" name="_password" type="password" placeholder="{{ 'password'|trans }}" /><span class="fas fa-key text-900 fs--1 form-icon"></span>
+        </div>
+    </div>
+
+    <div class="row flex-between-center mb-7">
+        {# <div class="col-auto">
+            <div class="form-check mb-0">
+                <input class="form-check-input" id="basic-checkbox" type="checkbox" checked="checked" />
+                <label class="form-check-label mb-0" for="basic-checkbox">Remember me</label>
+            </div>
+        </div> 
+        <div class="col-auto"><a class="fs--1 fw-semi-bold" href="../../../pages/authentication/simple/forgot-password.html">{{ 'Forgot Password?'|trans }}</a></div> #}
+    </div>
+    <button class="btn btn-primary w-100 mb-3" type="submit">{{ 'logIn'|trans }}</button>
+</form>
+<div class="text-center"><a class="fs--1 fw-bold" href="{{ path('app_register') }}">{{ 'Create an account'|trans }}</a></div>
             
 {% endblock %}
