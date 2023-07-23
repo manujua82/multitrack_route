@@ -3,9 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Driver;
+use App\Entity\User;
 use App\Form\DriverType;
 use App\Repository\DriverRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -24,10 +27,31 @@ class DriverController extends AbstractController
     }
 
     #[Route('/driver/new', name: 'app_driver_new', priority:2)]
-    public function add(Request $request, DriverRepository $driverRepository): Response
+    public function add(
+        Request $request, 
+        DriverRepository $driverRepository,
+        UserRepository $userRepository,
+    ): Response
     {
         $form = $this->createForm(DriverType::class, new Driver());
-        return $this->handleDriverFormRequest( $form, $driverRepository, $request);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $driverEntity = $form->getData();
+            $driverUser = $userRepository->createUser(
+                $driverEntity->getEmail(),
+                $form->get('plainPassword')->getData(),
+                $this->getUser()->getMainCompany(),
+                [ 'ROLE_DRIVER']
+            );
+            $driverEntity->setUser($driverUser);
+            $driverRepository->add($driverEntity, true);   
+
+            return $this->redirectToRoute('app_driver');
+        }
+
+        return $this->render('driver/new.html.twig', [
+            'form' => $form
+        ]);
     }
 
     #[Route('/driver/{driverEntity}/edit', name: 'app_driver_edit')]
