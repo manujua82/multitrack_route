@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[IsGranted('IS_AUTHENTICATED_FULLY')]
-class HelloController extends AbstractController
+class HomeController extends AbstractController
 {
     private array $message = [
         "Hello", "Hi", "Baby"
@@ -17,12 +17,6 @@ class HelloController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function index(): Response
     {
-        return $this->render('hello/index.html.twig', ['message' => "Hello"]);
-    }
-
-    #[Route('/messages/{id}', name: 'app_showOne')]
-    public function showOne($id): Response
-    {
-        return new Response($this->message[$id]);
+        return $this->render('home/index.html.twig');
     }
 }

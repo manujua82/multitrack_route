@@ -12,8 +12,8 @@
 
 {{ form_start(registrationForm, {'attr': { 'novalidate': 'novalidate'}}) }}
 <div class="mb-3 text-start">
-    {{ form_label(registrationForm.email, 'email'|trans, {'label_attr': {'class': 'form-label'}}) }}
-    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',  'placeholder': 'email'|trans }}) }}
+    {{ form_label(registrationForm.email, 'Email'|trans, {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',  'placeholder': 'Email'|trans }}) }}
     {{ form_errors(registrationForm.email) }}
 </div>
 <div class="row g-3 mb-3">

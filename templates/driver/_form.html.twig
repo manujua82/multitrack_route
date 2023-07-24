@@ -18,8 +18,8 @@
 
         <div class="col-sm-6 col-md-12">
             <div class="form-floating">
-                {{ form_widget(form.email, { 'attr': { 'class': 'form-control', 'id':'floatingInputEmail', 'type':'text', 'placeholder': 'email'|trans }}) }}
-                {{ form_label(form.email, 'email'|trans, {'label_attr': {'for': 'floatingInputEmail'}}) }}
+                {{ form_widget(form.email, { 'attr': { 'class': 'form-control', 'id':'floatingInputEmail', 'type':'text', 'placeholder': 'Email'|trans }}) }}
+                {{ form_label(form.email, 'Email'|trans, {'label_attr': {'for': 'floatingInputEmail'}}) }}
                 <div class="invalid-feedback">{{ form_errors(form.email) }}</div>
             </div>
         </div>
@@ -57,7 +57,7 @@
         <div class="col-sm-6 col-md-6">
             <div class="form-floating">
                 {{ form_widget(form.plainPassword.second, { 'attr': { 'class': 'form-control', 'id':'repeatPasswordInput', 'value': currentPassword, 'placeholder': 'password'|trans }}) }}
-                {{ form_label(form.plainPassword.second, 'Repeatpassword'|trans, {'label_attr': {'for': 'repeatPasswordInput'}}) }}
+                {{ form_label(form.plainPassword.second, 'Repeat password'|trans, {'label_attr': {'for': 'repeatPasswordInput'}}) }}
                 <div class="invalid-feedback">{{ form_errors(form.plainPassword.second) }}</div>
             </div>
         </div>

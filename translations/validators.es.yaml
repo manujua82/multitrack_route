@@ -131,7 +131,9 @@ Error: Error
 'Please select a valid option.': 'Por favor, seleccione una opción válida.'
 'Please select a valid range.': 'Por favor, seleccione un rango válido.'
 'Please enter a valid week.': 'Por favor, ingrese una semana válida.'
-'You should agree to our terms.': '__You should agree to our terms.'
-'Please enter a password': '__Please enter a password'
-'Your password should be at least {{ limit }} characters': '__Your password should be at least {{ limit }} characters'
-'There is already an account with this email': '__There is already an account with this email'
+'You should agree to our terms.': 'Debes aceptar nuestros términos.'
+'Please enter a password': 'Porfavor ingrese una contraseña'
+'Your password should be at least {{ limit }} characters': 'Su contraseña debe tener al menos {{ limit }} caracteres'
+'Please provide a valid email': 'Por favor proporcione un correo electrónico válido'
+"Your email doesn't seems to be valid": "Tu email no es válido"
+'There is already an account with this email': 'Ya existe una cuenta con este correo'

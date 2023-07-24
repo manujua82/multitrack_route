@@ -137,7 +137,9 @@ Error: Error
 'Please select a valid option.': 'Please select a valid option.'
 'Please select a valid range.': 'Please select a valid range.'
 'Please enter a valid week.': 'Please enter a valid week.'
-'You should agree to our terms.': '__You should agree to our terms.'
-'Please enter a password': '__Please enter a password'
-'Your password should be at least {{ limit }} characters': '__Your password should be at least {{ limit }} characters'
-'There is already an account with this email': '__There is already an account with this email'
+'You should agree to our terms.': 'You should agree to our terms.'
+'Please enter a password': 'Please enter a password'
+'Your password should be at least {{ limit }} characters': 'Your password should be at least {{ limit }} characters'
+'Please provide a valid email': 'Please provide a valid email'
+"Your email doesn't seems to be valid": "Your email doesn't seems to be valid"
+'There is already an account with this email': 'There is already an account with this email'

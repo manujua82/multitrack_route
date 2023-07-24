@@ -1,13 +1,35 @@
 'Please Confirm your Email': 'Please Confirm your Email'
 success: success
 'Your email address has been verified.': 'Your email address has been verified.'
-'Login Access': 'Login Access'
-email: Email
-password: Password
-logIn: 'Log In'
-"Don't have an account?": "Don't have an account?"
-'Register here': 'Register here'
-signUp: 'Sign Up'
-haveAccount: 'Already have an account?'
-loginHere: 'Login here'
-confirmPassword: 'confirm password'
+signUp: signUp
+'Create your account today': 'Create your account today'
+email: email
+password: password
+'Sign in to an existing account': 'Sign in to an existing account'
+Home: Home
+Settings: Settings
+Driver: Driver
+'Sign Out': 'Sign Out'
+'Edit driver': 'Edit driver'
+'Create new driver': 'Create new driver'
+'Create a driver': 'Create a driver'
+Drivers: Drivers
+'Search members': 'Search members'
+Import: Import
+'Add Driver': 'Add Driver'
+'View all': 'View all'
+'View Less': 'View Less'
+Active: Active
+'Full name': 'Full name'
+Address: Address
+Phone: Phone
+Zone: Zone
+'Repeat password': 'Repeat password'
+Cancel: Cancel
+Save: Save
+'Driver name': 'Driver name'
+Email: Email
+Actions: Actions
+'Sign In': 'Sign In'
+'Get access to your account': 'Get access to your account'
+'Create an account': 'Create an account'
