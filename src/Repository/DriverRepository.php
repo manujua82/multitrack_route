@@ -32,6 +32,15 @@ class DriverRepository extends ServiceEntityRepository
         }
     }
 
+    public function delete(Driver $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+
+    }
+
 //    /**
 //     * @return Driver[] Returns an array of Driver objects
 //     */

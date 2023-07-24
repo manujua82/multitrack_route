@@ -3,15 +3,12 @@
 namespace App\Controller;
 
 use App\Entity\Driver;
-use App\Entity\User;
 use App\Form\DriverType;
 use App\Repository\DriverRepository;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
@@ -50,7 +47,8 @@ class DriverController extends AbstractController
         }
 
         return $this->render('driver/new.html.twig', [
-            'form' => $form
+            'form' => $form,
+            'currentPassword' => ''
         ]);
     }
 
@@ -58,28 +56,28 @@ class DriverController extends AbstractController
     public function edit(Driver $driverEntity, Request $request, DriverRepository $driverRepository): Response
     {
         $form = $this->createForm(DriverType::class, $driverEntity);
-        return $this->handleDriverFormRequest( $form, $driverRepository, $request, true);
-    }
-
-    private function handleDriverFormRequest($form, $repository, $request, $isEdit = false)
-    {
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
-            $driverEntity = $form->getData();
-            $repository->add($driverEntity, true);
 
-            if ($isEdit) {
-                $this->addFlash('success', 'your micro post have been added');
-            }else{
-                $this->addFlash('success', 'your micro post have been updated');
-            }
-            // Redirect index
+            //TODO: Added changes for user passwords and/or email
+            
+            $driverEntity = $form->getData();
+            $driverRepository->add($driverEntity, true);
+
             return $this->redirectToRoute('app_driver');
         }
 
-        return $this->render('driver/new.html.twig', [
-            'form' => $form
+        $driverEntity = $form->getData();
+        return $this->render('driver/edit.html.twig', [
+            'form' => $form,
+            'currentPassword' => $driverEntity->getUser()->getPassword() //TODO: decrypt password
         ]);
+    }
 
+    #[Route('/driver/{driverEntity}/delete', name: 'app_driver_delete')]
+    public function delete(Driver $driverEntity, Request $request, DriverRepository $driverRepository): Response
+    {
+        $driverRepository->delete($driverEntity, true);
+        return $this->redirectToRoute('app_driver');
     }
 }
