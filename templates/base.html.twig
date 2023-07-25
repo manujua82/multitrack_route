@@ -81,9 +81,17 @@
                                 {{ 'Settings'|trans }}
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 shadow border border-300">
+                                
                                 <li class="card position-relative border-0">
                                     <a class="dropdown-item" href="{{ path('app_driver')}}">
-                                        <div class="dropdown-item-wrapper"><span class="me-2 uil" data-feather="truck"></span>{{ 'Driver'|trans }}
+                                        <div class="dropdown-item-wrapper"><span class="me-2 far fa-id-card"></span>{{ 'Driver'|trans }}
+                                        </div>
+                                    </a>
+                                </li>
+
+                                <li class="card position-relative border-0">
+                                    <a class="dropdown-item" href="{{ path('app_warehouse')}}">
+                                        <div class="dropdown-item-wrapper"><span class="me-2 fa fa-warehouse"></span>{{ 'Warehouse'|trans }}
                                         </div>
                                     </a>
                                 </li>

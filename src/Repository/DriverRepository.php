@@ -38,7 +38,6 @@ class DriverRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
-
     }
 
 //    /**

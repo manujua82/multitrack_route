@@ -2,7 +2,9 @@
 
 namespace App\Entity;
 
+use DateTime;
 use App\Repository\DriverRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -40,6 +42,14 @@ class Driver
 
     #[ORM\Column(length: 255)]
     private ?string $email = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $created = null;
+
+    public function __construct()
+    {
+        $this->created = new DateTime;
+    }
 
     public function getId(): ?int
     {
@@ -126,6 +136,18 @@ class Driver
     public function setEmail(string $email): static
     {
         $this->email = $email;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): static
+    {
+        $this->created = $created;
 
         return $this;
     }
