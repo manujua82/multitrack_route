@@ -1,0 +1,66 @@
+<?php
+
+namespace App\Controller;
+
+use App\Entity\Carrier;
+use App\Form\CarrierType;
+use App\Repository\CarrierRepository;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Annotation\Route;
+
+class CarrierController extends AbstractController
+{
+    #[Route('/carrier', name: 'app_carrier')]
+    public function index(CarrierRepository $repository): Response
+    {
+        return $this->render('carrier/index.html.twig', [
+            'carriers' => $repository->findAll(),
+        ]);
+    }
+
+    #[Route('/carrier/new', name: 'app_carrier_new')]
+    public function add(
+        Request $request, 
+        CarrierRepository $repository,
+    ): Response
+    {
+        $form = $this->createForm(CarrierType::class, new Carrier());
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $carrierEntity = $form->getData();
+            $repository->add($carrierEntity, true);   
+
+            return $this->redirectToRoute('app_carrier');
+        }
+
+        return $this->render('carrier/new.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/warehouse/{carrierEntity}/edit', name: 'app_carrier_edit')]
+    public function edit(Carrier $carrierEntity, Request $request, CarrierRepository $repository): Response
+    {
+        $form = $this->createForm(CarrierType::class, $carrierEntity);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $carrierEntity = $form->getData();
+            $repository->add($carrierEntity, true);
+            return $this->redirectToRoute('app_carrier');
+        }
+
+        return $this->render('carrier/edit.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/carrier/{carrierEntity}/delete', name: 'app_carrier_delete')]
+    public function delete(Carrier $carrierEntity, Request $request, CarrierRepository $repository): Response
+    {
+        $repository->delete($carrierEntity, true);
+        return $this->redirectToRoute('app_carrier');
+    }
+
+}

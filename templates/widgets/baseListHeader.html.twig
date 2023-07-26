@@ -1,12 +1,12 @@
 <h2 class="text-bold text-1100 mb-5">{{ entityName | trans }}</h2>
 
-<div id="drivers" data-list='{"page":10,"pagination":true}'>
+<div id="drivers" data-list='{"valueNames":{{ valueNames }}, "page":10,"pagination":true}'>
     
     <div class="row align-items-center justify-content-between g-3 mb-4">
         <div class="col col-auto">
             <div class="search-box">
                 <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                    <input class="form-control search-input search" type="search" placeholder="{{ 'Search driver' |trans }}" aria-label="Search" />
+                    <input class="form-control search-input search" type="search" placeholder="{% trans with {'%name%': entityName} from 'app' %}Search %name%{% endtrans %}" aria-label="Search" />
                     <span class="fas fa-search search-box-icon"></span>
                 </form>
             </div>

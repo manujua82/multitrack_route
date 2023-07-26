@@ -1,0 +1,58 @@
+<div class="row flex-center py-5">
+    <div class="col-xl-4">
+        {{ form_start(form,{'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation"}}) }}
+
+        <div>
+            {{ form_errors(form)}}
+        </div>
+
+        <div class="col-sm-6 col-md-12">
+            <div class="form-floating">
+                {{ form_widget(form.code, { 'attr': { 'class': 'form-control', 'id':'floatingInputCode', 'type':'text', 'placeholder': 'Code'|trans }}) }}
+                {{ form_label(form.code,  'Code'|trans, {'label_attr': {'class': 'form-label', 'for': 'floatingInputCode'}}) }}
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-12">
+            <div class="form-floating">
+                {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'floatingInputname', 'type':'text', 'placeholder': 'Name'|trans }}) }}
+                {{ form_label(form.name,  'Name'|trans, {'label_attr': {'class': 'form-label', 'for': 'floatingInputname'}}) }}
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-12">
+            <div class="form-floating">
+                {{ form_widget(form.contact, { 'attr': { 'class': 'form-control', 'id':'floatingInputContact', 'type':'text', 'placeholder': 'Contact'|trans }}) }}
+                {{ form_label(form.contact,  'Contact'|trans, {'label_attr': {'class': 'form-label', 'for': 'floatingInputContact'}}) }}
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-12">
+            <div class="form-floating">
+                {{ form_widget(form.phone, { 'attr': { 'class': 'form-control', 'id':'inputphone', 'type':'text', 'placeholder': 'Phone'|trans }}) }}
+                {{ form_label(form.phone,  'Phone'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputphone'}}) }}
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-12">
+            <div class="form-floating">
+                {{ form_widget(form.email, { 'attr': { 'class': 'form-control', 'id':'inputEmail', 'type':'text', 'placeholder': 'Email'|trans }}) }}
+                {{ form_label(form.email,  'Email'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputEmail'}}) }}
+            </div>
+        </div>
+
+        <div class="col-12 gy-6">
+            <div class="row g-3 justify-content-end">
+                <div class="col-auto">
+                    <button class="btn btn-phoenix-primary px-5" onclick="location.href='{{ path('app_carrier') }}';">{{ 'Cancel' |trans }}</button>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary px-5">{{ 'Save' |trans }}</button>
+                </div>
+            </div>
+        </div>
+       
+
+         {{ form_end(form) }}
+    </div>
+</div>
