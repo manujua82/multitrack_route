@@ -1,0 +1,52 @@
+<div class="row flex-center py-5">
+    <div class="col-xl-4">
+
+        {{ form_start(form) }}
+
+        <div>
+        {{ form_errors(form)}}
+        </div>
+
+        <div>   
+            {{ form_widget(form.Number) }}
+            {{ form_label(form.Number) }} 
+        </div>
+        <div>   
+            {{ form_widget(form.weight) }}
+            {{ form_label(form.weight) }} 
+        </div>
+        <div>   
+            {{ form_widget(form.volume) }}
+            {{ form_label(form.volume) }} 
+        </div> 
+        <div>   
+            {{ form_widget(form.plt) }}
+            {{ form_label(form.plt) }} 
+        </div>
+        {# <div>   
+            {{ form_widget(form.driver) }}
+            {{ form_label(form.driver) }} 
+        </div> #}
+        {# <div>   
+            {{ form_widget(form.depotr) }}
+            {{ form_label(form.depot) }} 
+        </div>
+        <div>   
+            {{ form_widget(form.carrier) }}
+            {{ form_label(form.carrier) }} 
+        </div>       #}
+
+        <div class="col-12 gy-6">
+            <div class="row g-3 justify-content-end">
+                <div class="col-auto">
+                    <button class="btn btn-phoenix-primary px-5" onclick="location.href='{{ path('app_vehicle') }}';">{{ 'Cancel' |trans }}</button>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary px-5">{{ 'Save' |trans }}</button>
+                </div>
+            </div>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+</div>

@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use DateTime;
 use App\Repository\WarehouseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -45,9 +47,13 @@ class Warehouse
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $country = null;
 
+    #[ORM\OneToMany(mappedBy: 'depot', targetEntity: Vehicle::class, orphanRemoval: true)]
+    private Collection $vehicles;
+
     public function __construct()
     {
         $this->created = new DateTime;
+        $this->vehicles = new ArrayCollection();
 
     }
 
@@ -172,6 +178,36 @@ class Warehouse
     public function setCountry(?string $country): static
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vehicle>
+     */
+    public function getVehicles(): Collection
+    {
+        return $this->vehicles;
+    }
+
+    public function addVehicle(Vehicle $vehicle): static
+    {
+        if (!$this->vehicles->contains($vehicle)) {
+            $this->vehicles->add($vehicle);
+            $vehicle->setDepot($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVehicle(Vehicle $vehicle): static
+    {
+        if ($this->vehicles->removeElement($vehicle)) {
+            // set the owning side to null (unless already changed)
+            if ($vehicle->getDepot() === $this) {
+                $vehicle->setDepot(null);
+            }
+        }
 
         return $this;
     }
