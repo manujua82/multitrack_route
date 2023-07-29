@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Driver;
 use App\Entity\User;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -38,6 +39,21 @@ class DriverRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findByName(string $query = null): array
+    {
+        return $this->createQueryBuilder('d')
+            ->orderBy('d.name', 'ASC')
+            ->where('d.name in (:query)')
+            ->setParameter('query', $query)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findAllQuery(): QueryBuilder{
+        $query = $this->createQueryBuilder('d');
+        return $query->orderBy('d.name', 'ASC');
     }
 
 //    /**

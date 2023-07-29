@@ -80,4 +80,16 @@ class DriverController extends AbstractController
         $driverRepository->delete($driverEntity, true);
         return $this->redirectToRoute('app_driver');
     }
+
+    // #[Route('/driver/search', name: 'app_driver_search')]
+    // public function search(DriverRepository $driverRepository, Request $request)
+    // {
+    //     $drivers = $driverRepository->findByName(
+    //         $request->query->get('query')
+    //     );
+
+    //     return $this->render('vehicle/new.html.twig', [
+    //         'drivers' => $drivers
+    //     ]);
+    // }
 }

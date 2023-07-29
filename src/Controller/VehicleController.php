@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Vehicle;
+use App\Form\SearchDriverType;
 use App\Form\VehicleType;
 use App\Repository\VehicleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,7 +41,7 @@ class VehicleController extends AbstractController
     #[Route('/vehicle/{vehicleEntity}/edit', name: 'app_vehicle_edit')]
     public function edit(Vehicle $vehicleEntity, Request $request, VehicleRepository $repository): Response
     {
-         // TOOD
+         // TODO
          return $this->render('vehicle/index.html.twig', [
             'vehicles' => $repository->findAll(),
         ]);
@@ -49,7 +50,7 @@ class VehicleController extends AbstractController
     #[Route('/vehicle/{vehicleEntity}/delete', name: 'app_warehouse_delete')]
     public function delete(Vehicle $vehicleEntity, Request $request, VehicleRepository $repository): Response
     {
-         // TOOD
+         // TODO
          return $this->render('vehicle/index.html.twig', [
             'vehicles' => $repository->findAll(),
         ]);
