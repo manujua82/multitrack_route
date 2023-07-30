@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Driver;
+use App\Entity\MainCompany;
 use App\Entity\User;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -41,23 +42,14 @@ class DriverRepository extends ServiceEntityRepository
         }
     }
 
-    public function findByName(string $query = null): array
+    public function findAllByCompany(MainCompany $company): array
     {
         return $this->createQueryBuilder('d')
-            ->orderBy('d.name', 'ASC')
-            ->where('d.name in (:query)')
-            ->setParameter('query', 'Ju')
+            ->andWhere('d.company = :company')
+            ->setParameter('company', $company)
+            ->orderBy('d.created', 'DESC')
             ->getQuery()
             ->getResult();
-    }
-
-    public function findAllQuery(string $queryValue = null): QueryBuilder{
-        $query = $this->createQueryBuilder('d')
-        ->where('d.name LIKE :queryValue')
-        ->orderBy('d.name', 'ASC')
-        ->setParameter('queryValue', 'Ju');
-
-        return $query;
     }
 
 //    /**

@@ -29,11 +29,15 @@ class MainCompany
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Carrier::class, orphanRemoval: true)]
     private Collection $carriers;
 
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Driver::class, orphanRemoval: true)]
+    private Collection $drivers;
+
     public function __construct()
     {
         $this->Users = new ArrayCollection();
         $this->createdDate = new DateTime();
         $this->carriers = new ArrayCollection();
+        $this->drivers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -119,6 +123,36 @@ class MainCompany
             // set the owning side to null (unless already changed)
             if ($carrier->getCompany() === $this) {
                 $carrier->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Driver>
+     */
+    public function getDrivers(): Collection
+    {
+        return $this->drivers;
+    }
+
+    public function addDriver(Driver $driver): static
+    {
+        if (!$this->drivers->contains($driver)) {
+            $this->drivers->add($driver);
+            $driver->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDriver(Driver $driver): static
+    {
+        if ($this->drivers->removeElement($driver)) {
+            // set the owning side to null (unless already changed)
+            if ($driver->getCompany() === $this) {
+                $driver->setCompany(null);
             }
         }
 

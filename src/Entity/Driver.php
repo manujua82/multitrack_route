@@ -46,6 +46,10 @@ class Driver
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created = null;
 
+    #[ORM\ManyToOne(inversedBy: 'drivers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?MainCompany $company = null;
+
     public function __construct()
     {
         $this->created = new DateTime;
@@ -154,5 +158,17 @@ class Driver
 
     public function __toString() {
         return $this->name;
+    }
+
+    public function getCompany(): ?MainCompany
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?MainCompany $company): static
+    {
+        $this->company = $company;
+
+        return $this;
     }
 }

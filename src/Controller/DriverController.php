@@ -19,7 +19,7 @@ class DriverController extends AbstractController
     public function index(DriverRepository $driverRepository): Response
     {
         return $this->render('driver/index.html.twig', [
-            'drivers' => $driverRepository->findAll(),
+            'drivers' => $driverRepository->findAllByCompany($this->getUser()->getMainCompany()),
         ]);
     }
 
@@ -34,13 +34,15 @@ class DriverController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
             $driverEntity = $form->getData();
+            $company = $this->getUser()->getMainCompany();
             $driverUser = $userRepository->createUser(
                 $driverEntity->getEmail(),
                 $form->get('plainPassword')->getData(),
-                $this->getUser()->getMainCompany(),
+                $company,
                 [ 'ROLE_DRIVER']
             );
             $driverEntity->setUser($driverUser);
+            $driverEntity->setCompany($company);
             $driverRepository->add($driverEntity, true);   
 
             return $this->redirectToRoute('app_driver');
@@ -80,16 +82,4 @@ class DriverController extends AbstractController
         $driverRepository->delete($driverEntity, true);
         return $this->redirectToRoute('app_driver');
     }
-
-    // #[Route('/driver/search', name: 'app_driver_search')]
-    // public function search(DriverRepository $driverRepository, Request $request)
-    // {
-    //     $drivers = $driverRepository->findByName(
-    //         $request->query->get('query')
-    //     );
-
-    //     return $this->render('vehicle/new.html.twig', [
-    //         'drivers' => $drivers
-    //     ]);
-    // }
 }
