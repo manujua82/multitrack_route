@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use App\Repository\CarrierRepository;
+use Symfony\Bundle\SecurityBundle\Security;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CarrierRepository::class)]
@@ -33,8 +36,16 @@ class Carrier
     #[ORM\OneToMany(mappedBy: 'carrier', targetEntity: Vehicle::class)]
     private Collection $vehicles;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $created = null;
+
+    #[ORM\ManyToOne(inversedBy: 'carriers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?MainCompany $company = null;
+
     public function __construct()
     {
+        $this->created = new DateTime();
         $this->vehicles = new ArrayCollection();
     }
 
@@ -135,5 +146,29 @@ class Carrier
 
     public function __toString() {
         return $this->code;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): static
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    public function getCompany(): ?MainCompany
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?MainCompany $company): static
+    {
+        $this->company = $company;
+
+        return $this;
     }
 }

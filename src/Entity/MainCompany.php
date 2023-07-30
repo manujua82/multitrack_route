@@ -26,10 +26,14 @@ class MainCompany
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $createdDate = null;
 
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Carrier::class, orphanRemoval: true)]
+    private Collection $carriers;
+
     public function __construct()
     {
         $this->Users = new ArrayCollection();
         $this->createdDate = new DateTime();
+        $this->carriers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -87,6 +91,36 @@ class MainCompany
     public function setCreatedDate(\DateTimeInterface $createdDate): static
     {
         $this->createdDate = $createdDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Carrier>
+     */
+    public function getCarriers(): Collection
+    {
+        return $this->carriers;
+    }
+
+    public function addCarrier(Carrier $carrier): static
+    {
+        if (!$this->carriers->contains($carrier)) {
+            $this->carriers->add($carrier);
+            $carrier->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCarrier(Carrier $carrier): static
+    {
+        if ($this->carriers->removeElement($carrier)) {
+            // set the owning side to null (unless already changed)
+            if ($carrier->getCompany() === $this) {
+                $carrier->setCompany(null);
+            }
+        }
 
         return $this;
     }

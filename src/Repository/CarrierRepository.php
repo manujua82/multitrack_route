@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Carrier;
+use App\Entity\MainCompany;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -36,6 +37,16 @@ class CarrierRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findAllByCompany(MainCompany $company): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.company = :company')
+            ->setParameter('company', $company)
+            ->orderBy('c.created', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
