@@ -50,6 +50,10 @@ class Warehouse
     #[ORM\OneToMany(mappedBy: 'depot', targetEntity: Vehicle::class, orphanRemoval: true)]
     private Collection $vehicles;
 
+    #[ORM\ManyToOne(inversedBy: 'warehouses')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?MainCompany $company = null;
+
     public function __construct()
     {
         $this->created = new DateTime;
@@ -215,5 +219,17 @@ class Warehouse
 
     public function __toString() {
         return $this->name;
+    }
+
+    public function getCompany(): ?MainCompany
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?MainCompany $company): static
+    {
+        $this->company = $company;
+
+        return $this;
     }
 }

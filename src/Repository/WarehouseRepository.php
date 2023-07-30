@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\MainCompany;
 use App\Entity\Warehouse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -35,6 +36,16 @@ class WarehouseRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findAllByCompany(MainCompany $company): array
+    {
+        return $this->createQueryBuilder('w')
+            ->andWhere('w.company = :company')
+            ->setParameter('company', $company)
+            ->orderBy('w.created', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
