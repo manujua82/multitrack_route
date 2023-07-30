@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Vehicle;
-use App\Form\SearchDriverType;
 use App\Form\VehicleType;
 use App\Repository\VehicleRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,14 +26,18 @@ class VehicleController extends AbstractController
         VehicleRepository $repository
     ): Response
     {
-        $form = $this->createForm(VehicleType::class, new Vehicle());
+        $form = $this->createForm(VehicleType::class, new Vehicle() );
+        
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
-            // TODO:
+            $vehicleEntity = $form->getData();
+            $repository->add($vehicleEntity, true);
+
+            return $this->redirectToRoute('app_vehicle');
         }
 
         return $this->render('vehicle/new.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
         ]);
     }
 
@@ -47,7 +50,7 @@ class VehicleController extends AbstractController
         ]);
     }
 
-    #[Route('/vehicle/{vehicleEntity}/delete', name: 'app_warehouse_delete')]
+    #[Route('/vehicle/{vehicleEntity}/delete', name: 'app_vehicle_delete')]
     public function delete(Vehicle $vehicleEntity, Request $request, VehicleRepository $repository): Response
     {
          // TODO

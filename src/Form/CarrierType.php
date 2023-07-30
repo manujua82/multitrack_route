@@ -6,6 +6,7 @@ use App\Entity\Carrier;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
 
 class CarrierType extends AbstractType
 {
@@ -15,7 +16,7 @@ class CarrierType extends AbstractType
             ->add('code')
             ->add('name')
             ->add('contact')
-            ->add('phone')
+            ->add('phone', TelType::class)
             ->add('email')
         ;
     }

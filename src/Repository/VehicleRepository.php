@@ -21,6 +21,22 @@ class VehicleRepository extends ServiceEntityRepository
         parent::__construct($registry, Vehicle::class);
     }
 
+    public function add(Vehicle $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function delete(Vehicle $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
 //    /**
 //     * @return Vehicle[] Returns an array of Vehicle objects
 //     */

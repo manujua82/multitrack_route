@@ -47,7 +47,7 @@ class DriverController extends AbstractController
         }
 
         return $this->render('driver/new.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'currentPassword' => ''
         ]);
     }
@@ -69,7 +69,7 @@ class DriverController extends AbstractController
 
         $driverEntity = $form->getData();
         return $this->render('driver/edit.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
             'currentPassword' => $driverEntity->getUser()->getPassword() //TODO: decrypt password
         ]);
     }

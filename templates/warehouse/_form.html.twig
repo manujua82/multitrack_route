@@ -9,7 +9,7 @@
         <div class="col-sm-6 col-md-12">
             <div class="form-floating">
                 {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'floatingInputGrid', 'type':'text', 'placeholder': 'Name'|trans }}) }}
-                {{ form_label(form.name,  'Name'|trans, {'label_attr': {'class': 'orm-label', 'for': 'floatingInputGrid'}}) }}
+                {{ form_label(form.name,  'Name'|trans, {'label_attr': {'class': 'form-label', 'for': 'floatingInputGrid'}}) }}
                 <div class="invalid-feedback">{{ form_errors(form.name) }}</div>
             </div>
         </div>
@@ -57,7 +57,6 @@
             </div>
         </div>
 
-
         <div class="col-sm-6 col-md-6">
             <div class="form-floating">
                 {{ form_widget(form.latitude, { 'attr': { 'class': 'form-control', 'id':'floatingInputLatitude', 'type':'text', 'placeholder': 'Latitude'|trans }}) }}
@@ -66,7 +65,7 @@
             </div>
         </div>
 
-         <div class="col-sm-6 col-md-6">
+        <div class="col-sm-6 col-md-6">
             <div class="form-floating">
                 {{ form_widget(form.longitude, { 'attr': { 'class': 'form-control', 'id':'floatingInputLongitude', 'type':'text', 'placeholder': 'Longitude'|trans }}) }}
                 {{ form_label(form.longitude,  'Longitude'|trans, {'label_attr': {'for': 'floatingInputLongitude'}}) }}

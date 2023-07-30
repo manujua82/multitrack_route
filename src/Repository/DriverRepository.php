@@ -46,14 +46,18 @@ class DriverRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('d')
             ->orderBy('d.name', 'ASC')
             ->where('d.name in (:query)')
-            ->setParameter('query', $query)
+            ->setParameter('query', 'Ju')
             ->getQuery()
             ->getResult();
     }
 
-    public function findAllQuery(): QueryBuilder{
-        $query = $this->createQueryBuilder('d');
-        return $query->orderBy('d.name', 'ASC');
+    public function findAllQuery(string $queryValue = null): QueryBuilder{
+        $query = $this->createQueryBuilder('d')
+        ->where('d.name LIKE :queryValue')
+        ->orderBy('d.name', 'ASC')
+        ->setParameter('queryValue', 'Ju');
+
+        return $query;
     }
 
 //    /**
