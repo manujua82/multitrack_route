@@ -16,7 +16,7 @@ class VehicleController extends AbstractController
     public function index(VehicleRepository $repository): Response
     {
         return $this->render('vehicle/index.html.twig', [
-            'vehicles' => $repository->findAll(),
+            'vehicles' => $repository->findAllByCompany($this->getUser()->getMainCompany()),
         ]);
     }
 
@@ -31,6 +31,7 @@ class VehicleController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
             $vehicleEntity = $form->getData();
+            $vehicleEntity->setCompany($this->getUser()->getMainCompany());
             $repository->add($vehicleEntity, true);
 
             return $this->redirectToRoute('app_vehicle');
@@ -44,18 +45,22 @@ class VehicleController extends AbstractController
     #[Route('/vehicle/{vehicleEntity}/edit', name: 'app_vehicle_edit')]
     public function edit(Vehicle $vehicleEntity, Request $request, VehicleRepository $repository): Response
     {
-         // TODO
-         return $this->render('vehicle/index.html.twig', [
-            'vehicles' => $repository->findAll(),
+        $form = $this->createForm(VehicleType::class, $vehicleEntity);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) { 
+            $vehicleEntity = $form->getData();
+            $repository->add($vehicleEntity, true);
+            return $this->redirectToRoute('app_vehicle');
+        }
+         return $this->render('vehicle/edit.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 
     #[Route('/vehicle/{vehicleEntity}/delete', name: 'app_vehicle_delete')]
     public function delete(Vehicle $vehicleEntity, Request $request, VehicleRepository $repository): Response
     {
-         // TODO
-         return $this->render('vehicle/index.html.twig', [
-            'vehicles' => $repository->findAll(),
-        ]);
+        $repository->delete($vehicleEntity, true);
+        return $this->redirectToRoute('app_vehicle');
     }
 }

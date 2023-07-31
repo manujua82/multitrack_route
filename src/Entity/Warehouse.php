@@ -56,7 +56,7 @@ class Warehouse
 
     public function __construct()
     {
-        $this->created = new DateTime;
+        $this->created = new DateTime();
         $this->vehicles = new ArrayCollection();
 
     }

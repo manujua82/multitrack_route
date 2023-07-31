@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\MainCompany;
 use App\Entity\Vehicle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -35,6 +36,22 @@ class VehicleRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    public function findAllByCompany(MainCompany $company): array
+    {
+        return $this->createQueryBuilder('v')
+            ->leftJoin('v.driver', 'd')
+            ->addSelect('d')
+            ->leftJoin('v.depot', 'w')
+            ->addSelect('w')
+            ->leftJoin('v.carrier', 'c')
+            ->addSelect('c')
+            ->andWhere('v.company = :company')
+            ->setParameter('company', $company)
+            ->orderBy('v.created', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

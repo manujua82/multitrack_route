@@ -3,8 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\VehicleRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: VehicleRepository::class)]
@@ -37,8 +39,15 @@ class Vehicle
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     private ?Carrier $carrier = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $created = null;
+
+    #[ORM\ManyToOne(inversedBy: 'vehicles')]
+    private ?MainCompany $company = null;
+
     public function __construct()
     {
+        $this->created = new DateTime();
     }
 
     public function getId(): ?int
@@ -126,6 +135,30 @@ class Vehicle
     public function setCarrier(?Carrier $carrier): static
     {
         $this->carrier = $carrier;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): static
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    public function getCompany(): ?MainCompany
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?MainCompany $company): static
+    {
+        $this->company = $company;
 
         return $this;
     }

@@ -35,6 +35,9 @@ class MainCompany
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: Warehouse::class, orphanRemoval: true)]
     private Collection $warehouses;
 
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: Vehicle::class)]
+    private Collection $vehicles;
+
     public function __construct()
     {
         $this->Users = new ArrayCollection();
@@ -42,6 +45,7 @@ class MainCompany
         $this->carriers = new ArrayCollection();
         $this->drivers = new ArrayCollection();
         $this->warehouses = new ArrayCollection();
+        $this->vehicles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -187,6 +191,36 @@ class MainCompany
             // set the owning side to null (unless already changed)
             if ($warehouse->getCompany() === $this) {
                 $warehouse->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vehicle>
+     */
+    public function getVehicles(): Collection
+    {
+        return $this->vehicles;
+    }
+
+    public function addVehicle(Vehicle $vehicle): static
+    {
+        if (!$this->vehicles->contains($vehicle)) {
+            $this->vehicles->add($vehicle);
+            $vehicle->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVehicle(Vehicle $vehicle): static
+    {
+        if ($this->vehicles->removeElement($vehicle)) {
+            // set the owning side to null (unless already changed)
+            if ($vehicle->getCompany() === $this) {
+                $vehicle->setCompany(null);
             }
         }
 

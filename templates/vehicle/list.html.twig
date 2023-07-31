@@ -17,9 +17,9 @@
         {% for entity in entities %}
             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                 <td class="number align-middle white-space-nowrap">{{ entity.Number }}</td>
-                <td class="driver align-middle white-space-nowrap"> </td>
-                <td class="depot align-middle white-space-nowrap"> </td>
-                <td class="carrier align-middle white-space-nowrap"></td>
+                <td class="driver align-middle white-space-nowrap">{{ entity.driver.name }} </td>
+                <td class="depot align-middle white-space-nowrap">{{ entity.depot.name }}</td>
+                <td class="carrier align-middle white-space-nowrap">{{ entity.carrier.name }}</td>
                 <td class="weight align-middle white-space-nowrap">{{ entity.weight }}</td>
                 <td class="volume align-middle white-space-nowrap">{{ entity.volume }}</td>
                 <td class="plt align-middle white-space-nowrap">{{ entity.plt }}</td>
