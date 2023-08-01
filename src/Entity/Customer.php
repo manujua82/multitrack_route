@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\CustomerRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 class Customer
@@ -27,9 +29,11 @@ class Customer
     private ?int $phone = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
+    #[Assert\Time]
     private ?\DateTimeInterface $timeFrom = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
+    #[Assert\Time]
     private ?\DateTimeInterface $timeUntil = null;
 
     #[ORM\Column(length: 255, nullable: true)]

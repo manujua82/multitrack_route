@@ -45,6 +45,7 @@ class VehicleType extends AbstractType
             ->add('plt')
             ->add('driver', EntityType::class, [
                 'class' => Driver::class,
+                'required' => false,
                 // 'choice_label' => function (Driver $driver) {
                 //     return  sprintf('(%d) %s', $driver->getId(), $driver->getName());
                 // },
@@ -58,6 +59,7 @@ class VehicleType extends AbstractType
             ])
             ->add('carrier', EntityType::class, [
                 'class' => Carrier::class,
+                'required' => false,
                 'placeholder'  => 'Choose a carrier',
                 'choices' => $this->carrierRepository->findAllByCompany()
             ])

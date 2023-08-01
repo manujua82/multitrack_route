@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use DateTime;
 use App\Repository\DriverRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -41,6 +43,7 @@ class Driver
     private ?User $user = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\Email(message: 'The email {{ value }} is not a valid email.')]
     private ?string $email = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -50,9 +53,13 @@ class Driver
     #[ORM\JoinColumn(nullable: false)]
     private ?MainCompany $company = null;
 
+    #[ORM\OneToMany(mappedBy: 'driver', targetEntity: Vehicle::class)]
+    private Collection $vehicles;
+
     public function __construct()
     {
         $this->created = new DateTime;
+        $this->vehicles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -168,6 +175,36 @@ class Driver
     public function setCompany(?MainCompany $company): static
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Vehicle>
+     */
+    public function getVehicles(): Collection
+    {
+        return $this->vehicles;
+    }
+
+    public function addVehicle(Vehicle $vehicle): static
+    {
+        if (!$this->vehicles->contains($vehicle)) {
+            $this->vehicles->add($vehicle);
+            $vehicle->setDriver($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVehicle(Vehicle $vehicle): static
+    {
+        if ($this->vehicles->removeElement($vehicle)) {
+            // set the owning side to null (unless already changed)
+            if ($vehicle->getDriver() === $this) {
+                $vehicle->setDriver(null);
+            }
+        }
 
         return $this;
     }

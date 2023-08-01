@@ -5,6 +5,8 @@ namespace App\Entity;
 use App\Repository\AddressRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
 class Address
@@ -27,6 +29,7 @@ class Address
     private ?string $state = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Country]
     private ?string $country = null;
 
     #[ORM\Column(length: 510)]

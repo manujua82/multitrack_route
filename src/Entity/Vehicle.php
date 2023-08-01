@@ -29,14 +29,12 @@ class Vehicle
     #[ORM\Column(nullable: true)]
     private ?float $plt = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Driver $driver = null;
-
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Warehouse $depot = null;
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Carrier $carrier = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
@@ -44,6 +42,9 @@ class Vehicle
 
     #[ORM\ManyToOne(inversedBy: 'vehicles')]
     private ?MainCompany $company = null;
+
+    #[ORM\ManyToOne(inversedBy: 'vehicles')]
+    private ?Driver $driver = null;
 
     public function __construct()
     {
@@ -103,18 +104,6 @@ class Vehicle
         return $this;
     }
 
-    public function getDriver(): ?Driver
-    {
-        return $this->driver;
-    }
-
-    public function setDriver(?Driver $driver): static
-    {
-        $this->driver = $driver;
-
-        return $this;
-    }
-
     public function getDepot(): ?Warehouse
     {
         return $this->depot;
@@ -159,6 +148,18 @@ class Vehicle
     public function setCompany(?MainCompany $company): static
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getDriver(): ?Driver
+    {
+        return $this->driver;
+    }
+
+    public function setDriver(?Driver $driver): static
+    {
+        $this->driver = $driver;
 
         return $this;
     }
