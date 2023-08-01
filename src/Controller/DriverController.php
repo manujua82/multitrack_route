@@ -19,7 +19,7 @@ class DriverController extends AbstractController
     public function index(DriverRepository $driverRepository): Response
     {
         return $this->render('driver/index.html.twig', [
-            'drivers' => $driverRepository->findAllByCompany($this->getUser()->getMainCompany()),
+            'drivers' => $driverRepository->findAllByCompany(),
         ]);
     }
 
@@ -42,7 +42,6 @@ class DriverController extends AbstractController
                 [ 'ROLE_DRIVER']
             );
             $driverEntity->setUser($driverUser);
-            $driverEntity->setCompany($company);
             $driverRepository->add($driverEntity, true);   
 
             return $this->redirectToRoute('app_driver');

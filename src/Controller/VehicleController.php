@@ -16,7 +16,7 @@ class VehicleController extends AbstractController
     public function index(VehicleRepository $repository): Response
     {
         return $this->render('vehicle/index.html.twig', [
-            'vehicles' => $repository->findAllByCompany($this->getUser()->getMainCompany()),
+            'vehicles' => $repository->findAllByCompany(),
         ]);
     }
 
@@ -31,9 +31,7 @@ class VehicleController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
             $vehicleEntity = $form->getData();
-            $vehicleEntity->setCompany($this->getUser()->getMainCompany());
             $repository->add($vehicleEntity, true);
-
             return $this->redirectToRoute('app_vehicle');
         }
 

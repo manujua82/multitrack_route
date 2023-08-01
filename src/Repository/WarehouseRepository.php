@@ -6,6 +6,7 @@ use App\Entity\MainCompany;
 use App\Entity\Warehouse;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @extends ServiceEntityRepository<Warehouse>
@@ -17,13 +18,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class WarehouseRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $mainCompany;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        Security $security
+    )
     {
         parent::__construct($registry, Warehouse::class);
+        $this->mainCompany = $security->getUser()->getMainCompany();
     }
 
     public function add(Warehouse $entity, bool $flush = false): void
     {
+        $entity->setCompany($this->mainCompany);
         $this->getEntityManager()->persist($entity);
         if ($flush) {
             $this->getEntityManager()->flush();
@@ -38,11 +46,11 @@ class WarehouseRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllByCompany(MainCompany $company): array
+    public function findAllByCompany(): array
     {
         return $this->createQueryBuilder('w')
             ->andWhere('w.company = :company')
-            ->setParameter('company', $company)
+            ->setParameter('company', $this->mainCompany)
             ->orderBy('w.created', 'DESC')
             ->getQuery()
             ->getResult();

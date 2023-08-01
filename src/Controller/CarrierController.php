@@ -16,7 +16,7 @@ class CarrierController extends AbstractController
     public function index(CarrierRepository $repository): Response
     {
         return $this->render('carrier/index.html.twig', [
-            'carriers' => $repository->findAllByCompany($this->getUser()->getMainCompany()),
+            'carriers' => $repository->findAllByCompany(),
         ]);
     }
 
@@ -31,7 +31,6 @@ class CarrierController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
             $carrierEntity = $form->getData();
-            $carrierEntity->setCompany($this->getUser()->getMainCompany());
             $repository->add($carrierEntity, true);   
 
             $flashMessage = $translator->trans('Carrier %code% was created', ['%code%' => $carrierEntity->getCode()]);

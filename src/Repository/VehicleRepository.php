@@ -6,6 +6,7 @@ use App\Entity\MainCompany;
 use App\Entity\Vehicle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @extends ServiceEntityRepository<Vehicle>
@@ -17,13 +18,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class VehicleRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $mainCompany;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        Security $security
+    )
     {
         parent::__construct($registry, Vehicle::class);
+        $this->mainCompany = $security->getUser()->getMainCompany();
     }
 
     public function add(Vehicle $entity, bool $flush = false): void
     {
+        $entity->setCompany($this->mainCompany);
         $this->getEntityManager()->persist($entity);
         if ($flush) {
             $this->getEntityManager()->flush();
@@ -38,7 +46,7 @@ class VehicleRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllByCompany(MainCompany $company): array
+    public function findAllByCompany(): array
     {
         return $this->createQueryBuilder('v')
             ->leftJoin('v.driver', 'd')
@@ -48,7 +56,7 @@ class VehicleRepository extends ServiceEntityRepository
             ->leftJoin('v.carrier', 'c')
             ->addSelect('c')
             ->andWhere('v.company = :company')
-            ->setParameter('company', $company)
+            ->setParameter('company', $this->mainCompany)
             ->orderBy('v.created', 'DESC')
             ->getQuery()
             ->getResult();

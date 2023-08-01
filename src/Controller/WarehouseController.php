@@ -16,7 +16,7 @@ class WarehouseController extends AbstractController
     public function index(WarehouseRepository $warehouseRepository): Response
     {
         return $this->render('warehouse/index.html.twig', [
-            'warehouses' => $warehouseRepository->findAllByCompany($this->getUser()->getMainCompany()),
+            'warehouses' => $warehouseRepository->findAllByCompany(),
         ]);
     }
 
@@ -30,7 +30,6 @@ class WarehouseController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
             $warehouseEntity = $form->getData();
-            $warehouseEntity->SetCompany($this->getUser()->getMainCompany());
             $warehouseRepository->add($warehouseEntity, true);
             return $this->redirectToRoute('app_warehouse');
         }
