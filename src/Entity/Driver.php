@@ -43,6 +43,8 @@ class Driver
     private ?User $user = null;
 
     #[ORM\Column(length: 255)]
+    // TODO:  Custom validation to email
+    #[Assert\NotBlank(message: 'Please enter an email')]
     #[Assert\Email(message: 'The email {{ value }} is not a valid email.')]
     private ?string $email = null;
 

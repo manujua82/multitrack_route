@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -49,6 +50,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $bannedUntil = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE,  nullable: true)]
+    private ?\DateTimeInterface $agreedTermsAt = null;
 
     public function getId(): ?int
     {
@@ -188,5 +192,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->bannedUntil = $bannedUntil;
 
         return $this;
+    }
+
+    public function getAgreedTermsAt(): ?\DateTimeInterface
+    {
+        return $this->agreedTermsAt;
+    }
+
+    public function setAgreedTerms(): void
+    {
+        $this->agreedTermsAt = new DateTime();
     }
 }
