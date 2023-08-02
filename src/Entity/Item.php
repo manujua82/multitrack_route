@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
+use DateTime;
 use App\Repository\ItemRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
+#[UniqueEntity(fields: ['code'], message: 'There is already a item with this code')]
 class Item
 {
     #[ORM\Id]
@@ -13,7 +17,7 @@ class Item
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: false, unique: true)]
     private ?string $code = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -24,6 +28,18 @@ class Item
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $barcode = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $created = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?MainCompany $company = null;
+
+    public function __construct()
+    {
+        $this->created = new DateTime;
+    }
 
     public function getId(): ?int
     {
@@ -74,6 +90,30 @@ class Item
     public function setBarcode(?string $barcode): static
     {
         $this->barcode = $barcode;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): static
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    public function getCompany(): ?MainCompany
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?MainCompany $company): static
+    {
+        $this->company = $company;
 
         return $this;
     }

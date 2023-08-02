@@ -5,12 +5,14 @@ namespace App\Entity;
 use App\Repository\CarrierRepository;
 use Symfony\Bundle\SecurityBundle\Security;
 use DateTime;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CarrierRepository::class)]
+#[UniqueEntity(fields: ['code'], message: 'There is already a carrier with this code')]
 class Carrier
 {
     #[ORM\Id]
@@ -18,7 +20,7 @@ class Carrier
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 255, nullable: false, unique: true)]
     private ?string $code = null;
 
     #[ORM\Column(length: 255, nullable: true)]

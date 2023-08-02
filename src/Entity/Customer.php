@@ -16,7 +16,7 @@ class Customer
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: false, unique: true)]
     private ?string $code = null;
 
     #[ORM\Column(length: 255)]

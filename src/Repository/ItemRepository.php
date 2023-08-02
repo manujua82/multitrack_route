@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Item;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @extends ServiceEntityRepository<Item>
@@ -16,9 +17,43 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ItemRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+
+    private $mainCompany;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        Security $security
+    )
     {
         parent::__construct($registry, Item::class);
+        $this->mainCompany = $security->getUser()->getMainCompany();
+    }
+
+    public function add(Item $entity, bool $flush = false): void
+    {
+        $entity->setCompany($this->mainCompany);
+        $this->getEntityManager()->persist($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function delete(Item $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function findAllByCompany(): array
+    {
+        return $this->createQueryBuilder('i')
+            ->andWhere('i.company = :company')
+            ->setParameter('company', $this->mainCompany)
+            ->orderBy('i.created', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

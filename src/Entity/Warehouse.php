@@ -8,8 +8,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
 
 #[ORM\Entity(repositoryClass: WarehouseRepository::class)]
+#[UniqueEntity(fields: ['name'], message: 'There is already a depot with this name')]
 class Warehouse
 {
     #[ORM\Id]
@@ -58,7 +61,6 @@ class Warehouse
     {
         $this->created = new DateTime();
         $this->vehicles = new ArrayCollection();
-
     }
 
     public function getId(): ?int
