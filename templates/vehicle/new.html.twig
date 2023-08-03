@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+      <h2 class="text-center">{{ 'Create new vehicle' |trans }}</h2>
+      {{ include('vehicle/_form.html.twig') }}
+{% endblock %}
+
+
+{% block javascripts %}
+{# <script src="{{ asset('assets/js/driver.js') }}"></script> #}
+{% endblock %}

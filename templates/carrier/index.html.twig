@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ include('widgets/baseListHeader.html.twig',  { 
+        entityName: 'Carriers',
+        entities: carriers,
+        viewListPath: "carrier/list.html.twig",
+        createEntityPath: 'app_carrier_new',
+        valueNames: '["code","name","contact","email"]'
+    }) }}
+{% endblock %}
+
+
+{% block javascripts %}
+{% endblock %}

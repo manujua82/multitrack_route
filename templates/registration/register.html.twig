@@ -1,84 +1,41 @@
 {% extends 'simpleBase.html.twig' %}
 
 {% block body %}
-    <div id="cl-wrapper" class="sign-up-container">
-        <div class="middle-sign-up">
-            <div class="block-flat">
-                <div class="header">
-                    <h3 class="text-center"><img src="assets/img/logo.png" alt="logo" class="logo-img"></h3>
-                </div>
-                <div style="margin-bottom: 0px !important;" class="form-horizontal">
-                    <div class="content">
-                        <h5 class="title text-center"><strong>{{ 'signUp'|trans }}</strong></h5>
-                        <hr>
-                        
-                        {{ form_start(registrationForm, {'attr': { 'novalidate': 'novalidate'}}) }}
-                            <div>{{ form_errors(registrationForm) }}</div>
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <div class="input-group"><span class="input-group-addon"><i class="fa fa-envelope"></i></span>
-                                    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',  'placeholder': 'email'|trans }}) }}
-                                </div>
-                                <div style="color: red">
-                                    {{ form_errors(registrationForm.email) }}
-                                </div>
-                            </div>
-                        </div>
+<div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3"><a class="d-flex flex-center text-decoration-none mb-4" href="">
+    <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block"><img src="{{ asset('assets/img/icons/logo.png') }}" alt="phoenix" width="58" />
+</div>
+</a>  
+<div class="text-center mb-7">
+    <h3 class="text-1000">{{ 'signUp'|trans }}</h3>
+    <p class="text-700">{{ 'Create your account today'|trans }}</p>
+</div> 
 
-                        <div class="form-group">
-                            <div class="col-sm-6 col-xs-6">
-                                <div class="input-group"><span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                    {{ form_widget(registrationForm.plainPassword.first, {
-                                            'attr': 
-                                            {
-                                                'class': 'form-control', 
-                                                'placeholder': 'password'|trans
-                                            }
-                                        }) 
-                                    }}
-                                </div>
-                                <div style="color: red">
-                                    {{ form_errors(registrationForm.plainPassword.first) }}
-                                </div>
-                            </div>
-                    
-                            <div class="col-sm-6 col-xs-6">
-                                <div class="input-group"><span class="input-group-addon"><i class="fa fa-lock"></i></span>
-                                    {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'confirmPassword'|trans }}) }}
-                                </div>
-                                <div style="color: red">
-                                    {{ form_errors(registrationForm.plainPassword.second) }}
-                                </div>
-                            </div>
-                        </div>
-                            
-                        <div class="form-group">
-                            <div class="col-sm-12">
-                                <label>
-                                    {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'icheck', 'type': 'checkbox'}}) }}
-                                    Agree to <a href="#">terms</a> and <a href="#">conditions</a>.
-                                </label>
-                            </div>
-                            <div style="color: red">
-                                {{ form_errors(registrationForm.agreeTerms) }}
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-block btn-success btn-rad btn-lg">{{ 'signUp'|trans }}</button>
-
-                        <div class="form-group">
-                            <div class="col-sm-12 text-center">
-                                <label>
-                                   {{ 'haveAccount'|trans }} <a href="{{ path('app_login') }}">{{ 'loginHere'|trans }}Login here</a>
-                                </label>
-                            </div>
-                        </div>
-                        {{ form_end(registrationForm) }}
-                    </div>
-                </div>
-            </div>
-            <div class="text-center out-links"><a href="#">© 2013 Your Company</a></div>
-        </div>
+{{ form_start(registrationForm, {'attr': { 'novalidate': 'novalidate'}}) }}
+<div class="mb-3 text-start">
+    {{ form_label(registrationForm.email, 'Email'|trans, {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',  'placeholder': 'Email'|trans }}) }}
+    {{ form_errors(registrationForm.email) }}
+</div>
+<div class="row g-3 mb-3">
+    <div class="col-sm-6">
+        {{ form_label(registrationForm.plainPassword.first, 'password'|trans, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(registrationForm.plainPassword.first, { 'attr': { 'class': 'form-control', 'placeholder': 'password'|trans }}) }}
+        {{ form_errors(registrationForm.plainPassword.first) }}
     </div>
+    <div class="col-sm-6">
+        {{ form_label(registrationForm.plainPassword.second, 'password'|trans, {'label_attr': {'class': 'form-label'}}) }}
+        {{ form_widget(registrationForm.plainPassword.second, { 'attr': { 'class': 'form-control', 'placeholder': 'password'|trans }}) }}
+        {{ form_errors(registrationForm.plainPassword.second) }}
+    </div>
+</div>
+
+<div class="form-check mb-3">
+    {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input', 'type': 'checkbox'}}) }}
+    <label class="form-label fs--1 text-none" for="termsService">I accept the <a href="#!">terms </a>and <a href="#!">privacy policy</a></label>
+</div>
+
+<button type="submit" class="btn btn-primary w-100 mb-3">{{ 'signUp'|trans }}</button>
+<div class="text-center"><a class="fs--1 fw-bold" href="{{ path('app_login') }}">{{ 'Sign in to an existing account'|trans }}</a></div>
+{{ form_end(registrationForm) }}   
     
 {% endblock %}

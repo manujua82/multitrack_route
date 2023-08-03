@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ include('widgets/baseListHeader.html.twig',  { 
+        entityName: 'Vehicles',
+        entities: vehicles,
+        viewListPath: "vehicle/list.html.twig",
+        createEntityPath: 'app_vehicle_new',
+        valueNames: '["number"]'
+    }) }}
+{% endblock %}
+
+
+{% block javascripts %}
+{% endblock %}

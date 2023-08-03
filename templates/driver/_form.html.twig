@@ -1,47 +1,78 @@
- {{ form_start(form, {'attr': { 'novalidate': 'novalidate'}}) }}
-    <div>{{ form_errors(form) }}
+<div class="row flex-center py-5">
+    <div class="col-xl-4">
+        {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation"}}) }}
+        <div class="col-sm-6 col-md-6">
+            <div class="form-check mb-3">
+                {{ form_widget(form.active, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                {{ form_label(form.active,  'Active'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+            </div>
+        </div> 
+
+        <div class="col-sm-6 col-md-12">
+            <div class="form-floating">
+                {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'floatingInputGrid', 'type':'text', 'placeholder': 'Full name'|trans }}) }}
+                {{ form_label(form.name,  'Full name'|trans, {'label_attr': {'class': 'orm-label', 'for': 'floatingInputGrid'}}) }}
+                <div class="invalid-feedback">{{ form_errors(form.name) }}</div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-12">
+            <div class="form-floating">
+                {{ form_widget(form.email, { 'attr': { 'class': 'form-control', 'id':'floatingInputEmail', 'type':'text', 'placeholder': 'Email'|trans }}) }}
+                {{ form_label(form.email, 'Email'|trans, {'label_attr': {'for': 'floatingInputEmail'}}) }}
+                <div class="invalid-feedback">{{ form_errors(form.email) }}</div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-12">
+            <div class="form-floating">
+                {{ form_widget(form.address, { 'attr': { 'class': 'form-control', 'id':'floatingInputAddress', 'type':'text', 'placeholder': 'Address'|trans }}) }}
+                {{ form_label(form.address,  'Address'|trans, {'label_attr': {'for': 'floatingInputAddress'}}) }}
+                <div class="invalid-feedback">{{ form_errors(form.address) }}</div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6">
+            <div class="form-floating">
+                {{ form_widget(form.phone, { 'attr': { 'class': 'form-control', 'id':'floatingInputPhone', 'type':'text', 'placeholder': 'Phone'|trans }}) }}
+                {{ form_label(form.phone,  'Phone'|trans, {'label_attr': {'for': 'floatingInputPhone'}}) }}
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6">
+            <div class="form-floating">
+                {{ form_widget(form.zone, { 'attr': { 'class': 'form-control', 'id':'floatingInputZone', 'type':'text', 'placeholder': 'Zone'|trans }}) }}
+                {{ form_label(form.zone,  'Zone'|trans, {'label_attr': {'for': 'floatingInputZone'}}) }}
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6">
+            <div class="form-floating">
+                {{ form_widget(form.plainPassword.first, { 'attr': { 'class': 'form-control', 'id':'passwordInput' ,  'value': currentPassword, 'placeholder': 'password'|trans }}) }}
+                {{ form_label(form.plainPassword.first, 'password'|trans, {'label_attr': {'for': 'passwordInput'}}) }}
+                <div class="invalid-feedback">{{ form_errors(form.plainPassword.first) }}</div>
+            </div>
+        </div>
+
+        <div class="col-sm-6 col-md-6">
+            <div class="form-floating">
+                {{ form_widget(form.plainPassword.second, { 'attr': { 'class': 'form-control', 'id':'repeatPasswordInput', 'value': currentPassword, 'placeholder': 'password'|trans }}) }}
+                {{ form_label(form.plainPassword.second, 'Repeat password'|trans, {'label_attr': {'for': 'repeatPasswordInput'}}) }}
+                <div class="invalid-feedback">{{ form_errors(form.plainPassword.second) }}</div>
+            </div>
+        </div>
+
+        <div class="col-12 gy-6">
+            <div class="row g-3 justify-content-end">
+                <div class="col-auto">
+                    <button class="btn btn-phoenix-primary px-5" onclick="location.href='{{ path('app_driver') }}';">{{ 'Cancel' |trans }}</button>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary px-5">{{ 'Save' |trans }}</button>
+                </div>
+            </div>
+        </div>
         
+        {{ form_end(form) }}
     </div>
-
-    <div>
-        {{ form_label(form.name,  "Full Name") }}
-        
-    </div>
-    <div>
-        {{ form_widget(form.name, { 'attr': { 'style': 'color: gray'}}) }}
-        {{ form_errors(form.name) }}
-    </div>
-
-    <div>
-        {{ form_label(form.phone, "Phone") }}
-    </div>
-    <div>
-        {{ form_widget(form.phone) }}
-    </div>
-
-    <div>
-        {{ form_label(form.address) }}
-    </div>
-    <div>
-        {{ form_widget(form.address) }}
-    </div>
-
-    <div>
-        {{ form_label(form.zone) }}
-    </div>
-    <div>
-        {{ form_widget(form.zone) }}
-    </div>
-
-    <div>
-        {{ form_label(form.active) }}
-    </div>
-    <div>
-        {{ form_widget(form.active) }}
-    </div>
-
-    <div>
-        <button type="submit">Save</button>
-    </div>
-
-{{ form_end(form) }}
+</div>

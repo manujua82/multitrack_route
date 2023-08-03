@@ -1,7 +1,8 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Create new Driver{% endblock %}
+{% block title %}{{ 'Create new driver' |trans }}{% endblock %}
 
 {% block body %}
-   {{ include('driver/_form.html.twig') }}
+      <h2 class="text-center">{{ 'Create new driver' |trans }}</h2>
+      {{ include('driver/_form.html.twig') }}
 {% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ include('widgets/baseListHeader.html.twig',  { 
+        entityName: 'Items',
+        entities: items,
+        viewListPath: "item/list.html.twig",
+        createEntityPath: 'app_item_new',
+        valueNames: '["code","name"]'
+    }) }}
+{% endblock %}

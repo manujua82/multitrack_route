@@ -1,0 +1,38 @@
+<table class="table table-sm fs--1 mb-0">
+    <thead>
+        <tr>
+            <th class="sort align-middle" scope="col" data-sort="number" style="width:10%; min-width:200px;">{{ 'Number' |trans }}</th>
+            <th class="align-middle" scope="col"  style="width:10%;  min-width:200px;">{{ 'Driver' |trans }}</th>
+            <th class="align-middle" scope="col"  style="width:15%;  min-width:200px;">{{ 'Depot' |trans }}</th>
+            <th class="align-middle" scope="col"  style="width:15%;  min-width:200px;">{{ 'Carrier' |trans }}</th>
+        
+            <th class="align-middle" scope="col"  style="width:10%;  min-width:200px;">{{ 'Weight' |trans }}</th>
+            <th class="align-middle" scope="col"  style="width:10%;  min-width:200px;">{{ 'Volume' |trans }}</th>
+            <th class="align-middle" scope="col"  style="width:10%;  min-width:200px;">{{ 'Plt/Pkg' |trans }}</th>
+            <th class="align-middle" scope="col" style="width:10%;  min-width:200px;">{{ 'Actions' |trans }}</th>
+        </tr>
+    </thead>
+    
+    <tbody class="list" id="warehouse-table-body">
+        {% for entity in entities %}
+            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                <td class="number align-middle white-space-nowrap">{{ entity.Number }}</td>
+                <td class="driver align-middle white-space-nowrap">{{ entity.driver.name | default("") }} </td>
+                <td class="depot align-middle white-space-nowrap">{{ entity.depot.name }}</td>
+                <td class="carrier align-middle white-space-nowrap">{{ entity.carrier.name | default("") }}</td>
+                <td class="weight align-middle white-space-nowrap">{{ entity.weight }}</td>
+                <td class="volume align-middle white-space-nowrap">{{ entity.volume }}</td>
+                <td class="plt align-middle white-space-nowrap">{{ entity.plt }}</td>
+
+                <td class="actions align-middle white-space-nowrap">
+                    <a class="btn btn-primary btn-sm" href="{{ path('app_vehicle_edit', { vehicleEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
+                        <i class="fa fa-pencil"></i>
+                    </a> 
+                    <a class="btn btn-danger btn-sm" href="{{ path('app_vehicle_delete', { vehicleEntity: entity.id }) }}" data-original-title="Remove" data-toggle="tooltip">
+                        <i class="fa fa-trash"></i>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

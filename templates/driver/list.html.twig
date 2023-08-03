@@ -1,33 +1,36 @@
-<table id="datatable-icons" class="table table-bordered">
+<table class="table table-sm fs--1 mb-0">
     <thead>
         <tr>
-            <th>Full Name</th>
-            <th>Address</th>
-            <th>Phone</th>
-            <th>Zone</th>
-            <th class="text-center">Active</th>
-            <th>Actions</th>
+            <th class="sort align-middle" scope="col" data-sort="name" style="width:15%; min-width:200px;">{{ 'Driver name' |trans }}</th>
+            <th class="sort align-middle" scope="col" data-sort="email" style="width:15%; min-width:200px;">{{ 'Email' |trans }}</th>
+            <th class="sort align-middle pe-3" scope="col" data-sort="address" style="width:20%; min-width:200px;">{{ 'Address' |trans }}</th>
+            <th class="sort align-middle" scope="col" data-sort="phone" style="width:15%;">{{ 'Phone' |trans }}</th>
+            <th class="sort align-middle" scope="col" data-sort="zone" style="width:10%;  min-width:200px;">{{ 'Zone' |trans }}</th>
+            <th class="sort align-middle text-center" scope="col" data-sort="active" style="width:10%;  min-width:200px;">{{ 'Active' |trans }}</th>
+            <th class="align-middle" scope="col"                    style="width:20%;  min-width:200px;">{{ 'Actions' |trans }}</th>
         </tr>
     </thead>
-    <tbody>
-        {% for driver in drivers %}
-            {% if driver.active %}
+    
+    <tbody class="list" id="members-table-body">
+        {% for entity in entities %}
+            {% if entity.active %}
                 {% set activeClass = 'fa fa-check' %}
             {% else %}
                 {% set activeClass = 'fa fa-close' %}
             {% endif %}
-            <tr class="odd gradeA">
-                <td>{{ driver.name }}</td>
-                <td>{{ driver.address }}</td>
-                <td>{{ driver.phone }}</td>
-                <td>{{ driver.zone }}</td>
-                <td class="text-center"><i class="{{activeClass}}"></i></td>
-                <td class="center">
-                    <a class="btn btn-primary btn-xs" href="{{ path('app_driver_edit', { driverEntity: driver.id }) }}" data-original-title="Edit" data-toggle="tooltip">
+            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                <td class="name align-middle white-space-nowrap">{{ entity.name }}</td>
+                <td class="email align-middle white-space-nowrap"><a class="fw-semi-bold" href="mailto:{{ entity.email }}">{{ entity.email }}</td>
+                <td class="address align-middle white-space-nowrap">{{ entity.address }}</td>
+                <td class="phone align-middle white-space-nowrap">{{ entity.phone }}</td>
+                <td class="zone align-middle white-space-nowrap">{{ entity.zone }}</td>
+                <td class="active  align-middle text-center white-space-nowrap"><i class="{{activeClass}}"></i></td>
+                <td class="actions align-middle white-space-nowrap">
+                    <a class="btn btn-primary btn-sm" href="{{ path('app_driver_edit', { driverEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
                         <i class="fa fa-pencil"></i>
                     </a> 
-                    <a class="btn btn-danger btn-xs" href="#" data-original-title="Remove" data-toggle="tooltip">
-                        <i class="fa fa-times"></i>
+                    <a class="btn btn-danger btn-sm" href="{{ path('app_driver_delete', { driverEntity: entity.id }) }}" data-original-title="Remove" data-toggle="tooltip">
+                        <i class="fa fa-trash"></i>
                     </a>
                 </td>
             </tr>

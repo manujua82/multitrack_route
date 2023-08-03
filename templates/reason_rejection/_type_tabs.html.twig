@@ -1,0 +1,30 @@
+{% embed 'widgets/_tabs.html.twig' %}
+    {% block tabs %}
+        {% embed 'widgets/_tab.html.twig' with { route: 'app_reason_rejection_site' } %}
+            {% block content %}
+                {{  'Sute Issue' |trans }}
+            {% endblock %}
+            {% block path %}
+                {{ path('app_reason_rejection_site') }}
+            {% endblock %}
+        {% endembed %}
+
+        {% embed 'widgets/_tab.html.twig' with { route: 'app_reason_rejection_order' } %}
+            {% block content %}
+                {{  'Order Issue' |trans }}
+            {% endblock %}
+            {% block path %}
+                {{ path('app_reason_rejection_order') }}
+            {% endblock %}
+        {% endembed %}
+
+         {% embed 'widgets/_tab.html.twig' with { route: 'app_reason_rejection_good' } %}
+            {% block content %}
+                {{  'Good Issue' |trans }}
+            {% endblock %}
+            {% block path %}
+                {{ path('app_reason_rejection_good') }}
+            {% endblock %}
+        {% endembed %}
+    {% endblock %}
+{% endembed %}

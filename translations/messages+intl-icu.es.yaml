@@ -1,13 +1,33 @@
-'Please Confirm your Email': 'Por favor, confirma tu email'
+'Please Confirm your Email': 'Confirme su correo electrónico'
 success: éxito
-'Your email address has been verified.': 'Tu dirección de email ha sido verificada.'
-'Login Access': 'Iniciar Sesión'
-email: 'correo electrónico'
+'Your email address has been verified.': 'Su dirección de correo electrónico ha sido verificado'
+signUp: Registrarse
+'Create your account today': 'Crea tu cuenta hoy'
+email: 'Correo electrónico'
 password: contraseña
-logIn: 'Iniciar sesión'
-"Don't have an account?": '¿No tienes una cuenta?'
-'Register here': 'Regístrate aquí'
-signUp: Regístrate
-haveAccount: '¿Ya tienes una cuenta?'
-loginHere: 'Iniciar sesión aquí'
-confirmPassword: 'confirmar contraseña'
+'Sign in to an existing account': 'Iniciar sesión con una cuenta existente'
+Home: Inicio
+Settings: Configuración
+Driver: Conductor
+'Sign Out': 'Cerrar sesión'
+'Edit driver': 'Editar conductor'
+'Create new driver': 'Crear conductor'
+Drivers: Conductores
+'Search driver': 'Buscar conductor'
+Import: Importar
+'Add Driver': 'Crear conductor'
+'View all': 'Ver todos'
+'View Less': 'Ver menos'
+Active: Activo
+'Full name': 'Nombre'
+Address: Dirección
+Phone: Teléfono
+Zone: Zona
+'Repeat password': "Repetir contraseña"
+Cancel: Cancelar
+Save: Guardar
+'Driver name': 'Nombre conductor'
+Actions: Acciones
+'Sign In': 'iniciar sesión'
+'Get access to your account': 'Obtenga acceso a su cuenta'
+'Create an account': 'Crear cuenta'
