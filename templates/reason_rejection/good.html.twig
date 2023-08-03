@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% embed 'widgets/baseListHeader.html.twig'  with {
+        entityName: 'Reasons',
+        entities: reasons,
+        viewListPath: "reason_rejection/list.html.twig",
+        createEntityPath: 'app_reason_rejection_newGood',
+        valueNames: '["name"]'
+    }%}
+        {% block entityTabs %}
+            {{ include('reason_rejection/_type_tabs.html.twig') }}
+        {% endblock %}
+    {% endembed %}
+{% endblock %}

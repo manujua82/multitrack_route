@@ -1,0 +1,7 @@
+<li class="nav-item">
+  <a class="{% if app.request.get('_route') == route %}nav-link active{% else %}nav-link{% endif %}" href="{% block path %}{% endblock %}">
+    <span>
+        {% block content %}{% endblock %}
+    </span>
+  </a>
+</li>

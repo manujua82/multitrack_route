@@ -71,7 +71,6 @@ class CarrierController extends AbstractController
     #[Route('/carrier/{carrierEntity}/delete', name: 'app_carrier_delete')]
     public function delete(
         Carrier $carrierEntity, 
-        Request $request, 
         CarrierRepository $repository,
         TranslatorInterface $translator
     ): Response

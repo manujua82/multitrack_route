@@ -15,8 +15,8 @@
         </div>
 
         <div class="col-sm-6 col-md-6">
-            <div class="form-floating"> 
-                {{ form_widget(form.driver, { 'attr': { 'class': 'form-select', 'id':'inputDriver', 'data-choices':'data-choices', 'data-options':'{"removeItemButton":true,"placeholder":true}' }}) }}
+            <div class="form-floating"  style="max-width: 350px;"> 
+                {{ form_widget(form.driver, { 'attr': { 'class': 'form-select ps-4', 'id':'inputDriver', 'data-choices':'data-choices', 'data-options':'{"removeItemButton":true,"placeholder":true}' }}) }}
                 {{ form_label(form.driver,  'Driver'|trans, {'label_attr': {'for': 'inputDriver'}}) }}
             </div>
         </div>
