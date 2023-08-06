@@ -9,6 +9,8 @@ use Doctrine\Common\Collections\Collection;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: VehicleRepository::class)]
 #[UniqueEntity(fields: ['Number'], message: 'There is already a vehicle with this number')]
@@ -20,6 +22,7 @@ class Vehicle
     private ?int $id = null;
 
     #[ORM\Column(length: 255, nullable: false, unique: true)]
+    #[Assert\NotBlank(message: 'Please enter a number')]
     private ?string $Number = null;
 
     #[ORM\Column(nullable: true)]

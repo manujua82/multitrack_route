@@ -10,7 +10,6 @@ use App\Repository\CarrierRepository;
 use App\Repository\DriverRepository;
 use App\Repository\WarehouseRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,7 +22,6 @@ class VehicleType extends AbstractType
     // private $mainCompany;
 
     public function __construct(
-        Security $security,
         DriverRepository $driverRepository,
         WarehouseRepository $warehouseRepository,
         CarrierRepository $carrierRepository
@@ -33,7 +31,6 @@ class VehicleType extends AbstractType
         $this->driverRepository = $driverRepository;
         $this->warehouseRepository = $warehouseRepository;
         $this->carrierRepository = $carrierRepository;
-        // $this->mainCompany = $security->getUser()->getMainCompany();
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -57,13 +54,14 @@ class VehicleType extends AbstractType
                 'placeholder'  => 'Choose a depot',
                 'choices' => $this->warehouseRepository->findAllByCompany()
             ])
-            ->add('carrier', EntityType::class, [
-                'class' => Carrier::class,
-                'required' => false,
-                'placeholder'  => 'Choose a carrier',
-                'choices' => $this->carrierRepository->findAllByCompany()
-            ])
-        ;
+            ->add('carrier', CarrierSelectTextType::class)
+            // ->add('carrier', EntityType::class, [
+            //     'class' => Carrier::class,
+            //     'required' => false,
+            //     'placeholder'  => 'Choose a carrier',
+            //     'choices' => $this->carrierRepository->findAllByCompany()
+            // ])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

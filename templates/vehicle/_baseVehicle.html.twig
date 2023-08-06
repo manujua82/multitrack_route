@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('assets/css/algolia-autocomplete.css') }}" type="text/css" rel="stylesheet">
+{% endblock %}
+
+{% block body %}
+    {% block title %}{% endblock %}
+    {{ include('vehicle/_form.html.twig') }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/autocomplete.js/0/autocomplete.jquery.min.js"></script>
+    <script src="{{ asset('assets/js/algolia-autocomplete.js') }}"></script>
+{% endblock %}

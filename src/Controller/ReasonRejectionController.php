@@ -65,6 +65,7 @@ class ReasonRejectionController extends AbstractController
         }
         return $this->render('reason_rejection/new.html.twig', [
             'form' => $form->createView(),
+            'cancelPath' => $this->REDIRECT[$type]
         ]);
     }
 
@@ -121,15 +122,22 @@ class ReasonRejectionController extends AbstractController
         TranslatorInterface $translator
     ): Response
     {
+        $reasonType = $reasonEntity->getType();
         $form = $this->createForm(ReasonRejectionType::class, $reasonEntity, [
-            'empty_data' => $reasonEntity->getType()
+            'empty_data' => $reasonType
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
+            $reasonEntity = $form->getData();
+            $repository->add($reasonEntity, true);   
 
+            $flashMessage = $translator->trans('Reason %name% was edited', ['%name%' => $reasonEntity->getName()]);
+            $this->addFlash('success', $flashMessage);
+            return $this->redirectToRoute($this->REDIRECT[$reasonType]);
         }
         return $this->render('reason_rejection/edit.html.twig', [
             'form' => $form->createView(),
+            'cancelPath' => $this->REDIRECT[$reasonType]
         ]);
     }
 
