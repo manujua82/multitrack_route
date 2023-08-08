@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\ReasonRejection;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -19,8 +20,12 @@ class ReasonRejectionType extends AbstractType
                 'data' => $options["empty_data"]
             ])
             ->add('name')
-            ->add('delivery')
-            ->add('collection');
+            ->add('delivery', CheckboxType::class, [
+                'data' => true
+            ])
+            ->add('collection',  CheckboxType::class, [
+                'data' => true
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

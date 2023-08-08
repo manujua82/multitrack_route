@@ -46,8 +46,8 @@ class MainCompany
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $billingEmail = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $phone = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phone = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $website = null;
@@ -59,8 +59,10 @@ class MainCompany
     private ?string $city = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Country]
     private ?string $country = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $contact = null;
 
     public function __construct()
     {
@@ -275,12 +277,12 @@ class MainCompany
         return $this;
     }
 
-    public function getPhone(): ?int
+    public function getPhone(): ?string
     {
         return $this->phone;
     }
 
-    public function setPhone(?int $phone): static
+    public function setPhone(?string $phone): static
     {
         $this->phone = $phone;
 
@@ -331,6 +333,18 @@ class MainCompany
     public function setCountry(?string $country): static
     {
         $this->country = $country;
+
+        return $this;
+    }
+
+    public function getContact(): ?string
+    {
+        return $this->contact;
+    }
+
+    public function setContact(?string $contact): static
+    {
+        $this->contact = $contact;
 
         return $this;
     }

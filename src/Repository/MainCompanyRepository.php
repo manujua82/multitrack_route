@@ -21,6 +21,14 @@ class MainCompanyRepository extends ServiceEntityRepository
         parent::__construct($registry, MainCompany::class);
     }
 
+    public function add(MainCompany $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->persist($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
 //    /**
 //     * @return MainCompany[] Returns an array of MainCompany objects
 //     */

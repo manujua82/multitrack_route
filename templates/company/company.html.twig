@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row flex-center py-5">
+        <div class="col-xl-6">
+        {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "needs-validation"}}) }}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-5">
+                        <h3>{{ 'Account' |trans }}</h3>
+                    </div>
+                     <div class="mb-3">
+                        {{ form_label(form.email, 'Email Address'|trans, {'label_attr': {'class': 'form-label','for': 'emailInput'}}) }}
+                        {{ form_widget(form.email, { 'attr': { 'class': 'form-control', 'id':'emailInput', 'type':'email', 'placeholder': 'name@example.com'|trans }}) }}
+                    </div>
+                </div>
+            </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-5">
+                        <h3>{{ 'Profile' |trans }}</h3>
+                    </div>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            {{ form_label(form.name, 'Company name'|trans, {'label_attr': {'class': 'form-label','for': 'nameInput'}}) }}
+                            {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'nameInput', 'type':'text', 'placeholder': 'Company name'|trans }}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_label(form.contact, 'Contact name'|trans, {'label_attr': {'class': 'form-label','for': 'contactInput'}}) }}
+                            {{ form_widget(form.contact, { 'attr': { 'class': 'form-control', 'id':'contactInput', 'type':'text' }}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_label(form.billingEmail, 'Billing Email'|trans, {'label_attr': {'class': 'form-label','for': 'billingEmailInput'}}) }}
+                            {{ form_widget(form.billingEmail, { 'attr': { 'class': 'form-control', 'id':'billingEmailInput', 'type':'email', 'placeholder': 'name@example.com'|trans }}) }}
+                        </div>
+                        
+                        <div class="col-6">
+                            {{ form_label(form.website, 'Website'|trans, {'label_attr': {'class': 'form-label','for': 'websiteInput'}}) }}
+                            {{ form_widget(form.website, { 'attr': { 'class': 'form-control', 'id':'websiteInput', 'type':'text' }}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_label(form.phone, 'Phone'|trans, {'label_attr': {'class': 'form-label','for': 'phoneInput'}}) }}
+                            {{ form_widget(form.phone, { 'attr': { 'class': 'form-control', 'id':'phoneInput', 'type':'text' }}) }}
+                        </div>
+                        <div class="col-12">
+                            {{ form_label(form.address, 'Address'|trans, {'label_attr': {'class': 'form-label','for': 'addressInput'}}) }}
+                            {{ form_widget(form.address, { 'attr': { 'class': 'form-control', 'id':'addressInput', 'type':'text' }}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_label(form.city, 'City'|trans, {'label_attr': {'class': 'form-label','for': 'cityInput'}}) }}
+                            {{ form_widget(form.city, { 'attr': { 'class': 'form-control', 'id':'cityInput', 'type':'text' }}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_label(form.country, 'Country'|trans, {'label_attr': {'class': 'form-label','for': 'countryInput'}}) }}
+                            {{ form_widget(form.country, { 'attr': { 'class': 'form-control', 'id':'countryInput', 'type':'text' }}) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 gy-3">
+                <div class="row g-3 justify-content-end">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary px-8">{{ 'Save' |trans }}</button>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

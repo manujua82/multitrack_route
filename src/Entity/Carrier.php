@@ -3,17 +3,17 @@
 namespace App\Entity;
 
 use App\Repository\CarrierRepository;
-use Symfony\Bundle\SecurityBundle\Security;
 use DateTime;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use JsonSerializable;
 
 #[ORM\Entity(repositoryClass: CarrierRepository::class)]
 #[UniqueEntity(fields: ['code'], message: 'There is already a carrier with this code')]
-class Carrier
+class Carrier implements JsonSerializable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -172,5 +172,13 @@ class Carrier
         $this->company = $company;
 
         return $this;
+    }
+
+    public function jsonSerialize() {
+        return [
+            'id' => $this->id,
+            'code' => $this->code,
+            'name' => $this->name,
+        ];
     }
 }

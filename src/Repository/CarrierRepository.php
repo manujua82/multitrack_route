@@ -46,6 +46,17 @@ class CarrierRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByCode(string $code): ?Carrier
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.company = :company')
+            ->andWhere('c.code = :code')
+            ->setParameter('company', $this->mainCompany)
+            ->setParameter('code', $code)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function findAllByCompany(): array
     {
         return $this->createQueryBuilder('c')
@@ -54,6 +65,20 @@ class CarrierRepository extends ServiceEntityRepository
             ->orderBy('c.created', 'DESC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function findAllMatching(string $query, int $limit = 5): array
+    {
+        return $this->createQueryBuilder('c')
+        ->andWhere('c.code LIKE :query')
+        ->andWhere('c.name LIKE :query')
+        ->andWhere('c.company = :company')
+        ->setParameter('company', $this->mainCompany)
+        ->setParameter('query', '%'.$query.'%')
+        ->setMaxResults($limit)
+        ->orderBy('c.created', 'DESC')
+        ->getQuery()
+        ->getResult();
     }
 
 //    /**

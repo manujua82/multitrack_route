@@ -6,6 +6,8 @@ use App\Repository\ReasonRejectionRepository;
 use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: ReasonRejectionRepository::class)]
 class ReasonRejection
@@ -19,6 +21,7 @@ class ReasonRejection
     private ?string $type = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: 'Please enter a name')]
     private ?string $name = null;
 
     #[ORM\Column(nullable: true)]

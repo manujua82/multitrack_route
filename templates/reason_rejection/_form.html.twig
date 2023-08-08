@@ -1,15 +1,44 @@
-{{ form_start(form) }}
+<div class="row flex-center py-5">
+    <div class="col-xl-4">
+        {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation"}}) }}
 
-    {{ form_widget(form) }}
-    <div class="col-12 gy-6">
-        <div class="row g-3 justify-content-end">
-            <div class="col-auto">
-                <button class="btn btn-phoenix-primary px-5" onclick="location.href='{{ path('app_carrier') }}';">{{ 'Cancel' |trans }}</button>
+            <div class="col-sm-6 col-md-12">
+                <div class="form-floating">
+                    {{ form_widget(form.type, { 'attr': { 'class': 'form-control', 'id':'InputType', 'type':'text', 'disabled':'disabled', 'placeholder': 'Type'|trans }}) }}
+                    {{ form_label(form.type,  'Type'|trans, {'label_attr': {'class': 'form-label', 'for': 'InputType'}}) }}
+                </div>
             </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary px-5">{{ 'Save' |trans }}</button>
+
+            <div class="col-sm-6 col-md-12">
+                <div class="form-floating">
+                    {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'InputName', 'type':'text', 'placeholder': 'Name'|trans }}) }}
+                    {{ form_label(form.name,  'Name'|trans, {'label_attr': {'class': 'form-label', 'for': 'InputName'}}) }}
+                </div>
             </div>
-        </div>
+
+            <div class="col-sm-6 col-md-12">
+                <div class="form-check form-switch form-check-inline">
+                    {{ form_widget(form.delivery, { 'attr': { 'class': 'form-check-input', 'id':'InpuDelivery', 'type':'checkbox' }}) }}
+                    {{ form_label(form.delivery,  'Delivery'|trans, {'label_attr': {'class': 'form-check-label', 'for': 'InpuDelivery'}}) }}
+                </div>
+
+                <div class="form-check form-switch form-check-inline">
+                    {{ form_widget(form.collection, { 'attr': { 'class': 'form-check-input', 'id':'InputCollection', 'type':'checkbox' }}) }}
+                    {{ form_label(form.collection,  'Collection'|trans, {'label_attr': {'class': 'form-check-label', 'for': 'InputCollection'}}) }}
+                </div>
+            </div>
+        
+            <div class="col-12 gy-6">
+                <div class="row g-3 justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-phoenix-primary px-5" onclick="location.href='{{ path(cancelPath) }}';">{{ 'Cancel' |trans }}</button>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary px-5">{{ 'Save' |trans }}</button>
+                    </div>
+                </div>
+            </div>
+
+        {{ form_end(form) }}
     </div>
-
-{{ form_end(form) }}
+</div>

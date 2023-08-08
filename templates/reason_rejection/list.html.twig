@@ -2,8 +2,8 @@
     <thead>
         <tr>
             <th class="sort align-middle" scope="col" data-sort="name" style="width:40%; min-width:200px;">{{ 'Name' |trans }}</th>
-            <th class="align-middle" scope="col"  style="width:20%;  min-width:200px;">{{ 'Delivery' |trans }}</th>
-            <th class="align-middle" scope="col"  style="width:25%;  min-width:200px;">{{ 'Collection' |trans }}</th>
+            <th class="align-middle text-center" scope="col"  style="width:20%;  min-width:200px;">{{ 'Delivery' |trans }}</th>
+            <th class="align-middle text-center" scope="col"  style="width:25%;  min-width:200px;">{{ 'Collection' |trans }}</th>
             <th class="align-middle" scope="col" style="width:20%;  min-width:200px;">{{ 'Actions' |trans }}</th>
         </tr>
     </thead>
@@ -12,8 +12,8 @@
         {% for entity in entities %}
             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                 <td class="name align-middle white-space-nowrap">{{ entity.name }}</td>
-                <td class="delivery align-middle white-space-nowrap">{{ entity.delivery }} </td>
-                <td class="collection align-middle white-space-nowrap">{{ entity.collection }}</td>
+                <td class="active align-middle text-center white-space-nowrap"><i class="{% if entity.delivery %}fa fa-check{% else %}fa fa-close{% endif %}"></i></td>
+                <td class="active align-middle text-center white-space-nowrap"><i class="{% if entity.collection %}fa fa-check{% else %}fa fa-close{% endif %}"></i></td>
                 <td class="actions align-middle white-space-nowrap">
                     <a class="btn btn-primary btn-sm" href="{{ path('app_reason_rejection_edit', { reasonEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
                         <i class="fa fa-pencil"></i>
