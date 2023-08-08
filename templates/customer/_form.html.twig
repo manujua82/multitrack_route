@@ -1,0 +1,33 @@
+<div>
+    {{ form_start(form) }}
+        {{ form_row(form.code) }}
+        {{ form_row(form.name) }}
+        {{ form_row(form.contact) }}
+        {{ form_row(form.timeFrom) }}
+        {{ form_row(form.timeUntil) }}
+        {{ form_row(form.priority) }}
+
+        {# render each row and field in the embedded form, in this example it's rendering the experience (Exp) fiels as rows #}
+        <div class="col-sm-8 col-sm-offset-2" id="address_list" data-prototype="{{ form_widget(form.address.vars.prototype)|e('html_attr') }}">
+            <table class="table table-borderless form-no-mb">
+                <tr>
+                    <td>street</td>
+                    <td>city</td>
+                    <td>state</td>
+                    <td>country</td>
+                    {# <td>latitude</td>
+                    <td>longitude</td> #}
+                </tr>
+                <tbody>
+                    {% for key, item in form.address %}
+                        {{ form_row(form.address.vars.prototype.street) }}
+                        {{ form_row(form.address.vars.prototype.city) }}
+                        {{ form_row(form.address.vars.prototype.state) }}
+                        {{ form_row(form.address.vars.prototype.country) }}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+    {{ form_end(form) }}
+</div>

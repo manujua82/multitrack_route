@@ -29,7 +29,6 @@ class Address
     private ?string $state = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Assert\Country]
     private ?string $country = null;
 
     #[ORM\Column(length: 510)]
@@ -40,6 +39,10 @@ class Address
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 10)]
     private ?string $longitude = null;
+
+    #[ORM\ManyToOne(inversedBy: 'address')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Customer $customer = null;
 
     public function getId(): ?int
     {
@@ -138,6 +141,18 @@ class Address
     public function setLongitude(string $longitude): static
     {
         $this->longitude = $longitude;
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): static
+    {
+        $this->customer = $customer;
 
         return $this;
     }
