@@ -1,11 +1,11 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CustomerController!{% endblock %}
-
 {% block body %}
-
-
-<div class="example-wrapper">
-    {{ include('customer/_form.html.twig') }}
-</div>
+    {{ include('widgets/baseListHeader.html.twig',  { 
+        entityName: 'Customers',
+        entities: customers,
+        viewListPath: "customer/list.html.twig",
+        createEntityPath: 'app_customer_new',
+        valueNames: '["code","name","contact","email"]'
+    }) }}
 {% endblock %}

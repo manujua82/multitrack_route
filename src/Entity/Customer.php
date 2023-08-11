@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -31,11 +32,9 @@ class Customer
     private ?int $phone = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
-    #[Assert\Time]
     private ?\DateTimeInterface $timeFrom = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
-    #[Assert\Time]
     private ?\DateTimeInterface $timeUntil = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -44,8 +43,19 @@ class Customer
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Address::class, orphanRemoval: true)]
     private Collection $address;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $email = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $created = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?MainCompany $company = null;
+
     public function __construct()
     {
+        $this->created = new DateTime();
         $this->address = new ArrayCollection();
     }
 
@@ -146,6 +156,12 @@ class Customer
         return $this->address;
     }
 
+    public function setAddress(Collection $addresses): static
+    {
+        $this->address = $addresses;
+        return $this;
+    }
+
     public function addAddress(Address $address): static
     {
         if (!$this->address->contains($address)) {
@@ -164,6 +180,42 @@ class Customer
                 $address->setCustomer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): static
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    public function getCompany(): ?MainCompany
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?MainCompany $company): static
+    {
+        $this->company = $company;
 
         return $this;
     }

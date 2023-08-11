@@ -1,33 +1,100 @@
-<div>
-    {{ form_start(form) }}
-        {{ form_row(form.code) }}
-        {{ form_row(form.name) }}
-        {{ form_row(form.contact) }}
-        {{ form_row(form.timeFrom) }}
-        {{ form_row(form.timeUntil) }}
-        {{ form_row(form.priority) }}
+{% import _self as formMacros %}
 
-        {# render each row and field in the embedded form, in this example it's rendering the experience (Exp) fiels as rows #}
-        <div class="col-sm-8 col-sm-offset-2" id="address_list" data-prototype="{{ form_widget(form.address.vars.prototype)|e('html_attr') }}">
-            <table class="table table-borderless form-no-mb">
-                <tr>
-                    <td>street</td>
-                    <td>city</td>
-                    <td>state</td>
-                    <td>country</td>
-                    {# <td>latitude</td>
-                    <td>longitude</td> #}
-                </tr>
-                <tbody>
-                    {% for key, item in form.address %}
-                        {{ form_row(form.address.vars.prototype.street) }}
-                        {{ form_row(form.address.vars.prototype.city) }}
-                        {{ form_row(form.address.vars.prototype.state) }}
-                        {{ form_row(form.address.vars.prototype.country) }}
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+{% macro printAddressRow(addressForm) %}
+    <td class="align-middle ps-3">{{ form_widget(addressForm.street, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
+    <td class="align-middle">{{ form_widget(addressForm.city, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
+    <td class="align-middle">{{ form_widget(addressForm.state, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
+    <td class="align-middle">{{ form_widget(addressForm.country, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
+{% endmacro %} 
+ 
+ 
+ <div class="row flex-center py-5">
+    <div class="col-xl-6">
+        {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "needs-validation"}}) }}
+            <div class="card mb-3">
+                <div class="card-body">
 
-    {{ form_end(form) }}
+                    <div class="d-flex align-items-center mb-5">
+                        <h3>{{ 'Customer' |trans }}</h3>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-6">
+                            {{ form_label(form.code, 'Code'|trans, {'label_attr': {'class': 'form-label','for': 'codeInput'}}) }}
+                            {{ form_widget(form.code, { 'attr': { 'class': 'form-control', 'id':'codeInput', 'type':'text' }}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_label(form.name, 'Name'|trans, {'label_attr': {'class': 'form-label','for': 'nameInput'}}) }}
+                            {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'nameInput', 'type':'text' }}) }}
+                        </div>
+
+                        <div class="col-6">
+                            {{ form_label(form.contact, 'Contact'|trans, {'label_attr': {'class': 'form-label','for': 'contactInput'}}) }}
+                            {{ form_widget(form.contact, { 'attr': { 'class': 'form-control', 'id':'contactInput', 'type':'text' }}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_label(form.phone, 'Phone'|trans, {'label_attr': {'class': 'form-label','for': 'phoneInput'}}) }}
+                            {{ form_widget(form.phone, { 'attr': { 'class': 'form-control', 'id':'phoneInput', 'type':'text' }}) }}
+                        </div>
+
+                        <div class="col-6">
+                            {{ form_label(form.email, 'Email'|trans, {'label_attr': {'class': 'form-label','for': 'emailInput'}}) }}
+                            {{ form_widget(form.email, { 'attr': { 'class': 'form-control', 'id':'emailInput', 'type':'email' }}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_label(form.priority, 'Priority'|trans, {'label_attr': {'class': 'form-label','for': 'priorityInput'}}) }}
+                            {{ form_widget(form.priority, { 'attr': { 'class': 'form-control', 'id':'priorityInput', 'type':'text' }}) }}
+                        </div>
+
+                        <div class="col-6">
+                            {{ form_label(form.timeFrom, 'Time from'|trans, {'label_attr': {'class': 'form-label','for': 'timefromInput'}}) }}
+                            {{ form_widget(form.timeFrom, { 'attr': { 'class': 'form-control datetimepicker', 'id':'timefromInput', 'type':'text', 'placeholder': 'hour : minute'|trans, 'data-options':'{"enableTime":true,"noCalendar":true,"dateFormat":"H:i","disableMobile":true}'}}) }}
+                        </div>
+
+                        <div class="col-6">
+                            {{ form_label(form.timeUntil, 'Time until'|trans, {'label_attr': {'class': 'form-label','for': 'timeUntilInput'}}) }}
+                            {{ form_widget(form.timeUntil, { 'attr': { 'class': 'form-control datetimepicker', 'id':'timeUntilInput', 'type':'text', 'placeholder': 'hour : minute'|trans, 'data-options':'{"enableTime":true,"noCalendar":true,"dateFormat":"H:i","disableMobile":true}'}}) }}
+                        </div>
+
+                        <div></div> 
+
+                        <div class="col-12 g-3" id="address_list" data-prototype="{{ formMacros.printAddressRow(form.address.vars.prototype)|e('html_attr') }}">
+                            
+            
+
+                            <table class="table table-striped table-sm fs--1 mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="border-top ps-3">{{ 'Street' |trans }}</th>
+                                        <th class="border-top">{{ 'City' |trans }}</th>
+                                        <th class="border-top">{{ 'State' |trans }}</th>
+                                        <th class="border-top">{{ 'Country' |trans }}</th>
+                                        <th class="text-end align-middle pe-0 border-top" scope="col">ACTION</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="tbody" class="list">
+                                    {% for row in form.address %}
+                                        <tr>{{ formMacros.printAddressRow(row) }}</tr>
+                                    {% endfor %}
+                                </tbody>
+
+                                
+                            </table>
+                            <br/>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 gy-3">
+                <div class="row g-3 justify-content-end">
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary px-8">{{ 'Save' |trans }}</button>
+                    </div>
+                </div>
+            </div>
+        {{ form_end(form) }}
+    </div>
 </div>

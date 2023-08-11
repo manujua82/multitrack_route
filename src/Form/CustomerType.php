@@ -16,9 +16,16 @@ class CustomerType extends AbstractType
             ->add('code')
             ->add('name')
             ->add('contact')
+            ->add('email')
             ->add('phone')
-            ->add('timeFrom')
-            ->add('timeUntil')
+            ->add('timeFrom', null, [
+                'widget' => 'single_text', 
+                'html5' => false,
+            ])
+            ->add('timeUntil', null, [
+                'widget' => 'single_text', 
+                'html5' => false,
+            ])
             ->add('priority')
             ->add('address', CollectionType::class, [
                 'entry_type' => AddressType::class,

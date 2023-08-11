@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Customer;
+use Symfony\Bundle\SecurityBundle\Security;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -16,9 +17,25 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class CustomerRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $mainCompany;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        Security $security
+    )
     {
         parent::__construct($registry, Customer::class);
+        $this->mainCompany = $security->getUser()->getMainCompany();
+    }
+
+    public function findAllByCompany(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.company = :company')
+            ->setParameter('company', $this->mainCompany)
+            ->orderBy('c.created', 'DESC')
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**
