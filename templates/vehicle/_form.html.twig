@@ -2,65 +2,69 @@
     <div class="col-xl-4">
 
         {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation"}}) }}
-
-        <div>
-            {{ form_errors(form)}}
-        </div>
-
-        <div class="col-sm-6 col-md-12">
-            {{ form_label(form.Number,  'Number'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputNumber'}}) }}
-            {{ form_widget(form.Number, { 'attr': { 'class': 'form-control', 'id':'inputNumber', 'type':'text', 'placeholder': 'Number'|trans }}) }}
-            {{ form_errors(form.Number) }}
-        </div>
-
-        <div class="col-sm-6 col-md-6">
-            {{ form_label(form.driver,  'Driver'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputDriver'}}) }}
-            {{ form_widget(form.driver, { 'attr': { 'class': 'form-select ps-4', 'id':'inputDriver', 'data-choices':'data-choices', 'data-options':'{"removeItemButton":true,"placeholder":true}' }}) }}
-            {{ form_errors(form.driver) }}
-        </div>
-           
-        <div class="col-sm-6 col-md-6">
-            {{ form_label(form.depot, 'Depot/Ship from'|trans , {'label_attr': {'class': 'form-label', 'for': 'inputDepot'}}) }}
-            {{ form_widget(form.depot, { 'attr': { 'class': 'form-select', 'id':'inputDepot', 'data-choices':'data-choices', 'data-options':'{"removeItemButton":true,"placeholder":true}'}}) }}
-            {{ form_errors(form.depot) }}
-        </div>
-
-        <div class="col-sm-6 col-md-6">
-            {{ form_label(form.carrier, 'Carrier'|trans , {'label_attr': {'class':'form-label',  'for': 'inputCarier'}}) }}
-            {{ form_widget(form.carrier, { 'attr': { 'class': 'js-carrier-autocomplete form-control', 'id':'inputCarier', 'data-choices':'data-choices', 'data-options':'{"removeItemButton":true,"placeholder":true}' }}) }}
-            <div class="invalid-feedback">{{ form_errors(form.carrier) }}</div>
-        </div>
-
-        <div class="col-sm-6 col-md-6">
-            {{ form_label(form.plt, 'Plt/Pkg'|trans , {'label_attr': {'class': 'form-label', 'for': 'inputPlt'}}) }}
-            {{ form_widget(form.plt, { 'attr': { 'class': 'form-control', 'id':'inputPlt', 'type':'text', 'placeholder': 'Plt/Pkg'|trans }}) }}
-            <div class="invalid-feedback">{{ form_errors(form.plt) }}</div>
-        </div>
-
-        <div class="col-sm-6 col-md-6">
-            {{ form_label(form.weight, 'Weight'|trans , {'label_attr': {'class': 'form-label', 'for': 'inputWeight'}}) }}
-            {{ form_widget(form.weight, { 'attr': { 'class': 'form-control', 'id':'inputWeight', 'type':'text', 'placeholder': 'Weight'|trans }}) }}
-            <div class="invalid-feedback">{{ form_errors(form.weight) }}</div>
-        </div>
-
-        <div class="col-sm-6 col-md-6">
-            {{ form_label(form.volume, 'Volume'|trans , {'label_attr': {'class': 'form-label', 'for': 'inputVolume'}}) }}
-            {{ form_widget(form.volume, { 'attr': { 'class': 'form-control', 'id':'inputVolume', 'type':'text', 'placeholder': 'Volume'|trans }}) }}
-            <div class="invalid-feedback">{{ form_errors(form.volume) }}</div>
-        <div> 
         
-        <br/>
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <h3>{{ 'Vehicle' |trans }}</h3>
+                    </div>
         
-        <div class="col-12 gy-6">
-            <div class="row g-3 justify-content-end">
-                <div class="col-auto">
-                    <button class="btn btn-phoenix-primary px-5" onclick="location.href='{{ path('app_vehicle') }}';">{{ 'Cancel' |trans }}</button>
-                </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary px-5">{{ 'Save' |trans }}</button>
+                    <div class="row g-2">
+                        <div class="col-sm-6 col-md-12">
+                            {{ form_label(form.Number,  'Number'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputNumber'}}) }}
+                            {{ form_widget(form.Number, { 'attr': { 'class': 'form-control', 'id':'inputNumber', 'type':'text', 'placeholder': 'Number'|trans }}) }}
+                            {{ form_errors(form.Number) }}
+                        </div>
+
+                        <div class="col-sm-6 col-md-6">
+                            {{ form_label(form.driver,  'Driver'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputDriver'}}) }}
+                            {{ form_widget(form.driver, { 'attr': { 'class': 'form-select ps-4', 'id':'inputDriver', 'data-choices':'data-choices', 'data-options':'{"removeItemButton":true,"placeholder":true}' }}) }}
+                            {{ form_errors(form.driver) }}
+                        </div>
+                
+                        <div class="col-sm-6 col-md-6">
+                            {{ form_label(form.depot, 'Depot/Ship from'|trans , {'label_attr': {'class': 'form-label', 'for': 'inputDepot'}}) }}
+                            {{ form_widget(form.depot, { 'attr': { 'class': 'form-select', 'id':'inputDepot', 'data-choices':'data-choices', 'data-options':'{"removeItemButton":true,"placeholder":true}'}}) }}
+                            {{ form_errors(form.depot) }}
+                        </div>
+
+                        <div class="col-sm-6 col-md-6">
+                            {{ form_label(form.carrier, 'Carrier'|trans , {'label_attr': {'class':'form-label',  'for': 'inputCarier'}}) }}
+                            {{ form_widget(form.carrier, { 'attr': { 'class': 'js-carrier-autocomplete form-control', 'id':'inputCarier', 'data-choices':'data-choices', 'data-options':'{"removeItemButton":true,"placeholder":true}' }}) }}
+                            <div class="invalid-feedback">{{ form_errors(form.carrier) }}</div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6">
+                            {{ form_label(form.plt, 'Plt/Pkg'|trans , {'label_attr': {'class': 'form-label', 'for': 'inputPlt'}}) }}
+                            {{ form_widget(form.plt, { 'attr': { 'class': 'form-control', 'id':'inputPlt', 'type':'text', 'placeholder': 'Plt/Pkg'|trans }}) }}
+                            <div class="invalid-feedback">{{ form_errors(form.plt) }}</div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6">
+                            {{ form_label(form.weight, 'Weight'|trans , {'label_attr': {'class': 'form-label', 'for': 'inputWeight'}}) }}
+                            {{ form_widget(form.weight, { 'attr': { 'class': 'form-control', 'id':'inputWeight', 'type':'text', 'placeholder': 'Weight'|trans }}) }}
+                            <div class="invalid-feedback">{{ form_errors(form.weight) }}</div>
+                        </div>
+
+                        <div class="col-sm-6 col-md-6">
+                            {{ form_label(form.volume, 'Volume'|trans , {'label_attr': {'class': 'form-label', 'for': 'inputVolume'}}) }}
+                            {{ form_widget(form.volume, { 'attr': { 'class': 'form-control', 'id':'inputVolume', 'type':'text', 'placeholder': 'Volume'|trans }}) }}
+                            <div class="invalid-feedback">{{ form_errors(form.volume) }}</div>
+                        </div> 
+                    </div>
                 </div>
             </div>
-        </div>
+                
+            <div class="col-12 gy-6">
+                <div class="row g-3 justify-content-end">
+                    <div class="col-auto">
+                        <button class="btn btn-phoenix-primary px-5" onclick="location.href='{{ path('app_vehicle') }}';">{{ 'Cancel' |trans }}</button>
+                    </div>
+                    <div class="col-auto">
+                        <button type="submit" class="btn btn-primary px-5">{{ 'Save' |trans }}</button>
+                    </div>
+                </div>
+            </div>
 
         {{ form_end(form) }}
     </div>

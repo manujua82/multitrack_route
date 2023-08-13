@@ -36,7 +36,7 @@ class CustomerType extends AbstractType
             ])
             ->add('addresses', CollectionType::class, [
                 'entry_type' => AddressType::class,
-                // 'entry_options' => ['label' => false],
+                'label' => ' ',
                 'allow_add' => true,
                 'allow_delete' => true,
                 'by_reference' => false,
