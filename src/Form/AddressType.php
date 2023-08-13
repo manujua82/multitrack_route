@@ -15,6 +15,7 @@ class AddressType extends AbstractType
             ->add('street')
             ->add('city')
             ->add('state')
+            ->add('postalcode')
             ->add('country')
             // ->add('latitude')
             // ->add('longitude')

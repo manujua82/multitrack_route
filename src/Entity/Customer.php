@@ -28,9 +28,6 @@ class Customer
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $contact = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $phone = null;
-
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $timeFrom = null;
 
@@ -40,8 +37,8 @@ class Customer
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $priority = null;
 
-    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Address::class, orphanRemoval: true)]
-    private Collection $address;
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Address::class, cascade: ['persist'], orphanRemoval: true)]
+    private Collection $addresses;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $email = null;
@@ -53,10 +50,13 @@ class Customer
     #[ORM\JoinColumn(nullable: false)]
     private ?MainCompany $company = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phone = null;
+
     public function __construct()
     {
         $this->created = new DateTime();
-        $this->address = new ArrayCollection();
+        $this->addresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -100,18 +100,6 @@ class Customer
         return $this;
     }
 
-    public function getPhone(): ?int
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(?int $phone): static
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
     public function getTimeFrom(): ?\DateTimeInterface
     {
         return $this->timeFrom;
@@ -151,21 +139,21 @@ class Customer
     /**
      * @return Collection<int, Address>
      */
-    public function getAddress(): Collection
+    public function getAddresses(): Collection
     {
-        return $this->address;
+        return $this->addresses;
     }
 
-    public function setAddress(Collection $addresses): static
+    public function setAddresses(Collection $addresses): static
     {
-        $this->address = $addresses;
+        $this->addresses = $addresses;
         return $this;
     }
 
     public function addAddress(Address $address): static
     {
-        if (!$this->address->contains($address)) {
-            $this->address->add($address);
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
             $address->setCustomer($this);
         }
 
@@ -174,7 +162,7 @@ class Customer
 
     public function removeAddress(Address $address): static
     {
-        if ($this->address->removeElement($address)) {
+        if ($this->addresses->removeElement($address)) {
             // set the owning side to null (unless already changed)
             if ($address->getCustomer() === $this) {
                 $address->setCustomer(null);
@@ -216,6 +204,18 @@ class Customer
     public function setCompany(?MainCompany $company): static
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }

@@ -21,8 +21,8 @@
                 <td class="contact align-middle white-space-nowrap">{{ entity.contact }}</td>
                 <td class="email align-middle white-space-nowrap"><a class="fw-semi-bold" href="mailto:{{ entity.email }}">{{ entity.email }}</td>
                 <td class="phone align-middle white-space-nowrap">{{ entity.phone }}</td>
-                <td class="align-middle white-space-nowrap">{{ entity.timeFrom }}</td>
-                <td class="align-middle white-space-nowrap">{{ entity.timeUntil }}</td>
+                <td class="align-middle white-space-nowrap">{{ entity.timeFrom | date('h:m:s') }}</td>
+                <td class="align-middle white-space-nowrap">{{ entity.timeUntil | date('h:m:s') }}</td>
                 <td class="align-middle white-space-nowrap">{{ entity.priority }}</td>
 
                 <td class="actions align-middle white-space-nowrap">

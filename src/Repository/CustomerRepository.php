@@ -28,6 +28,15 @@ class CustomerRepository extends ServiceEntityRepository
         $this->mainCompany = $security->getUser()->getMainCompany();
     }
 
+    public function add(Customer $entity, bool $flush = false): void
+    {
+        $entity->setCompany($this->mainCompany);        
+        $this->getEntityManager()->persist($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     public function findAllByCompany(): array
     {
         return $this->createQueryBuilder('c')

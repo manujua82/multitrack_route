@@ -35,13 +35,14 @@ $(document).ready(function () {
         // create a new form and append it to the collectionHolder
         // and by form we mean a new panel which contains the form
         addNewForm();
-    })
+    });
 });
 
 const addNewForm = () => {
     console.log(`addNewForm`);
 
     var prototype = $collectionHolder.data('prototype');
+
     var index = $collectionHolder.data('index');
 
     var newForm = prototype;
@@ -51,6 +52,7 @@ const addNewForm = () => {
     $collectionHolder.data('index', index+1);
 
     var $panel = $('<tr class="panel"></tr>');
+    
     $panel.append(newForm);
 
     // append the remove button to the new panel

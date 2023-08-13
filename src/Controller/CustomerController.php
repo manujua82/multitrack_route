@@ -29,18 +29,19 @@ class CustomerController extends AbstractController
         TranslatorInterface $translator
     ): Response
     {
-
         $customer = new Customer();
-        // $address = new Address();
-        // $address->setCode("TestCode");
-
-        // $customer->addAddress($address); 
-
         $form = $this->createForm(CustomerType::class, $customer);
         $form->handleRequest($request);
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $customerEntity = $form->getData();
-            dd($customerEntity); 
+            $repository->add($customerEntity, true);
+            // dd($customerEntity); 
+
+            $flashMessage = $translator->trans('Customer %code% was created', ['%code%' => $customerEntity->getCode()]);
+            $this->addFlash('success', $flashMessage);
+
+            return $this->redirectToRoute('app_customer');
         }
 
         return $this->render('customer/new.html.twig', [
@@ -60,7 +61,10 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $customerEntity = $form->getData();
-            dd($customerEntity); 
+            $repository->add($customerEntity, true);
+            
+            // dd($customerEntity); 
+            return $this->redirectToRoute('app_customer');
         }
 
         return $this->render('customer/new.html.twig', [

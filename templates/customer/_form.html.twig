@@ -4,6 +4,7 @@
     <td class="align-middle ps-3">{{ form_widget(addressForm.street, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
     <td class="align-middle">{{ form_widget(addressForm.city, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
     <td class="align-middle">{{ form_widget(addressForm.state, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
+    <td class="align-middle">{{ form_widget(addressForm.postalcode, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
     <td class="align-middle">{{ form_widget(addressForm.country, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
 {% endmacro %} 
  
@@ -43,7 +44,7 @@
                         </div>
                         <div class="col-6">
                             {{ form_label(form.priority, 'Priority'|trans, {'label_attr': {'class': 'form-label','for': 'priorityInput'}}) }}
-                            {{ form_widget(form.priority, { 'attr': { 'class': 'form-control', 'id':'priorityInput', 'type':'text' }}) }}
+                            {{ form_widget(form.priority, { 'attr': { 'class': 'form-select', 'id':'priorityInput' }}) }}
                         </div>
 
                         <div class="col-6">
@@ -58,7 +59,7 @@
 
                         <div></div> 
 
-                        <div class="col-12 g-3" id="address_list" data-prototype="{{ formMacros.printAddressRow(form.address.vars.prototype)|e('html_attr') }}">
+                        <div class="col-12 g-3" id="address_list" data-prototype="{{ formMacros.printAddressRow(form.addresses.vars.prototype)|e('html_attr') }}">
                             
             
 
@@ -68,13 +69,14 @@
                                         <th class="border-top ps-3">{{ 'Street' |trans }}</th>
                                         <th class="border-top">{{ 'City' |trans }}</th>
                                         <th class="border-top">{{ 'State' |trans }}</th>
+                                        <th class="border-top">{{ 'Zip code' |trans }}</th>
                                         <th class="border-top">{{ 'Country' |trans }}</th>
                                         <th class="text-end align-middle pe-0 border-top" scope="col">ACTION</th>
                                     </tr>
                                 </thead>
 
                                 <tbody id="tbody" class="list">
-                                    {% for row in form.address %}
+                                    {% for row in form.addresses %}
                                         <tr>{{ formMacros.printAddressRow(row) }}</tr>
                                     {% endfor %}
                                 </tbody>
