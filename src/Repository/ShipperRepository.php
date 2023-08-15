@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Shipper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @extends ServiceEntityRepository<Shipper>
@@ -16,9 +17,42 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ShipperRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $mainCompany;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        Security $security
+    )
     {
         parent::__construct($registry, Shipper::class);
+        $this->mainCompany = $security->getUser()->getMainCompany();
+    }
+
+    public function add(Shipper $entity, bool $flush = false): void
+    {
+        $entity->setCompany($this->mainCompany);
+        $this->getEntityManager()->persist($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function findAllByCompany(): array
+    {
+        return $this->createQueryBuilder('shipper')
+            ->andWhere('shipper.company = :company')
+            ->setParameter('company', $this->mainCompany)
+            ->orderBy('shipper.created', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function delete(Shipper $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
 
 //    /**

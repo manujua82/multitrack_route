@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {{ include('widgets/baseListHeader.html.twig',  { 
+        entityName: 'Shippers',
+        entities: shippers,
+        viewListPath: "shipper/list.html.twig",
+        createEntityPath: 'app_shipper_new',
+        valueNames: '["code","name"]'
+    }) }}
+{% endblock %}

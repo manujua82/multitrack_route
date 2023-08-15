@@ -28,7 +28,6 @@ class CarrierRepository extends ServiceEntityRepository
         $this->mainCompany = $security->getUser()->getMainCompany();
     }
 
-
     public function add(Carrier $entity, bool $flush = false): void
     {
         $entity->setCompany($this->mainCompany);
