@@ -1,0 +1,31 @@
+<div {{ attributes.defaults({
+    class: 'modal fade',
+    'data-bs-backdrop': 'static',
+    'data-bs-keyboard':'false',
+    'aria-labelledby':'addDealModal',
+    tabindex: '-1',
+    'aria-hidden': 'true',
+    id: id ? id : false,
+}).defaults(stimulus_controller('bootstrap-modal')) }}>
+    <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div class="modal-content bg-100 p-6">
+            {% block modal_full_content %}
+                {% if block('modal_header') %}
+                    <div class="modal-header border-0 p-0 mb-2">
+                        {% block modal_header %}{% endblock %}
+                    </div>
+                {% endif %}
+
+                <div class="modal-body  px-0">
+                    {% block modal_body %}{% endblock %}
+                </div>
+
+                {% if block('modal_footer') %}
+                    <div class="modal-footer border-0 pt-6 px-0 pb-0">
+                        {% block modal_footer %}{% endblock %}
+                    </div>
+                {% endif %}
+            {% endblock %}
+        </div>
+    </div>
+</div>

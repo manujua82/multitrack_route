@@ -1,0 +1,295 @@
+<div {{ attributes }}>
+    <form
+        data-action="live#action"
+        data-action-name="prevent|saveOrder">
+
+        <div class="row g-4">  
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="text-1000 fw-bold mb-2" for="order-number">{{ 'Order No.' |trans }}</label>
+                            <input
+                                id="order-number"
+                                type="text"
+                                data-model="number"
+                                class="form-control {{ _errors.has('number') ? 'is-invalid' }}"
+                            >
+                            {% if _errors.has('name') %}
+                                <div class="invalid-feedback">
+                                    {{ _errors.get('name') }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-6">
+                            <label class="text-1000 fw-bold mb-2">{{ 'Type' |trans }}</label>
+                            <select 
+                                id="order-type"
+                                data-model="type"
+                                class="form-select {{ _errors.has('category') ? 'is-invalid' }}"
+                            >
+                                {% for type in types %}
+                                    <option>{{ type |trans }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if _errors.has('type') %}
+                                <div class="invalid-feedback">
+                                    {{ _errors.get('type') }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-1000 fw-bold mb-2">{{ 'Ship From' | trans }}</label>
+                    <select 
+                        name="shipFrom" 
+                        data-model="shipFrom"
+                        class="{{ _errors.has('shipFrom') ? 'is-invalid' }}"
+                        {{ stimulus_controller('symfony/ux-autocomplete/autocomplete', {
+                            url: path('ux_entity_autocomplete', { alias: 'shipFrom' })
+                        }) }}
+                    >
+                    {% if _errors.has('shipFrom') %}
+                        <div class="invalid-feedback">
+                            {{ _errors.get('shipFrom') }}
+                        </div>
+                    {% endif %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <div class="row g-3">
+                        <div class="col-6">
+                           <label class="text-1000 fw-bold mb-2">{{ 'Customer Code' | trans }}</label>
+                            <select 
+                                name="customer" 
+                                data-model="customer"
+                                class="{{ _errors.has('customer') ? 'is-invalid' }}"
+                                {{ stimulus_controller('symfony/ux-autocomplete/autocomplete', {
+                                    url: path('ux_entity_autocomplete', { alias: 'Customer' })
+                                }) }}
+                            >
+                                {% if _errors.has('customer') %}
+                                    <div class="invalid-feedback">
+                                        {{ _errors.get('customer') }}
+                                    </div>
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="text-1000 fw-bold mb-2" for="order-customer-name">{{ 'Customer Name' |trans }}</label>
+                            <input
+                                id="order-customer-name"
+                                type="text"
+                                data-model="customerName"   
+                                class="form-control {{ _errors.has('number') ? 'is-invalid' }}"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-1000 fw-bold mb-2" for="customer-contact">{{ 'Contact Name' |trans }}</label>
+                    <input
+                        id="customer-contact"
+                        type="text"
+                        data-model="customerContact"
+                        class="form-control"
+                    >
+                </div>
+
+                <div class="mb-3">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="text-1000 fw-bold mb-2" for="contact-phone">{{ 'Contact Phone' |trans }}</label>
+                            <input
+                                id="contact-phone"
+                                type="text"
+                                data-model="customerPhone"
+                                class="form-control"
+                            >
+                        </div>
+                        <div class="col-6">
+                            <label class="text-1000 fw-bold mb-2" for="contact-email">{{ 'Contact Email' |trans }}</label>
+                            <input
+                                id="contact-emai"
+                                type="text"
+                                data-model="customerEmail"
+                                class="form-control"
+                                placeholder = {{ 'Email'|trans }}
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-1000 fw-bold mb-2" for="order-note">{{ 'Note' |trans }}</label>
+                    <input
+                        id="order-note"
+                        type="text"
+                        data-model="note"
+                        class="form-control"
+                    >
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="text-1000 fw-bold mb-2" for="order-date">{{ 'Date' |trans }}</label>
+                            <input
+                                id="order-date"
+                                type="text"
+                                data-model="date"
+                                class="form-control datetimepicker {{ _errors.has('date') ? 'is-invalid' }}"
+                                placeholder="dd/mm/yyyy"
+                                data-options='{"disableMobile":true,"dateFormat":"d/m/Y"}'
+                            >
+                            {% if _errors.has('date') %}
+                                <div class="invalid-feedback">
+                                    {{ _errors.get('date') }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="col-6">
+                            <label class="text-1000 fw-bold mb-2">{{ 'Priority' |trans }}</label>
+                            <select 
+                                id="order-priority"
+                                data-model="priority"
+                                class="form-select {{ _errors.has('priority') ? 'is-invalid' }}"
+                            >
+                                {% for priority in priorities %}
+                                    <option>{{ priority |trans }}</option>
+                                {% endfor %}
+                            </select>
+                            {% if _errors.has('priority') %}
+                                <div class="invalid-feedback">
+                                    {{ _errors.get('priority') }}
+                                </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="row g-3">
+                        <div class="col-6">
+                           <label class="text-1000 fw-bold mb-2">{{ 'Shipper' | trans }}</label>
+                            <select 
+                                name="shipper" 
+                                data-model="shipper"
+                                class="{{ _errors.has('shipper') ? 'is-invalid' }}"
+                                {{ stimulus_controller('symfony/ux-autocomplete/autocomplete', {
+                                    url: path('ux_entity_autocomplete', { alias: 'Shipper' })
+                                }) }}
+                            >
+                                {% if _errors.has('shipper') %}
+                                    <div class="invalid-feedback">
+                                        {{ _errors.get('shipper') }}
+                                    </div>
+                                {% endif %}
+                            </select>
+                        </div>
+                        <div class="col-6">
+                            <label class="text-1000 fw-bold mb-2" for="order-barcode">{{ 'Barcode' |trans }}</label>
+                            <input
+                                id="order-barcode"
+                                type="text"
+                                data-model="barcode"   
+                                class="form-control {{ _errors.has('barcode') ? 'is-invalid' }}"
+                            >
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-1000 fw-bold mb-2">{{ 'Address' | trans }}</label>
+                    <select 
+                        name="address" 
+                        data-model="address"
+                        class="{{ _errors.has('address') ? 'is-invalid' }}"
+                        {{ stimulus_controller('symfony/ux-autocomplete/autocomplete', {
+                            url: path('ux_entity_autocomplete', { alias: 'Address' })
+                        }) }}
+                    >
+                    {% if _errors.has('address') %}
+                        <div class="invalid-feedback">
+                            {{ _errors.get('address') }}
+                        </div>
+                    {% endif %}
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="text-1000 fw-bold mb-2" for="address-zone">{{ 'Address Zone' |trans }}</label>
+                    <input
+                        id="address-zone"
+                        type="text"
+                        data-model="addressZone"
+                        class="form-control"
+                    >
+                </div>
+
+                <div class="mb-3">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="text-1000 fw-bold mb-2" for="timepicker1">{{ 'Time From' | trans }}</label>
+                            <input  data-model="timeFrom" class="form-control datetimepicker flatpickr-input" id="timepicker1" type="text" placeholder="hour : minute" data-options="{&quot;enableTime&quot;:true,&quot;noCalendar&quot;:true,&quot;dateFormat&quot;:&quot;H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly">
+                        </div>
+                         <div class="col-6">
+                            <label class="text-1000 fw-bold mb-2" for="timepicker2">{{ 'Time Until' | trans }}</label>
+                            <input  data-model="timeUntil" class="form-control datetimepicker flatpickr-input" id="timepicker2" type="text" placeholder="hour : minute" data-options="{&quot;enableTime&quot;:true,&quot;noCalendar&quot;:true,&quot;dateFormat&quot;:&quot;H:i&quot;,&quot;disableMobile&quot;:true}" readonly="readonly">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="text-1000 fw-bold mb-2" for="order-service-time">{{ 'Service Time' | trans }}</label>
+                            <input  data-model="serviceTime" class="form-control" id="order-service-time" type="number" >
+                        </div>
+                         <div class="col-6">
+                            <label class="text-1000 fw-bold mb-2" for="order-cod">{{ 'COD' | trans }}</label>
+                            <input  data-model="cod" class="form-control" id="order-cod" type="number">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-3">
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <label class="text-1000 fw-bold mb-2" for="order-weight">{{ 'Weight' | trans }}</label>
+                            <input  data-model="weight" class="form-control" id="order-weight" type="number" >
+                        </div>
+                         <div class="col-6">
+                            <label class="text-1000 fw-bold mb-2" for="order-volume">{{ 'Volume' | trans }}</label>
+                            <input  data-model="volume" class="form-control" id="order-volume" type="number">
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="mb-3">
+                    <div class="col-6">
+                        <label class="text-1000 fw-bold mb-2" for="order-pkg">{{ 'Plt/Pkg' | trans }}</label>
+                        <input  data-model="pkg" class="form-control" id="order-pkg" type="number" >
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer border-0 pt-6 px-0 pb-0">
+                <button class="btn btn-link text-danger px-3 my-0" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                <button class="btn btn-primary my-0">{{ 'Save' | trans }}</button>
+        </div>
+    </form>
+</div>

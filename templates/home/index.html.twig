@@ -4,6 +4,24 @@
  <div class="d-flex flex-center content-min-h">
     <div class="text-center py-9"><img class="img-fluid mb-7 d-dark-none" src="../assets/img/spot-illustrations/2.png" width="470" alt="" /><img class="img-fluid mb-7 d-light-none" src="../assets/img/spot-illustrations/dark_2.png" width="470" alt="" />
         <h1 class="text-800 fw-normal mb-5">Under Construction</h1>
+        <a
+            type="button"
+            data-bs-toggle="modal"
+            data-bs-target="#new-order-modal"
+        >+ Add Category
+        </a>
     </div>
+
+    
+    {% component BootstrapModal with { id: 'new-order-modal' } %}
+        {% block modal_header %}
+            <h3 class="mb-0">New Order Details</h3>
+            <button class="btn btn-sm btn-phoenix-secondary" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times text-danger"></span></button>
+        {% endblock %}
+        {% block modal_body %}
+            {{ component('OrderForm')}}
+        {% endblock %}
+    {% endcomponent %}
+
 </div>
 {% endblock %}  
