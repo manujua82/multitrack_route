@@ -1,0 +1,94 @@
+<tr {{ attributes }}>
+    <td>
+        {% if isEditing %}
+            <select
+                data-model="item"
+                aria-label="Choose a Item"
+                class="form-control {{ _errors.has('item') ? 'is-invalid' }}"
+            >
+                <option value="" {{ not item ? 'selected' }}>Choose a item</option>
+                {% for itemOption in items %}
+                    <option
+                        value="{{ itemOption.id }}"
+                        {% if itemOption == item %}selected{% endif %}
+                    >
+                        {{ itemOption.name }} ({{ itemOption.price|format_currency('USD') }})
+                    </option>
+                {% endfor %}
+            </select>
+            {% if _errors.has('item') %}
+                <div class="invalid-feedback">
+                    {{ _errors.get('item') }}
+                </div>
+            {% endif %}
+
+        {% else %}
+            {{ item.code }}
+        {% endif %}
+    </td>
+
+    <td>
+        {% if item.name is defined %}
+            {{ item.name }}
+        {% endif %} 
+    </td>
+    
+    <td>
+        {% if item.unit is defined %}
+            {{ item.unit }}
+        {% endif %} 
+    </td>
+
+    <td>
+        {% if item.price is defined %}
+            {{ item.price|format_currency('USD') }}
+        {% endif %} 
+    </td>
+
+    <td>
+        {% if isEditing %}
+            <input
+                type="number"
+                data-model="qty"
+                aria-label="Quantity"
+                class="form-control {{ _errors.has('qty') ? 'is-invalid' }}"
+            >
+            {% if _errors.has('qty') %}
+                <div class="invalid-feedback">
+                    {{ _errors.get('qty') }}
+                </div>
+            {% endif %}
+        {% else %}
+            {{ qty }}
+        {% endif %}
+    </td>
+
+    <td>
+        {{ 100|format_currency('USD') }}
+    </td>
+
+    <td class="text-end">
+        {% if isEditing %}
+            <button
+                data-action="live#action"
+                data-action-name="save"
+                class="btn btn-success btn-sm"
+                type="button"
+            >Save</button>
+        {% else %}
+            <button
+                data-action="live#action"
+                data-action-name="edit"
+                class="btn btn-primary btn-sm"
+                type="button"
+            >Edit</button>
+        {% endif %}
+
+        <button
+            data-action="live#emitUp"
+            data-event="removeLineItem(key={{ key }})"
+            class="btn btn-link text-danger btn-sm ml-2"
+            type="button"
+        ><span class="fa fa-times"></span></button>
+    </td>
+</tr>

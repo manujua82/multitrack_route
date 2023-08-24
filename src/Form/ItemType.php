@@ -15,6 +15,7 @@ class ItemType extends AbstractType
             ->add('code')
             ->add('name')
             ->add('unit')
+            ->add('price')
             ->add('barcode');
     }
 

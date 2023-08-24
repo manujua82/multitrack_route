@@ -2,11 +2,14 @@
 
 namespace App\Entity;
 
+use DateTime;
 use App\Repository\OrderRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
@@ -18,24 +21,29 @@ class Order
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $number = null;
 
     #[ORM\Column(length: 255)]
     private ?string $type = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Assert\NotBlank]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotBlank]
     private ?Warehouse $shipFrom = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotBlank]
     private ?Shipper $shipper = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $barcode = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotBlank]
     private ?Customer $customerId = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -51,6 +59,7 @@ class Order
     private ?string $customerPhone = null;
 
     #[ORM\ManyToOne]
+    #[Assert\NotBlank]
     private ?Address $addressId = null;
 
     #[ORM\Column(length: 255)]
@@ -84,9 +93,20 @@ class Order
     #[ORM\OneToMany(mappedBy: 'mainOrder', targetEntity: OrderItem::class, orphanRemoval: true)]
     private Collection $orderItems;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 20, scale: 5, nullable: true)]
+    private ?string $weight = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 20, scale: 5, nullable: true)]
+    private ?string $volume = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 20, scale: 5, nullable: true)]
+    private ?string $pkg = null;
+
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
+        $this->created = new DateTime();
+        $this->date =new DateTime();
     }
 
     public function getId(): ?int
@@ -372,6 +392,42 @@ class Order
                 $orderItem->setMainOrder(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getWeight(): ?string
+    {
+        return $this->weight;
+    }
+
+    public function setWeight(?string $weight): static
+    {
+        $this->weight = $weight;
+
+        return $this;
+    }
+
+    public function getVolume(): ?string
+    {
+        return $this->volume;
+    }
+
+    public function setVolume(?string $volume): static
+    {
+        $this->volume = $volume;
+
+        return $this;
+    }
+
+    public function getPkg(): ?string
+    {
+        return $this->pkg;
+    }
+
+    public function setPkg(?string $pkg): static
+    {
+        $this->pkg = $pkg;
 
         return $this;
     }

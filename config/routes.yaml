@@ -4,6 +4,10 @@ controllers:
         namespace: App\Controller
     type: attribute
 
+kernel:
+    resource: ../src/Kernel.php
+    type: annotation
+
 # app_index:
 #     path: /
 #     controller: App\Controller\HelloController::index

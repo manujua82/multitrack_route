@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Autocompleter;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Core\Security as SecurityCore;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use App\Entity\Warehouse;
@@ -11,6 +12,15 @@ use Symfony\UX\Autocomplete\EntityAutocompleterInterface;
 #[AutoconfigureTag('ux.entity_autocompleter', ['alias' => 'shipFrom'])]
 class ShipFromAutocompleter implements EntityAutocompleterInterface
 {
+    private $mainCompany;
+
+    public function __construct(
+        Security $security
+    )
+    {
+        $this->mainCompany = $security->getUser()->getMainCompany();
+    }
+
     public function getEntityClass(): string
     {
         return Warehouse::class;
@@ -22,11 +32,9 @@ class ShipFromAutocompleter implements EntityAutocompleterInterface
             // the alias "food" can be anything
             ->createQueryBuilder('warehouse')
             ->andWhere('warehouse.name LIKE :search')
+            ->andWhere('warehouse.company = :company')
             ->setParameter('search', '%'.$query.'%')
-
-            // maybe do some custom filtering in all cases
-            //->andWhere('food.isHealthy = :isHealthy')
-            //->setParameter('isHealthy', true)
+            ->setParameter('company', $this->mainCompany)
         ;
     }
 
@@ -40,7 +48,7 @@ class ShipFromAutocompleter implements EntityAutocompleterInterface
         return $entity->getId();
     }
 
-    public function isGranted(Security $security): bool
+    public function isGranted(SecurityCore $security): bool
     {
         // see the "security" option for details
         return true;

@@ -19,7 +19,9 @@
             <button class="btn btn-sm btn-phoenix-secondary" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times text-danger"></span></button>
         {% endblock %}
         {% block modal_body %}
-            {{ component('OrderForm')}}
+            {{ component('OrderForm', {
+                order: order
+            }) }}
         {% endblock %}
     {% endcomponent %}
 
