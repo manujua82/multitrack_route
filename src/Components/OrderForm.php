@@ -118,7 +118,6 @@ class OrderForm
     {
         $this->lineItems[] = [
             'itemId' => null,
-            'description' => '',
             'unitMeasure' => "pcs.",
             'qty' => 1,
             'price' => 0,
@@ -131,21 +130,17 @@ class OrderForm
     public function saveLineItem(
         #[LiveArg] int $key,
         #[LiveArg] Item $item,
-        #[LiveArg] string $description, 
         #[LiveArg] string $unitMeasure, 
         #[LiveArg] int $qty,
         #[LiveArg] float $price,
         #[LiveArg] float $amount,
     ): void
     {
-        
         if (!isset($this->lineItems[$key])) {
             // shouldn't happen
             return;
         }
-
-        $this->lineItems[$key]['productId'] = $item->getId();
-        $this->lineItems[$key]['description'] = $description;
+        $this->lineItems[$key]['itemId'] = $item->getId();
         $this->lineItems[$key]['unitMeasure'] = $unitMeasure;
         $this->lineItems[$key]['qty'] = $qty;
         $this->lineItems[$key]['price'] = $price;
@@ -210,11 +205,11 @@ class OrderForm
             $this->order->setTimeUntil($this->timeUntil);
         }
 
-        $this->validate();
+        // $this->validate();
        
-        $repository->add($this->order, true);
+        // $repository->add($this->order, true);
 
-        // dd($this->order);
+        dd($this->lineItems);
         
      
     }

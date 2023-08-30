@@ -3,18 +3,13 @@
         {% if isEditing %}
             <select
                 data-model="item"
-                aria-label="Choose a Item"
-                class="form-control {{ _errors.has('item') ? 'is-invalid' }}"
+                data-action="live#action"
+                data-action-name="onItemChanged"
+                class="{{ _errors.has('item') ? 'is-invalid' }}"
+                {{ stimulus_controller('symfony/ux-autocomplete/autocomplete', {
+                    url: path('ux_entity_autocomplete', { alias: 'Items' })
+                }) }}
             >
-                <option value="" {{ not item ? 'selected' }}>Choose a item</option>
-                {% for itemOption in items %}
-                    <option
-                        value="{{ itemOption.id }}"
-                        {% if itemOption == item %}selected{% endif %}
-                    >
-                        {{ itemOption.name }} ({{ itemOption.price|format_currency('USD') }})
-                    </option>
-                {% endfor %}
             </select>
             {% if _errors.has('item') %}
                 <div class="invalid-feedback">
@@ -23,25 +18,34 @@
             {% endif %}
 
         {% else %}
-            {{ item.code }}
-        {% endif %}
-    </td>
-
-    <td>
-        {% if item.name is defined %}
             {{ item.name }}
-        {% endif %} 
+        {% endif %}
     </td>
     
     <td>
-        {% if item.unit is defined %}
-            {{ item.unit }}
+        {% if isEditing %}
+            <input
+                type="text"
+                data-model="unitMeasure"
+                aria-label="Unit"
+                class="form-control"
+            >
+        {% else %}
+            {{ unitMeasure }}
         {% endif %} 
     </td>
 
     <td>
-        {% if item.price is defined %}
-            {{ item.price|format_currency('USD') }}
+     {% if isEditing %}
+            <input
+                type="number"
+                data-model="price"
+                data-action="live#action"
+                data-action-name="calculateAmount"
+                class="form-control"
+            >
+        {% else %}
+            {{ price|format_currency('USD') }}
         {% endif %} 
     </td>
 
@@ -50,7 +54,8 @@
             <input
                 type="number"
                 data-model="qty"
-                aria-label="Quantity"
+                data-action="live#action"
+                data-action-name="calculateAmount"
                 class="form-control {{ _errors.has('qty') ? 'is-invalid' }}"
             >
             {% if _errors.has('qty') %}
@@ -64,7 +69,7 @@
     </td>
 
     <td>
-        {{ 100|format_currency('USD') }}
+        {{ amount|format_currency('USD') }}
     </td>
 
     <td class="text-end">

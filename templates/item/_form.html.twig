@@ -1,54 +1,59 @@
 <div class="row flex-center py-5">
     <div class="col-xl-4">
         {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation"}}) }}
+            <div class="card mb-2">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-2">
+                        <h3>{{ 'Item' |trans }}</h3>
+                    </div>
+
+                    <div class="row g-2">
+                        <div class="col-sm-6 col-md-6">
+                            {{ form_label(form.code,  'Code'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputCode'}}) }}
+                            {{ form_widget(form.code, { 'attr': { 'class': 'form-control', 'id':'inputCode', 'type':'text', 'placeholder': 'Code'|trans }}) }}
+                            {{ form_errors(form.code) }}
+                        </div>
+
+                        <div class="col-sm-6 col-md-6">
+                            {{ form_label(form.barcode,  'Barcode'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputBarcode'}}) }}
+                            {{ form_widget(form.barcode, { 'attr': { 'class': 'form-control', 'id':'inputBarcode', 'type':'text', 'placeholder': 'Barcode'|trans }}) }}
+                            {{ form_errors(form.barcode) }}
+                        </div>
+
+                        <div class="col-sm-6 col-md-12">
+                            {{ form_label(form.name,  'Name'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputName'}}) }}
+                            {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'inputName', 'type':'text', 'placeholder': 'Name'|trans }}) }}
+                            {{ form_errors(form.name) }}
+                        </div>
+
+                        <div class="col-sm-6 col-md-6">
+                            {{ form_label(form.unit,  'Unit'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputUnit'}}) }}
+                            {{ form_widget(form.unit, { 'attr': { 'class': 'form-control', 'id':'inputUnit', 'type':'text', 'placeholder': 'Unit'|trans }}) }}
+                            {{ form_errors(form.unit) }}
+                        </div>
+
+                         <div class="col-sm-6 col-md-6">
+                            {{ form_label(form.price,  'Price'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputPrice'}}) }}
+                            {{ form_widget(form.price, { 'attr': { 'class': 'form-control', 'id':'inputPrice', 'type':'float' }}) }}
+                            {{ form_errors(form.price) }}
+                        </div>
+
+                        <div class="col-12 gy-6">
+                            <div class="row g-3 justify-content-end">
+                                <div class="col-auto">
+                                    <a href="{{ path('app_item') }}" class="btn btn-phoenix-primary px-5">{{ 'Cancel' |trans }}</a>
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary px-5">{{ 'Save' |trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             
-            <div>
-                {{ form_errors(form)}}
-            </div>
-
-            <div class="col-sm-6 col-md-12">
-                <div class="form-floating">
-                    {{ form_widget(form.code, { 'attr': { 'class': 'form-control', 'id':'inputCode', 'type':'text', 'placeholder': 'Code'|trans }}) }}
-                    {{ form_label(form.code,  'Code'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputCode'}}) }}
-                    {{ form_errors(form.code) }}
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-12">
-                <div class="form-floating">
-                    {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'inputName', 'type':'text', 'placeholder': 'Name'|trans }}) }}
-                    {{ form_label(form.name,  'Name'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputName'}}) }}
-                    {{ form_errors(form.name) }}
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-12">
-                <div class="form-floating">
-                    {{ form_widget(form.unit, { 'attr': { 'class': 'form-control', 'id':'inputUnit', 'type':'text', 'placeholder': 'Unit'|trans }}) }}
-                    {{ form_label(form.unit,  'Unit'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputUnit'}}) }}
-                    {{ form_errors(form.unit) }}
-                </div>
-            </div>
-
-            <div class="col-sm-6 col-md-12">
-                <div class="form-floating">
-                    {{ form_widget(form.barcode, { 'attr': { 'class': 'form-control', 'id':'inputBarcode', 'type':'text', 'placeholder': 'Barcode'|trans }}) }}
-                    {{ form_label(form.barcode,  'Barcode'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputBarcode'}}) }}
-                    {{ form_errors(form.barcode) }}
-                </div>
-            </div>
-
-
-            <div class="col-12 gy-6">
-                <div class="row g-3 justify-content-end">
-                    <div class="col-auto">
-                        <button class="btn btn-phoenix-primary px-5" onclick="location.href='{{ path('app_carrier') }}';">{{ 'Cancel' |trans }}</button>
-                    </div>
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary px-5">{{ 'Save' |trans }}</button>
-                    </div>
-                </div>
-            </div>
         {{ form_end(form) }}
     </div>
 </div>

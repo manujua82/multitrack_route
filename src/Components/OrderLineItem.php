@@ -25,25 +25,27 @@ class OrderLineItem
     public int $key;
 
     #[LiveProp(writable: true)]
+    #[Assert\NotNull]
     public ?Item $item = null;
-
-    #[LiveProp(writable: true)]
-    public ?string $description = '';
 
     #[LiveProp(writable: true)]
     public ?string $unitMeasure = '';
 
     #[LiveProp(writable: true)]
+    #[Assert\Positive]
     public int $qty = 1;
 
     #[LiveProp(writable: true)]
+    #[Assert\Positive]
     public float $price = 0;
 
-    #[LiveProp(writable: true)]
+    #[LiveProp()]
     public float $amount = 0;
 
     #[LiveProp()]
     public bool $isEditing = false;
+
+    private int $count = 0;
 
     public function __construct(private ItemRepository $itemRepository)
     {
@@ -51,8 +53,14 @@ class OrderLineItem
 
     public function mount(?int $itemId): void
     {
+        $this->price = $this->count;
+        $this->count++;
+        if  ($this->price > 0){
+            dd($itemId);
+        }
         if ($itemId) {
             $this->item = $this->itemRepository->find($itemId);
+            dd($itemId);
         }
     }
 
@@ -63,7 +71,6 @@ class OrderLineItem
         $responder->emitUp('line_item:save',[
             'key' => $this->key,
             'item' => $this->item->getId(),
-            'description' =>  $this->description,
             'unitMeasure' =>  $this->unitMeasure,
             'qty' => $this->qty,
             'price' => $this->price,
@@ -71,9 +78,6 @@ class OrderLineItem
         ]);
     
         $this->changeEditMode(false, $responder);
-        // } catch (Exception $e) {
-        //     dd($e);
-        // }
     }
 
     #[LiveAction]
@@ -82,10 +86,21 @@ class OrderLineItem
         $this->changeEditMode(true, $responder);
     }
 
-    #[ExposeInTemplate]
-    public function getItems(): array
+    #[LiveAction]
+    public function onItemChanged(): void
     {
-        return $this->itemRepository->findAll();
+        if ($this->item) {
+            $item = $this->item;
+            $this->unitMeasure = $item->getUnit();
+            $this->price = $item->getPrice();
+            $this->calculateAmount();
+        }
+    }
+
+    #[LiveAction]
+    public function calculateAmount(): void
+    {
+        $this->amount = $this->price * $this->qty;
     }
 
     private function changeEditMode(bool $isEditing, LiveResponder $responder): void

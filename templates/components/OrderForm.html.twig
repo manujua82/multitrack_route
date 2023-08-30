@@ -290,10 +290,9 @@
                 <table class="table">
                         <thead>
                             <tr>
-                                <th style="width: 100px;">Item</th>
-                                <th>Description</th>
-                                <th style="width: 100px;">Price</th>
+                                <th style="width: 300px;">Description</th>
                                 <th style="width: 100px;">Unit</th>
+                                <th style="width: 100px;">Price</th>
                                 <th style="width: 100px;">Quantity</th>
                                 <th style="width: 100px;">Amount</th>
                                 <th style="width: 200px;">&nbsp;</th>
@@ -304,7 +303,9 @@
                             {{ component('OrderLineItem', {
                                 key: key,
                                 itemId: line.itemId,
-                                quantity: line.qty,
+                                unitMeasure: line.unitMeasure,
+                                qty: line.qty,
+                                price: line.price,
                                 isEditing: line.isEditing,
                             }) }}
                         {% endfor %}
