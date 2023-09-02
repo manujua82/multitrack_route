@@ -14,7 +14,7 @@ export default class extends Controller {
     modal = null;
 
     connect() {
-        console().log("Hello");
+        console.log("Hello");
         // this.modal = Modal.getOrCreateInstance(this.element);
         // document.addEventListener('modal:close', () => this.modal.hide());
     }

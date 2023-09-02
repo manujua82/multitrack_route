@@ -2,57 +2,58 @@
     <div class="col-xl-4">
         {{ form_start(form,{'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation"}}) }}
 
-        <div>
-            {{ form_errors(form)}}
-        </div>
-
-        <div class="col-sm-6 col-md-12">
-            <div class="form-floating">
-                {{ form_widget(form.code, { 'attr': { 'class': 'form-control', 'id':'floatingInputCode', 'type':'text', 'placeholder': 'Code'|trans }}) }}
-                {{ form_label(form.code,  'Code'|trans, {'label_attr': {'class': 'form-label', 'for': 'floatingInputCode'}}) }}
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-12">
-            <div class="form-floating">
-                {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'floatingInputname', 'type':'text', 'placeholder': 'Name'|trans }}) }}
-                {{ form_label(form.name,  'Name'|trans, {'label_attr': {'class': 'form-label', 'for': 'floatingInputname'}}) }}
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-12">
-            <div class="form-floating">
-                {{ form_widget(form.contact, { 'attr': { 'class': 'form-control', 'id':'floatingInputContact', 'type':'text', 'placeholder': 'Contact'|trans }}) }}
-                {{ form_label(form.contact,  'Contact'|trans, {'label_attr': {'class': 'form-label', 'for': 'floatingInputContact'}}) }}
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-12">
-            <div class="form-floating">
-                {{ form_widget(form.phone, { 'attr': { 'class': 'form-control', 'id':'inputphone', 'type':'text', 'placeholder': 'Phone'|trans }}) }}
-                {{ form_label(form.phone,  'Phone'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputphone'}}) }}
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-12">
-            <div class="form-floating">
-                {{ form_widget(form.email, { 'attr': { 'class': 'form-control', 'id':'inputEmail', 'type':'text', 'placeholder': 'Email'|trans }}) }}
-                {{ form_label(form.email,  'Email'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputEmail'}}) }}
-            </div>
-        </div>
-
-        <div class="col-12 gy-6">
-            <div class="row g-3 justify-content-end">
-                <div class="col-auto">
-                    <a href="{{ path('app_carrier') }}" class="btn btn-phoenix-primary px-5">{{ 'Cancel' |trans }}</a>
+        <div class="card mb-2">
+            <div class="card-body">
+                
+                <div class="d-flex align-items-center mb-2">
+                    <h3>{{ 'Carrier' |trans }}</h3>
                 </div>
-                <div class="col-auto">
-                    <button type="submit" class="btn btn-primary px-5">{{ 'Save' |trans }}</button>
+
+                <div class="row g-2">
+                    <div class="col-sm-6 col-md-12">
+                        {{ form_label(form.code,  'Code'|trans, {'label_attr': {'class': 'form-label', 'for': 'floatingInputCode'}}) }}
+                        {{ form_widget(form.code, { 'attr': { 'class': 'form-control', 'id':'floatingInputCode', 'type':'text', 'placeholder': 'Code'|trans }}) }}
+                        {{ form_errors(form.code) }}
+                    </div>
+
+                    <div class="col-sm-6 col-md-12">
+                        {{ form_label(form.name,  'Name'|trans, {'label_attr': {'class': 'form-label', 'for': 'floatingInputname'}}) }}
+                        {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'floatingInputname', 'type':'text', 'placeholder': 'Name'|trans }}) }}
+                        {{ form_errors(form.name) }}
+                    </div>
+
+                    <div class="col-sm-6 col-md-12">
+                        {{ form_label(form.contact,  'Contact'|trans, {'label_attr': {'class': 'form-label', 'for': 'floatingInputContact'}}) }}
+                        {{ form_widget(form.contact, { 'attr': { 'class': 'form-control', 'id':'floatingInputContact', 'type':'text', 'placeholder': 'Contact'|trans }}) }}
+                        {{ form_errors(form.contact) }}
+                    </div>
+
+                    <div class="col-sm-6 col-md-6">
+                        {{ form_label(form.phone,  'Phone'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputphone'}}) }}
+                        {{ form_widget(form.phone, { 'attr': { 'class': 'form-control', 'id':'inputphone', 'type':'text', 'placeholder': 'Phone'|trans }}) }}
+                        {{ form_errors(form.contact) }}
+                    </div>
+
+                    <div class="col-sm-6 col-md-6">
+                        {{ form_label(form.email,  'Email'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputEmail'}}) }}
+                        {{ form_widget(form.email, { 'attr': { 'class': 'form-control', 'id':'inputEmail', 'type':'text', 'placeholder': 'Email'|trans }}) }}
+                        {{ form_errors(form.email) }}
+                    </div>
+
+                    <div class="col-12 gy-6">
+                        <div class="row g-3 justify-content-end">
+                            <div class="col-auto">
+                                <a href="{{ path('app_carrier') }}" class="btn btn-phoenix-primary px-5">{{ 'Cancel' |trans }}</a>
+                            </div>
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary px-5">{{ 'Save' |trans }}</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-       
 
-         {{ form_end(form) }}
+        {{ form_end(form) }}
     </div>
 </div>

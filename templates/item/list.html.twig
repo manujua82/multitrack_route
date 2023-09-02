@@ -17,7 +17,7 @@
                 <td class="name align-middle white-space-nowrap">{{ entity.name }}</td>
                 <td class="unit align-middle white-space-nowrap">{{ entity.unit }}</td>
                 <td class="barcode align-middle white-space-nowrap">{{ entity.barcode }}</td>
-                <td class="barcode align-middle white-space-nowrap">{{ entity.price }}</td>
+                <td class="barcode align-middle white-space-nowrap">{{ entity.price | format_currency('USD')}}</td>
                 <td class="actions align-middle white-space-nowrap">
                     <a class="btn btn-primary btn-sm" href="{{ path('app_item_edit', { itemEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
                         <i class="fa fa-pencil"></i>
