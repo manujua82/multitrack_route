@@ -38,6 +38,27 @@ class OrderRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllByCompany(): array
+    {
+        return $this->createQueryBuilder('o')
+            ->leftJoin('o.shipFrom', 'w')
+            ->addSelect('w')
+            ->leftJoin('o.shipper', 's')
+            ->addSelect('s')
+            ->leftJoin('o.customerId', 'c')
+            ->addSelect('c')
+            ->leftJoin('o.addressId', 'a')
+            ->addSelect('a')
+            ->andWhere('o.company = :company')
+            ->setParameter('company', $this->mainCompany)
+            ->orderBy('o.created', 'DESC')
+            ->addSelect('s')
+            ->getQuery()
+            ->getResult();
+    }
+
+
+
 //    /**
 //     * @return Order[] Returns an array of Order objects
 //     */

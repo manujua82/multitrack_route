@@ -1,15 +1,23 @@
 <div {{ attributes }}>
-    <div class="overflow-auto">
+    <div>
         <form
             data-action="live#action"
             data-action-name="prevent|saveOrder">
+
+            <div class="d-sm-flex justify-content-between">
+                <h3>{{ 'Order' |trans }}</h3>
+                <div class="d-flex mb-3">
+                    <a href="{{ path('app_order') }}" class="btn btn-link text-danger px-3 my-0">{{ 'Cancel' |trans}}</a>
+                    <button class="btn btn-primary my-0">{{ 'Save' | trans }}</button>
+                </div>
+            </div>
 
             <div class="row g-4">  
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <div class="row g-3">
                             <div class="col-6">
-                                <label class="text-1000 fw-bold mb-2" for="order-number">{{ 'Order No.' |trans }}</label>
+                                <label class="text-1000 fw-bold mb-2" for="order-number">{{ 'No.' |trans }}</label>
                                 <input
                                     id="order-number"
                                     type="text"
@@ -275,29 +283,31 @@
                     </div>
                 </div>
             </div>
-
+            <div class="mb-6"></div> 
+            
             <div class="mb-4">
                 <div class="d-flex justify-content-between mb-4">
-                    <h3>{{ 'Goods' |trans }}</h3>
-                     <button
-                        data-action="live#action"
-                        data-action-name="addLineItem"
-                        class="btn btn-sm btn-secondary"
-                        type="button"
-                    ><span class="fa fa-plus-circle"></span> Add Item</button>
+                    <h3>{{ 'Goods' |trans }}
+                        <button
+                             data-action="live#action"
+                            data-action-name="addLineItem" 
+                            class="btn btn-link p-0 ms-3">
+                                <span class="fa-solid fa-plus me-1"></span><span>{{'Add new' |trans}}</span>
+                        </button>
+                    </h3>
                 </div>
                     
-                <table class="table">
-                        <thead>
-                            <tr>
-                                <th style="width: 300px;">Description</th>
-                                <th style="width: 100px;">Unit</th>
-                                <th style="width: 100px;">Price</th>
-                                <th style="width: 100px;">Quantity</th>
-                                <th style="width: 100px;">Amount</th>
-                                <th style="width: 200px;">&nbsp;</th>
-                            </tr>
-                        </thead>
+                <table class="table table-borderless table-sm">
+                    <thead>
+                        <tr>
+                            <th style="width: 25%;">{{ 'Description' |trans }}</th>
+                            <th style="width: 15%;">{{ 'Unit' |trans }}</th>
+                            <th style="width: 15%;">{{ 'Price' |trans }}</th>
+                            <th style="width: 15%;">{{ 'Quantity' |trans }}</th>
+                            <th style="width: 15%;">{{ 'Amount' |trans }}</th>
+                            <th style="width: 15%;">{{ 'Actions' |trans }}</th>
+                        </tr>
+                    </thead>
                     <tbody>
                         {% for key, line in lineItems %}
                             {{ component('OrderLineItem', {
@@ -315,7 +325,7 @@
             </div>
 
             <div class="modal-footer border-0 pt-6 px-0 pb-0 ">
-                <button class="btn btn-link text-danger px-3 my-0" data-bs-dismiss="modal" aria-label="Close">Cancel</button>
+                <a href="{{ path('app_order') }}" class="btn btn-link text-danger px-3 my-0">{{ 'Cancel' |trans}}</a>
                 <button class="btn btn-primary my-0">{{ 'Save' | trans }}</button>
             </div>
         </form>

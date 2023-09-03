@@ -55,12 +55,9 @@ class OrderLineItem
     {
         $this->price = $this->count;
         $this->count++;
-        if  ($this->price > 0){
-            dd($itemId);
-        }
+        
         if ($itemId) {
             $this->item = $this->itemRepository->find($itemId);
-            dd($itemId);
         }
     }
 
