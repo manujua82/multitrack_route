@@ -31,4 +31,25 @@ class OrderController extends AbstractController
             'order' => new Order(),
         ]);
     }
+
+    #[Route('/order/{orderEntity}/edit', name: 'app_order_edit')]
+    public function edit(
+        Order $orderEntity,
+        Request $request
+    ): Response
+    {
+        return $this->render('order/_form.html.twig', [
+            'order' => $orderEntity,
+        ]);
+    }
+
+    #[Route('/order/{orderEntity}/delete', name: 'app_order_delete')]
+    public function delete(
+        Order $orderEntity,
+        Request $request
+    ): Response
+    {
+        return $this->redirectToRoute('app_order');
+    }
+
 }

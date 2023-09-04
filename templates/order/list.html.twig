@@ -21,10 +21,10 @@
                 <td class="align-middle white-space-nowrap">{{ entity.addressZone }}</td>
                 <td class="align-middle white-space-nowrap"></td>
                 <td class="actions align-middle white-space-nowrap">
-                    <a class="me-2" href="{{ path('app_driver_edit', { driverEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
+                    <a class="me-2" href="{{ path('app_order_edit', { orderEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
                         <i class="fa fa-pen-to-square"></i>
                     </a> 
-                    <a href="{{ path('app_driver_delete', { driverEntity: entity.id }) }}" data-original-title="Remove" data-toggle="tooltip">
+                    <a href="{{ path('app_order_delete', { orderEntity: entity.id }) }}" data-original-title="Remove" data-toggle="tooltip">
                         <i class="fa fa-trash"></i>
                     </a>
                 </td>
