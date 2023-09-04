@@ -46,6 +46,3 @@ hooks:
         set -x -e
 
         symfony-deploy
-
-relationships:
-    database: "db:mysql"
