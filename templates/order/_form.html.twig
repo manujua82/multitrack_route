@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row flex-center  py-5">
+        <div class="col-xl-6">  
+            {{ component('OrderForm', {
+                order: order
+            }) }}
+        </div>
+    </div>
+{% endblock %}

@@ -5,6 +5,7 @@
             <th class="sort align-middle" scope="col" data-sort="name" style="width:30%; min-width:200px;">{{ 'Name' |trans }}</th>
             <th class="align-middle pe-3" scope="col" style="width:10%; min-width:200px;">{{ 'Unit' |trans }}</th>
             <th class="align-middle" scope="col" style="width:30%;  min-width:200px;">{{ 'Barcode' |trans }}</th>
+            <th class="align-middle" scope="col" style="width:30%;  min-width:200px;">{{ 'Price' |trans }}</th>
             <th class="align-middle" scope="col" style="width:20%;  min-width:200px;">{{ 'Actions' |trans }}</th>
         </tr>
     </thead>
@@ -16,6 +17,7 @@
                 <td class="name align-middle white-space-nowrap">{{ entity.name }}</td>
                 <td class="unit align-middle white-space-nowrap">{{ entity.unit }}</td>
                 <td class="barcode align-middle white-space-nowrap">{{ entity.barcode }}</td>
+                <td class="barcode align-middle white-space-nowrap">{{ entity.price | format_currency('USD')}}</td>
                 <td class="actions align-middle white-space-nowrap">
                     <a class="btn btn-primary btn-sm" href="{{ path('app_item_edit', { itemEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
                         <i class="fa fa-pencil"></i>

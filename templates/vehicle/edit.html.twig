@@ -1,5 +1,5 @@
-{% extends 'vehicle/_baseVehicle.html.twig' %}
+{% extends 'base.html.twig' %}
 
-{% block title %}
-      <h2 class="text-center">{{ 'Edit vehicle' |trans }}</h2>
+{% block body %}
+      {{ include('vehicle/_form.html.twig') }}
 {% endblock %}

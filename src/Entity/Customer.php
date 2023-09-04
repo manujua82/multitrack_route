@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -27,26 +28,35 @@ class Customer
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $contact = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $phone = null;
-
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
-    #[Assert\Time]
     private ?\DateTimeInterface $timeFrom = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
-    #[Assert\Time]
     private ?\DateTimeInterface $timeUntil = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $priority = null;
 
-    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Address::class, orphanRemoval: true)]
-    private Collection $address;
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Address::class, cascade: ['persist'], orphanRemoval: true)]
+    private Collection $addresses;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $email = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $created = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?MainCompany $company = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $phone = null;
 
     public function __construct()
     {
-        $this->address = new ArrayCollection();
+        $this->created = new DateTime();
+        $this->addresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -90,18 +100,6 @@ class Customer
         return $this;
     }
 
-    public function getPhone(): ?int
-    {
-        return $this->phone;
-    }
-
-    public function setPhone(?int $phone): static
-    {
-        $this->phone = $phone;
-
-        return $this;
-    }
-
     public function getTimeFrom(): ?\DateTimeInterface
     {
         return $this->timeFrom;
@@ -141,15 +139,21 @@ class Customer
     /**
      * @return Collection<int, Address>
      */
-    public function getAddress(): Collection
+    public function getAddresses(): Collection
     {
-        return $this->address;
+        return $this->addresses;
+    }
+
+    public function setAddresses(Collection $addresses): static
+    {
+        $this->addresses = $addresses;
+        return $this;
     }
 
     public function addAddress(Address $address): static
     {
-        if (!$this->address->contains($address)) {
-            $this->address->add($address);
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
             $address->setCustomer($this);
         }
 
@@ -158,12 +162,60 @@ class Customer
 
     public function removeAddress(Address $address): static
     {
-        if ($this->address->removeElement($address)) {
+        if ($this->addresses->removeElement($address)) {
             // set the owning side to null (unless already changed)
             if ($address->getCustomer() === $this) {
                 $address->setCustomer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(?string $email): static
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): static
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    public function getCompany(): ?MainCompany
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?MainCompany $company): static
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(?string $phone): static
+    {
+        $this->phone = $phone;
 
         return $this;
     }

@@ -36,6 +36,9 @@ class Item
     #[ORM\JoinColumn(nullable: false)]
     private ?MainCompany $company = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 20, scale: 5, nullable: true)]
+    private ?string $price = null;
+
     public function __construct()
     {
         $this->created = new DateTime;
@@ -114,6 +117,18 @@ class Item
     public function setCompany(?MainCompany $company): static
     {
         $this->company = $company;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?string $price): static
+    {
+        $this->price = $price;
 
         return $this;
     }

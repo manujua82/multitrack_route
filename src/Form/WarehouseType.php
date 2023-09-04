@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Warehouse;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,8 +20,12 @@ class WarehouseType extends AbstractType
             ->add('postalCode')
             ->add('country')
             ->add('fullAddress')
-            ->add('latitude')
-            ->add('longitude')
+            ->add('latitude', NumberType::class, [
+                'scale' => 15
+            ])
+            ->add('longitude',NumberType::class, [
+                'scale' => 10
+            ])
         ;
     }
 
