@@ -15,8 +15,7 @@ export default class extends Controller {
     ];
 
     connect() {
-        console.log(`connect`);
-        const key = 'AIzaSyDlaB5dvKr0EyfP6_UgD5fSbW_U5ZIZ6vI';
+        const key = '';
         const addressValue = `${this.streetTarget.value}, ${this.cityTarget.value}, ${this.stateTarget.value} ${this.postalCodeTarget.value}, ${this.countryTarget.value}`;
         const mapUri = this.getMapUrl(key, addressValue);
         this.mapObjTarget.innerHTML = this.getMapHtml(mapUri);
@@ -25,7 +24,7 @@ export default class extends Controller {
     async onLocationClick() {
         // console.log(`onLocationClick`);
         const addressValue = `${this.streetTarget.value}, ${this.cityTarget.value}, ${this.stateTarget.value} ${this.postalCodeTarget.value}, ${this.countryTarget.value}`;
-        const key = 'AIzaSyDlaB5dvKr0EyfP6_UgD5fSbW_U5ZIZ6vI';
+        const key = '';
         this.getGeocodingByAddress(addressValue, key);
     }
 
