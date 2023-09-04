@@ -1,3 +1,4 @@
 
-mysql:
-    type: mysql:10.11
+mariadb:
+    type: mariadb:10.9.3
+    disk: 1024
