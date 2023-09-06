@@ -63,6 +63,13 @@
                         {% endif %}
                     </div>
 
+                    <div class="col-12 mb-6"></div> 
+            
+                    <div class="col-12 mb-4" >
+                        <h3>{{ 'Customer Details' |trans }}</h3>
+                    </div>
+
+
                     <div class="mb-3">
                         <div class="row g-3">
                             <div class="col-6">
@@ -140,6 +147,7 @@
                         >
                     </div>
                 </div>
+
                 <div class="col-lg-6">
                     <div class="mb-3">
                         <div class="row g-3">
@@ -203,6 +211,12 @@
                         </div>
                     </div>
 
+                    <div class="mb-6"></div> 
+
+                    <div class="mb-4" >
+                        <h3>&nbsp;</h3>
+                    </div>
+
                     <div class="mb-3">
                         <label class="text-1000 fw-bold mb-2">{{ 'Address' | trans }}</label>
                         <select 
@@ -258,6 +272,13 @@
                     </div>
                 </div>
             </div>
+
+            <div class="mb-6"></div> 
+
+            <div class="mb-4">
+                <h3>{{ 'Capacities' |trans }}</h3>
+            </div>
+
             <div class="row g-3">
                 <div class="col-lg-6">
                     <div class="mb-3">
@@ -288,12 +309,12 @@
             <div class="mb-4">
                 <div class="d-flex justify-content-between mb-4">
                     <h3>{{ 'Goods' |trans }}
-                        <button
-                             data-action="live#action"
+                        <a
+                            data-action="live#action"
                             data-action-name="addLineItem" 
                             class="btn btn-link p-0 ms-3">
                                 <span class="fa-solid fa-plus me-1"></span><span>{{'Add new' |trans}}</span>
-                        </button>
+                        </a>
                     </h3>
                 </div>
                     

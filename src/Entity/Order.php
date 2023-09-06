@@ -63,6 +63,7 @@ class Order
     private ?Address $addressId = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank]
     private ?string $addressZone = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]

@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Order;
+use App\Repository\CorrelativesRepository;
 use App\Repository\OrderRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,13 +25,18 @@ class OrderController extends AbstractController
 
     #[Route('/order/new', name: 'app_order_new')]
     public function add(
-        Request $request, 
-        OrderRepository $repository,
-        TranslatorInterface $translator
+        CorrelativesRepository $correlativesRepository,
     ): Response
     {
+        $orderCorrelative = $correlativesRepository->getByDocumentType("ORDER");
+        $newOrder = new Order();
+        $newOrder->setNumber($orderCorrelative->getNewNumber());
+        $newOrder->setCreated(new DateTime());    
+       
+        $correlativesRepository->update($orderCorrelative, true);
+
         return $this->render('order/_form.html.twig', [
-            'order' => new Order(),
+            'order' => $newOrder,
         ]);
     }
 
