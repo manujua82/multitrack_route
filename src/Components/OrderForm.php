@@ -11,6 +11,7 @@ use App\Entity\Shipper;
 use App\Entity\Warehouse;
 use App\Repository\ItemRepository;
 use App\Repository\OrderRepository;
+use App\Repository\WarehouseRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,6 +37,7 @@ class OrderForm  extends AbstractController
     use ValidatableComponentTrait;
 
     #[LiveProp(writable: [
+        LiveProp::IDENTITY,
         'number', 
         'type', 
         'barcode',
@@ -50,7 +52,8 @@ class OrderForm  extends AbstractController
         'priority',
         'weight',
         'volume',
-        'pkg'
+        'pkg',
+        'shipFrom',
     ])]
     #[Valid]
     public Order $order;
@@ -93,7 +96,11 @@ class OrderForm  extends AbstractController
     public bool $savedSuccessfully = false;
     public bool $saveFailed = false;
 
-    public function __construct(private ItemRepository $itemRepository, private Security $security)
+    public function __construct(
+        private ItemRepository $itemRepository,
+        private WarehouseRepository $warehouseRepository,
+        private Security $security
+    )
     {
         $this->orderDate = new DateTime();
     }
@@ -102,6 +109,10 @@ class OrderForm  extends AbstractController
     public function mount(Order $order): void
     {
         $this->order = $order;
+        $this->orderDate = $order->getDate();
+        // $this->shipFrom = $this->warehouseRepository->find($order->getShipFrom());
+        
+        // dd($this->warehouseRepository->find($order->getShipFrom()));
     }
 
     #[LiveAction]
@@ -197,9 +208,9 @@ class OrderForm  extends AbstractController
         if ($this->shipper) {
             $this->order->setShipper($this->shipper);
         }
-        if ($this->shipFrom) {
-            $this->order->setShipFrom($this->shipFrom);
-        }
+        // if ($this->shipFrom) {
+        //     $this->order->setShipFrom($this->shipFrom);
+        // }
         if ($this->address) {
             $this->order->setAddressId($this->address);
         }
@@ -209,6 +220,8 @@ class OrderForm  extends AbstractController
         if ($this->timeUntil) {
             $this->order->setTimeUntil($this->timeUntil);
         }
+
+        dd($this->order);
 
         $this->validate();
     

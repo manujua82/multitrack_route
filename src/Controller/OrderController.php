@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Order;
+use App\Form\OrderType;
 use App\Repository\CorrelativesRepository;
 use App\Repository\OrderRepository;
 use DateTime;
@@ -25,18 +26,25 @@ class OrderController extends AbstractController
 
     #[Route('/order/new', name: 'app_order_new')]
     public function add(
+        Request $request,
         CorrelativesRepository $correlativesRepository,
+        OrderRepository $orderRepository
     ): Response
     {
         $orderCorrelative = $correlativesRepository->getByDocumentType("ORDER");
         $newOrder = new Order();
         $newOrder->setNumber($orderCorrelative->getNewNumber());
         $newOrder->setCreated(new DateTime());    
-       
         $correlativesRepository->update($orderCorrelative, true);
 
+        $form = $this->createForm(OrderType::class, $newOrder);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) { 
+            
+        }
+
         return $this->render('order/_form.html.twig', [
-            'order' => $newOrder,
+            'form' => $form->createView(),
         ]);
     }
 

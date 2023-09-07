@@ -49,7 +49,7 @@
                         <label class="text-1000 fw-bold mb-2">{{ 'Ship From' | trans }}</label>
                         <select 
                             name="shipFrom" 
-                            data-model="shipFrom"
+                            data-model="order.shipFrom"
                             class="{{ _errors.has('shipFrom') ? 'is-invalid' }}"
                             {{ stimulus_controller('symfony/ux-autocomplete/autocomplete', {
                                 url: path('ux_entity_autocomplete', { alias: 'shipFrom' })

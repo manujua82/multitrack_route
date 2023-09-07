@@ -3,9 +3,188 @@
 {% block body %}
     <div class="row flex-center  py-5">
         <div class="col-xl-6">  
-            {{ component('OrderForm', {
-                order: order
-            }) }}
+            {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation"}}) }}
+            <div class="d-sm-flex justify-content-between">
+                <h3>{{ 'Order' |trans }}</h3>
+                <div class="d-flex mb-3">
+                    <a href="{{ path('app_order') }}" class="btn btn-link text-danger px-3 my-0">{{ 'Cancel' |trans}}</a>
+                    <button class="btn btn-primary my-0">{{ 'Save' | trans }}</button>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-3">
+                            {{ form_label(form.number,  'No.'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-number'}}) }}
+                            {{ form_widget(form.number, { 'attr': { 'class': 'form-control', 'id':'order-number', 'type':'text'}}) }}
+                            {{ form_errors(form.number) }}
+                        </div>
+                        
+                        <div class="col-3">
+                            {{ form_label(form.type,  'Type'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-type'}}) }}
+                            {{ form_widget(form.type, { 'attr': { 'class': 'form-select', 'id':'order-type', 'type':'text'}}) }}
+                            {{ form_errors(form.type) }}
+                        </div>
+
+                        <div class="col-3">
+                            {{ form_label(form.date,  'Date'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-date'}}) }}
+                            {{ form_widget(form.date, { 'attr': { 'class': 'form-control datetimepicker', 'id':'order-date', 'type':'date'}}) }}
+                            {{ form_errors(form.date) }}
+                        </div>
+
+                        <div class="col-3">
+                            {{ form_label(form.priority,  'Priority'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-priority'}}) }}
+                            {{ form_widget(form.priority, { 'attr': { 'class': 'form-select', 'id':'order-priority', 'type':'text'}}) }}
+                            {{ form_errors(form.priority) }}
+                        </div>
+                    </div>
+                </div>
+
+            
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-6">
+                            {{ form_label(form.shipFrom,  'Ship From'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-shipFrom'}}) }}
+                            {{ form_widget(form.shipFrom, { 'attr': { 'class': 'form-select', 'id':'order-shipFrom', 'type':'text'}}) }}
+                            {{ form_errors(form.shipFrom) }}
+                        </div>
+                        <div class="col-3">
+                            {{ form_label(form.shipper,  'Shipper'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-shipper'}}) }}
+                            {{ form_widget(form.shipper, { 'attr': { 'class': 'form-control', 'id':'order-shipper', 'type':'text'}}) }}
+                            {{ form_errors(form.shipper) }}
+                        </div>
+                        <div class="col-3">
+                            {{ form_label(form.barcode,  'Barcode'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-barcode'}}) }}
+                            {{ form_widget(form.barcode, { 'attr': { 'class': 'form-control', 'id':'order-barcode', 'type':'text'}}) }}
+                            {{ form_errors(form.barcode) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12" >
+                <h3>{{ 'Customer Details' |trans }}</h3>
+            </div>
+
+            <div class="col-12">
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-3">
+                            {{ form_label(form.customerId,  'Customer Code'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-customer'}}) }}
+                            {{ form_widget(form.customerId, { 'attr': { 'class': 'form-control form-select', 'id':'order-customer', 'type':'text'}}) }}
+                            {{ form_errors(form.customerId) }}
+                        </div> 
+
+                        <div class="col-3">
+                            {{ form_label(form.customerName,  'Customer Name'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order.customerName'}}) }}
+                            {{ form_widget(form.customerName, { 'attr': { 'class': 'form-control', 'id':'order.customerName', 'type':'text'}}) }}
+                            {{ form_errors(form.customerName) }}
+                        </div> 
+
+                        <div class="col-6">
+                            {# TODO: ADDRESS FROM CUSTOMER #}
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="row ">
+                        <div class="col-6">
+                            {{ form_label(form.contactName,  'Contact Name'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order.conctat'}}) }}
+                            {{ form_widget(form.contactName, { 'attr': { 'class': 'form-control', 'id':'order.conctat', 'type':'text'}}) }}
+                            {{ form_errors(form.contactName) }}
+                        </div> 
+                        <div class="col-6">
+                            {{ form_label(form.addressZone,  'Address Zone'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order.addressZone'}}) }}
+                            {{ form_widget(form.addressZone, { 'attr': { 'class': 'form-control', 'id':'order.addressZone', 'type':'text'}}) }}
+                            {{ form_errors(form.addressZone) }}
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-3">
+                            {{ form_label(form.customerPhone,  'Contact Phone'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-phone'}}) }}
+                            {{ form_widget(form.customerPhone, { 'attr': { 'class': 'form-control', 'id':'order-phone', 'type':'text'}}) }}
+                            {{ form_errors(form.customerPhone) }}
+                        </div> 
+
+                        <div class="col-3">
+                            {{ form_label(form.customerEmail,  'Contact Email'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-email'}}) }}
+                            {{ form_widget(form.customerEmail, { 'attr': { 'class': 'form-control', 'id':'order-email', 'type':'text'}}) }}
+                            {{ form_errors(form.customerEmail) }}
+                        </div> 
+
+                        <div class="col-3">
+                            {{ form_label(form.timeFrom,  'Time From'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-timeForm'}}) }}
+                            {{ form_widget(form.timeFrom, { 'attr': { 'class': 'form-control datetimepicker', 'id':'order-timeForm', 'type':'text', 'placeholder': 'hour : minute'|trans, 'data-options':'{"enableTime":true,"noCalendar":true,"dateFormat":"H:i","disableMobile":true}'}}) }}
+                            {{ form_errors(form.timeFrom) }}
+                        </div> 
+
+                        <div class="col-3">
+                            {{ form_label(form.timeUntil,  'Time Until'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-timeUntil'}}) }}
+                            {{ form_widget(form.timeUntil, { 'attr': { 'class': 'form-control datetimepicker', 'id':'order-timeUntil', 'type':'text', 'placeholder': 'hour : minute'|trans, 'data-options':'{"enableTime":true,"noCalendar":true,"dateFormat":"H:i","disableMobile":true}'}}) }}
+                            {{ form_errors(form.timeUntil) }}
+                        </div> 
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-6">
+                            {{ form_label(form.note,  'Note'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-note'}}) }}
+                            {{ form_widget(form.note, { 'attr': { 'class': 'form-control', 'id':'order-note', 'type':'text'}}) }}
+                            {{ form_errors(form.note) }}
+                        </div> 
+
+                        <div class="col-3">
+                            {{ form_label(form.serviceTime,  'Service Time'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-servicetime'}}) }}
+                            {{ form_widget(form.serviceTime, { 'attr': { 'class': 'form-control', 'id':'order-servicetime', 'type':'number'}}) }}
+                            {{ form_errors(form.serviceTime) }}
+                        </div> 
+
+                         <div class="col-3">
+                            {{ form_label(form.cod,  'COD'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-cod'}}) }}
+                            {{ form_widget(form.cod, { 'attr': { 'class': 'form-control', 'id':'order-cod', 'type':'number'}}) }}
+                            {{ form_errors(form.cod) }}
+                        </div> 
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-12" >
+                <h3>{{ 'Capacities' |trans }}</h3>
+            </div>
+
+             <div class="col-12">
+                <div class="mb-3">
+                    <div class="row">
+                        <div class="col-3">
+                            {{ form_label(form.weight,  'Weight'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-weight'}}) }}
+                            {{ form_widget(form.weight, { 'attr': { 'class': 'form-control', 'id':'order-weight', 'type':'number'}}) }}
+                            {{ form_errors(form.weight) }}
+                        </div> 
+
+                        <div class="col-3">
+                            {{ form_label(form.volume,  'Volume'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-vol'}}) }}
+                            {{ form_widget(form.volume, { 'attr': { 'class': 'form-control', 'id':'order-vol', 'type':'number'}}) }}
+                            {{ form_errors(form.volume) }}
+                        </div>
+
+                         <div class="col-3">
+                            {{ form_label(form.pkg,  'Plt/Pkg'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-pkg'}}) }}
+                            {{ form_widget(form.pkg, { 'attr': { 'class': 'form-control', 'id':'order-pkg', 'type':'number'}}) }}
+                            {{ form_errors(form.pkg) }}
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+            {{ form_end(form) }}
+
         </div>
     </div>
 {% endblock %}
