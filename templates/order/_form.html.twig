@@ -3,7 +3,7 @@
 {% block body %}
     <div class="row flex-center  py-5">
         <div class="col-xl-6">  
-            {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation"}}) }}
+            {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation", 'id': 'order_form' }}) }}
             <div class="d-sm-flex justify-content-between">
                 <h3>{{ 'Order' |trans }}</h3>
                 <div class="d-flex mb-3">
@@ -70,20 +70,16 @@
             <div class="col-12">
                 <div class="mb-3">
                     <div class="row">
-                        <div class="col-3">
-                            {{ form_label(form.customerId,  'Customer Code'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-customer'}}) }}
+                        <div class="col-6">
+                            {{ form_label(form.customerId,  'Customer'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-customer'}}) }}
                             {{ form_widget(form.customerId, { 'attr': { 'class': 'form-control form-select', 'id':'order-customer', 'type':'text'}}) }}
                             {{ form_errors(form.customerId) }}
                         </div> 
 
-                        <div class="col-3">
-                            {{ form_label(form.customerName,  'Customer Name'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order.customerName'}}) }}
-                            {{ form_widget(form.customerName, { 'attr': { 'class': 'form-control', 'id':'order.customerName', 'type':'text'}}) }}
-                            {{ form_errors(form.customerName) }}
-                        </div> 
-
                         <div class="col-6">
-                            {# TODO: ADDRESS FROM CUSTOMER #}
+                            {{ form_label(form.addressId,  'Address'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-address'}}) }}
+                            {{ form_widget(form.addressId, { 'attr': { 'class': 'form-control form-select', 'id':'order-address', 'type':'text'}}) }}
+                            {{ form_errors(form.addressId) }}
                         </div> 
                     </div>
                 </div>
@@ -119,13 +115,13 @@
 
                         <div class="col-3">
                             {{ form_label(form.timeFrom,  'Time From'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-timeForm'}}) }}
-                            {{ form_widget(form.timeFrom, { 'attr': { 'class': 'form-control datetimepicker', 'id':'order-timeForm', 'type':'text', 'placeholder': 'hour : minute'|trans, 'data-options':'{"enableTime":true,"noCalendar":true,"dateFormat":"H:i","disableMobile":true}'}}) }}
+                            {{ form_widget(form.timeFrom, { 'attr': { 'class': 'form-control datetimepicker', 'id':'order-timeForm', 'type':'text', 'placeholder': 'hour : minute'|trans, 'data-options':'{"enableTime":true,"noCalendar":true,"dateFormat":"H:i ","disableMobile":true}'}}) }}
                             {{ form_errors(form.timeFrom) }}
                         </div> 
 
                         <div class="col-3">
                             {{ form_label(form.timeUntil,  'Time Until'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-timeUntil'}}) }}
-                            {{ form_widget(form.timeUntil, { 'attr': { 'class': 'form-control datetimepicker', 'id':'order-timeUntil', 'type':'text', 'placeholder': 'hour : minute'|trans, 'data-options':'{"enableTime":true,"noCalendar":true,"dateFormat":"H:i","disableMobile":true}'}}) }}
+                            {{ form_widget(form.timeUntil, { 'attr': { 'class': 'form-control datetimepicker', 'id':'order-timeUntil', 'type':'text', 'placeholder': 'hour : minute'|trans, 'data-options':'{"enableTime":true,"noCalendar":true,"dateFormat":"H:i ","disableMobile":true}'}}) }}
                             {{ form_errors(form.timeUntil) }}
                         </div> 
                     </div>
@@ -187,4 +183,58 @@
 
         </div>
     </div>
+
+    <script>
+        const form = document.getElementById('order_form');
+        const form_select_customer = document.getElementById('order_customerId_autocomplete');
+        const form_select_address = document.getElementById('order_addressId');
+
+        const updateForm = async (data, url, method) => {
+            const req = await fetch(url, {
+                method: method,
+                body: data,
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'charset': 'utf-8'
+                }
+            });
+            const text = await req.text();
+            return text;
+        };
+
+        const parseTextToHtml = (text) => {
+            const parser = new DOMParser();
+            const html = parser.parseFromString(text, 'text/html');
+
+            return html;
+        };
+
+        const changeOptions = async (e) => {
+            let requestBody = e.target.getAttribute('name') + '=' + e.target.value;
+            const updateFormResponse = await updateForm(requestBody, form.getAttribute('action'), form.getAttribute('method'));
+            
+            const html = parseTextToHtml(updateFormResponse);
+
+            const new_form_select_address = html.getElementById('order_addressId');
+            form_select_address.innerHTML = new_form_select_address.innerHTML;
+
+            const form_contac_name = document.getElementById('order_contactName');
+            form_contac_name.value = html.getElementById('order_contactName').value;
+
+            const form_contac_phone = document.getElementById('order_customerPhone');
+            form_contac_phone.value = html.getElementById('order_customerPhone').value;
+
+            const form_contac_email = document.getElementById('order_customerEmail');
+            form_contac_email.value = html.getElementById('order_customerEmail').value;
+
+            const form_time_from = document.getElementById('order_timeFrom');
+            form_time_from.value = html.getElementById('order_timeFrom').value;
+
+            const form_time_until = document.getElementById('order_timeUntil');
+            form_time_until.value = html.getElementById('order_timeUntil').value;
+        };
+
+        form_select_customer.addEventListener('change', (e) => changeOptions(e));
+    </script>
 {% endblock %}
+

@@ -193,4 +193,8 @@ class Address
 
         return $this;
     }
+
+    public function __toString() {
+        return $this->street . ", " . $this->city . ", " . $this->state . " " . $this->postalcode;
+    }
 }

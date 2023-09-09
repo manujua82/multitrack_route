@@ -24,20 +24,19 @@ class OrderController extends AbstractController
         ]);
     }
 
-    #[Route('/order/new', name: 'app_order_new')]
+    #[Route('/order/new', name: 'app_order_new', methods: ['GET', 'POST'])]
     public function add(
         Request $request,
         CorrelativesRepository $correlativesRepository,
         OrderRepository $orderRepository
     ): Response
     {
-        $orderCorrelative = $correlativesRepository->getByDocumentType("ORDER");
         $newOrder = new Order();
-        $newOrder->setNumber($orderCorrelative->getNewNumber());
-        $newOrder->setCreated(new DateTime());    
-        $correlativesRepository->update($orderCorrelative, true);
-
-        $form = $this->createForm(OrderType::class, $newOrder);
+        $form = $this->createForm(OrderType::class, $newOrder, ['action' => $this->generateUrl('app_order_new')]);
+        $orderCorrelative = $correlativesRepository->getByDocumentType("ORDER");
+        $form->get('number')->setData($orderCorrelative->getNewNumber());
+        // $correlativesRepository->update($orderCorrelative, true);
+        $form->get('date')->setData(new DateTime());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
             
@@ -54,8 +53,14 @@ class OrderController extends AbstractController
         Request $request
     ): Response
     {
+        $form = $this->createForm(OrderType::class, $orderEntity, ['action' => $this->generateUrl('app_order_edit')]);
+        $form->get('date')->setData($orderEntity->getDate());
+        if ($form->isSubmitted() && $form->isValid()) { 
+            
+        }
+
         return $this->render('order/_form.html.twig', [
-            'order' => $orderEntity,
+            'form' => $form->createView(),
         ]);
     }
 
