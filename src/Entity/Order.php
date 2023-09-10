@@ -102,6 +102,12 @@ class Order
     #[ORM\Column(type: Types::DECIMAL, precision: 20, scale: 5, nullable: true)]
     private ?string $pkg = null;
 
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    private ?Route $route = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $status = null;
+
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
@@ -431,6 +437,30 @@ class Order
     public function setPkg(?string $pkg): static
     {
         $this->pkg = $pkg;
+
+        return $this;
+    }
+
+    public function getRoute(): ?Route
+    {
+        return $this->route;
+    }
+
+    public function setRoute(?Route $route): static
+    {
+        $this->route = $route;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }
