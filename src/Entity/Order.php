@@ -62,14 +62,13 @@ class Order
     #[Assert\NotBlank]
     private ?Address $addressId = null;
 
-    #[ORM\Column(length: 255)]
-    #[Assert\NotBlank]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $addressZone = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $timeFrom = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $timeUntil = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -91,7 +90,7 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     private ?MainCompany $company = null;
 
-    #[ORM\OneToMany(mappedBy: 'mainOrder', targetEntity: OrderItem::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'mainOrder', targetEntity: OrderItem::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $orderItems;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 20, scale: 5, nullable: true)]
@@ -108,6 +107,9 @@ class Order
         $this->orderItems = new ArrayCollection();
         $this->created = new DateTime();
         $this->date =new DateTime();
+        $this->weight = 0.0;
+        $this->volume = 0.0;
+        $this->pkg = 0.0;
     }
 
     public function getId(): ?int

@@ -1,14 +1,26 @@
 {% extends 'base.html.twig' %}
 
+{% import _self as formMacros %}
+
+{% macro printOrderItemRow(itemForm) %}
+    <td class="align-middle">{{ form_widget(itemForm.item, { 'attr': { 'class': 'form-select form-control-sm', 'type':'text' }}) }}</td>
+    <td class="align-middle">{{ form_widget(itemForm.unitMeasure, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
+    <td class="align-middle">{{ form_widget(itemForm.qty, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
+    <td class="align-middle">{{ form_widget(itemForm.price, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
+    <td class="align-middle">{{ form_widget(itemForm.totalAmount, { 'attr': { 'class': 'form-control form-control-sm', 'disabled': 'disabled', 'type':'text' }}) }}</td>
+{% endmacro %} 
+
 {% block body %}
-    <div class="row flex-center  py-5">
+    <div 
+        class="row flex-center  py-5"
+        {{ stimulus_controller('order-form')}}>
         <div class="col-xl-6">  
             {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation", 'id': 'order_form' }}) }}
             <div class="d-sm-flex justify-content-between">
                 <h3>{{ 'Order' |trans }}</h3>
                 <div class="d-flex mb-3">
                     <a href="{{ path('app_order') }}" class="btn btn-link text-danger px-3 my-0">{{ 'Cancel' |trans}}</a>
-                    <button class="btn btn-primary my-0">{{ 'Save' | trans }}</button>
+                    <button class="btn btn-primary my-0 submit">{{ 'Save' | trans }}</button>
                 </div>
             </div>
 
@@ -179,10 +191,45 @@
                 </div>
             </div>
 
+            <div class="col-12" id="order_list" data-order-form-target='orderList' data-prototype="{{ formMacros.printOrderItemRow(form.orderItems.vars.prototype)|e('html_attr') }}">
+                <div id="header_list" class="d-sm-flex align-items-center" data-order-form-target='headerList'>
+                    <h3>{{ 'Goods' |trans }}</h3>
+                    <a
+                        data-action="order-form#onNewItemClick"
+                        class="btn btn-link p-0 ms-3">
+                            <span class="fa-solid fa-plus me-1"></span><span>{{'Add new' |trans}}</span>
+                    </a>
+                </div>
+
+                <table class="table table-borderless table-sm">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;">{{ 'Description' |trans }}</th>
+                            <th style="width: 10%;">{{ 'Unit' |trans }}</th>
+                            <th style="width: 10%;">{{ 'Qty' |trans }}</th>
+                            <th style="width: 20%;">{{ 'Price' |trans }}</th>
+                            <th style="width: 20%;">{{ 'Amount' |trans }}</th>
+                            <th style="width: 10%;">{{ 'Actions' |trans }}</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody" class="list">
+                        {% for row in form.orderItems %}
+                            <tr class="panel">{{ formMacros.printOrderItemRow(row) }}</tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="modal-footer border-0 pt-6 px-0 pb-0 ">
+                <a href="{{ path('app_order') }}" class="btn btn-link text-danger px-3 my-0">{{ 'Cancel' |trans}}</a>
+                <button class="btn btn-primary my-0 submit">{{ 'Save' | trans }}</button>
+            </div>
+
             {{ form_end(form) }}
 
         </div>
     </div>
+
 
     <script>
         const form = document.getElementById('order_form');
@@ -235,6 +282,7 @@
         };
 
         form_select_customer.addEventListener('change', (e) => changeOptions(e));
+
     </script>
 {% endblock %}
 

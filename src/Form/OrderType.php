@@ -8,6 +8,7 @@ use App\Entity\Order;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -51,6 +52,14 @@ class OrderType extends AbstractType
             ->add('weight', NumberType::class)
             ->add('volume', NumberType::class)
             ->add('pkg', NumberType::class)
+
+            ->add('orderItems', CollectionType::class, [
+                'entry_type' => OrderItemType::class,
+                'label' => ' ',
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ])
         ;
 
         $formModifier = function (FormInterface $form, Customer $customer = null): void {

@@ -132,4 +132,8 @@ class Item
 
         return $this;
     }
+
+    public function __toString() {
+        return (null === $this->name) ? $this->code : $this->name;
+    }
 }
