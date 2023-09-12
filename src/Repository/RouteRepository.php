@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Route;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @extends ServiceEntityRepository<Route>
@@ -16,9 +17,25 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RouteRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $mainCompany;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        Security $security
+    )
     {
-        parent::__construct($registry, Route::class);
+        parent::__construct($registry, Order::class);
+        $this->mainCompany = $security->getUser()->getMainCompany();
+    }
+
+
+    public function add(Route $entity, bool $flush = false): void
+    {
+        $entity->setCompany($this->mainCompany);
+        $this->getEntityManager()->persist($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
 
 //    /**

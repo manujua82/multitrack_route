@@ -31,7 +31,6 @@ class OrderType extends AbstractType
                 ],
             ])
             ->add('date', DateType::class, [
-                'mapped' => false,
                 'widget' => 'single_text', 
             ])
             ->add('barcode')

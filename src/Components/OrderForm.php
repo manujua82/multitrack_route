@@ -10,7 +10,6 @@ use App\Entity\OrderItem;
 use App\Entity\Shipper;
 use App\Entity\Warehouse;
 use App\Repository\ItemRepository;
-use App\Repository\OrderRepository;
 use App\Repository\WarehouseRepository;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;

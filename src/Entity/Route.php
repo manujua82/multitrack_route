@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\RouteRepository;
+use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -32,17 +33,29 @@ class Route
     private ?Vehicle $vehicle = null;
 
     #[ORM\Column]
-    private ?bool $startFromDepot = null;
+    private ?bool $startFromDepot = true;
 
     #[ORM\Column]
-    private ?bool $endAtDepot = null;
+    private ?bool $endAtDepot = true;
 
     #[ORM\OneToMany(mappedBy: 'route', targetEntity: Order::class)]
     private Collection $orders;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Warehouse $shipFrom = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?MainCompany $company = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $created = null;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->created = new DateTime();
     }
 
     public function getId(): ?int
@@ -160,6 +173,42 @@ class Route
                 $order->setRoute(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getShipFrom(): ?Warehouse
+    {
+        return $this->shipFrom;
+    }
+
+    public function setShipFrom(?Warehouse $shipFrom): static
+    {
+        $this->shipFrom = $shipFrom;
+
+        return $this;
+    }
+
+    public function getCompany(): ?MainCompany
+    {
+        return $this->company;
+    }
+
+    public function setCompany(?MainCompany $company): static
+    {
+        $this->company = $company;
+
+        return $this;
+    }
+
+    public function getCreated(): ?\DateTimeInterface
+    {
+        return $this->created;
+    }
+
+    public function setCreated(\DateTimeInterface $created): static
+    {
+        $this->created = $created;
 
         return $this;
     }

@@ -19,7 +19,7 @@
         "symfony/mailer": "6.3.*",
         "symfony/runtime": "6.3.*",
         "symfony/security-bundle": "6.3.*",
-        "symfony/stimulus-bundle": "^2.10",
+        "symfony/stimulus-bundle": "^2.11",
         "symfony/translation": "6.3.*",
         "symfony/twig-bundle": "6.3.*",
         "symfony/ux-autocomplete": "^2.10",

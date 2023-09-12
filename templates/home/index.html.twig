@@ -1,29 +1,61 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
- <div class="d-flex flex-center content-min-h">
-    <div class="text-center py-9"><img class="img-fluid mb-7 d-dark-none" src="../assets/img/spot-illustrations/2.png" width="470" alt="" /><img class="img-fluid mb-7 d-light-none" src="../assets/img/spot-illustrations/dark_2.png" width="470" alt="" />
-        <h1 class="text-800 fw-normal mb-5">Under Construction</h1>
-        <a
-            type="button"
-            data-bs-toggle="modal"
-            data-bs-target="#new-order-modal"
-        >+ Add Category
-        </a>
+
+<div class="pb-9">
+    <div class="row">
+        <div class="col-12">
+            <div class="row align-items-center justify-content-between g-3 mb-3">
+                <div class="col-12 col-md-auto">
+                </div>
+                <div class="col-12 col-md-auto">
+                    <div class="d-flex">
+                        <a 
+                            class="btn btn-primary px-3 px-sm-5 me-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#new-route-modal">
+                            <span class="fas fa-route me-2"></span>
+                            <span>{{ 'Add Route' | trans }}</span>
+                        </a>
+                        <a class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                            <span class="fab fa-first-order me-sm-2"></span>
+                            <span class="d-none d-sm-inline">{{ 'Add Order' | trans }}</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-
-    
-    {% component BootstrapModal with { id: 'new-order-modal' } %}
-        {% block modal_header %}
-            <h3 class="mb-0">New Order Details</h3>
-            <button class="btn btn-sm btn-phoenix-secondary" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times text-danger"></span></button>
-        {% endblock %}
-        {% block modal_body %}
-            {{ component('OrderForm', {
-                order: order
-            }) }}
-        {% endblock %}
-    {% endcomponent %}
-
+    <div class="row g-0 g-md-4 g-xl-6">
+        <div class="col-md-6 col-lg-6 col-xl-6">
+            <div class="table-responsive">
+                <table class="table table-sm fs--1 mb-0">
+                    <thead>
+                        <tr>
+                            <th class="sort border-top" data-sort="no">{{ 'No.' |trans }}</th>
+                            <th class="sort border-top" data-sort="date">{{ 'Date' |trans }}</th>
+                            <th class="sort border-top" data-sort="driver">{{ 'Driver' |trans }}</th>
+                            <th class="border-top" >{{ 'Status' |trans }}</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="col-md-6 col-lg-6 col-xl-6">
+        </div>
+    </div>  
 </div>
+
+     
+{% component BootstrapModal with { id: 'new-route-modal' } %}
+    {% block modal_header %}
+        <h3 class="mb-0">{{ 'Route' | trans }}</h3>
+        <button class="btn btn-sm btn-phoenix-secondary" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times text-danger"></span></button>
+    {% endblock %}
+    {% block modal_body %}
+        {{ component('RouteForm') }}
+    {% endblock %}
+{% endcomponent %} 
+
+
 {% endblock %}  
