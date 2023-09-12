@@ -40,7 +40,7 @@ class ShipFromAutocompleter implements EntityAutocompleterInterface
 
     public function getLabel(object $entity): string
     {
-        return $entity->getName();
+        return $entity->getFullAddress();
     }
 
     public function getValue(object $entity): string

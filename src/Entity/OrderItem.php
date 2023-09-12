@@ -31,7 +31,7 @@ class OrderItem
     #[ORM\Column(type: Types::DECIMAL, precision: 20, scale: 5)]
     private ?string $price = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 20, scale: 5)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 20, scale: 5, nullable: true)]
     private ?string $totalAmount = null;
 
     public function getId(): ?int
@@ -109,5 +109,9 @@ class OrderItem
         $this->totalAmount = $totalAmount;
 
         return $this;
+    }
+
+    public function __toString() {
+        return $this->item->getName();
     }
 }

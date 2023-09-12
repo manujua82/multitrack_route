@@ -80,10 +80,11 @@ class CustomerController extends AbstractController
         TranslatorInterface $translator
     ): Response
     {
+        $repository->delete($customerEntity, true);
+
         $flashMessage = $translator->trans('Customer %code% was deleted', ['%code%' => $customerEntity->getCode()]);
         $this->addFlash('success', $flashMessage);
-
-        $repository->delete($customerEntity, true);
+        
         return $this->redirectToRoute('app_customer');
     }
 }

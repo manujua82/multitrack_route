@@ -21,7 +21,6 @@ $(document).ready(function () {
     $header.append($addNewItem);
 
     $collectionHolder = $('#address_list');
-    // $collectionHolder.append($addNewItem);
     $collectionHolder.data('index', $collectionHolder.find('.panel').length);
 
     $collectionHolder.find('.panel').each(function () {
@@ -81,7 +80,7 @@ function addRemoveButton ($panel) {
         })
     });
 
-    console.log($panelFooter);
+    // console.log($panelFooter);
     // append the footer to the panel
     $panel.append($panelFooter);
 }

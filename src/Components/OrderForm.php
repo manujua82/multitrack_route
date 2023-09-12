@@ -6,10 +6,15 @@ use App\Entity\Address;
 use App\Entity\Customer;
 use App\Entity\Item;
 use App\Entity\Order;
+use App\Entity\OrderItem;
 use App\Entity\Shipper;
 use App\Entity\Warehouse;
-use App\Repository\OrderRepository;
+use App\Repository\ItemRepository;
+use App\Repository\WarehouseRepository;
 use DateTime;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Validator\Constraints\Valid;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
@@ -24,13 +29,14 @@ use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 
 #[AsLiveComponent]
-class OrderForm
+class OrderForm  extends AbstractController
 {
     use ComponentToolsTrait;
     use DefaultActionTrait;
     use ValidatableComponentTrait;
 
     #[LiveProp(writable: [
+        LiveProp::IDENTITY,
         'number', 
         'type', 
         'barcode',
@@ -45,7 +51,8 @@ class OrderForm
         'priority',
         'weight',
         'volume',
-        'pkg'
+        'pkg',
+        'shipFrom',
     ])]
     #[Valid]
     public Order $order;
@@ -88,7 +95,11 @@ class OrderForm
     public bool $savedSuccessfully = false;
     public bool $saveFailed = false;
 
-    public function __construct()
+    public function __construct(
+        private ItemRepository $itemRepository,
+        private WarehouseRepository $warehouseRepository,
+        private Security $security
+    )
     {
         $this->orderDate = new DateTime();
     }
@@ -97,6 +108,10 @@ class OrderForm
     public function mount(Order $order): void
     {
         $this->order = $order;
+        $this->orderDate = $order->getDate();
+        // $this->shipFrom = $this->warehouseRepository->find($order->getShipFrom());
+        
+        // dd($this->warehouseRepository->find($order->getShipFrom()));
     }
 
     #[LiveAction]
@@ -181,20 +196,20 @@ class OrderForm
     }
 
     #[LiveAction]
-    public function saveOrder(OrderRepository $repository, LiveResponder $liveResponder): void
+    public function saveOrder(EntityManagerInterface $entityManager)
     {
-       
         $this->order->setDate($this->orderDate);
-        
+        $this->order->setCompany($this->security->getUser()->getMainCompany());
+    
         if ($this->customer) {
             $this->order->setCustomerId($this->customer);
         }
         if ($this->shipper) {
             $this->order->setShipper($this->shipper);
         }
-        if ($this->shipFrom) {
-            $this->order->setShipFrom($this->shipFrom);
-        }
+        // if ($this->shipFrom) {
+        //     $this->order->setShipFrom($this->shipFrom);
+        // }
         if ($this->address) {
             $this->order->setAddressId($this->address);
         }
@@ -205,12 +220,45 @@ class OrderForm
             $this->order->setTimeUntil($this->timeUntil);
         }
 
-        // $this->validate();
-       
-        // $repository->add($this->order, true);
+        dd($this->order);
 
-        // dd($this->lineItems);
-        
-     
+        $this->validate();
+    
+
+        // remove any items that no longer exist
+        foreach ($this->order->getOrderItems() as $key => $item) {
+            dd($key);
+        }
+
+        // Added Line Items
+        foreach ($this->lineItems as $key => $lineItem) {
+            if (! $lineItem['isEditing']) 
+            {
+                $orderItem = $this->order->getOrderItems()->get($key);
+                if (null === $orderItem)
+                {
+                    $orderItem = new OrderItem();
+                    $entityManager->persist($orderItem);
+                    $this->order->addOrderItem($orderItem);
+                }
+
+                $item = $this->findProduct($lineItem['itemId']);
+                $orderItem->setItem($item);
+                $orderItem->setQty($lineItem['qty']);
+                $orderItem->setUnitMeasure($lineItem['unitMeasure']);
+                $orderItem->setPrice($lineItem['price']);
+                $orderItem->setTotalAmount($lineItem['amount']);
+            }
+        }
+
+        $entityManager->persist($this->order);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_order');
+    }
+
+    private function findProduct(int $id): Item
+    {
+        return $this->itemRepository->find($id);
     }
 }

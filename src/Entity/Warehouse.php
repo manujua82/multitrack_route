@@ -218,9 +218,17 @@ class Warehouse
         return $this;
     }
 
+    public function formatAddress() : string
+    {
+        if ( null === $this->street || null === $this->city ||   $this->state) {
+            return $this->name;
+        }
+
+        return $this->street . ', ' . $this->city . ', ' . $this->state . ' ' . $this->postalCode;
+    }
 
     public function __toString() {
-        return $this->name;
+        return  (null === $this->fullAddress) ?  $this->formatAddress() : $this->fullAddress;
     }
 
     public function getCompany(): ?MainCompany

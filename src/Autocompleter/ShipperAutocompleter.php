@@ -41,7 +41,7 @@ class ShipperAutocompleter implements EntityAutocompleterInterface
 
     public function getLabel(object $entity): string
     {
-        return $entity->getCode() . ': '. $entity->getName();
+        return $entity->getName();
     }
 
     public function getValue(object $entity): string

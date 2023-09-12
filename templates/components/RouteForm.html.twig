@@ -1,0 +1,80 @@
+<div
+    {{ attributes }}
+>
+    {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation", 'id': 'route_form', 'data-action': 'live#action', 'data-action-name': 'prevent|saveOrder'}}) }}
+        
+        <div class="col-xl-12"> 
+            <div class="row">
+                <div class="col-12">
+                    {{ form_label(form.number,  'Number'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'route-number'}}) }}
+                    {{ form_widget(form.number, { 'attr': { 'class': 'form-control', 'id':'route-number', 'type':'text'}}) }}
+                    {{ form_errors(form.number) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-12"> 
+            <div class="row">
+                <div class="col-6">
+                    {{ form_label(form.date,  'Date'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'route-date'}}) }}
+                    {{ form_widget(form.date, { 'attr': { 'class': 'form-control datetimepicker', 'id':'route-date', 'type':'date'}}) }}
+                    {{ form_errors(form.date) }}
+                </div>
+                <div class="col-6">
+                    {{ form_label(form.time,  'Time'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'route-time'}}) }}
+                    {{ form_widget(form.time, { 'attr': { 'class': 'form-control datetimepicker', 'id':'route-time', 'type':'text', 'placeholder': 'hour : minute'|trans, 'data-options':'{"enableTime":true,"noCalendar":true,"dateFormat":"H:i ","disableMobile":true}'}}) }}
+                    {{ form_errors(form.time) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-12"> 
+            <div class="row">
+                <div class="col-12">
+                    {{ form_label(form.shipFrom,  'Ship From'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'route-shipFrom'}}) }}
+                    {{ form_widget(form.shipFrom, { 'attr': { 'class': 'form-select', 'id':'route-shipFrom', 'type':'text'}}) }}
+                    {{ form_errors(form.shipFrom) }}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-12"> 
+            <div class="mb-4">
+                <div class="row">
+                    <div class="col-6">
+                        {{ form_label(form.vehicle,  'Vehicle' |trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'route-vehicle'}}) }}
+                        {{ form_widget(form.vehicle, { 'attr': { 'class': 'form-select', 'id':'route-vehicle', 'type':'text'}}) }}
+                        {{ form_errors(form.vehicle) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_label(form.driver,  'Driver' |trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'route-driver'}}) }}
+                        {{ form_widget(form.driver, { 'attr': { 'class': 'form-select', 'id':'route-driver', 'type':'text'}}) }}
+                        {{ form_errors(form.driver) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-12"> 
+            <div class="row">
+                <div class="col-6">
+                    <div class="form-check form-switch">
+                        {{ form_widget(form.startFromDepot, { 'attr': { 'class': 'form-check-input', 'id':'route-startFromDepot', 'type':'checkbox',  'role': 'switch'}}) }}
+                        {{ form_label(form.startFromDepot,  'Start from depot' |trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'route-startFromDepot'}}) }}
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-check form-switch">
+                        {{ form_widget(form.endAtDepot, { 'attr': { 'class': 'form-check-input', 'id':'route-sendDepot', 'type':'checkbox',  'role': 'switch'}}) }}
+                        {{ form_label(form.endAtDepot,  'End at depot' |trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'route-sendDepot'}}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer border-0 pt-0 px-0 pb-0 "> 
+            <a href="{{ path('app_index') }}" class="btn btn-link text-danger px-3 my-0">{{ 'Cancel' |trans}}</a>
+            <button class="btn btn-primary my-0 submit">{{ 'Save' | trans }}</button>
+        </div> 
+    {{ form_end(form) }}
+</div>

@@ -38,6 +38,14 @@ class OrderRepository extends ServiceEntityRepository
         }
     }
 
+    public function delete(Order $entity, bool $flush = false): void
+    {
+        $this->getEntityManager()->remove($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
     public function findAllByCompany(): array
     {
         return $this->createQueryBuilder('o')

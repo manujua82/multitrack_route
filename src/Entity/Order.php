@@ -62,13 +62,13 @@ class Order
     #[Assert\NotBlank]
     private ?Address $addressId = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $addressZone = null;
 
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $timeFrom = null;
 
-    #[ORM\Column(type: Types::TIME_MUTABLE)]
+    #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $timeUntil = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -90,7 +90,7 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     private ?MainCompany $company = null;
 
-    #[ORM\OneToMany(mappedBy: 'mainOrder', targetEntity: OrderItem::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'mainOrder', targetEntity: OrderItem::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $orderItems;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 20, scale: 5, nullable: true)]
@@ -102,11 +102,20 @@ class Order
     #[ORM\Column(type: Types::DECIMAL, precision: 20, scale: 5, nullable: true)]
     private ?string $pkg = null;
 
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    private ?Route $route = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $status = null;
+
     public function __construct()
     {
         $this->orderItems = new ArrayCollection();
         $this->created = new DateTime();
         $this->date =new DateTime();
+        $this->weight = 0.0;
+        $this->volume = 0.0;
+        $this->pkg = 0.0;
     }
 
     public function getId(): ?int
@@ -428,6 +437,30 @@ class Order
     public function setPkg(?string $pkg): static
     {
         $this->pkg = $pkg;
+
+        return $this;
+    }
+
+    public function getRoute(): ?Route
+    {
+        return $this->route;
+    }
+
+    public function setRoute(?Route $route): static
+    {
+        $this->route = $route;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): static
+    {
+        $this->status = $status;
 
         return $this;
     }
