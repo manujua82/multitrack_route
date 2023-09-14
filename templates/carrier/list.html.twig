@@ -19,10 +19,10 @@
                 <td class="email align-middle white-space-nowrap"><a class="fw-semi-bold" href="mailto:{{ entity.email }}">{{ entity.email }}</td>
                 <td class="phone align-middle white-space-nowrap">{{ entity.phone }}</td>
                 <td class="actions align-middle white-space-nowrap">
-                    <a class="btn btn-primary btn-sm" href="{{ path('app_carrier_edit', { carrierEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
+                    <a class="m-2" href="{{ path('app_carrier_edit', { carrierEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
                         <i class="fa fa-pencil"></i>
                     </a> 
-                    <a class="btn btn-danger btn-sm" href="{{ path('app_carrier_delete', { carrierEntity: entity.id }) }}" data-original-title="Remove" data-toggle="tooltip">
+                    <a href="{{ path('app_carrier_delete', { carrierEntity: entity.id }) }}" data-original-title="Remove" data-toggle="tooltip">
                         <i class="fa fa-trash"></i>
                     </a>
                 </td>

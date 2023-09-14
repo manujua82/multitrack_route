@@ -116,6 +116,7 @@ class Order
         $this->weight = 0.0;
         $this->volume = 0.0;
         $this->pkg = 0.0;
+        $this->status = "unschedule";
     }
 
     public function getId(): ?int

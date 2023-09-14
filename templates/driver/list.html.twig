@@ -26,10 +26,10 @@
                 <td class="zone align-middle white-space-nowrap">{{ entity.zone }}</td>
                 <td class="active  align-middle text-center white-space-nowrap"><i class="{{activeClass}}"></i></td>
                 <td class="actions align-middle white-space-nowrap">
-                    <a class="btn btn-primary btn-sm" href="{{ path('app_driver_edit', { driverEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
+                    <a class="m-2" href="{{ path('app_driver_edit', { driverEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
                         <i class="fa fa-pencil"></i>
                     </a> 
-                    <a class="btn btn-danger btn-sm" href="{{ path('app_driver_delete', { driverEntity: entity.id }) }}" data-original-title="Remove" data-toggle="tooltip">
+                    <a href="{{ path('app_driver_delete', { driverEntity: entity.id }) }}" data-original-title="Remove" data-toggle="tooltip">
                         <i class="fa fa-trash"></i>
                     </a>
                 </td>
