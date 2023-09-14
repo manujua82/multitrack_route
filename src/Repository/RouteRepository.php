@@ -44,6 +44,8 @@ class RouteRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('r')
         ->leftJoin('r.driver', 'd')
         ->addSelect('d')
+        ->leftJoin('r.shipFrom', 'w')
+        ->addSelect('w')
         ->addOrderBy('r.created', 'ASC');
 
         if ($from && $till) {
