@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Order;
+use App\Entity\Route as EntityRoute;
 use App\Repository\RouteRepository;
 use DateInterval;
 use DateTime;
@@ -29,4 +30,13 @@ class HomeController extends AbstractController
             'routes' => $repository->findByDateRange($from, $till)
         ]);
     }
+
+    #[Route('/route/{routeEntity}/delete', name: 'app_route_delete')]
+    public function routeDelete(EntityRoute $routeEntity, RouteRepository $repository): Response
+    {
+        $repository->delete($routeEntity, true);
+        return $this->redirectToRoute('app_index');
+    }
+
+
 }
