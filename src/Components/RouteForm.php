@@ -9,6 +9,7 @@ use App\Repository\RouteRepository;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\ComponentWithFormTrait;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
@@ -62,25 +63,29 @@ class RouteForm extends AbstractController
 
     }
 
+    public function hasValidationErrors(): bool
+    {
+        return $this->getForm()->isSubmitted() && !$this->getForm()->isValid();
+    }
+
     #[LiveAction]
-    public function saveOrder(RouteRepository $repository, LiveResponder $liveResponder)
+    public function saveOrder(RouteRepository $repository, LiveResponder $liveResponder): Response
     {
         // $this->validate();
 
-        // $this->submitForm();
-        // $routeEntity = $this->getForm()->getData();
+        $this->submitForm();
+        $routeEntity = $this->getForm()->getData();
         
-        // $date = $this->formValues['date'];
-        // $time = $this->formValues['time'];
+        $date = $this->formValues['date'];
+        $time = $this->formValues['time'];
         
-        // $routeEntity->setDate(new DateTime($date));
-        // $routeEntity->setTime(new DateTime($date . ' '. $time));
+        $routeEntity->setDate(new DateTime($date));
+        $routeEntity->setTime(new DateTime($date . ' '. $time));
 
-        // dd($routeEntity);
-        // $repository->add($routeEntity, true);
+        $repository->add($routeEntity, true);
 
         $this->dispatchBrowserEvent('modal:close');
-        $this->resetForm();
-        // $this->redirectToRoute('app_index');
+            
+        return $this->redirectToRoute('app_index');
     }
 }

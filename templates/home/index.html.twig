@@ -26,24 +26,82 @@
             </div>
         </div>
     </div>
+    
     <div class="row g-0 g-md-4 g-xl-6">
         <div class="col-md-6 col-lg-6 col-xl-6">
-            <div class="table-responsive">
-                <table class="table table-sm fs--1 mb-0">
-                    <thead>
-                        <tr>
-                            <th class="sort border-top" data-sort="no">{{ 'No.' |trans }}</th>
-                            <th class="sort border-top" data-sort="date">{{ 'Date' |trans }}</th>
-                            <th class="sort border-top" data-sort="driver">{{ 'Driver' |trans }}</th>
-                            <th class="border-top" >{{ 'Status' |trans }}</th>
-                        </tr>
-                    </thead>
-                </table>
+            <div id="routes" data-list='{"valueNames":["no","date","driver"],"page":5,"pagination":true}'>
+                
+                <div class="table-responsive scrollbar ms-n1 ps-1">
+                    <table class="table table-sm fs--1 mb-0" >
+                        <thead>
+                            <tr>
+                                <th class="border-top white-space-nowrap fs--1 align-middle ps-0" style="max-width:20px; width:18px;">
+                                    <div class="form-check mb-0 fs-0">
+                                        <input class="form-check-input" id="bulk-select-routes" type="checkbox" data-bulk-select='{"body":"bulk-select-body", "actions":"bulk-select-actions","replacedElement":"bulk-select-replace-element"}' />
+                                    </div>
+                                </th>
+                                <th class="sort border-top" data-sort="no">{{ 'No.' |trans }}</th>
+                                <th class="sort border-top" data-sort="date">{{ 'Date' |trans }}</th>
+                                <th class="sort border-top" data-sort="time">{{ 'Time' |trans }}</th>
+                                <th class="sort border-top" data-sort="warehouse">{{ 'Ship From' |trans }}</th>
+                                <th class="sort border-top" data-sort="driver">{{ 'Driver' |trans }}</th>
+                                <th class="border-top" >{{ 'Status' |trans }}</th>
+                                <th class="sort border-top text-end align-middle pe-0 ps-4" style="max-width:20px; width:18px;" scope="col"></th>
+                            </tr>
+                        </thead>
+
+                        <tbody class="list" id="bulk-select-body">
+                            {% for route in routes %}
+                                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                                    <td class="fs--1 align-middle">
+                                        <div class="form-check mb-0 fs-0">
+                                            <input 
+                                                class="form-check-input" 
+                                                type="checkbox" 
+                                                data-bulk-select-row= {{ '"id":#{route.id}, "number":#{route.number}'}}
+                                            />
+                                        </div>
+                                    </td>
+                                    <td class="no align-middle white-space-nowrap">{{ route.number }}</td>
+                                    <td class="date align-middle white-space-nowrap">{{ route.date | date('d-m-Y') }}</td>
+                                    <td class="time align-middle white-space-nowrap">{{ route.time | date('h:m:s') }}</td>
+                                    <td class="driver align-middle white-space-nowrap">{{ route.shipFrom.name }}</td>
+                                    <td class="driver align-middle white-space-nowrap">{{ route.driver }}</td>
+                                    <td class=" align-middle white-space-nowrap">
+                                        <div class="badge badge-phoenix fs--2 badge-phoenix-secondary">
+                                            <span class="fw-bold">{{ route.status }}</span>
+                                            {# <span class="ms-1 fas fa-ban"></span> #}
+                                        </div>
+                                    </td>
+                                    <td class="align-middle white-space-nowrap text-end pe-0 ps-4 btn-reveal-trigger">
+                                        <div class="dropdown font-sans-serif btn-reveal-trigger position-static">
+                                            <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                                <span class="fas fa-ellipsis-h fs--2"></span>
+                                            </button>
+                                            <div class="dropdown-menu dropdown-menu-end py-2">
+                                                <a class="dropdown-item" href="#!">{{ 'Edit' | trans}}</a>
+                                                <a class="dropdown-item text-danger" href="#!">{{ 'Delete' | trans}}</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %} 
+                        </div>
+                    </table>
+                </div>
+                <div class="d-flex justify-content-center mt-3">
+                    <button class="page-link" id="paginationPrev" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
+                    <ul class="mb-0 pagination"></ul>
+                    <button class="page-link pe-0" id="paginationNext" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
+                </div>
             </div>
         </div>
+
+
         <div class="col-md-6 col-lg-6 col-xl-6">
         </div>
     </div>  
+
 </div>
 
      

@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Route;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -24,7 +25,7 @@ class RouteRepository extends ServiceEntityRepository
         Security $security
     )
     {
-        parent::__construct($registry, Order::class);
+        parent::__construct($registry, Route::class);
         $this->mainCompany = $security->getUser()->getMainCompany();
     }
 
@@ -38,6 +39,23 @@ class RouteRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByDateRange(DateTime $from, DateTime $till): array
+    {
+        $qb = $this->createQueryBuilder('r')
+        ->leftJoin('r.driver', 'd')
+        ->addSelect('d')
+        ->leftJoin('r.shipFrom', 'w')
+        ->addSelect('w')
+        ->addOrderBy('r.created', 'ASC');
+
+        if ($from && $till) {
+            $qb->andWhere('r.created BETWEEN :dateFrom AND :dateTill')
+                ->setParameter('dateFrom', $from->format('Y-m-d'))
+                ->setParameter('dateTill', $till->format('Y-m-d'));
+        }
+
+        return $qb->getQuery()->getResult();
+    }
 //    /**
 //     * @return Route[] Returns an array of Route objects
 //     */
