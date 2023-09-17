@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use DateTime;
 use App\Repository\CorrelativesRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -32,6 +33,16 @@ class Correlatives
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?MainCompany $company = null;
+
+    public function setCorrelative($company, $documentType, $prefix)
+    {
+        $this->length = 5;
+        $this->lastUsed = 0;
+        $this->company = $company;
+        $this->documentType = $documentType;
+        $this->prefix = $prefix;
+        $this->created = new DateTime();
+    }
 
     public function getId(): ?int
     {
@@ -97,18 +108,17 @@ class Correlatives
     {
         $newNumberStr =  strval($this->lastUsed + 1);
         $newNumberLength = strlen($newNumberStr);
-        
-        if($newNumberLength >= $this->length){
+
+        if ($newNumberLength >= $this->length) {
             return $this->prefix . $newNumberStr;
         }
 
         $number = "";
-        for ($i = $newNumberLength ; $i <= $this->length; $i++)
-        {
+        for ($i = $newNumberLength; $i <= $this->length; $i++) {
             $number .= "0";
         }
 
-        return $this->prefix . $number . $newNumberStr;   
+        return $this->prefix . $number . $newNumberStr;
     }
 
     public function getCreated(): ?\DateTimeInterface
