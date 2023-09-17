@@ -47,16 +47,18 @@
         </div>
 
         <div class="col-sm-6 col-md-6">
-            <div class="form-floating">
-                {{ form_widget(form.plainPassword.first, { 'attr': { 'class': 'form-control', 'id':'passwordInput' ,  'value': currentPassword, 'placeholder': 'password'|trans }}) }}
+            <div class="form-floating inner-addon right-addon">
+                <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer" onclick="myFunction(this)"></div>
+                {{ form_widget(form.plainPassword.first, { 'attr': { 'class': 'form-control', 'id':'passwordInput' ,  'placeholder': 'password'|trans }}) }}
                 {{ form_label(form.plainPassword.first, 'password'|trans, {'label_attr': {'for': 'passwordInput'}}) }}
                 <div class="invalid-feedback">{{ form_errors(form.plainPassword.first) }}</div>
             </div>
         </div>
 
         <div class="col-sm-6 col-md-6">
-            <div class="form-floating">
-                {{ form_widget(form.plainPassword.second, { 'attr': { 'class': 'form-control', 'id':'repeatPasswordInput', 'value': currentPassword, 'placeholder': 'password'|trans }}) }}
+            <div class="form-floating inner-addon right-addon">
+                <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer" onclick="myFunction(this)"></div>
+                {{ form_widget(form.plainPassword.second, { 'attr': { 'class': 'form-control border-right-0', 'id':'repeatPasswordInput', 'placeholder': 'password'|trans }}) }}
                 {{ form_label(form.plainPassword.second, 'Repeat password'|trans, {'label_attr': {'for': 'repeatPasswordInput'}}) }}
                 <div class="invalid-feedback">{{ form_errors(form.plainPassword.second) }}</div>
             </div>
@@ -66,7 +68,7 @@
             <div class="row g-3 justify-content-end">
                 <div class="col-auto">
                     <a href="{{ path('app_driver') }}" class="btn btn-phoenix-primary px-5">{{ 'Cancel' |trans }}</a>
-\               </div>
+               </div>
                 <div class="col-auto">
                     <button type="submit" class="btn btn-primary px-5">{{ 'Save' |trans }}</button>
                 </div>

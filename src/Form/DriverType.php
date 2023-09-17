@@ -42,14 +42,15 @@ class DriverType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'mapped' => false,
+                'required' => $options['require_pass'],
                 'attr' => ['autocomplete' => 'new-password'],
                 'first_options' => [
                     'label' => 'Password',
-                    'mapped' => false
+                    'mapped' => false,
                 ],
                 'second_options' => [
                     'label' => 'Repeated password',
-                    'mapped' => false
+                    'mapped' => false,
                 ],
                 'constraints' => [
                     new NotBlank([
@@ -69,6 +70,7 @@ class DriverType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Driver::class,
+            'require_pass' => true,
         ]);
     }
 }
