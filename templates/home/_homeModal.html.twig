@@ -1,0 +1,27 @@
+{% component BootstrapModal %}
+    {% block modal_header %}
+        <h3 class="mb-0">{{ modalTitle }}</h3>
+        <button 
+            class="btn btn-sm btn-phoenix-secondary"
+            data-bs-dismiss="modal" 
+            aria-label="Close">
+                <span class="fas fa-times text-danger"></span>
+        </button>
+    {% endblock %}
+    {% block modal_body %}
+        <div  
+            data-modal-form-target="modalBody"
+            data-action="submit->modal-form#submitForm"
+        >
+            {{ modalContent|default('Loading...'|trans) }}
+        </div>
+    {% endblock %}
+    {% block modal_footer %}
+        <a class="btn btn-link text-danger px-3 my-0"  data-bs-dismiss="modal" >{{ 'Cancel' |trans}}</a>
+        <button 
+            class="btn btn-primary my-0 submit"
+            data-action="modal-form#submitForm">
+            {{ 'Save' | trans }}
+        </button>
+    {% endblock %}
+{% endcomponent %} 

@@ -1,4 +1,4 @@
-import { Controller } from  '@hotwired/stimulus';
+import { Controller } from  'stimulus';
 
 export default class extends Controller {
 
@@ -70,8 +70,6 @@ export default class extends Controller {
 
             this.latitudeTarget.value = geoResult.geometry.location.lat;
             this.longitudeTarget.value = geoResult.geometry.location.lng;
-
-
         }
     }
 

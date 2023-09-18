@@ -44,7 +44,7 @@ class RegistrationController extends AbstractController
             $company = new MainCompany();
             $company->setName($form->get('email')->getData());
             $entityManager->persist($company);
-
+         
             // encode the plain password
             $user->setMainCompany($company);
             $user->setPassword(
@@ -56,10 +56,11 @@ class RegistrationController extends AbstractController
             if (true === $form['agreeTerms']->getData()) {
                 $user->setAgreedTerms();
             }
+            $entityManager->persist($user);
+            
 
             // TODO: CREATE CORRELATIVES FOR ORDERS AND ROUTER
 
-            $entityManager->persist($user);
             $entityManager->flush();
 
             // generate a signed url and email it to the user
