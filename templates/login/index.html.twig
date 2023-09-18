@@ -23,7 +23,8 @@
 
     <div class="mb-3 text-start">
         <label class="form-label" for="password">{{ 'password'|trans }}</label>
-        <div class="form-icon-container">
+        <div class="form-icon-container inner-addon right-addon">
+            <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer" onclick="toggle_password(this)"></div>
             <input class="form-control form-icon-input" name="_password" type="password" placeholder="{{ 'password'|trans }}" /><span class="fas fa-key text-900 fs--1 form-icon"></span>
         </div>
     </div>

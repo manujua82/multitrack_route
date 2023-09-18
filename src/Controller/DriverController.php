@@ -56,7 +56,7 @@ class DriverController extends AbstractController
     #[Route('/driver/{driverEntity}/edit', name: 'app_driver_edit')]
     public function edit(Driver $driverEntity, Request $request, DriverRepository $driverRepository): Response
     {
-        $form = $this->createForm(DriverType::class, $driverEntity);
+        $form = $this->createForm(DriverType::class, $driverEntity, array("require_pass" => false));
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
 
@@ -70,8 +70,7 @@ class DriverController extends AbstractController
 
         $driverEntity = $form->getData();
         return $this->render('driver/edit.html.twig', [
-            'form' => $form->createView(),
-            'currentPassword' => $driverEntity->getUser()->getPassword() //TODO: decrypt password
+            'form' => $form->createView()
         ]);
     }
 
