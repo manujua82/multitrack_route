@@ -34,14 +34,18 @@ class Correlatives
     #[ORM\JoinColumn(nullable: false)]
     private ?MainCompany $company = null;
 
-    public function setCorrelative($company, $documentType, $prefix)
+    public function __construct()
     {
         $this->length = 5;
         $this->lastUsed = 0;
+        $this->created = new DateTime();
+    }
+
+    public function setCorrelative($company, $documentType, $prefix)
+    {
         $this->company = $company;
         $this->documentType = $documentType;
         $this->prefix = $prefix;
-        $this->created = new DateTime();
     }
 
     public function getId(): ?int
