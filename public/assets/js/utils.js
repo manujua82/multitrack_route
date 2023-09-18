@@ -1,6 +1,5 @@
-function myFunction(element) {
+function toggle_password(element) {
     var x = element.parentElement.getElementsByTagName('input')[0];
-    console.log('INPUT', x)
     if (x.type === "password") {
         element.classList.remove("uil-eye")
         element.classList.add("uil-eye-slash")
