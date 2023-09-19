@@ -46,10 +46,12 @@ class RouteRepository extends ServiceEntityRepository
         ->addSelect('d')
         ->leftJoin('r.shipFrom', 'w')
         ->addSelect('w')
-        ->addOrderBy('r.created', 'ASC');
+        ->andWhere('r.company = :company')
+        ->setParameter('company', $this->mainCompany)
+        ->addOrderBy('r.date', 'ASC');
 
         if ($from && $till) {
-            $qb->andWhere('r.created BETWEEN :dateFrom AND :dateTill')
+            $qb->andWhere('r.date BETWEEN :dateFrom AND :dateTill')
                 ->setParameter('dateFrom', $from->format('Y-m-d'))
                 ->setParameter('dateTill', $till->format('Y-m-d'));
         }

@@ -10,9 +10,9 @@
             <thead>
                 <tr>
                     <th class="border-top white-space-nowrap fs--1 align-middle ps-0" style="max-width:20px; width:18px;">
-                        <div class="form-check mb-0 fs-0">
+                        {# <div class="form-check mb-0 fs-0">
                             <input class="form-check-input" id="bulk-select-routes" type="checkbox" data-bulk-select='{"body":"bulk-select-body", "actions":"bulk-select-actions","replacedElement":"bulk-select-replace-element"}' />
-                        </div>
+                        </div> #}
                     </th>
                     <th class="sort border-top" data-sort="no">{{ 'No.' |trans }}</th>
                     <th class="sort border-top" data-sort="date">{{ 'Date' |trans }}</th>
@@ -28,13 +28,13 @@
                 {% for route in routes %}
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                         <td class="fs--1 align-middle">
-                            <div class="form-check mb-0 fs-0">
+                            {# <div class="form-check mb-0 fs-0">
                                 <input 
                                     class="form-check-input" 
                                     type="checkbox" 
                                     data-bulk-select-row= {{ '"id":#{route.id}, "number":#{route.number}'}}
                                 />
-                            </div>
+                            </div> #}
                         </td>
                         <td class="no align-middle white-space-nowrap">{{ route.number }}</td>
                         <td class="date align-middle white-space-nowrap">{{ route.date | date('d-m-Y') }}</td>
@@ -60,14 +60,14 @@
                         </td>
                     </tr
                 {% endfor %} 
-            </div>
-        </table
+            </tbody>
+        </table>
     </div>
-    <div class="d-flex justify-content-center mt-3">
+    {# <div class="d-flex justify-content-center mt-3">
         <button class="page-link" id="paginationPrev" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
         <ul class="mb-0 pagination"></ul>
         <button class="page-link pe-0" id="paginationNext" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
-    </div>
+    </div> #}
 
     {{ include('home/_homeModal.html.twig', {
         modalTitle: "Edit Route"|trans

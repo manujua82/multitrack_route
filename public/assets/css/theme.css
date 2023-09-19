@@ -34231,3 +34231,14 @@ padding: 10px;
 /* add padding  */
 .left-addon input  { padding-left:  30px; }
 .right-addon input { padding-right: 30px; }
+
+.sortable-ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sortable-li {
+  background: #eee;
+  margin: 1px;
+  padding: 5px 10px;
+}

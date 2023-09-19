@@ -6,6 +6,7 @@ use App\Entity\Order;
 use App\Entity\Route as EntityRoute;
 use App\Form\RouteType;
 use App\Repository\CorrelativesRepository;
+use App\Repository\OrderRepository;
 use App\Repository\RouteRepository;
 use DateInterval;
 use DateTime;
@@ -21,7 +22,8 @@ class HomeController extends AbstractController
     
     public function __construct(
         private CorrelativesRepository $correlativesRepository,
-        private RouteRepository $routeRepository
+        private RouteRepository $routeRepository,
+        private OrderRepository $orderRepository,
     )
     {
     }
@@ -57,7 +59,8 @@ class HomeController extends AbstractController
     public function index(Request $request): Response
     {
         return $this->render('home/index.html.twig', [
-            'routes' => $this->getListOfRoutes()
+            'routes' => $this->getListOfRoutes(),
+            'unscheduleOrders' => $this->orderRepository->getOrdersByStatus('Unschedule')
         ]);
     }
 
