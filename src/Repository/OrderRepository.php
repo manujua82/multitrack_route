@@ -82,7 +82,7 @@ class OrderRepository extends ServiceEntityRepository
     {
         $baseQuery = $this->getBaseOrdersList();
         $baseQuery->andWhere('o.route = :route')
-                  ->setParameter('status', $route);
+                  ->setParameter('route', $route);
         return $baseQuery->getQuery()->getResult();
     }
 
