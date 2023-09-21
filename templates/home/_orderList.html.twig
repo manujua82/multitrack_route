@@ -1,0 +1,39 @@
+<div class="table-responsive scrollbar ms-n1 ps-1">
+    <table class="table table-sm table-hover fs--1 mb-0">
+        <thead>
+            <tr>
+                <th class="border-top align-middle" scope="col"  style="width:15%;">{{ 'Order No.' |trans }}</th>
+                <th class="border-top align-middle" scope="col" style="width:15%;">{{ 'Date' |trans }}</th>
+                <th class="border-top align-middle" scope="col" style="width:20%;">{{ 'Ship From' |trans }}</th>
+                <th class="border-top align-middle" scope="col" style="width:20%;">{{ 'Customer' |trans }}</th>
+                <th class="border-top align-middle" scope="col" style="width:20%;">{{ 'Address' |trans }}</th>
+                <th class="border-top text-end align-middle pe-0 ps-4" style="width:10px;" scope="col"></th>
+            </tr>
+        </thead>
+        
+        <tbody class="list" id="members-table-body" data-sortable-target='{{ targetName }}'>
+            {% if entities is defined %}
+                {% for entity in entities %}
+                    <tr class="hover-actions-trigger btn-reveal-trigger position-static sortable-item-wrapper">
+                        <td class="number align-middle white-space-nowrap">{{ entity.number }}</td>
+                        <td class="date align-middle white-space-nowrap">{{ entity.date |date('d-m-Y')  }}</td>
+                        <td class="align-middle white-space-nowrap">{{ entity.shipFrom.name}}</td>
+                        <td class="align-middle white-space-nowrap">{{ entity.customerId }}</td>
+                        <td class="align-middle white-space-nowrap">{{ entity.addressId }}</td>
+                        <td class="align-middle white-space-nowrap text-end pe-0 ps-4 btn-reveal-trigger">
+                            <div class="dropdown font-sans-serif btn-reveal-trigger position-static">
+                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
+                                    <span class="fas fa-ellipsis-h fs--2"></span>
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end py-2">
+                                    <a class="dropdown-item" data-action="" data-value="">{{ 'Edit' | trans}}</a>
+                                    <a class="dropdown-item text-danger" href="#">{{ 'Delete' | trans}}</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+</div>

@@ -1,17 +1,19 @@
 <div 
     id="routes" 
-    data-list='{"valueNames":["no","date","driver"],"page":5,"pagination":true}'
     {{ stimulus_controller('modal-form', {
         loadingText:  'Loading'|trans
     }) }}
 >  
     <div class="table-responsive scrollbar ms-n1 ps-1">
-        <table class="table table-sm fs--1 mb-0" >
+        <table 
+            class="table table-hover table-sm fs--1 mb-0"  
+            data-reload-content-target="routeTable"
+        >
             <thead>
                 <tr>
                     <th class="border-top white-space-nowrap fs--1 align-middle ps-0" style="max-width:20px; width:18px;">
                         <div class="form-check mb-0 fs-0">
-                            <input class="form-check-input" id="bulk-select-routes" type="checkbox" data-bulk-select='{"body":"bulk-select-body", "actions":"bulk-select-actions","replacedElement":"bulk-select-replace-element"}' />
+                            {# <input class="form-check-input" type="checkbox"/> #}
                         </div>
                     </th>
                     <th class="sort border-top" data-sort="no">{{ 'No.' |trans }}</th>
@@ -24,16 +26,16 @@
                 </tr>
             </thead>
 
-            <tbody class="list" id="bulk-select-body">
+            <tbody class="list">
                 {% for route in routes %}
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                         <td class="fs--1 align-middle">
-                            <div class="form-check mb-0 fs-0">
-                                <input 
-                                    class="form-check-input" 
-                                    type="checkbox" 
-                                    data-bulk-select-row= {{ '"id":#{route.id}, "number":#{route.number}'}}
-                                />
+                            <div class="form-check mb-0 fs-0" id='{{ route.id }}' data-route-id='{{ route.id }}'>
+                                {% if  routeSelected is defined and route.id == routeSelected.id  %}
+                                    <input class="form-check-input"type="checkbox" checked="" />
+                                {% else %}
+                                    <input class="form-check-input" type="checkbox" />
+                                {% endif %}
                             </div>
                         </td>
                         <td class="no align-middle white-space-nowrap">{{ route.number }}</td>
@@ -60,14 +62,14 @@
                         </td>
                     </tr
                 {% endfor %} 
-            </div>
-        </table
+            </tbody>
+        </table>
     </div>
-    <div class="d-flex justify-content-center mt-3">
+    {# <div class="d-flex justify-content-center mt-3">
         <button class="page-link" id="paginationPrev" data-list-pagination="prev"><span class="fas fa-chevron-left"></span></button>
         <ul class="mb-0 pagination"></ul>
         <button class="page-link pe-0" id="paginationNext" data-list-pagination="next"><span class="fas fa-chevron-right"></span></button>
-    </div>
+    </div> #}
 
     {{ include('home/_homeModal.html.twig', {
         modalTitle: "Edit Route"|trans

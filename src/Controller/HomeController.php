@@ -6,6 +6,7 @@ use App\Entity\Order;
 use App\Entity\Route as EntityRoute;
 use App\Form\RouteType;
 use App\Repository\CorrelativesRepository;
+use App\Repository\OrderRepository;
 use App\Repository\RouteRepository;
 use DateInterval;
 use DateTime;
@@ -21,7 +22,8 @@ class HomeController extends AbstractController
     
     public function __construct(
         private CorrelativesRepository $correlativesRepository,
-        private RouteRepository $routeRepository
+        private RouteRepository $routeRepository,
+        private OrderRepository $orderRepository,
     )
     {
     }
@@ -51,22 +53,37 @@ class HomeController extends AbstractController
 
         return $this->routeRepository->findByDateRange($from, $till);
     }
+
+    private function renderDashboard(string $template): Response
+    {
+        $routes = $this->getListOfRoutes();
+        $routeSelected= null;
+        $routeOrders = null;
+        
+        if (count($routes) > 0) {
+            $routeSelected=$routes[0];
+            $routeOrders = $this->orderRepository->getOrderByRoute($routeSelected);
+        }
+
+        return $this->render($template, [
+            'routes' => $routes,
+            'routeOrders' => $routeOrders,
+            'routeSelected' => $routeSelected,
+            'unscheduleOrders' => $this->orderRepository->getOrdersByStatus('Unschedule'),
+        ]);
+    }
     
 
     #[Route('/', name: 'app_index')]
     public function index(Request $request): Response
     {
-        return $this->render('home/index.html.twig', [
-            'routes' => $this->getListOfRoutes()
-        ]);
+        return $this->renderDashboard('home/index.html.twig');
     }
 
-    #[Route('/routelist', name: 'app_route_list',  methods: ['GET', 'POST'])]
+    #[Route('/dashboard', name: 'app_dashboard_refresh',  methods: ['GET', 'POST'])]
     public function routeList(Request $request): Response
     {
-        return $this->render('home/_routeList.html.twig', [
-            'routes' => $this->getListOfRoutes()
-        ]);
+        return $this->renderDashboard('home/_homeDashboard.html.twig');
     }
 
     #[Route('/routenew', name: 'app_route_new', methods: ['GET', 'POST'])]

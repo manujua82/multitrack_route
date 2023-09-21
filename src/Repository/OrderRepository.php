@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Order;
+use App\Entity\Route;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -46,7 +47,7 @@ class OrderRepository extends ServiceEntityRepository
         }
     }
 
-    public function findAllByCompany(): array
+    private function getBaseOrdersList()
     {
         return $this->createQueryBuilder('o')
             ->leftJoin('o.shipFrom', 'w')
@@ -59,10 +60,30 @@ class OrderRepository extends ServiceEntityRepository
             ->addSelect('a')
             ->andWhere('o.company = :company')
             ->setParameter('company', $this->mainCompany)
-            ->orderBy('o.created', 'DESC')
-            ->addSelect('s')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('o.created', 'DESC');
+    }
+
+    public function findAllByCompany(): array
+    {
+        $baseQuery = $this->getBaseOrdersList();
+        return $baseQuery->getQuery()->getResult();
+    }
+
+    public function getOrdersByStatus(string $status): array
+    {
+        $baseQuery =  $this->getBaseOrdersList();
+        $baseQuery->andWhere('o.status = :status')
+                  ->setParameter('status', $status);
+        
+        return $baseQuery->getQuery()->getResult();
+    }
+
+    public function getOrderByRoute(Route $route): array
+    {
+        $baseQuery = $this->getBaseOrdersList();
+        $baseQuery->andWhere('o.route = :route')
+                  ->setParameter('route', $route);
+        return $baseQuery->getQuery()->getResult();
     }
 
 
