@@ -4,7 +4,7 @@ namespace App\Entity;
 
 enum RouteStatus: string
 {
-    case none = "none";
-    case initiated = "initiated";
-    case finalized = "finalized";
+    case NONE = "none";
+    case INITIATED = "initiated";
+    case FINALIZED = "finalized";
 }

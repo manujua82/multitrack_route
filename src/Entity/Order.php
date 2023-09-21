@@ -105,7 +105,7 @@ class Order
     #[ORM\ManyToOne(inversedBy: 'orders')]
     private ?Route $route = null;
 
-    #[ORM\Column(length: 255, enumType: OrderStatus::class)]
+    #[ORM\Column(length: 255)]
     private ?string $status = null;
 
     public function __construct()
@@ -116,7 +116,7 @@ class Order
         $this->weight = 0.0;
         $this->volume = 0.0;
         $this->pkg = 0.0;
-        $this->status = OrderStatus::unschedule;
+        $this->status = OrderStatus::UNSCHEDULE->value;
     }
 
     public function getId(): ?int

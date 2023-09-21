@@ -52,14 +52,14 @@ class Route
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created = null;
 
-    #[ORM\Column(length: 255, enumType: RouteStatus::class)]
+    #[ORM\Column(length: 255)]
     private ?string $status = null;
 
     public function __construct()
     {
         $this->orders = new ArrayCollection();
         $this->created = new DateTime();
-        $this->status = RouteStatus::none;
+        $this->status = RouteStatus::NONE->value;
     }
 
     public function getId(): ?int
