@@ -5,11 +5,12 @@
     <div 
         class="pb-9"
         {{ stimulus_controller('reload-content',  {
-            url: path('app_dashboard_refresh')
+            url: path('app_dashboard_refresh'),
+            addRouteUrl: path('app_route_addOrder'),
         }) }}
-        data-action="modal-form:success->reload-content#refreshContent"
+        data-action="modal-form:success->reload-content#refreshContent sortable:addedOrder->reload-content#addOrderToRoute route-dashboard:routeClicked->reload-content#refreshContent"
     >
-        <div data-reload-content-target="content">    
+        <div data-reload-content-target="content" >    
              {{ include('home/_homeDashboard.html.twig')}}
         </div> 
     </div>
