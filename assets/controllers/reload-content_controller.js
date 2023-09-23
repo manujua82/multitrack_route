@@ -7,7 +7,14 @@ export default class extends Controller {
     static values = {
         url:  String,
         addRouteUrl: String,
+        removeRouteUrl: String,
         routeSelectedId: String
+    }
+
+    routeSelectedId = null;
+
+    connect() {
+        this.routeSelectedId = this.routeSelectedIdValue;
     }
 
     async fetchDashboard(currentRouteId = null) {
@@ -28,24 +35,38 @@ export default class extends Controller {
     }
 
     async refreshContent({ detail: { routeId }} ) {
-        console.log(`refreshContent: ${routeId}`);
+        this.routeSelectedId = routeId;
         this.fetchDashboard(routeId);
     }
 
     async addOrderToRoute( { detail: { items }} ) {
-        var orderIds = [];
-        for (var i = 0; i < items.length; i++) {
-            var row = items[i];
-            var rowOrderId = row.getElementsByTagName("td")[0];
-            
-            orderIds.push(rowOrderId.innerHTML.trim());
-        }
+        var orderIds = this.getRouteOrdersIds(items);
+        const endpointUri = this.getEndpointUri(this.addRouteUrlValue, orderIds);
+        const response =  await fetch(endpointUri);
+        this.contentTarget.innerHTML =  await response.text();
+    }
 
+    async removeOrderToRoute({ detail: { items }} ) {
+        var orderIds = this.getRouteOrdersIds(items);
+        const endpointUri = this.getEndpointUri(this.removeRouteUrlValue, orderIds);
+        const response =  await fetch(endpointUri);
+        this.contentTarget.innerHTML =  await response.text();
+    }
+
+    getEndpointUri (baseUrl, orderIds) {
         const params = new URLSearchParams({
             routeId: this.routeSelectedId,
             orderIds: orderIds,
         });
-        const response =  await fetch(`${this.addRouteUrlValue}?${params.toString()}`);
-        this.contentTarget.innerHTML =  await response.text();
+        return `${baseUrl}?${params.toString()}`
+    }
+
+    getRouteOrdersIds(items) {
+        var orderIds = [];
+        for (var i = 0; i < items.length; i++) {
+            var rowOrderId = items[i].getElementsByTagName("td")[0];
+            orderIds.push(rowOrderId.innerHTML.trim());
+        }
+        return orderIds;
     }
 }
