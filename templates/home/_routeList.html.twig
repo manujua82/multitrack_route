@@ -16,6 +16,8 @@
                             {# <input class="form-check-input" type="checkbox"/> #}
                         </div>
                     </th>
+                    <th>{{ 'Id.' |trans }}</th>
+                     {# <th style="display:none;">{{ 'Id.' |trans }}</th> #}
                     <th class="sort border-top" data-sort="no">{{ 'No.' |trans }}</th>
                     <th class="sort border-top" data-sort="date">{{ 'Date' |trans }}</th>
                     <th class="sort border-top" data-sort="time">{{ 'Time' |trans }}</th>
@@ -38,6 +40,9 @@
                                 {% endif %}
                             </div>
                         </td>
+                        <td class="align-middle white-space-nowrap" >{{ route.id }}</td>
+                        {# <td class="align-middle white-space-nowrap" style="display:none;">{{ route.id }}</td> #}
+
                         <td class="no align-middle white-space-nowrap">{{ route.number }}</td>
                         <td class="date align-middle white-space-nowrap">{{ route.date | date('d-m-Y') }}</td>
                         <td class="time align-middle white-space-nowrap">{{ route.time | date('h:m:s') }}</td>

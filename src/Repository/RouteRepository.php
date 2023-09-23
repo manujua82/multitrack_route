@@ -48,7 +48,9 @@ class RouteRepository extends ServiceEntityRepository
         ->addSelect('w')
         ->andWhere('r.company = :company')
         ->setParameter('company', $this->mainCompany)
-        ->addOrderBy('r.date', 'ASC');
+        ->addOrderBy('r.date', 'DESC') 
+        ->addOrderBy('r.time', 'ASC')
+        ->addOrderBy('r.number', 'DESC');
 
         if ($from && $till) {
             $qb->andWhere('r.date BETWEEN :dateFrom AND :dateTill')

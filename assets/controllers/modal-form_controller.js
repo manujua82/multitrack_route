@@ -1,7 +1,7 @@
 import { Controller } from 'stimulus';
 import { Modal } from 'bootstrap';
 import $ from 'jquery';
-import { useDispatch } from 'stimulus-use';
+// import { useDispatch } from 'stimulus-use';
 
 
 export default class extends Controller {
@@ -16,7 +16,7 @@ export default class extends Controller {
     modal = null;
 
     connect() {
-        useDispatch(this);
+        // useDispatch(this);
     }
 
     async populateFormModal(method = "GET") {
