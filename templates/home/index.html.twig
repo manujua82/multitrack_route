@@ -7,13 +7,10 @@
         {{ stimulus_controller('reload-content',  {
             url: path('app_dashboard_refresh'),
             addRouteUrl: path('app_route_addOrder'),
-            routeSelectedId: routeSelected.id
         }) }}
-        data-action="modal-form:success->reload-content#refreshContent sortable:addedOrder->reload-content#addOrderToRoute"
+        data-action="modal-form:success->reload-content#refreshContent sortable:addedOrder->reload-content#addOrderToRoute route-dashboard:routeClicked->reload-content#refreshContent"
     >
-        <div 
-            data-reload-content-target="content" 
-            {{ stimulus_controller('route-dashboard') }}>    
+        <div data-reload-content-target="content" >    
              {{ include('home/_homeDashboard.html.twig')}}
         </div> 
     </div>

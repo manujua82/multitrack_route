@@ -2,69 +2,12 @@ import { Controller } from 'stimulus';
 
 export default class extends Controller {
 
-    static targets = ['content', 'routeTable'];
+    static targets = ['content'];
 
     static values = {
         url:  String,
         addRouteUrl: String,
         routeSelectedId: String
-    }
-
-    routeList = null;
-    routeSelectedId = null
-
-    routeClickHandler = function(table, route) { 
-        return function () {
-            var cell = route.getElementsByTagName("td")[1];
-
-            console.log(`routeClickHandler`);
-            console.log(this.routeSelectedId);
-            
-            if(this.routeSelectedId !=  cell.innerHTML.trim()) {
-                this.routeSelectedId = cell.innerHTML.trim();
-                console.log(this.routeSelectedId);
-                var routes = table.getElementsByTagName('tr');
-                
-                for (var i = 0; i < routes.length; i++) {
-                    var row = table.rows[i];
-                    var checkInput = row.getElementsByTagName("td")[0];
-                    var rowRouteId = row.getElementsByTagName("td")[1];
-                    
-                    if (typeof checkInput !== 'undefined' && typeof rowRouteId !== 'undefined'){
-                        if (this.routeSelectedId == rowRouteId.innerHTML) {
-                            checkInput.innerHTML = `
-                                <div class="form-check mb-0 fs-0" >
-                                    <input class="form-check-input"type="checkbox" checked=""/>
-                                </div>`;
-                        } else {
-                            checkInput.innerHTML = `
-                                <div class="form-check mb-0 fs-0" >
-                                    <input class="form-check-input"type="checkbox"/>
-                                </div>`;
-                        }
-                    }
-                }
-
-                this.fetchDashboard(this.routeSelectedId);
-            }
-        }
-    }
-
-    addClickEventToRouteList() {
-        var routes = this.routeTableTarget.getElementsByTagName('tr');
-        console.log(`
-            addClickEventToRouteList
-            ${routes.length}
-        `);
-        for (var i = 0; i < routes.length; i++) {
-            var currentRow = this.routeTableTarget.rows[i];
-            currentRow.onclick = this.routeClickHandler(this.routeTableTarget, currentRow).bind(this);
-        }
-    }
-
-    connect() {
-        this.routeSelectedId = this.routeSelectedIdValue
-        this.addClickEventToRouteList();
     }
 
     async fetchDashboard(currentRouteId = null) {
@@ -84,9 +27,9 @@ export default class extends Controller {
         target.style.opacity = 1;
     }
 
-    async refreshContent(event) {
-        this.fetchDashboard();
-        this.addClickEventToRouteList();
+    async refreshContent({ detail: { routeId }} ) {
+        console.log(`refreshContent: ${routeId}`);
+        this.fetchDashboard(routeId);
     }
 
     async addOrderToRoute( { detail: { items }} ) {
