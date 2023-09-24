@@ -5,6 +5,18 @@ export default class extends Controller {
 
     static targets = ['routeOrders', 'unscheduleOrders'];
 
+    dispatchEvent(name, evt){
+        var items = []
+        if (evt.items.length == 0) {
+            items.push(evt.item);
+        } else {
+            items = evt.items;
+        }
+        this.dispatch(name, { detail: { 
+            items: items
+        }})
+    }
+
     connect() {
 
         try {
@@ -15,7 +27,7 @@ export default class extends Controller {
         
         Sortable.create(this.routeOrdersTarget, {
             sort: false,  // sorting inside list
-            // multiDrag: true,
+            multiDrag: true,
             selectedClass: "sortable-selected",
             group: {
                 name: 'routeOrders',
@@ -25,16 +37,13 @@ export default class extends Controller {
             },
             // Element is dropped into the list from another list
             onAdd: function (evt) {
-                var items = []
-                if (evt.items.length == 0) {
-                    items.push(evt.item);
-                } else {
-                    items = evt.items;
-                }
-                this.dispatch('addedOrder', { detail: { 
-                    items: items
-                }})
+                this.dispatchEvent('addedOrder', evt);
             }.bind(this),
+
+            onRemove: function(evt){
+                this.dispatchEvent('removedOrder', evt);
+            }.bind(this),
+
             animation: 100
         });
 

@@ -170,7 +170,27 @@ class HomeController extends AbstractController
         }
 
         $this->routeRepository->add($currentRoute, true);
-        return $this->renderDashboard('home/index.html.twig', $currentRoute);
+        return $this->renderDashboard('home/_homeDashboard.html.twig', $currentRoute);
     }
 
+    #[Route('/route/removeOrder', name: 'app_route_removeOrder', methods: ['GET', 'POST'])]
+    public function removeOrderToRoute(Request $request): Response
+    {
+        $routeId = $request->query->get('routeId');
+        $orderIdsStr = $request->query->get('orderIds');
+        $orderIds = explode(",", $orderIdsStr);
+
+       
+        $currentRoute = $this->routeRepository->find($routeId);
+        foreach ($orderIds as &$orderId) {
+            $currentOrder = $this->orderRepository->find($orderId);
+            $currentRoute->removeOrder($currentOrder);
+            
+            $currentOrder->setStatus(OrderStatus::UNSCHEDULE->value);
+            $currentOrder->setRoute(null);
+        }
+
+        $this->routeRepository->add($currentRoute, true);
+        return $this->renderDashboard('home/_homeDashboard.html.twig', $currentRoute);
+    }
 }
