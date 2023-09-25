@@ -6217,8 +6217,10 @@
     sortableEl.forEach(el => {
       const userOptions = getData(el, 'sortable');
       const options = window._.merge(defaultOptions, userOptions);
-
-      return window.Sortable.create(el, options);
+      if (window.Sortable) {
+        return window.Sortable.create(el, options);
+      }
+      return null;
     });
   };
 

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Entity\MainCompany;
+use App\Entity\Correlatives;
 use App\Form\RegistrationFormType;
 use App\Security\EmailVerifier;
 use DateTime;
@@ -29,47 +30,32 @@ class RegistrationController extends AbstractController
 
     #[Route('/register', name: 'app_register')]
     public function register(
-        Request $request, 
-        UserPasswordHasherInterface $userPasswordHasher, 
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
         EntityManagerInterface $entityManager,
         TranslatorInterface $translator
-    ): Response
-    {
+    ): Response {
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            $company = new MainCompany();
-            $company->setName($form->get('email')->getData());
-            $entityManager->persist($company);
-
-            // encode the plain password
-            $user->setMainCompany($company);
-            $user->setPassword(
-                $userPasswordHasher->hashPassword(
-                    $user,
-                    $form->get('plainPassword')->getData()
-                )
-            );
-            if (true === $form['agreeTerms']->getData()) {
-                $user->setAgreedTerms();
-            }
-
-            // TODO: CREATE CORRELATIVES FOR ORDERS AND ROUTER
-
-            $entityManager->persist($user);
+            $user = $this->registerUser($entityManager, $userPasswordHasher, $user, $form);
             $entityManager->flush();
 
-            // generate a signed url and email it to the user
-            $this->emailVerifier->sendEmailConfirmation('app_verify_email', $user,
-                (new TemplatedEmail())
-                    ->from(new Address('accounts@routepremium.com', 'Route Premium Team'))
-                    ->to($user->getEmail())
-                    ->subject($translator->trans('Please Confirm your Email'))
-                    ->htmlTemplate('registration/confirmation_email.html.twig')
-            );
+            try {
+                // generate a signed url and email it to the user
+                $this->emailVerifier->sendEmailConfirmation(
+                    'app_verify_email',
+                    $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('accounts@routepremium.com', 'Route Premium Team'))
+                        ->to($user->getEmail())
+                        ->subject($translator->trans('Please Confirm your Email'))
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                );
+            } catch (\Exception $e) {
+            }
 
             // do anything else you need here, like send an email
             return $this->redirectToRoute('app_login');
@@ -98,5 +84,45 @@ class RegistrationController extends AbstractController
         $this->addFlash($translator->trans('success'), $translator->trans('Your email address has been verified.'));
 
         return $this->redirectToRoute('app_login');
+    }
+
+    private function registerUser($entityManager, $userPasswordHasher, $user, $form)
+    {
+        $company = $this->registerCompany($entityManager, $form->get('email')->getData());
+        $this->registerCorrelatives($entityManager, $company);
+
+        $user->setMainCompany($company);
+        $user->setPassword(
+            $userPasswordHasher->hashPassword(
+                $user,
+                $form->get('plainPassword')->getData()
+            )
+        );
+        if (true === $form['agreeTerms']->getData()) {
+            $user->setAgreedTerms();
+        }
+
+        $entityManager->persist($user);
+
+        return $user;
+    }
+
+    private function registerCompany($entityManager, $email)
+    {
+        $company = new MainCompany();
+        $company->setName($email);
+        $entityManager->persist($company);
+        return $company;
+    }
+
+    private function registerCorrelatives($entityManager, $company)
+    {
+        $route = new Correlatives();
+        $route->setCorrelative($company, 'ROUTE', 'RT');
+        $entityManager->persist($route);
+
+        $order = new Correlatives();
+        $order->setCorrelative($company, 'ORDER', 'ORD');
+        $entityManager->persist($order);
     }
 }

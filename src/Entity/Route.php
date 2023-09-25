@@ -59,7 +59,7 @@ class Route
     {
         $this->orders = new ArrayCollection();
         $this->created = new DateTime();
-        $this->status = "none";
+        $this->status = RouteStatus::NONE->value;
     }
 
     public function getId(): ?int

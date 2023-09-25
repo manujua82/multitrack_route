@@ -5,8 +5,9 @@
     'aria-labelledby':'addDealModal',
     tabindex: '-1',
     'aria-hidden': 'true',
+    'data-modal-form-target':"modal",
     id: id ? id : false,
-}).defaults(stimulus_controller('bootstrap-modal')) }}>
+}) }}>  
     <div class="modal-dialog modal-md modal-dialog-centered">
         <div class="modal-content bg-100 p-6">
             {% block modal_full_content %}

@@ -17,7 +17,8 @@ class RouteType extends AbstractType
             ->add('number')
             ->add('date', DateType::class, [
                 'mapped' => false,
-                'widget' => 'single_text', 
+                'widget' => 'single_text',
+                
             ])
             ->add('time', null, [
                 'mapped' => false,
