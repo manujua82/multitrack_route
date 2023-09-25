@@ -12,9 +12,9 @@
 
 {% block body %}
     <div 
-        class="row flex-center  py-5"
+        class="row flex-center  py-1"
         {{ stimulus_controller('order-form')}}>
-        <div class="col-xl-6">  
+        <div class="col-xl-7">  
             {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation", 'id': 'order_form' }}) }}
             <div class="d-sm-flex justify-content-between">
                 <h3>{{ 'Order' |trans }}</h3>

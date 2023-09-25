@@ -59,8 +59,9 @@
                 userLinkRTL.setAttribute('disabled', true);
             }
         </script>
+
+        {{ encore_entry_link_tags('app') }}
         {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
         {% endblock %}
 	</head>
     <body>
@@ -251,8 +252,12 @@
         <script src="{{ asset('vendors/leaflet.markercluster/leaflet.markercluster.js') }}"></script>
         <script src="{{ asset('vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js') }}"></script>
         <script src="{{ asset('assets/js/ecommerce-dashboard.js') }}"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key={{google_map_api}}&callback=dispatchMapsEvent"></script>
+         {{ encore_entry_script_tags('app') }}
+
         {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
+
+
         {% endblock %}
     </body>
 </html>
