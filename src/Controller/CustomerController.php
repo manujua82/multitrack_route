@@ -36,7 +36,6 @@ class CustomerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $customerEntity = $form->getData();
             $repository->add($customerEntity, true);
-            // dd($customerEntity); 
 
             $flashMessage = $translator->trans('Customer %code% was created', ['%code%' => $customerEntity->getCode()]);
             $this->addFlash('success', $flashMessage);
@@ -63,7 +62,6 @@ class CustomerController extends AbstractController
             $customerEntity = $form->getData();
             $repository->add($customerEntity, true);
             
-            // dd($customerEntity); 
             return $this->redirectToRoute('app_customer');
         }
 
