@@ -2,8 +2,6 @@ import { Controller } from 'stimulus';
 
 export default class extends Controller {
     connect() {
-        console.log('connect')
-
         var collectionHolder =   $('#address_list');
         collectionHolder.data('index', collectionHolder.find('.panel').length);
 
@@ -57,7 +55,13 @@ export default class extends Controller {
         const addressSearchBoxId = `customer_addresses_${index}_fullAddress`;
         const latitudeBoxId = `customer_addresses_${index}_latitude`;
         const longitudeBoxId = `customer_addresses_${index}_longitude`;
-        
+        const streetBoxId = `customer_addresses_${index}_street`;
+        const cityBoxId = `customer_addresses_${index}_city`;
+        const stateBoxId = `customer_addresses_${index}_state`;
+        const postalcodeBoxId = `customer_addresses_${index}_postalcode`;
+        const countryBoxId = `customer_addresses_${index}_country`;
+
+        console.log(cityBoxId);
     
         if (typeof(google) != "undefined"){
             const addressInput = document.getElementById(addressSearchBoxId);        
@@ -70,12 +74,47 @@ export default class extends Controller {
             autocomplete.addListener("place_changed", () => {
                 const latitudeInput = document.getElementById(latitudeBoxId);
                 const longitudeInput = document.getElementById(longitudeBoxId);
+
+                const streetInput = document.getElementById(streetBoxId);
+                const cityInput = document.getElementById(cityBoxId);
+                const stateInput = document.getElementById(stateBoxId);
+                const postalcodeInput = document.getElementById(postalcodeBoxId);
+                const countryInput = document.getElementById(countryBoxId);
     
                 const place = autocomplete.getPlace();
     
                 latitudeInput.value = place.geometry.location.lat();
                 longitudeInput.value = place.geometry.location.lng();
-                console.log(JSON.stringify(place.address_components, "", 4));
+
+                const streetNumber = place.address_components.find((element) => {
+                    return element.types.includes("street_number")
+                });
+
+                const streetName = place.address_components.find((element) => {
+                    return element.types.includes("route")
+                });
+
+                const city = place.address_components.find((element) => {
+                    return element.types.includes("locality")
+                });
+
+                const state = place.address_components.find((element) => {
+                    return element.types.includes("administrative_area_level_1")
+                });
+
+                const country = place.address_components.find((element) => {
+                    return element.types.includes("country")
+                });
+
+                const postalCode = place.address_components.find((element) => {
+                    return element.types.includes("postal_code")
+                });
+
+                streetInput.value = `${streetNumber.short_name} ${streetName.short_name}`;
+                cityInput.value = city.short_name;
+                stateInput.value = state.short_name;
+                postalcodeInput.value = postalCode.short_name;
+                countryInput.value = country.short_name;
             });
             
         }
