@@ -31,18 +31,17 @@ class DriverType extends AbstractType
                     new NotBlank([
                         'message' => 'Please provide a valid email',
                     ]),
-                    new Email( [
+                    new Email([
                         "message" => "Your email doesn't seems to be valid",
                     ])
                 ]
-            ])
-            ->add('plainPassword', RepeatedType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
+            ]);
+        if ($options['require_pass']) {
+            $builder->add('plainPassword', RepeatedType::class, [
                 'type' => PasswordType::class,
                 'invalid_message' => 'The password fields must match.',
                 'mapped' => false,
-                'required' => $options['require_pass'],
+                'required' => true,
                 'attr' => ['autocomplete' => 'new-password'],
                 'first_options' => [
                     'label' => 'Password',
@@ -64,6 +63,33 @@ class DriverType extends AbstractType
                     ]),
                 ],
             ]);
+        } else {
+            $builder->add('plainPassword', RepeatedType::class, [
+                // instead of being set onto the object directly,
+                // this is read and encoded in the controller
+                'type' => PasswordType::class,
+                'invalid_message' => 'The password fields must match.',
+                'mapped' => false,
+                'required' => false,
+                'attr' => ['autocomplete' => 'new-password'],
+                'first_options' => [
+                    'label' => 'Password',
+                    'mapped' => false,
+                ],
+                'second_options' => [
+                    'label' => 'Repeated password',
+                    'mapped' => false,
+                ],
+                'constraints' => [
+                    new Length([
+                        'min' => 6,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        // max length allowed by Symfony for security reasons
+                        'max' => 4096,
+                    ]),
+                ],
+            ]);
+        }
     }
 
     public function configureOptions(OptionsResolver $resolver): void
