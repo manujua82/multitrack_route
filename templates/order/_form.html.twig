@@ -192,7 +192,7 @@
             </div>
 
             <div class="col-12" id="order_list" data-order-form-target='orderList' data-prototype="{{ formMacros.printOrderItemRow(form.orderItems.vars.prototype)|e('html_attr') }}">
-                <div id="header_list" class="d-sm-flex align-items-center" data-order-form-target='headerList'>
+                <div id="header_list" class="d-sm-flex align-items-center">
                     <h3>{{ 'Goods' |trans }}</h3>
                     <a
                         data-action="order-form#onNewItemClick"

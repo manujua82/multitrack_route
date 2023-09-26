@@ -7,7 +7,6 @@ export default class extends Controller {
         collectionHolder.data('index', collectionHolder.find('.panel').length);
         var _addRemoveButton = this.addRemoveButton;
         collectionHolder.find('.panel').each(function () {
-           
             // $(this) means the current panel that we are at
             // which means we pass the panel to the addRemoveButton function
             // inside the function we create a footer and remove link and append them to the panel
