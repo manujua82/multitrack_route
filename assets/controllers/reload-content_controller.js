@@ -2,65 +2,71 @@ import { Controller } from 'stimulus';
 
 export default class extends Controller {
 
-    static targets = ['content', 'routeTable'];
+    static targets = ['content'];
 
     static values = {
-        url:  String
+        url:  String,
+        addRouteUrl: String,
+        removeRouteUrl: String,
+        routeSelectedId: String
     }
 
-    routeList = null;
-
-    routeClickHandler = function(table, route) {
-        return function () {
-            var cell = route.getElementsByTagName("td")[1];
-            var routeSelectedId = cell.innerHTML;
-        
-            var routes = table.getElementsByTagName('tr');
-            for (var i = 0; i < routes.length; i++) {
-
-                var row = table.rows[i];
-                var checkInput = row.getElementsByTagName("td")[0];
-                var rowRouteId = row.getElementsByTagName("td")[1];
-                
-                if (typeof checkInput !== 'undefined' && typeof rowRouteId !== 'undefined'){
-                    if (routeSelectedId == rowRouteId.innerHTML) {
-                        checkInput.innerHTML = `
-                            <div class="form-check mb-0 fs-0" >
-                                <input class="form-check-input"type="checkbox" checked=""/>
-                            </div>`;
-                    } else {
-                        checkInput.innerHTML = `
-                            <div class="form-check mb-0 fs-0" >
-                                <input class="form-check-input"type="checkbox"/>
-                            </div>`;
-
-                    }
-                }
-            }
-        }
-    }
-
-    addClickEventToRouteList() {
-        var routes = this.routeTableTarget.getElementsByTagName('tr')
-        for (var i = 0; i < routes.length; i++) {
-            var currentRow = this.routeTableTarget.rows[i];
-            currentRow.onclick = this.routeClickHandler(this.routeTableTarget, currentRow);
-        }
-    }
+    routeSelectedId = null;
 
     connect() {
-        this.addClickEventToRouteList();
+        this.routeSelectedId = this.routeSelectedIdValue;
     }
 
-    async refreshContent(event) {
+    async fetchDashboard(currentRouteId = null) {
         const target = this.hasContentTarget ? this.contentTarget : this.element;
-
+        
+        var url = this.urlValue;
+        if (currentRouteId != null) {
+            var params = new URLSearchParams({
+                currentRouteId: currentRouteId,
+            });
+            url = `${url}?${params.toString()}`;
+        }
+       
         target.style.opacity = .5;
-        const response = await fetch(this.urlValue);
+        const response = await fetch(url);
         target.innerHTML = await response.text();
-
         target.style.opacity = 1;
+    }
 
-        this.addClickEventToRouteList();
+    async refreshContent({ detail: { routeId }} ) {
+        this.routeSelectedId = routeId;
+        this.fetchDashboard(routeId);
+    }
+
+    async addOrderToRoute( { detail: { items }} ) {
+        var orderIds = this.getRouteOrdersIds(items);
+        const endpointUri = this.getEndpointUri(this.addRouteUrlValue, orderIds);
+        const response =  await fetch(endpointUri);
+        this.contentTarget.innerHTML =  await response.text();
+    }
+
+    async removeOrderToRoute({ detail: { items }} ) {
+        var orderIds = this.getRouteOrdersIds(items);
+        const endpointUri = this.getEndpointUri(this.removeRouteUrlValue, orderIds);
+        const response =  await fetch(endpointUri);
+        this.contentTarget.innerHTML =  await response.text();
+    }
+
+    getEndpointUri (baseUrl, orderIds) {
+        const params = new URLSearchParams({
+            routeId: this.routeSelectedId,
+            orderIds: orderIds,
+        });
+        return `${baseUrl}?${params.toString()}`
+    }
+
+    getRouteOrdersIds(items) {
+        var orderIds = [];
+        for (var i = 0; i < items.length; i++) {
+            var rowOrderId = items[i].getElementsByTagName("td")[0];
+            orderIds.push(rowOrderId.innerHTML.trim());
+        }
+        return orderIds;
     }
 }

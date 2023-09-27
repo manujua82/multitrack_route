@@ -12,9 +12,9 @@
 
 {% block body %}
     <div 
-        class="row flex-center  py-5"
+        class="row flex-center  py-1"
         {{ stimulus_controller('order-form')}}>
-        <div class="col-xl-6">  
+        <div class="col-xl-7">  
             {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation", 'id': 'order_form' }}) }}
             <div class="d-sm-flex justify-content-between">
                 <h3>{{ 'Order' |trans }}</h3>
@@ -192,7 +192,7 @@
             </div>
 
             <div class="col-12" id="order_list" data-order-form-target='orderList' data-prototype="{{ formMacros.printOrderItemRow(form.orderItems.vars.prototype)|e('html_attr') }}">
-                <div id="header_list" class="d-sm-flex align-items-center" data-order-form-target='headerList'>
+                <div id="header_list" class="d-sm-flex align-items-center">
                     <h3>{{ 'Goods' |trans }}</h3>
                     <a
                         data-action="order-form#onNewItemClick"
