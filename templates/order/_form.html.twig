@@ -7,7 +7,7 @@
     <td class="align-middle">{{ form_widget(itemForm.unitMeasure, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
     <td class="align-middle">{{ form_widget(itemForm.qty, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
     <td class="align-middle">{{ form_widget(itemForm.price, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
-    <td class="align-middle">{{ form_widget(itemForm.totalAmount, { 'attr': { 'class': 'form-control form-control-sm', 'disabled': 'disabled', 'type':'text' }}) }}</td>
+    <td class="align-middle">{{ form_widget(itemForm.totalAmount, { 'attr': { 'class': 'form-control form-control-sm', 'readonly': '', 'type':'text' }}) }}</td>
 {% endmacro %} 
 
 {% block body %}
@@ -58,12 +58,12 @@
                     <div class="row">
                         <div class="col-6">
                             {{ form_label(form.shipFrom,  'Ship From'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-shipFrom'}}) }}
-                            {{ form_widget(form.shipFrom, { 'attr': { 'class': 'form-select', 'id':'order-shipFrom', 'type':'text'}}) }}
+                            {{ form_widget(form.shipFrom) }}
                             {{ form_errors(form.shipFrom) }}
                         </div>
                         <div class="col-3">
                             {{ form_label(form.shipper,  'Shipper'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-shipper'}}) }}
-                            {{ form_widget(form.shipper, { 'attr': { 'class': 'form-control', 'id':'order-shipper', 'type':'text'}}) }}
+                            {{ form_widget(form.shipper) }}
                             {{ form_errors(form.shipper) }}
                         </div>
                         <div class="col-3">
@@ -84,7 +84,7 @@
                     <div class="row">
                         <div class="col-6">
                             {{ form_label(form.customerId,  'Customer'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-customer'}}) }}
-                            {{ form_widget(form.customerId, { 'attr': { 'class': 'form-control form-select', 'id':'order-customer', 'type':'text'}}) }}
+                            {{ form_widget(form.customerId) }}
                             {{ form_errors(form.customerId) }}
                         </div> 
 
@@ -261,7 +261,6 @@
             const updateFormResponse = await updateForm(requestBody, form.getAttribute('action'), form.getAttribute('method'));
             
             const html = parseTextToHtml(updateFormResponse);
-
             const new_form_select_address = html.getElementById('order_addressId');
             form_select_address.innerHTML = new_form_select_address.innerHTML;
 

@@ -58,19 +58,18 @@ class OrderType extends AbstractType
                 'label' => ' ',
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => false,
+                'by_reference' => true,
             ])
         ;
 
         $formModifier = function (FormInterface $form, Customer $customer = null): void {
             $addresses = (null === $customer) ? [] : $customer->getAddresses();
-
             $form->add('addressId', EntityType::class, [
                 'class' => Address::class,
                 'placeholder' => '',
                 'choices' => $addresses,
             ]);
-
+            
             $custContact=  (null === $customer) ? "" : $customer->getContact();
             $form->add('contactName', null,[
                 'empty_data' => $custContact

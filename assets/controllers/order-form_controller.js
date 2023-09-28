@@ -2,15 +2,13 @@ import { Controller } from 'stimulus';
 
 export default class extends Controller {
 
+    form = null;
+
     connect() {
         var collectionHolder =   $('#order_list');
         collectionHolder.data('index', collectionHolder.find('.panel').length);
         var _addRemoveButton = this.addRemoveButton;
         collectionHolder.find('.panel').each(function () {
-            // $(this) means the current panel that we are at
-            // which means we pass the panel to the addRemoveButton function
-            // inside the function we create a footer and remove link and append them to the panel
-            // more informations in the function inside
             _addRemoveButton($(this));
         });
     }
@@ -31,6 +29,37 @@ export default class extends Controller {
         // append the remove button to the new panel
         this.addRemoveButton(panel);
         $('#tbody').append(panel);
+
+        this.addChangeListenerToItem(index);
+    }
+
+
+    addChangeListenerToItem(index) {
+        this.form = document.getElementById('order_form');
+        
+        const orderItem = document.getElementById(`order_orderItems_${index}_item_autocomplete`);
+        const unitMeasure = document.getElementById(`order_orderItems_${index}_unitMeasure`);
+        const qtyInput = document.getElementById(`order_orderItems_${index}_qty`);
+        const priceInput = document.getElementById(`order_orderItems_${index}_price`);
+        const amountInput = document.getElementById(`order_orderItems_${index}_totalAmount`);
+        
+        orderItem.addEventListener('change', async (e) => {
+            let requestBody = e.target.getAttribute('name') + '=' + e.target.value;
+            const updateFormResponse = await updateForm(requestBody, form.getAttribute('action'), form.getAttribute('method'));
+            const html = this.parseTextToHtml(updateFormResponse);
+
+            const newUnitMeasure = html.getElementById(`order_orderItems_${index}_unitMeasure`);
+            unitMeasure.value = newUnitMeasure.value;
+
+            const newQtyInput = html.getElementById(`order_orderItems_${index}_qty`);
+            qtyInput.value = newQtyInput.value;
+
+            const newPriceInput = html.getElementById(`order_orderItems_${index}_price`);
+            priceInput.value = newPriceInput.value;
+
+            const newAmountInput = html.getElementById(`order_orderItems_${index}_totalAmount`);
+            amountInput.value = newAmountInput.value;
+        });
     }
 
     onNewItemClick(e) {
@@ -59,5 +88,24 @@ export default class extends Controller {
     onOrderItemChanged(e) {
         console.log(`onOrderItemChanged: ${e.target}`);
     }
+
+    parseTextToHtml(text){
+        const parser = new DOMParser();
+        const html = parser.parseFromString(text, 'text/html');
+        return html;
+    };
+
+    async updateForm(data, url, method) {
+        const req = await fetch(url, {
+            method: method,
+            body: data,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'charset': 'utf-8'
+            }
+        });
+        const text = await req.text();
+        return text;
+    };
 
 }
