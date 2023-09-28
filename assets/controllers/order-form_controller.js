@@ -5,12 +5,32 @@ export default class extends Controller {
     form = null;
 
     connect() {
+        var _addRemoveButton = this.addRemoveButton;
         var collectionHolder =   $('#order_list');
         collectionHolder.data('index', collectionHolder.find('.panel').length);
-        var _addRemoveButton = this.addRemoveButton;
         collectionHolder.find('.panel').each(function () {
             _addRemoveButton($(this));
         });
+
+        const orderTypeSelect = document.getElementById("order_type");
+        orderTypeSelect.addEventListener('change', this.onOrderTypeChanged);
+    }
+
+    onOrderTypeChanged(e) {
+        e.preventDefault();
+        const pickupDiv =  document.getElementById("pickup_section");
+        const customerLabel =  document.getElementById("customer_label");
+        const deliveryLabel =  document.getElementById("delivery_label");
+
+        if(e.target.value == "Pickup & Delivery"){
+            customerLabel.style.display = "none";
+            deliveryLabel.style.display = "block";
+            pickupDiv.style.display = "block";
+        } else {
+            customerLabel.style.display = "block";
+            deliveryLabel.style.display = "none";
+            pickupDiv.style.display = "none";
+        }
     }
 
     addNewItemForm() {
@@ -32,7 +52,6 @@ export default class extends Controller {
 
         this.addChangeListenerToItem(index);
     }
-
 
     addChangeListenerToItem(index) {
         this.form = document.getElementById('order_form');
@@ -60,7 +79,24 @@ export default class extends Controller {
             const newAmountInput = html.getElementById(`order_orderItems_${index}_totalAmount`);
             amountInput.value = newAmountInput.value;
         });
+
+        qtyInput.addEventListener('change', async (e) => {
+            console.log(`onQTYChanged`);
+            amountInput.value = this.calculateItemTotalAmount(Number(e.target.value), Number(priceInput.value));
+        });
+        priceInput.addEventListener('change', async(e) => {
+            console.log(`onPriceChanged`);
+            amountInput.value = this.calculateItemTotalAmount(Number(qtyInput.value), Number(e.target.value))
+        });
     }
+
+    calculateItemTotalAmount(qty, price) {
+        if (qty <= 0 ||price <=0){
+            return 0
+        }
+       return (qty * price);
+    }
+    
 
     onNewItemClick(e) {
         e.preventDefault();

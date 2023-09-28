@@ -75,8 +75,104 @@
                 </div>
             </div>
 
-            <div class="col-12" >
+            {# Pickup fiels #}
+            <div id="pickup_section" style="display:none;">
+                <div class="col-12" >
+                    <h3>{{ 'Pickup Details' |trans }}</h3>
+                </div>
+
+                <div class="col-12">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_label(form.pickupCustomerId,  'Customer'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-customer'}}) }}
+                                {{ form_widget(form.pickupCustomerId) }}
+                                {{ form_errors(form.pickupCustomerId) }}
+                            </div> 
+
+                            <div class="col-6">
+                                {{ form_label(form.pickupAddressId,  'Address'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-address'}}) }}
+                                {{ form_widget(form.pickupAddressId, { 'attr': { 'class': 'form-control form-select', 'id':'order-address', 'type':'text'}}) }}
+                                {{ form_errors(form.pickupAddressId) }}
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="row ">
+                            <div class="col-6">
+                                {{ form_label(form.pickupContactName,  'Contact Name'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order.conctat'}}) }}
+                                {{ form_widget(form.pickupContactName, { 'attr': { 'class': 'form-control', 'id':'order.conctat', 'type':'text'}}) }}
+                                {{ form_errors(form.pickupContactName) }}
+                            </div> 
+                            <div class="col-6">
+                                {{ form_label(form.pickupAddressZone,  'Address Zone'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order.addressZone'}}) }}
+                                {{ form_widget(form.pickupAddressZone, { 'attr': { 'class': 'form-control', 'id':'order.addressZone', 'type':'text'}}) }}
+                                {{ form_errors(form.pickupAddressZone) }}
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-3">
+                                {{ form_label(form.pickupCustomerPhone,  'Contact Phone'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-phone'}}) }}
+                                {{ form_widget(form.pickupCustomerPhone, { 'attr': { 'class': 'form-control', 'id':'order-phone', 'type':'text'}}) }}
+                                {{ form_errors(form.pickupCustomerPhone) }}
+                            </div> 
+
+                            <div class="col-3">
+                                {{ form_label(form.pickupCustomerEmail,  'Contact Email'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-email'}}) }}
+                                {{ form_widget(form.pickupCustomerEmail, { 'attr': { 'class': 'form-control', 'id':'order-email', 'type':'text'}}) }}
+                                {{ form_errors(form.pickupCustomerEmail) }}
+                            </div> 
+
+                            <div class="col-3">
+                                {{ form_label(form.pickupTimeFrom,  'Time From'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-timeForm'}}) }}
+                                {{ form_widget(form.pickupTimeFrom, { 'attr': { 'class': 'form-control datetimepicker', 'id':'order-timeForm', 'type':'text', 'placeholder': 'hour : minute'|trans, 'data-options':'{"enableTime":true,"noCalendar":true,"dateFormat":"H:i ","disableMobile":true}'}}) }}
+                                {{ form_errors(form.pickupTimeFrom) }}
+                            </div> 
+
+                            <div class="col-3">
+                                {{ form_label(form.pickupTimeUntil,  'Time Until'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-timeUntil'}}) }}
+                                {{ form_widget(form.pickupTimeUntil, { 'attr': { 'class': 'form-control datetimepicker', 'id':'order-timeUntil', 'type':'text', 'placeholder': 'hour : minute'|trans, 'data-options':'{"enableTime":true,"noCalendar":true,"dateFormat":"H:i ","disableMobile":true}'}}) }}
+                                {{ form_errors(form.pickupTimeUntil) }}
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_label(form.pickupNote,  'Note'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-note'}}) }}
+                                {{ form_widget(form.pickupNote, { 'attr': { 'class': 'form-control', 'id':'order-note', 'type':'text'}}) }}
+                                {{ form_errors(form.pickupNote) }}
+                            </div> 
+
+                            <div class="col-3">
+                                {{ form_label(form.pickupServiceTime,  'Service Time'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-servicetime'}}) }}
+                                {{ form_widget(form.pickupServiceTime, { 'attr': { 'class': 'form-control', 'id':'order-servicetime', 'type':'number'}}) }}
+                                {{ form_errors(form.pickupServiceTime) }}
+                            </div> 
+
+                            <div class="col-3">
+                                {{ form_label(form.pickupCOD,  'COD'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-cod'}}) }}
+                                {{ form_widget(form.pickupCOD, { 'attr': { 'class': 'form-control', 'id':'order-cod', 'type':'number'}}) }}
+                                {{ form_errors(form.pickupCOD) }}
+                            </div> 
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            {# delivery fiels #}
+            <div id="customer_label" class="col-12" >
                 <h3>{{ 'Customer Details' |trans }}</h3>
+            </div>
+
+            <div id="delivery_label" class="col-12" style="display:none;">
+                <h3>{{ 'Delivery Details' |trans }}</h3>
             </div>
 
             <div class="col-12">
