@@ -62,9 +62,9 @@ class DriverType extends AbstractType
         ]);
     }
 
-    private function editablePass($edit)
+    private function getConstrain($isRequire)
     {
-        if ($edit) {
+        if ($isRequire) {
             $result = [
                 new Length([
                     'min' => 6,
