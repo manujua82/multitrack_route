@@ -36,60 +36,22 @@ class DriverType extends AbstractType
                     ])
                 ]
             ]);
-        if ($options['require_pass']) {
-            $builder->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
+        $builder->add('plainPassword', RepeatedType::class, [
+            'type' => PasswordType::class,
+            'invalid_message' => 'The password fields must match.',
+            'mapped' => false,
+            'required' => $options['require_pass'],
+            'attr' => ['autocomplete' => 'new-password'],
+            'first_options' => [
+                'label' => 'Password',
                 'mapped' => false,
-                'required' => true,
-                'attr' => ['autocomplete' => 'new-password'],
-                'first_options' => [
-                    'label' => 'Password',
-                    'mapped' => false,
-                ],
-                'second_options' => [
-                    'label' => 'Repeated password',
-                    'mapped' => false,
-                ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ],
-            ]);
-        } else {
-            $builder->add('plainPassword', RepeatedType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
+            ],
+            'second_options' => [
+                'label' => 'Repeated password',
                 'mapped' => false,
-                'required' => false,
-                'attr' => ['autocomplete' => 'new-password'],
-                'first_options' => [
-                    'label' => 'Password',
-                    'mapped' => false,
-                ],
-                'second_options' => [
-                    'label' => 'Repeated password',
-                    'mapped' => false,
-                ],
-                'constraints' => [
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ],
-            ]);
-        }
+            ],
+            'constraints' => $this->editablePass($options['require_pass']),
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -98,5 +60,31 @@ class DriverType extends AbstractType
             'data_class' => Driver::class,
             'require_pass' => true,
         ]);
+    }
+
+    private function editablePass($edit)
+    {
+        if ($edit) {
+            $result = [
+                new Length([
+                    'min' => 6,
+                    'minMessage' => 'Your password should be at least {{ limit }} characters',
+                    'max' => 4096,
+                ])
+            ];
+        } else {
+            $result = [
+                new NotBlank([
+                    'message' => 'Please enter a password',
+                ]),
+                new Length([
+                    'min' => 6,
+                    'minMessage' => 'Your password should be at least {{ limit }} characters',
+                    'max' => 4096,
+                ])
+            ];
+        }
+
+        return $result;
     }
 }
