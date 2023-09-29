@@ -68,7 +68,7 @@ class OrderType extends AbstractType
                 'label' => ' ',
                 'allow_add' => true,
                 'allow_delete' => true,
-                'by_reference' => true,
+                'by_reference' => false,
             ])
         ;
 
@@ -101,7 +101,6 @@ class OrderType extends AbstractType
                 'mapped' => false,
                 'widget' => 'single_text', 
                 'html5' => false,
-                'empty_data'  => $custTimeFrom,
             ]);
 
             $custTimeUntil =  (null === $customer) ? "" : $customer->getTimeUntil()->format('H:i:a');
@@ -109,7 +108,6 @@ class OrderType extends AbstractType
                 'mapped' => false,
                 'widget' => 'single_text', 
                 'html5' => false,
-                'empty_data'  => $custTimeUntil,
             ]);
         };
 
@@ -141,7 +139,6 @@ class OrderType extends AbstractType
                 'mapped' => false,
                 'widget' => 'single_text', 
                 'html5' => false,
-                'empty_data'  => $custTimeFrom,
             ]);
 
             $custTimeUntil =  (null === $customer) ? "" : $customer->getTimeUntil()->format('H:i:a');
@@ -149,7 +146,6 @@ class OrderType extends AbstractType
                 'mapped' => false,
                 'widget' => 'single_text', 
                 'html5' => false,
-                'empty_data'  => $custTimeUntil,
             ]);
         };
 

@@ -4,6 +4,19 @@ export default class extends Controller {
 
     form = null;
 
+    async updateForm(data, url, method) {
+        const req = await fetch(url, {
+            method: method,
+            body: data,
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'charset': 'utf-8'
+            }
+        });
+        const text = await req.text();
+        return text;
+    };
+
     connect() {
         var _addRemoveButton = this.addRemoveButton;
         var collectionHolder =   $('#order_list');
@@ -14,6 +27,15 @@ export default class extends Controller {
 
         const orderTypeSelect = document.getElementById("order_type");
         orderTypeSelect.addEventListener('change', this.onOrderTypeChanged);
+
+        this.form = document.getElementById('order_form');
+        const form_select_customer = document.getElementById('order_customerId_autocomplete');
+        form_select_customer.addEventListener('change', (e) => this.onCustomerSelected(e));
+
+        const customer_pickup = document.getElementById('order_pickupCustomerId_autocomplete');
+        customer_pickup.addEventListener('change', (e) => this.onPickupCustomerSelected(e));
+
+        // Add Lister to the currents one
     }
 
     onOrderTypeChanged(e) {
@@ -32,6 +54,56 @@ export default class extends Controller {
             pickupDiv.style.display = "none";
         }
     }
+
+    async onCustomerSelected(e) {
+            let requestBody = e.target.getAttribute('name') + '=' + e.target.value;
+            const form_select_address = document.getElementById('order_addressId');
+            const updateFormResponse = await this.updateForm(requestBody, this.form.getAttribute('action'), this.form.getAttribute('method'));
+            
+            const html = this.parseTextToHtml(updateFormResponse);
+            const new_form_select_address = html.getElementById('order_addressId');
+            form_select_address.innerHTML = new_form_select_address.innerHTML;
+
+            const form_contac_name = document.getElementById('order_contactName');
+            form_contac_name.value = html.getElementById('order_contactName').value;
+
+            const form_contac_phone = document.getElementById('order_customerPhone');
+            form_contac_phone.value = html.getElementById('order_customerPhone').value;
+
+            const form_contac_email = document.getElementById('order_customerEmail');
+            form_contac_email.value = html.getElementById('order_customerEmail').value;
+
+            // const form_time_from = document.getElementById('order_timeFrom');
+            // form_time_from.value = html.getElementById('order_timeFrom').value;
+
+            // const form_time_until = document.getElementById('order_timeUntil');
+            // form_time_until.value = html.getElementById('order_timeUntil').value;
+    }
+
+    async onPickupCustomerSelected(e) {
+        let requestBody = e.target.getAttribute('name') + '=' + e.target.value;
+        const updateFormResponse = await this.updateForm(requestBody, this.form.getAttribute('action'), this.form.getAttribute('method'));
+        
+        const html = this.parseTextToHtml(updateFormResponse);
+        const form_select_address = document.getElementById('order_pickupAddressId');
+        const new_form_select_address = html.getElementById('order_pickupAddressId');
+        form_select_address.innerHTML = new_form_select_address.innerHTML;
+
+        const form_contac_name = document.getElementById('order_pickupContactName');
+        form_contac_name.value = html.getElementById('order_pickupContactName').value;
+
+        const form_contac_phone = document.getElementById('order_pickupCustomerPhone');
+        form_contac_phone.value = html.getElementById('order_pickupCustomerPhone').value;
+
+        const form_contac_email = document.getElementById('order_pickupCustomerEmail');
+        form_contac_email.value = html.getElementById('order_pickupCustomerEmail').value;
+
+        // const form_time_from = document.getElementById('order_timeFrom');
+        // form_time_from.value = html.getElementById('order_timeFrom').value;
+
+        // const form_time_until = document.getElementById('order_timeUntil');
+        // form_time_until.value = html.getElementById('order_timeUntil').value;
+}
 
     addNewItemForm() {
         var collectionHolder = $('#order_list');
@@ -64,7 +136,7 @@ export default class extends Controller {
         
         orderItem.addEventListener('change', async (e) => {
             let requestBody = e.target.getAttribute('name') + '=' + e.target.value;
-            const updateFormResponse = await updateForm(requestBody, form.getAttribute('action'), form.getAttribute('method'));
+            const updateFormResponse = await this.updateForm(requestBody, this.form.getAttribute('action'), this.form.getAttribute('method'));
             const html = this.parseTextToHtml(updateFormResponse);
 
             const newUnitMeasure = html.getElementById(`order_orderItems_${index}_unitMeasure`);
@@ -131,17 +203,5 @@ export default class extends Controller {
         return html;
     };
 
-    async updateForm(data, url, method) {
-        const req = await fetch(url, {
-            method: method,
-            body: data,
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded',
-                'charset': 'utf-8'
-            }
-        });
-        const text = await req.text();
-        return text;
-    };
-
+   
 }
