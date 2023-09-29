@@ -50,7 +50,7 @@ class DriverType extends AbstractType
                 'label' => 'Repeated password',
                 'mapped' => false,
             ],
-            'constraints' => $this->editablePass($options['require_pass']),
+            'constraints' => $this->getConstrain($options['require_pass']),
         ]);
     }
 
