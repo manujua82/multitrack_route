@@ -18,33 +18,40 @@ export default class extends Controller {
     };
 
     connect() {
-        var _addRemoveButton = this.addRemoveButton;
+        this.form = document.getElementById('order_form');
+
         var collectionHolder =   $('#order_list');
         collectionHolder.data('index', collectionHolder.find('.panel').length);
-        collectionHolder.find('.panel').each(function () {
-            _addRemoveButton($(this));
+        collectionHolder.find('.panel').each((index, element) => {
+            console.log($(this));
+            console.log(element);
+            this.updatePanel(index, $(this)) // TODO: Refactor 
         });
-
+            
         const orderTypeSelect = document.getElementById("order_type");
-        orderTypeSelect.addEventListener('change', this.onOrderTypeChanged);
+        orderTypeSelect.addEventListener('change', (e) => this.onOrderTypeChanged(e));
+        this.updateFormByType(orderTypeSelect.value);
 
-        this.form = document.getElementById('order_form');
         const form_select_customer = document.getElementById('order_customerId_autocomplete');
         form_select_customer.addEventListener('change', (e) => this.onCustomerSelected(e));
 
         const customer_pickup = document.getElementById('order_pickupCustomerId_autocomplete');
         customer_pickup.addEventListener('change', (e) => this.onPickupCustomerSelected(e));
-
-        // Add Lister to the currents one
     }
 
-    onOrderTypeChanged(e) {
-        e.preventDefault();
+    updatePanel(index, panel) {
+        console.log(index );
+        console.log(panel );
+        this.addChangeListenerToItem(index);
+        this.addRemoveButton(panel);
+    }
+
+    updateFormByType(type) {
         const pickupDiv =  document.getElementById("pickup_section");
         const customerLabel =  document.getElementById("customer_label");
         const deliveryLabel =  document.getElementById("delivery_label");
 
-        if(e.target.value == "Pickup & Delivery"){
+        if(type== "Pickup & Delivery"){
             customerLabel.style.display = "none";
             deliveryLabel.style.display = "block";
             pickupDiv.style.display = "block";
@@ -55,23 +62,33 @@ export default class extends Controller {
         }
     }
 
+    onOrderTypeChanged(e) {
+        e.preventDefault(e);
+        this.updateFormByType(e.target.value)
+    }
+
     async onCustomerSelected(e) {
             let requestBody = e.target.getAttribute('name') + '=' + e.target.value;
+            console.log("onCustomerSelected");
+            console.log(requestBody);
+            console.log(this.form.getAttribute('action'));
+
             const form_select_address = document.getElementById('order_addressId');
             const updateFormResponse = await this.updateForm(requestBody, this.form.getAttribute('action'), this.form.getAttribute('method'));
             
             const html = this.parseTextToHtml(updateFormResponse);
+            console.log(updateFormResponse);
             const new_form_select_address = html.getElementById('order_addressId');
             form_select_address.innerHTML = new_form_select_address.innerHTML;
 
-            const form_contac_name = document.getElementById('order_contactName');
-            form_contac_name.value = html.getElementById('order_contactName').value;
+            const form_contact_name = document.getElementById('order_contactName');
+            form_contact_name.value = html.getElementById('order_contactName').value;
 
-            const form_contac_phone = document.getElementById('order_customerPhone');
-            form_contac_phone.value = html.getElementById('order_customerPhone').value;
+            const form_contact_phone = document.getElementById('order_customerPhone');
+            form_contact_phone .value = html.getElementById('order_customerPhone').value;
 
-            const form_contac_email = document.getElementById('order_customerEmail');
-            form_contac_email.value = html.getElementById('order_customerEmail').value;
+            const form_contact_email = document.getElementById('order_customerEmail');
+            form_contact_email.value = html.getElementById('order_customerEmail').value;
 
             // const form_time_from = document.getElementById('order_timeFrom');
             // form_time_from.value = html.getElementById('order_timeFrom').value;
@@ -82,21 +99,23 @@ export default class extends Controller {
 
     async onPickupCustomerSelected(e) {
         let requestBody = e.target.getAttribute('name') + '=' + e.target.value;
+        console.log("onPickupCustomerSelected");
+
         const updateFormResponse = await this.updateForm(requestBody, this.form.getAttribute('action'), this.form.getAttribute('method'));
-        
+       
         const html = this.parseTextToHtml(updateFormResponse);
         const form_select_address = document.getElementById('order_pickupAddressId');
         const new_form_select_address = html.getElementById('order_pickupAddressId');
         form_select_address.innerHTML = new_form_select_address.innerHTML;
 
-        const form_contac_name = document.getElementById('order_pickupContactName');
-        form_contac_name.value = html.getElementById('order_pickupContactName').value;
+        const form_contact_name = document.getElementById('order_pickupContactName');
+        form_contact_name.value = html.getElementById('order_pickupContactName').value;
 
-        const form_contac_phone = document.getElementById('order_pickupCustomerPhone');
-        form_contac_phone.value = html.getElementById('order_pickupCustomerPhone').value;
+        const form_contact_phone = document.getElementById('order_pickupCustomerPhone');
+        form_contact_phone .value = html.getElementById('order_pickupCustomerPhone').value;
 
-        const form_contac_email = document.getElementById('order_pickupCustomerEmail');
-        form_contac_email.value = html.getElementById('order_pickupCustomerEmail').value;
+        const form_contact_email = document.getElementById('order_pickupCustomerEmail');
+        form_contact_email.value = html.getElementById('order_pickupCustomerEmail').value;
 
         // const form_time_from = document.getElementById('order_timeFrom');
         // form_time_from.value = html.getElementById('order_timeFrom').value;
@@ -127,7 +146,7 @@ export default class extends Controller {
 
     addChangeListenerToItem(index) {
         this.form = document.getElementById('order_form');
-        
+   
         const orderItem = document.getElementById(`order_orderItems_${index}_item_autocomplete`);
         const unitMeasure = document.getElementById(`order_orderItems_${index}_unitMeasure`);
         const qtyInput = document.getElementById(`order_orderItems_${index}_qty`);
@@ -153,11 +172,9 @@ export default class extends Controller {
         });
 
         qtyInput.addEventListener('change', async (e) => {
-            console.log(`onQTYChanged`);
             amountInput.value = this.calculateItemTotalAmount(Number(e.target.value), Number(priceInput.value));
         });
         priceInput.addEventListener('change', async(e) => {
-            console.log(`onPriceChanged`);
             amountInput.value = this.calculateItemTotalAmount(Number(qtyInput.value), Number(e.target.value))
         });
     }
@@ -180,7 +197,7 @@ export default class extends Controller {
         // appending the remove button to the panel footer
         var panelFooter = $('<td class="align-middle white-space-nowrap text-center pe-0"></td>').append(removeButton);
         // handle the click event of the remove button
-        removeButton.click(function (e) {
+        removeButton.on("click", function (e) {
             e.preventDefault();
             // gets the parent of the button that we clicked on "the panel" and animates it
             // after the animation is done the element (the panel) is removed from the html
