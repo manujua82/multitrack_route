@@ -7,7 +7,7 @@
     <td class="align-middle">{{ form_widget(itemForm.unitMeasure, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
     <td class="align-middle">{{ form_widget(itemForm.qty, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
     <td class="align-middle">{{ form_widget(itemForm.price, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text' }}) }}</td>
-    <td class="align-middle">{{ form_widget(itemForm.totalAmount, { 'attr': { 'class': 'form-control form-control-sm', 'disabled': 'disabled', 'type':'text' }}) }}</td>
+    <td class="align-middle">{{ form_widget(itemForm.totalAmount, { 'attr': { 'class': 'form-control form-control-sm', 'readonly': '', 'type':'text' }}) }}</td>
 {% endmacro %} 
 
 {% block body %}
@@ -58,12 +58,12 @@
                     <div class="row">
                         <div class="col-6">
                             {{ form_label(form.shipFrom,  'Ship From'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-shipFrom'}}) }}
-                            {{ form_widget(form.shipFrom, { 'attr': { 'class': 'form-select', 'id':'order-shipFrom', 'type':'text'}}) }}
+                            {{ form_widget(form.shipFrom) }}
                             {{ form_errors(form.shipFrom) }}
                         </div>
                         <div class="col-3">
                             {{ form_label(form.shipper,  'Shipper'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-shipper'}}) }}
-                            {{ form_widget(form.shipper, { 'attr': { 'class': 'form-control', 'id':'order-shipper', 'type':'text'}}) }}
+                            {{ form_widget(form.shipper) }}
                             {{ form_errors(form.shipper) }}
                         </div>
                         <div class="col-3">
@@ -75,8 +75,104 @@
                 </div>
             </div>
 
-            <div class="col-12" >
+            {# Pickup fiels #}
+            <div id="pickup_section" style="display:none;">
+                <div class="col-12" >
+                    <h3>{{ 'Pickup Details' |trans }}</h3>
+                </div>
+
+                <div class="col-12">
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_label(form.pickupCustomerId,  'Customer'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-customer'}}) }}
+                                {{ form_widget(form.pickupCustomerId) }}
+                                {{ form_errors(form.pickupCustomerId) }}
+                            </div> 
+
+                            <div class="col-6">
+                                {{ form_label(form.pickupAddressId,  'Address'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-address'}}) }}
+                                {{ form_widget(form.pickupAddressId, { 'attr': { 'class': 'form-control form-select', 'id':'order-address', 'type':'text'}}) }}
+                                {{ form_errors(form.pickupAddressId) }}
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="row ">
+                            <div class="col-6">
+                                {{ form_label(form.pickupContactName,  'Contact Name'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order.conctat'}}) }}
+                                {{ form_widget(form.pickupContactName, { 'attr': { 'class': 'form-control', 'id':'order.conctat', 'type':'text'}}) }}
+                                {{ form_errors(form.pickupContactName) }}
+                            </div> 
+                            <div class="col-6">
+                                {{ form_label(form.pickupAddressZone,  'Address Zone'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order.addressZone'}}) }}
+                                {{ form_widget(form.pickupAddressZone, { 'attr': { 'class': 'form-control', 'id':'order.addressZone', 'type':'text'}}) }}
+                                {{ form_errors(form.pickupAddressZone) }}
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-3">
+                                {{ form_label(form.pickupCustomerPhone,  'Contact Phone'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-phone'}}) }}
+                                {{ form_widget(form.pickupCustomerPhone, { 'attr': { 'class': 'form-control', 'id':'order-phone', 'type':'text'}}) }}
+                                {{ form_errors(form.pickupCustomerPhone) }}
+                            </div> 
+
+                            <div class="col-3">
+                                {{ form_label(form.pickupCustomerEmail,  'Contact Email'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-email'}}) }}
+                                {{ form_widget(form.pickupCustomerEmail, { 'attr': { 'class': 'form-control', 'id':'order-email', 'type':'text'}}) }}
+                                {{ form_errors(form.pickupCustomerEmail) }}
+                            </div> 
+
+                            <div class="col-3">
+                                {{ form_label(form.pickupTimeFrom,  'Time From'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-timeForm'}}) }}
+                                {{ form_widget(form.pickupTimeFrom, { 'attr': { 'class': 'form-control datetimepicker', 'id':'order-timeForm', 'type':'text', 'placeholder': 'hour : minute'|trans, 'data-options':'{"enableTime":true,"noCalendar":true,"dateFormat":"H:i ","disableMobile":true}'}}) }}
+                                {{ form_errors(form.pickupTimeFrom) }}
+                            </div> 
+
+                            <div class="col-3">
+                                {{ form_label(form.pickupTimeUntil,  'Time Until'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-timeUntil'}}) }}
+                                {{ form_widget(form.pickupTimeUntil, { 'attr': { 'class': 'form-control datetimepicker', 'id':'order-timeUntil', 'type':'text', 'placeholder': 'hour : minute'|trans, 'data-options':'{"enableTime":true,"noCalendar":true,"dateFormat":"H:i ","disableMobile":true}'}}) }}
+                                {{ form_errors(form.pickupTimeUntil) }}
+                            </div> 
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_label(form.pickupNote,  'Note'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-note'}}) }}
+                                {{ form_widget(form.pickupNote, { 'attr': { 'class': 'form-control', 'id':'order-note', 'type':'text'}}) }}
+                                {{ form_errors(form.pickupNote) }}
+                            </div> 
+
+                            <div class="col-3">
+                                {{ form_label(form.pickupServiceTime,  'Service Time'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-servicetime'}}) }}
+                                {{ form_widget(form.pickupServiceTime, { 'attr': { 'class': 'form-control', 'id':'order-servicetime', 'type':'number'}}) }}
+                                {{ form_errors(form.pickupServiceTime) }}
+                            </div> 
+
+                            <div class="col-3">
+                                {{ form_label(form.pickupCOD,  'COD'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-cod'}}) }}
+                                {{ form_widget(form.pickupCOD, { 'attr': { 'class': 'form-control', 'id':'order-cod', 'type':'number'}}) }}
+                                {{ form_errors(form.pickupCOD) }}
+                            </div> 
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+            {# delivery fiels #}
+            <div id="customer_label" class="col-12" >
                 <h3>{{ 'Customer Details' |trans }}</h3>
+            </div>
+
+            <div id="delivery_label" class="col-12" style="display:none;">
+                <h3>{{ 'Delivery Details' |trans }}</h3>
             </div>
 
             <div class="col-12">
@@ -84,7 +180,7 @@
                     <div class="row">
                         <div class="col-6">
                             {{ form_label(form.customerId,  'Customer'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'order-customer'}}) }}
-                            {{ form_widget(form.customerId, { 'attr': { 'class': 'form-control form-select', 'id':'order-customer', 'type':'text'}}) }}
+                            {{ form_widget(form.customerId) }}
                             {{ form_errors(form.customerId) }}
                         </div> 
 
@@ -231,58 +327,5 @@
     </div>
 
 
-    <script>
-        const form = document.getElementById('order_form');
-        const form_select_customer = document.getElementById('order_customerId_autocomplete');
-        const form_select_address = document.getElementById('order_addressId');
-
-        const updateForm = async (data, url, method) => {
-            const req = await fetch(url, {
-                method: method,
-                body: data,
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'charset': 'utf-8'
-                }
-            });
-            const text = await req.text();
-            return text;
-        };
-
-        const parseTextToHtml = (text) => {
-            const parser = new DOMParser();
-            const html = parser.parseFromString(text, 'text/html');
-
-            return html;
-        };
-
-        const changeOptions = async (e) => {
-            let requestBody = e.target.getAttribute('name') + '=' + e.target.value;
-            const updateFormResponse = await updateForm(requestBody, form.getAttribute('action'), form.getAttribute('method'));
-            
-            const html = parseTextToHtml(updateFormResponse);
-
-            const new_form_select_address = html.getElementById('order_addressId');
-            form_select_address.innerHTML = new_form_select_address.innerHTML;
-
-            const form_contac_name = document.getElementById('order_contactName');
-            form_contac_name.value = html.getElementById('order_contactName').value;
-
-            const form_contac_phone = document.getElementById('order_customerPhone');
-            form_contac_phone.value = html.getElementById('order_customerPhone').value;
-
-            const form_contac_email = document.getElementById('order_customerEmail');
-            form_contac_email.value = html.getElementById('order_customerEmail').value;
-
-            const form_time_from = document.getElementById('order_timeFrom');
-            form_time_from.value = html.getElementById('order_timeFrom').value;
-
-            const form_time_until = document.getElementById('order_timeUntil');
-            form_time_until.value = html.getElementById('order_timeUntil').value;
-        };
-
-        form_select_customer.addEventListener('change', (e) => changeOptions(e));
-
-    </script>
 {% endblock %}
 
