@@ -10,6 +10,9 @@
 <div class="text-center mb-7">
     <h3 class="text-1000">{{ 'Sign In'|trans }}</h3>
     <p class="text-700">{{ 'Get access to your account'|trans }}t</p>
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
 </div>
 
 <form method="POST">
@@ -17,7 +20,7 @@
     <div class="mb-3 text-start">
         <label class="form-label" for="email">{{ 'Email'|trans }}</label>
         <div class="form-icon-container">
-            <input class="form-control form-icon-input" name="_username" type="text"  value="{{ lastUsername }}"  placeholder="name@example.com" /><span class="fas fa-user text-900 fs--1 form-icon"></span>
+            <input class="form-control form-icon-input" required="required" name="_username" type="email"  value="{{ lastUsername }}"  placeholder="name@example.com" /><span class="fas fa-user text-900 fs--1 form-icon"></span>
         </div>
     </div>
 
@@ -25,21 +28,20 @@
         <label class="form-label" for="password">{{ 'password'|trans }}</label>
         <div class="form-icon-container inner-addon right-addon">
             <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer" onclick="toggle_password(this)"></div>
-            <input class="form-control form-icon-input" name="_password" type="password" placeholder="{{ 'password'|trans }}" /><span class="fas fa-key text-900 fs--1 form-icon"></span>
+            <input class="form-control form-icon-input" required="required" id="password" name="_password" type="password" placeholder="{{ 'password'|trans }}" /><span class="fas fa-key text-900 fs--1 form-icon"></span>
         </div>
     </div>
 
     <div class="row flex-between-center mb-7">
-        {# <div class="col-auto">
+        <div class="col-auto">
             <div class="form-check mb-0">
-                <input class="form-check-input" id="basic-checkbox" type="checkbox" checked="checked" />
-                <label class="form-check-label mb-0" for="basic-checkbox">Remember me</label>
+                <input class="form-check-input" id="remember_me" name="_remember_me" type="checkbox" checked="checked" />
+                <label class="form-check-label mb-0" for="remember_me">{{'Remember' | trans}}</label>
             </div>
         </div> 
-        <div class="col-auto"><a class="fs--1 fw-semi-bold" href="../../../pages/authentication/simple/forgot-password.html">{{ 'Forgot Password?'|trans }}</a></div> #}
+        <div class="col-auto"><a class="fs--1 fw-semi-bold" href="{{ path('app_forgot_password_request') }}">{{ 'Forgot Password?'|trans }}</a></div>
     </div>
     <button class="btn btn-primary w-100 mb-3" type="submit">{{ 'Sign In'|trans }}</button>
 </form>
 <div class="text-center"><a class="fs--1 fw-bold" href="{{ path('app_register') }}">{{ 'Create an account'|trans }}</a></div>
-            
 {% endblock %}
