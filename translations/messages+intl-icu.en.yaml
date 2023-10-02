@@ -42,3 +42,7 @@ Send: Send
 'Link expire': 'This link will expire in'
 'try again': 'try again'
 'Password send message 2': "If you don't receive an email please check your spam folder or"
+'Reset new pass': 'Reset new password'
+'Type new pass': 'Type your new password'
+'Confirm new pass': 'Confirm your new password'
+'Set pass': 'Set password'
