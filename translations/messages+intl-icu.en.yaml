@@ -30,7 +30,15 @@ Save: Save
 'Driver name': 'Driver name'
 Email: Email
 Actions: Actions
+Send: Send
 'Sign In': 'Sign In'
 'Get access to your account': 'Get access to your account'
 'Create an account': 'Create an account'
 'Remember': 'Remember me'
+'Forgot password': 'Forgot your password?'
+'Enter email recovery': 'Enter your email below and we will send you a reset link'
+'Password sent': 'Password Reset Email Sent'
+'Password send message': 'If an account matching your email exists, then an email was just sent that contains a link that you can use to reset your password.'
+'Link expire': 'This link will expire in'
+'try again': 'try again'
+'Password send message 2': "If you don't receive an email please check your spam folder or"

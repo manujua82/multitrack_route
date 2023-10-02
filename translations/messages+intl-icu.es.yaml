@@ -28,7 +28,15 @@ Cancel: Cancelar
 Save: Guardar
 'Driver name': 'Nombre conductor'
 Actions: Acciones
+Send: Enviar
 'Sign In': 'iniciar sesión'
 'Get access to your account': 'Obtenga acceso a su cuenta'
 'Create an account': 'Crear cuenta'
 'Remember': 'Recordarme'
+'Forgot password': '¿Olvidaste tu contraseña?'
+'Enter email recovery': 'Ingrese su correo electrónico a continuación y le enviaremos un enlace de reinicio'
+'Password sent': 'Correo de recuperación enviado'
+'Password send message': 'Si existe una cuenta que coincide con su correo electrónico, se acaba de enviar un correo electrónico que contiene un enlace que puede utilizar para restablecer su contraseña.'
+'Link expire': 'Este enlace caducará en'
+'try again': 'intentar otra vez'
+'Password send message 2': "Si no recibe un correo electrónico, revise su carpeta de correo no deseado o"
