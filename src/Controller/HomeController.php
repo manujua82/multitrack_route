@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\Address;
 use App\Entity\Order;
 use App\Entity\OrderStatus;
 use App\Entity\Route as EntityRoute;
+use App\Entity\RouteAddress;
 use App\Form\RouteType;
 use App\Repository\CorrelativesRepository;
 use App\Repository\OrderRepository;
@@ -74,6 +76,27 @@ class HomeController extends AbstractController
             'routeSelected' => $routeSelected,
             'unscheduleOrders' => $this->orderRepository->getOrdersByStatus('Unschedule'),
         ]);
+    }
+
+    private function createRouteAddress(Order $order, Address $address, int $postion): RouteAddress
+    {
+        $newRouteAddress =  new RouteAddress();
+        $newRouteAddress->setMainOrder($order);
+        $newRouteAddress->setPosition($postion);
+        $newRouteAddress->setFullAddress($address->getFullAddress());
+        $newRouteAddress->setLatitude($address->getLatitude());
+        $newRouteAddress->setLongitude($address->getLongitude());
+
+        return $newRouteAddress;
+    }
+
+    private function AddAddressToRoute(EntityRoute $mainRoute, Order $order, Address $address): void
+    {
+        $lastAddressPosition = $mainRoute->addressCount() + 1;
+        if (isset($deliveryAddress)) {
+            $newAddress = $this->createRouteAddress($order, $address, $lastAddressPosition+1);
+            $mainRoute->addAddress($newAddress);
+        }
     }
     
 
@@ -164,9 +187,14 @@ class HomeController extends AbstractController
 
         $currentRoute = $this->routeRepository->find( $routeId );
         foreach ($orderIds as &$orderId) {
+            // ADDED ORDER TO ROUTE
             $currentOrder = $this->orderRepository->find($orderId);
             $currentOrder->setStatus(OrderStatus::SCHEDULE->value);
             $currentRoute->addOrder($currentOrder);
+
+            // CREATE ADDRESS FORM ORDERS
+            $this->addAddressToRoute($currentRoute, $currentOrder, $currentOrder->getAddressId());
+            $this->addAddressToRoute($currentRoute, $currentOrder, $currentOrder->getPickupAddressId());
         }
 
         $this->routeRepository->add($currentRoute, true);
@@ -179,7 +207,6 @@ class HomeController extends AbstractController
         $routeId = $request->query->get('routeId');
         $orderIdsStr = $request->query->get('orderIds');
         $orderIds = explode(",", $orderIdsStr);
-
        
         $currentRoute = $this->routeRepository->find($routeId);
         foreach ($orderIds as &$orderId) {

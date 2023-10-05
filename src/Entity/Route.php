@@ -55,11 +55,15 @@ class Route
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
+    #[ORM\OneToMany(mappedBy: 'route', targetEntity: RouteAddress::class)]
+    private Collection $addresses;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
         $this->created = new DateTime();
         $this->status = RouteStatus::NONE->value;
+        $this->addresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -227,5 +231,40 @@ class Route
         $this->status = $status;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, RouteAddress>
+     */
+    public function getAddresses(): Collection
+    {
+        return $this->addresses;
+    }
+
+    public function addAddress(RouteAddress $address): static
+    {
+        if (!$this->addresses->contains($address)) {
+            $this->addresses->add($address);
+            $address->setRoute($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMainOrder(RouteAddress $address): static
+    {
+        if ($this->addresses->removeElement($address)) {
+            // set the owning side to null (unless already changed)
+            if ($address->getRoute() === $this) {
+                $address->setRoute(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function addressCount(): int 
+    {
+        return count($this->addresses);
     }
 }
