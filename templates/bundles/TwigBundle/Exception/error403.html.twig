@@ -8,9 +8,8 @@
   <div class="col-12 col-lg-6 text-center text-lg-start">
     <img class="img-fluid mb-6 w-50 w-lg-75 d-dark-none" src="{{ asset('assets/img/spot-illustrations/403.png') }}" alt="" />
     <img class="img-fluid mb-6 w-50 w-lg-75 d-light-none" src="{{ asset('assets/img/spot-illustrations/dark_403.png') }}" alt="" />
-    <h2 class="text-800 fw-bolder mb-3">Access Forbidden!</h2>
-    <p class="text-900 mb-5">Halt! Thou art endeavouring to trespass upon a realm not granted unto thee.<br class="d-none d-sm-block" />granted unto thee.</p>
-    <a class="btn btn-lg btn-primary" href="{{ path('app_index') }}">Go Home</a>
+    <h2 class="text-800 fw-bolder mb-3">{{ 'Access Forbidden!' | trans }}</h2>
+    <a class="btn btn-lg btn-primary" href="{{ path('app_index') }}">{{'Home' | trans}}</a>
   </div>
 </div>
 {% endblock %}
