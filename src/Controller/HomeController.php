@@ -90,10 +90,10 @@ class HomeController extends AbstractController
         return $newRouteAddress;
     }
 
-    private function AddAddressToRoute(EntityRoute $mainRoute, Order $order, Address $address): void
+    private function AddAddressToRoute(EntityRoute &$mainRoute, Order $order,?Address $address): void
     {
-        $lastAddressPosition = $mainRoute->addressCount() + 1;
-        if (isset($deliveryAddress)) {
+        $lastAddressPosition = $mainRoute->addressCount();
+        if (isset($address)) {
             $newAddress = $this->createRouteAddress($order, $address, $lastAddressPosition+1);
             $mainRoute->addAddress($newAddress);
         }
@@ -198,6 +198,7 @@ class HomeController extends AbstractController
         }
 
         $this->routeRepository->add($currentRoute, true);
+        
         return $this->renderDashboard('home/_homeDashboard.html.twig', $currentRoute);
     }
 

@@ -55,7 +55,7 @@ class Route
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
-    #[ORM\OneToMany(mappedBy: 'route', targetEntity: RouteAddress::class)]
+    #[ORM\OneToMany(mappedBy: 'route', targetEntity: RouteAddress::class, cascade: ['persist'], orphanRemoval: true)]
     private Collection $addresses;
 
     public function __construct()
