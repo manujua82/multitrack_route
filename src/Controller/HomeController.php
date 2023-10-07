@@ -78,28 +78,6 @@ class HomeController extends AbstractController
         ]);
     }
 
-    private function createRouteAddress(Order $order, Address $address, int $postion): RouteAddress
-    {
-        $newRouteAddress =  new RouteAddress();
-        $newRouteAddress->setMainOrder($order);
-        $newRouteAddress->setPosition($postion);
-        $newRouteAddress->setFullAddress($address->getFullAddress());
-        $newRouteAddress->setLatitude($address->getLatitude());
-        $newRouteAddress->setLongitude($address->getLongitude());
-
-        return $newRouteAddress;
-    }
-
-    private function AddAddressToRoute(EntityRoute &$mainRoute, Order $order,?Address $address): void
-    {
-        $lastAddressPosition = $mainRoute->addressCount();
-        if (isset($address)) {
-            $newAddress = $this->createRouteAddress($order, $address, $lastAddressPosition+1);
-            $mainRoute->addAddress($newAddress);
-        }
-    }
-    
-
     #[Route('/', name: 'app_index')]
     public function index(Request $request): Response
     {
@@ -186,17 +164,13 @@ class HomeController extends AbstractController
         $orderIds = explode(",", $orderIdsStr);
 
         $currentRoute = $this->routeRepository->find( $routeId );
+        
         foreach ($orderIds as &$orderId) {
             // ADDED ORDER TO ROUTE
             $currentOrder = $this->orderRepository->find($orderId);
             $currentOrder->setStatus(OrderStatus::SCHEDULE->value);
             $currentRoute->addOrder($currentOrder);
-
-            // CREATE ADDRESS FORM ORDERS
-            $this->addAddressToRoute($currentRoute, $currentOrder, $currentOrder->getAddressId());
-            $this->addAddressToRoute($currentRoute, $currentOrder, $currentOrder->getPickupAddressId());
         }
-
         $this->routeRepository->add($currentRoute, true);
         
         return $this->renderDashboard('home/_homeDashboard.html.twig', $currentRoute);

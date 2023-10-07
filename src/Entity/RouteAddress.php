@@ -17,9 +17,6 @@ class RouteAddress
     #[ORM\ManyToOne(inversedBy: 'addresses')]
     private ?Route $route = null;
 
-    #[ORM\ManyToOne]
-    private ?Order $mainOrder = null;
-
     #[ORM\Column]
     private ?int $position = null;
 
@@ -38,6 +35,9 @@ class RouteAddress
     #[ORM\Column(type: Types::TIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $eta = null;
 
+    #[ORM\Column(type: Types::SIMPLE_ARRAY)]
+    private array $orderIds = [];
+
     public function getId(): ?int
     {
         return $this->id;
@@ -51,18 +51,6 @@ class RouteAddress
     public function setRoute(?Route $route): static
     {
         $this->route = $route;
-
-        return $this;
-    }
-
-    public function getMainOrder(): ?Order
-    {
-        return $this->mainOrder;
-    }
-
-    public function setMainOrder(?Order $mainOrder): static
-    {
-        $this->mainOrder = $mainOrder;
 
         return $this;
     }
@@ -137,5 +125,22 @@ class RouteAddress
         $this->eta = $eta;
 
         return $this;
+    }
+
+    public function getOrderIds(): array
+    {
+        return $this->orderIds;
+    }
+
+    public function setOrderIds(array $orderIds): static
+    {
+        $this->orderIds = $orderIds;
+
+        return $this;
+    }
+
+    public function addOrderId(string $orderId): void
+    {
+        array_push($this->orderIds, $orderId);
     }
 }
