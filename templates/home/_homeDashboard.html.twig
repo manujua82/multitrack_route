@@ -44,39 +44,32 @@
             </div>
         </div>
             
-        <div class="row">
-            <div class="col-md-6 col-lg-6 col-xl-6">
-                {{ include('home/_routeList.html.twig') }}
-            </div>
-
-            <div class="col-md-6 col-lg-6 col-xl-6">
-            </div>
-
-        </div>  
-
         <div 
             class="row"
-            {{ stimulus_controller('sortable') }}
-        >
+            {{ stimulus_controller('sortable') }}>
+            
             <div class="col-md-6 col-lg-6 col-xl-6">
-                <div class="col-12">
-                    <p>Orders</p>
-                    {{ include('home/_orderList.html.twig', {
+                <p>Routes</p>
+                {{ include('home/_routeList.html.twig') }}
+
+                <p>Sites</p>
+                 {{ include('home/_routeAddresses.html.twig') }}
+
+                <p>Orders</p>
+                {{ include('home/_orderList.html.twig', {
                         targetName: "routeOrders",
                         entities: routeOrders
-                    }) }}
-                </div>
+                }) }}
             </div>
 
             <div class="col-md-6 col-lg-6 col-xl-6">
-                <div class="col-12">
-                    <p>Unschedule</p>
-                    {{ include('home/_orderList.html.twig', {
-                        targetName: "unscheduleOrders",
-                        entities: unscheduleOrders  
-                    }) }}
-                </div>
-            </div> 
-        </div> 
+                <p>Unschedule</p>
+                {{ include('home/_orderList.html.twig', {
+                    targetName: "unscheduleOrders",
+                    entities: unscheduleOrders  
+                }) }}
+            </div>
+
+        </div>
     </div>
 </div>

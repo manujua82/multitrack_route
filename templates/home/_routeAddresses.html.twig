@@ -1,0 +1,24 @@
+<div class="table-responsive scrollbar ms-n1 ps-1">
+    <table class="table table-sm table-hover fs--1 mb-0">
+        <thead>
+            <tr>
+                <th class="border-top align-middle" scope="col" >{{ 'position' |trans }}</th>
+                <th class="border-top align-middle" scope="col" >{{ 'Address' |trans }}</th>
+                <th class="border-top align-middle" scope="col" >{{ 'ETA' |trans }}</th>
+                <th class="border-top align-middle" scope="col" >{{ 'millage' |trans }}</th>
+            </tr>
+        </thead>
+        <tbody class="list" id="sites-table-body">
+            {% if routeAddresses is defined %}
+                {% for site in routeAddresses %}
+                    <tr>
+                        <td class="align-middle white-space-nowrap">{{ site.position}}</td>
+                        <td class="align-middle white-space-nowrap">{{ site.fullAddress}}</td>
+                        <td class="align-middle white-space-nowrap">{{ site.eta}}</td>
+                        <td class="align-middle white-space-nowrap">{{ site.millage}}</td>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </tbody>
+    </table>
+</div>

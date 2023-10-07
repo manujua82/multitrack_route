@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\Route;
 use App\Entity\RouteAddress;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -16,9 +17,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class RouteAddressRepository extends ServiceEntityRepository
 {
+    private $mainCompany;
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, RouteAddress::class);
+    }
+
+    public function getAddressesByRoute(Route $route): array
+    {
+        return $this->createQueryBuilder('ra')
+            ->andWhere('ra.route = :route')
+            ->setParameter('route', $route)
+            ->getQuery()
+            ->getResult();
     }
 
 //    /**

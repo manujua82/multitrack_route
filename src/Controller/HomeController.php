@@ -10,6 +10,7 @@ use App\Entity\RouteAddress;
 use App\Form\RouteType;
 use App\Repository\CorrelativesRepository;
 use App\Repository\OrderRepository;
+use App\Repository\RouteAddressRepository;
 use App\Repository\RouteRepository;
 use DateInterval;
 use DateTime;
@@ -27,6 +28,7 @@ class HomeController extends AbstractController
         private CorrelativesRepository $correlativesRepository,
         private RouteRepository $routeRepository,
         private OrderRepository $orderRepository,
+        private RouteAddressRepository $routeAddressRepository
     )
     {
     }
@@ -62,16 +64,19 @@ class HomeController extends AbstractController
         $routes = $this->getListOfRoutes();
         $routeSelected= $currentRoute;
         $routeOrders = null;
+        $routeAddresses = null;
         
         if (count($routes) > 0) {
             if ($routeSelected === null ){
                 $routeSelected=$routes[0];
             }
             $routeOrders = $this->orderRepository->getOrderByRoute($routeSelected);
+            $routeAddresses = $this->routeAddressRepository->getAddressesByRoute($routeSelected);
         }
 
         return $this->render($template, [
             'routes' => $routes,
+            'routeAddresses' => $routeAddresses,
             'routeOrders' => $routeOrders,
             'routeSelectedId' => $routeSelected?->getId(),
             'unscheduleOrders' => $this->orderRepository->getOrdersByStatus('Unschedule'),
