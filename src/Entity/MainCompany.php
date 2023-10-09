@@ -22,6 +22,24 @@ class MainCompany
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 30, nullable: true)]
+    private ?string $dateFormat = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $timeFormat = null;
+
+    #[ORM\Column(length: 30, nullable: true)]
+    private ?string $unitDistance = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $unitWeight = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $unitVolume = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photo = null;
+
     #[ORM\OneToMany(mappedBy: 'mainCompany', targetEntity: User::class, orphanRemoval: true)]
     private Collection $Users;
 
@@ -72,6 +90,11 @@ class MainCompany
         $this->drivers = new ArrayCollection();
         $this->warehouses = new ArrayCollection();
         $this->vehicles = new ArrayCollection();
+        $this->dateFormat = 'dd.MM.yyyy';
+        $this->timeFormat = '12H';
+        $this->unitDistance = 'Miles';
+        $this->unitWeight = 'Lb';
+        $this->unitVolume = 'Pkg';
     }
 
     public function getId(): ?int
@@ -273,6 +296,78 @@ class MainCompany
     public function setBillingEmail(?string $billingEmail): static
     {
         $this->billingEmail = $billingEmail;
+
+        return $this;
+    }
+
+    public function getDateFormat(): ?string
+    {
+        return $this->dateFormat;
+    }
+
+    public function setDateFormat(?string $dateFormat): static
+    {
+        $this->dateFormat = $dateFormat;
+
+        return $this;
+    }
+
+    public function getTimeFormat(): ?string
+    {
+        return $this->timeFormat;
+    }
+
+    public function setTimeFormat(?string $timeFormat): static
+    {
+        $this->timeFormat = $timeFormat;
+
+        return $this;
+    }
+
+    public function getUnitDistance(): ?string
+    {
+        return $this->unitDistance;
+    }
+
+    public function setUnitDistance(?string $unitDistance): static
+    {
+        $this->unitDistance = $unitDistance;
+
+        return $this;
+    }
+
+    public function getUnitWeight(): ?string
+    {
+        return $this->unitWeight;
+    }
+
+    public function setUnitWeight(?string $unitWeight): static
+    {
+        $this->unitWeight = $unitWeight;
+
+        return $this;
+    }
+
+    public function getUnitVolume(): ?string
+    {
+        return $this->unitVolume;
+    }
+
+    public function setUnitVolume(?string $unitVolume): static
+    {
+        $this->unitVolume = $unitVolume;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): static
+    {
+        $this->photo = $photo;
 
         return $this;
     }
