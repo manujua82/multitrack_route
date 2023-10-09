@@ -14,26 +14,27 @@
 <div class="mb-3 text-start">
     {{ form_label(registrationForm.email, 'Email'|trans, {'label_attr': {'class': 'form-label'}}) }}
     {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',  'placeholder': 'Email'|trans }}) }}
-    <div class="invalid-feedback">{{ form_errors(registrationForm.email) }}</div>
+    <div class="invalid-feedback" style="display: block !important">{{ form_errors(registrationForm.email) }}</div>
 </div>
 <div class="row g-3 mb-3">
     <div class="col-sm-6 inner-addon right-addon">
         <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer; margin-top: 20px;" onclick="toggle_password(this)"></div>
         {{ form_label(registrationForm.plainPassword.first, 'password'|trans, {'label_attr': {'class': 'form-label'}}) }}
         {{ form_widget(registrationForm.plainPassword.first, { 'attr': { 'class': 'form-control', 'placeholder': 'password'|trans }}) }}
-        <div class="invalid-feedback">{{ form_errors(registrationForm.plainPassword.first) }}</div>
+        <div class="invalid-feedback" style="display: block !important">{{ form_errors(registrationForm.plainPassword.first) }}</div>
     </div>
     <div class="col-sm-6 inner-addon right-addon">
         <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer; margin-top: 20px;" onclick="toggle_password(this)"></div>
         {{ form_label(registrationForm.plainPassword.second, 'password'|trans, {'label_attr': {'class': 'form-label'}}) }}
         {{ form_widget(registrationForm.plainPassword.second, { 'attr': { 'class': 'form-control', 'placeholder': 'password'|trans }}) }}
-        <div class="invalid-feedback">{{ form_errors(registrationForm.plainPassword.second) }}</div>
+        <div class="invalid-feedback" style="display: block !important">{{ form_errors(registrationForm.plainPassword.second) }}</div>
     </div>
 </div>
 
 <div class="form-check mb-3">
     {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input', 'type': 'checkbox'}}) }}
     <label class="form-label fs--1 text-none" for="termsService">I accept the <a href="#!">terms </a>and <a href="#!">privacy policy</a></label>
+    <div class="invalid-feedback"></div>
 </div>
 
 <button type="submit" class="btn btn-primary w-100 mb-3">{{ 'signUp'|trans }}</button>
