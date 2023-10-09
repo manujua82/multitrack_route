@@ -9,11 +9,72 @@
             removeRouteUrl: path('app_route_removeOrder'),
             routeSelectedId: routeSelectedId
         }) }}
-        data-action="modal-form:success->reload-content#refreshContent route-dashboard:routeClicked->reload-content#refreshContent sortable:addedOrder->reload-content#addOrderToRoute sortable:removedOrder->reload-content#removeOrderToRoute"
+        data-action="modal-form:success->reload-content#refreshContent route-dashboard:routeClicked->reload-content#refreshContent sortable:addedOrder->reload-content#addOrderToRoute sortable:removedOrder->reload-content#removeOrderToRoute google-maps-callback@window->reload-content#initMap"
     >
-        <div data-reload-content-target="content" >    
-             {{ include('home/_homeDashboard.html.twig')}}
-        </div> 
-    </div>
+        <div class="row dashboard-header">
+            <div class="col-12">
+                <div class="row align-items-center justify-content-between g-3 mb-3">
+                    <div class="col-12 col-md-auto">
+                    </div>
+                    <div class="col-12 col-md-auto">
+                        <div class="d-flex">
+                            <div  
+                                {{ stimulus_controller('modal-form', {
+                                    formUrl: path('app_route_new'),
+                                    loadingText:  'Loading'|trans
+                                })}}
+                                data-action="hidden.bs.modal->modal-form#modalHidden"
+                            >
+                                <a 
+                                    class="btn btn-primary px-3 px-sm-5 me-2"
+                                    data-action="modal-form#openModal"
+                                >
+                                    <span class="fas fa-route me-2"></span>
+                                    <span>{{ 'Add Route' | trans }}</span>
+                                </a>
+                            
+                                {{ include('widgets/_homeModal.html.twig', {
+                                    modalTitle: "Add Route"|trans
+                                }) }}
+                            </div>
 
+                            <div>
+                                <a class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
+                                    <span class="fab fa-first-order me-sm-2"></span>
+                                    <span class="d-none d-sm-inline">{{ 'Add Order' | trans }}</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> 
+
+        <div class="row" 
+            {{ stimulus_controller('sortable') }}
+            data-action='reload-content:success->sortable#makeRouteOrdersSortable'
+        >
+            <div
+                class="col-md-6 col-lg-6 col-xl-6" 
+                data-reload-content-target="content" > 
+                {{ include('home/_homeDashboard.html.twig')}}
+            </div> 
+            
+            <div  
+                class="col-md-6 col-lg-6 col-xl-6">
+
+                <div  
+                    id="routeMap"
+                    class="tpmap"
+                    data-reload-content-target="mapObj">
+                </div>
+                <p>Unschedule</p>
+                {{ include('home/_orderList.html.twig', {
+                    targetName: "unscheduleOrders",
+                    entities: unscheduleOrders  
+                }) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}  

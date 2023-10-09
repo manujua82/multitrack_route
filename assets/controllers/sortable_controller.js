@@ -17,14 +17,7 @@ export default class extends Controller {
         }})
     }
 
-    connect() {
-
-        try {
-            Sortable?.mount(new MultiDrag())
-        } catch (error) {
-            
-        }
-        
+    makeRouteOrdersSortable() {
         Sortable.create(this.routeOrdersTarget, {
             sort: false,  // sorting inside list
             multiDrag: true,
@@ -46,7 +39,9 @@ export default class extends Controller {
 
             animation: 100
         });
+    }
 
+    makeUnscheduleOrdersSortable() {
         Sortable.create(this.unscheduleOrdersTarget, {
             sort: false,
             multiDrag: true,
@@ -60,5 +55,17 @@ export default class extends Controller {
             },
             animation: 100
         });
+    }
+
+    connect() {
+
+        try {
+            Sortable?.mount(new MultiDrag())
+        } catch (error) {
+            
+        }
+
+        this.makeRouteOrdersSortable();
+        this.makeUnscheduleOrdersSortable();
     }
 }

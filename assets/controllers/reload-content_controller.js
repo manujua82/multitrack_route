@@ -1,8 +1,12 @@
 import { Controller } from 'stimulus';
+import MapUtils from '../mapUtils';
 
 export default class extends Controller {
 
-    static targets = ['content'];
+    static targets = [
+        'content',
+        'mapObj',
+    ];
 
     static values = {
         url:  String,
@@ -15,6 +19,12 @@ export default class extends Controller {
 
     connect() {
         this.routeSelectedId = this.routeSelectedIdValue;
+        this.mapUtils = new MapUtils(this.mapObjTarget);
+        this.mapUtils.init(0, 0);
+    }
+
+    async initMap(lat, lng) {
+        this.mapUtils.init(lat, lng);
     }
 
     async fetchDashboard(currentRouteId = null) {
@@ -28,10 +38,18 @@ export default class extends Controller {
             url = `${url}?${params.toString()}`;
         }
        
-        target.style.opacity = .5;
         const response = await fetch(url);
-        target.innerHTML = await response.text();
-        target.style.opacity = 1;
+        
+        // const responseHtml = await response.text();
+        
+        // var newElement = this.htmlToElement(responseHtml);
+        // console.log(newElement);
+        // const leftPanelElement = newElement.querySelector('#leftPanel')
+        // console.log(leftPanelElement);
+        console.log(this.mapObjTarget.innerHTML);
+        target.innerHTML =  await response.text();
+
+        this.dispatch('success');
     }
 
     async refreshContent({ detail: { routeId }} ) {
@@ -43,6 +61,7 @@ export default class extends Controller {
         var orderIds = this.getRouteOrdersIds(items);
         const endpointUri = this.getEndpointUri(this.addRouteUrlValue, orderIds);
         const response =  await fetch(endpointUri);
+        
         this.contentTarget.innerHTML =  await response.text();
     }
 
