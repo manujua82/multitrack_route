@@ -6,6 +6,7 @@ use App\Entity\MainCompany;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
@@ -24,11 +25,16 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
     private UserPasswordHasherInterface $userPasswordHasher;
+    private $mainCompany;
 
-    public function __construct(ManagerRegistry $registry, UserPasswordHasherInterface $userPasswordHasher)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        UserPasswordHasherInterface $userPasswordHasher,
+        Security $security
+    ) {
         $this->userPasswordHasher = $userPasswordHasher;
         parent::__construct($registry, User::class);
+        $this->mainCompany = $security->getUser()->getMainCompany();
     }
 
     /**
@@ -45,7 +51,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
     }
 
-    public function createUser(string $email, string $password, MainCompany $company, array $roles){
+    public function createUser(string $email, string $password, MainCompany $company, array $roles)
+    {
         $newUser = new User();
         $newUser->setEmail($email);
         $newUser->setPassword(
@@ -62,28 +69,40 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $newUser;
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function findAllByCompany(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.company = :company')
+            ->andWhere('c.roles = :roles')
+            ->setParameter('company', $this->mainCompany)
+            ->setParameter('roles', '')
+            ->orderBy('c.created', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
 
-//    public function findOneBySomeField($value): ?User
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    //    /**
+    //     * @return User[] Returns an array of User objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('u')
+    //            ->andWhere('u.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('u.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
+
+    //    public function findOneBySomeField($value): ?User
+    //    {
+    //        return $this->createQueryBuilder('u')
+    //            ->andWhere('u.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }
