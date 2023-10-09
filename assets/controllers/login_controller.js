@@ -11,7 +11,23 @@ export default class extends Controller {
             const pass = $("#password").val();
             const user = $("#username").val();
             const remember = $("#remember_me").is(':checked');
-            console.log('remember', remember)
+            if (!user) {
+                $("#username").css('border-color', '#ed2000')
+                e.preventDefault();
+            } else {
+                $("#username").css('border-color', '#cbd0dd')
+            }
+            if (!pass) {
+                $("#password").css('border-color', '#ed2000')
+                e.preventDefault();
+            } else {
+                $("#password").css('border-color', '#cbd0dd')
+            }
+
+            if (!user || !pass) {
+                $('#alert-warning').html('Los campos marcados en rojo son requeridos').fadeIn()
+            }
+
             if(remember){
                 localStorage.setItem("pass_remember",pass);
                 localStorage.setItem("user_remember",user);
