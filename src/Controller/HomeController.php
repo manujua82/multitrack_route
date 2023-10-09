@@ -2,12 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Address;
 use App\Entity\Order;
 use App\Entity\OrderStatus;
 use App\Entity\Route as EntityRoute;
+use App\Entity\RouteAddress;
 use App\Form\RouteType;
 use App\Repository\CorrelativesRepository;
 use App\Repository\OrderRepository;
+use App\Repository\RouteAddressRepository;
 use App\Repository\RouteRepository;
 use DateInterval;
 use DateTime;
@@ -25,6 +28,7 @@ class HomeController extends AbstractController
         private CorrelativesRepository $correlativesRepository,
         private RouteRepository $routeRepository,
         private OrderRepository $orderRepository,
+        private RouteAddressRepository $routeAddressRepository
     )
     {
     }
@@ -60,22 +64,24 @@ class HomeController extends AbstractController
         $routes = $this->getListOfRoutes();
         $routeSelected= $currentRoute;
         $routeOrders = null;
+        $routeAddresses = null;
         
         if (count($routes) > 0) {
             if ($routeSelected === null ){
                 $routeSelected=$routes[0];
             }
             $routeOrders = $this->orderRepository->getOrderByRoute($routeSelected);
+            $routeAddresses = $this->routeAddressRepository->getAddressesByRoute($routeSelected);
         }
 
         return $this->render($template, [
             'routes' => $routes,
+            'routeAddresses' => $routeAddresses,
             'routeOrders' => $routeOrders,
             'routeSelectedId' => $routeSelected?->getId(),
             'unscheduleOrders' => $this->orderRepository->getOrdersByStatus('Unschedule'),
         ]);
     }
-    
 
     #[Route('/', name: 'app_index')]
     public function index(Request $request): Response
@@ -163,13 +169,15 @@ class HomeController extends AbstractController
         $orderIds = explode(",", $orderIdsStr);
 
         $currentRoute = $this->routeRepository->find( $routeId );
+        
         foreach ($orderIds as &$orderId) {
+            // ADDED ORDER TO ROUTE
             $currentOrder = $this->orderRepository->find($orderId);
             $currentOrder->setStatus(OrderStatus::SCHEDULE->value);
             $currentRoute->addOrder($currentOrder);
         }
-
         $this->routeRepository->add($currentRoute, true);
+        
         return $this->renderDashboard('home/_homeDashboard.html.twig', $currentRoute);
     }
 
@@ -179,7 +187,6 @@ class HomeController extends AbstractController
         $routeId = $request->query->get('routeId');
         $orderIdsStr = $request->query->get('orderIds');
         $orderIds = explode(",", $orderIdsStr);
-
        
         $currentRoute = $this->routeRepository->find($routeId);
         foreach ($orderIds as &$orderId) {
