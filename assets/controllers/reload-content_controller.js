@@ -21,6 +21,8 @@ export default class extends Controller {
         this.routeSelectedId = this.routeSelectedIdValue;
         this.mapUtils = new MapUtils(this.mapObjTarget);
         this.mapUtils.init(0, 0);
+
+        this.setupReSizer();
     }
 
     async initMap(lat, lng) {
@@ -87,5 +89,34 @@ export default class extends Controller {
             orderIds.push(rowOrderId.innerHTML.trim());
         }
         return orderIds;
+    }
+
+    setupReSizer() {
+        const leftPanel = document.querySelector(".home-left-panel");
+        const rightPanel = document.querySelector(".home-right-panel");
+        const gutter = document.querySelector(".home-gutter");
+
+        gutter.addEventListener('mousedown',reSizer);
+
+        function reSizer(e) {
+            let prevX = e.x;
+            const leftPanelBoundingRect = leftPanel.getBoundingClientRect();
+            console.log(leftPanel);
+    
+            window.addEventListener('mousemove',mousemove);
+            window.addEventListener('mouseup',mouseup);
+            
+            function mousemove(e) {
+                let newX = prevX - e.x;
+                leftPanel.style.width = leftPanelBoundingRect.width - newX + "px";
+            }
+        
+            function mouseup() {
+                console.log("mouseup");
+                window.removeEventListener('mousemove', mousemove);
+                window.removeEventListener('mouseup',mouseup);
+                console.log("***mouseup*****");
+            }
+        }
     }
 }

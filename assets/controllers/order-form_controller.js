@@ -40,8 +40,6 @@ export default class extends Controller {
     }
 
     updatePanel(index, panel) {
-        console.log(index );
-        console.log(panel );
         this.addChangeListenerToItem(index);
         this.addRemoveButton(panel);
     }
