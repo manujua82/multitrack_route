@@ -22,6 +22,7 @@
         <label class="form-label" for="email">{{ 'Email'|trans }}</label>
         <div class="form-icon-container">
             <input class="form-control form-icon-input" id="username" name="_username" type="email"  value="{{ lastUsername }}"  placeholder="name@example.com" /><span class="fas fa-user text-900 fs--1 form-icon"></span>
+            <div class="invalid-feedback"></div>
         </div>
     </div>
 
@@ -30,6 +31,7 @@
         <div class="form-icon-container inner-addon right-addon">
             <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer" onclick="toggle_password(this)"></div>
             <input class="form-control form-icon-input" id="password" name="_password" type="password" placeholder="{{ 'password'|trans }}" /><span class="fas fa-key text-900 fs--1 form-icon"></span>
+            <div class="invalid-feedback"></div>
         </div>
     </div>
 
@@ -44,5 +46,8 @@
     <button class="btn btn-primary w-100 mb-3" type="submit">{{ 'Sign In'|trans }}</button>
 </form>
 <div class="text-center"><a class="fs--1 fw-bold" href="{{ path('app_register') }}">{{ 'Create an account'|trans }}</a></div>
-<div {{ stimulus_controller('login')}} />
+<div {{ stimulus_controller('login', {
+    errorEmailMessage: 'El correo es obligatorio' | trans,
+    errorPassMessage: 'La clave es requerida' | trans,
+    })}} />
 {% endblock %}
