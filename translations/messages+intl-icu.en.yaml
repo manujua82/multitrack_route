@@ -46,3 +46,8 @@ Send: Send
 'Type new pass': 'Type your new password'
 'Confirm new pass': 'Confirm your new password'
 'Set pass': 'Set password'
+'Please enter an email': 'Please enter an email'
+'Password is required': 'Password is required'
+'You must repeat the password': 'You must repeat the password'
+'You must accept the terms and conditions': 'You must accept the terms and conditions'
+'Passwords must be equal': 'Passwords must be equal'

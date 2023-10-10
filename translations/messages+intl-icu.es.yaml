@@ -44,3 +44,8 @@ Send: Enviar
 'Type new pass': 'Escribe tu nueva contraseña'
 'Confirm new pass': 'Confirma tu nueva contraseña'
 'Set pass': 'Cambiar contraseña'
+'Please enter an email': 'El correo es obligatorio'
+'Password is required': 'La clave es requerida'
+'You must repeat the password': 'Debe repetir la clave'
+'You must accept the terms and conditions': 'Debe aceptar los términos y condiciones'
+'Passwords must be equal': 'Las claves deben ser iguales'

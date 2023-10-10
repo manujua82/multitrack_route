@@ -4,3 +4,14 @@
 .sortable-ghost {
     opacity: .6;
 }
+
+.sortable-selected {
+    background-color: #f9c7c8 !important;
+    border: solid red 1px !important;
+    z-index: 1 !important;
+}
+
+.tpmap {
+    min-width: 50px;
+    min-height: 400px;
+}
