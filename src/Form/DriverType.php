@@ -45,6 +45,7 @@ class DriverType extends AbstractType
             'first_options' => [
                 'label' => 'Password',
                 'mapped' => false,
+                'required' => $options['require_pass'],
             ],
             'second_options' => [
                 'label' => 'Repeated password',
@@ -64,7 +65,7 @@ class DriverType extends AbstractType
 
     private function getConstrain($isRequire)
     {
-        if ($isRequire) {
+        if (!$isRequire) {
             $result = [
                 new Length([
                     'min' => 6,

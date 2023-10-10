@@ -68,7 +68,9 @@ class DriverController extends AbstractController
             $driverEntity = $form->getData();
             $driverRepository->add($driverEntity, true);
 
-            $userRepository->upgradePassword($driverEntity->getUser(), $form->get('plainPassword')->getData());
+            if($form->get('plainPassword')->getData()){
+                $userRepository->upgradePassword($driverEntity->getUser(), $form->get('plainPassword')->getData());
+            }
 
             return $this->redirectToRoute('app_driver');
         }
