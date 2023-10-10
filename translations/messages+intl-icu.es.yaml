@@ -32,3 +32,8 @@ Actions: Acciones
 'Get access to your account': 'Obtenga acceso a su cuenta'
 'Create an account': 'Crear cuenta'
 'Remember': 'Recordarme'
+'El correo es obligatorio': 'El correo es obligatorio'
+'La clave es requerida': 'La clave es requerida'
+'Debe repetir la clave': 'Debe repetir la clave'
+'Debe aceptar los términos y condiciones': 'Debe aceptar los términos y condiciones'
+'Las claves deben ser iguales': 'Las claves deben ser iguales'

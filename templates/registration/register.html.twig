@@ -40,5 +40,11 @@
 <button type="submit" class="btn btn-primary w-100 mb-3">{{ 'signUp'|trans }}</button>
 <div class="text-center"><a class="fs--1 fw-bold" href="{{ path('app_login') }}">{{ 'Sign in to an existing account'|trans }}</a></div>
 {{ form_end(registrationForm) }}   
-<div {{ stimulus_controller('register')}} />
+<div {{ stimulus_controller('register', {
+    errorEmailMessage: 'El correo es obligatorio' | trans,
+    errorPassFirstMessage: 'La clave es requerida' | trans,
+    errorPassSecondMessage: 'Debe repetir la clave' | trans,
+    errorAgreeTermsMessage: 'Debe aceptar los términos y condiciones' | trans,
+    errorPassEqualMessage: 'Las claves deben ser iguales' | trans
+    })}} />
 {% endblock %}
