@@ -47,7 +47,7 @@
 </form>
 <div class="text-center"><a class="fs--1 fw-bold" href="{{ path('app_register') }}">{{ 'Create an account'|trans }}</a></div>
 <div {{ stimulus_controller('login', {
-    errorEmailMessage: 'El correo es obligatorio' | trans,
-    errorPassMessage: 'La clave es requerida' | trans,
+    errorEmailMessage: 'Please enter an email' | trans,
+    errorPassMessage: 'Password is required' | trans,
     })}} />
 {% endblock %}

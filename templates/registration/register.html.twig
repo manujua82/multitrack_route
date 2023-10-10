@@ -41,10 +41,10 @@
 <div class="text-center"><a class="fs--1 fw-bold" href="{{ path('app_login') }}">{{ 'Sign in to an existing account'|trans }}</a></div>
 {{ form_end(registrationForm) }}   
 <div {{ stimulus_controller('register', {
-    errorEmailMessage: 'El correo es obligatorio' | trans,
-    errorPassFirstMessage: 'La clave es requerida' | trans,
-    errorPassSecondMessage: 'Debe repetir la clave' | trans,
-    errorAgreeTermsMessage: 'Debe aceptar los términos y condiciones' | trans,
-    errorPassEqualMessage: 'Las claves deben ser iguales' | trans
+    errorEmailMessage: 'Please enter an email' | trans,
+    errorPassFirstMessage: 'Password is required' | trans,
+    errorPassSecondMessage: 'You must repeat the password' | trans,
+    errorAgreeTermsMessage: 'You must accept the terms and conditions' | trans,
+    errorPassEqualMessage: 'Passwords must be equal' | trans
     })}} />
 {% endblock %}
