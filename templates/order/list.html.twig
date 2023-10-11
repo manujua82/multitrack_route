@@ -2,12 +2,13 @@
     <thead>
         <tr>
             <th class="sort align-middle" scope="col" data-sort="number" style="width:10%; min-width:100px;">{{ 'Number' |trans }}</th>
+            <th class="sort align-middle" scope="col" data-sort="type" style="width:10%; min-width:100px;">{{ 'Type' |trans }}</th>
             <th class="sort align-middle" scope="col" data-sort="date" style="width:10%; min-width:100px;">{{ 'Date' |trans }}</th>
-            <th class="align-middle" scope="col" data-sort="driver" style="width:15%; min-width:200px;">{{ 'Ship From' |trans }}</th>
-            <th class="align-middle" scope="col" data-sort="customer" style="width:15%;">{{ 'Customer' |trans }}</th>
-            <th class="align-middle" scope="col" data-sort="address" style="width:10%;  min-width:200px;">{{ 'Address' |trans }}</th>
+            <th class="align-middle" scope="col" data-sort="shipFrom" style="width:20%; min-width:200px;">{{ 'Ship From' |trans }}</th>
+            <th class="align-middle" scope="col" data-sort="customer" style="width:10%;">{{ 'Customer' |trans }}</th>
+            <th class="align-middle" scope="col" data-sort="address" style="width:20%;  min-width:200px;">{{ 'Address' |trans }}</th>
             <th class="align-middle" scope="col" data-sort="active" style="width:10%;  min-width:200px;">{{ 'Status' |trans }}</th>
-            <th class="align-middle" scope="col"                    style="width:15%;  min-width:200px;">{{ 'Actions' |trans }}</th>
+            <th class="align-middle" scope="col"                    style="width:10%;">{{ 'Actions' |trans }}</th>
         </tr>
     </thead>
     
@@ -15,11 +16,12 @@
         {% for entity in entities %}
             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                 <td class="number align-middle white-space-nowrap">{{ entity.number }}</td>
+                <td class="type align-middle white-space-nowrap">{{ entity.type }}</td>
                 <td class="date align-middle white-space-nowrap">{{ entity.date |date('d-m-Y')  }}</td>
                 <td class="align-middle white-space-nowrap">{{ entity.shipFrom.name}}</td>
                 <td class="align-middle white-space-nowrap">{{ entity.customerId }}</td>
                 <td class="align-middle white-space-nowrap">{{ entity.addressId }}</td>
-                <td class="align-middle white-space-nowrap"></td>
+                <td class="align-middle white-space-nowrap">{{ entity.status }}</td>
                 <td class="actions align-middle white-space-nowrap">
                     <a class="me-2" href="{{ path('app_order_edit', { orderEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
                         <i class="fa fa-pen-to-square"></i>

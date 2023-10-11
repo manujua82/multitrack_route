@@ -2,6 +2,7 @@
     <table class="table table-sm table-hover fs--1 mb-0">
         <thead>
             <tr>
+                <th style="display:none;">{{ 'Id.' |trans }}</th>
                 <th class="border-top align-middle" scope="col"  style="width:15%;">{{ 'Order No.' |trans }}</th>
                 <th class="border-top align-middle" scope="col" style="width:15%;">{{ 'Date' |trans }}</th>
                 <th class="border-top align-middle" scope="col" style="width:20%;">{{ 'Ship From' |trans }}</th>
@@ -15,6 +16,7 @@
             {% if entities is defined %}
                 {% for entity in entities %}
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static sortable-item-wrapper">
+                        <td style="display:none;">{{ entity.id }}</th>
                         <td class="number align-middle white-space-nowrap">{{ entity.number }}</td>
                         <td class="date align-middle white-space-nowrap">{{ entity.date |date('d-m-Y')  }}</td>
                         <td class="align-middle white-space-nowrap">{{ entity.shipFrom.name}}</td>

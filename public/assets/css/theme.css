@@ -34197,7 +34197,7 @@ a[href].bg-200:hover, a[href].bg-200:focus {
 }
 /*# sourceMappingURL=theme.css.map */
 .circle {
-  background-color: #ccc;
+  background-color: #2494F2;
   border-radius: 50%;
   height: var(--avatar-size);
   text-align: center;
@@ -34210,6 +34210,8 @@ a[href].bg-200:hover, a[href].bg-200:focus {
   font-size: calc(var(--avatar-size) / 2); /* 50% of parent */
   line-height: 1;
   position: relative;
+  color: #FFF;
+  text-transform: uppercase;
   top: calc(var(--avatar-size) / 4); /* 25% of parent */
 }
 
