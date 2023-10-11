@@ -12,7 +12,7 @@
             <div class="form-floating">
                 {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'floatingInputGrid', 'type':'text', 'placeholder': 'Full name'|trans }}) }}
                 {{ form_label(form.name,  'Full name'|trans, {'label_attr': {'class': 'orm-label', 'for': 'floatingInputGrid'}}) }}
-                <div class="invalid-feedback">{{ form_errors(form.name) }}</div>
+                <div class="invalid-feedback" style="display: block !important">{{ form_errors(form.name) }}</div>
             </div>
         </div>
 
@@ -20,7 +20,7 @@
             <div class="form-floating">
                 {{ form_widget(form.email, { 'attr': { 'class': 'form-control', 'id':'floatingInputEmail', 'type':'text', 'placeholder': 'Email'|trans }}) }}
                 {{ form_label(form.email, 'Email'|trans, {'label_attr': {'for': 'floatingInputEmail'}}) }}
-                <div class="invalid-feedback">{{ form_errors(form.email) }}</div>
+                <div class="invalid-feedback" style="display: block !important">{{ form_errors(form.email) }}</div>
             </div>
         </div>
 
@@ -28,7 +28,7 @@
             <div class="form-floating">
                 {{ form_widget(form.address, { 'attr': { 'class': 'form-control', 'id':'floatingInputAddress', 'type':'text', 'placeholder': 'Address'|trans }}) }}
                 {{ form_label(form.address,  'Address'|trans, {'label_attr': {'for': 'floatingInputAddress'}}) }}
-                <div class="invalid-feedback">{{ form_errors(form.address) }}</div>
+                <div class="invalid-feedback" style="display: block !important">{{ form_errors(form.address) }}</div>
             </div>
         </div>
 
@@ -51,7 +51,7 @@
                 <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer" onclick="toggle_password(this)"></div>
                 {{ form_widget(form.plainPassword.first, { 'attr': { 'class': 'form-control', 'id':'passwordInput' ,  'placeholder': 'password'|trans }}) }}
                 {{ form_label(form.plainPassword.first, 'password'|trans, {'label_attr': {'for': 'passwordInput'}}) }}
-                <div class="invalid-feedback">{{ form_errors(form.plainPassword.first) }}</div>
+                <div class="invalid-feedback" style="display: block !important">{{ form_errors(form.plainPassword.first) }}</div>
             </div>
         </div>
 
@@ -60,7 +60,7 @@
                 <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer" onclick="toggle_password(this)"></div>
                 {{ form_widget(form.plainPassword.second, { 'attr': { 'class': 'form-control border-right-0', 'id':'repeatPasswordInput', 'placeholder': 'password'|trans }}) }}
                 {{ form_label(form.plainPassword.second, 'Repeat password'|trans, {'label_attr': {'for': 'repeatPasswordInput'}}) }}
-                <div class="invalid-feedback">{{ form_errors(form.plainPassword.second) }}</div>
+                <div class="invalid-feedback" style="display: block !important">{{ form_errors(form.plainPassword.second) }}</div>
             </div>
         </div>
 
