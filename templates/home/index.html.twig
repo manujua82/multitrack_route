@@ -56,25 +56,34 @@
             data-action='reload-content:success->sortable#makeRouteOrdersSortable'
         >
             <div
-                class="col-md-7 col-lg-7 col-xl-7 home-panel home-left-panel" 
+                id="left-panel"
+                class="home-panel home-empty-panel" 
                 data-reload-content-target="content" > 
                 {{ include('home/_homeDashboard.html.twig')}}
             </div> 
             
-            <div class="home-panel home-right-panel">
-                <div  
-                    id="routeMap"
-                    class="tpmap"
-                    data-reload-content-target="mapObj">
-                </div>
-                <p>Unschedule</p>
-                {{ include('home/_orderList.html.twig', {
-                    targetName: "unscheduleOrders",
-                    entities: unscheduleOrders  
-                }) }}
+            <div  id="right-panel" class="home-panel home-relative-panel">
+                <div class="home-vertical-wrapper">
+                    <div  
+                        id="routeMap"
+                        class="home-vertival-panel tpmap home-empty-panel"
+                        data-reload-content-target="mapObj">
+                    </div>
+                    <div id="unschedule-order-panel" class="home-order-panel home-relative-panel">
+                        <p>Unschedule</p>
+                        {{ include('home/_orderList.html.twig', {
+                            targetName: "unscheduleOrders",
+                            entities: unscheduleOrders  
+                        }) }}
 
-                <div class="home-gutter"></div>
+                        <div id="right-panel-vertical-gutter" class="home-vertical-gutter"></div>
+                    </div>
+                    
+                </div>
+
+                <div id="horizontal-gutter"class="home-horizontal-gutter"></div>
             </div>
+            
         </div>
     </div>
 {% endblock %}  

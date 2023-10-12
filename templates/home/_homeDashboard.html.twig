@@ -3,17 +3,57 @@
         routeSelectedId: routeSelectedId
     }) }}
 > 
-        <div >
-            <p>Routes</p>
-            {{ include('home/_routeList.html.twig') }}
-
+        <div class="home-vertical-wrapper">
+           
+            <div class="d-flex flex-row align-items-center justify-content-between" >
+                <div class="d-flex align-items-center flex-row">
+                    <div class="fw-bold me-4">{{'Routes'| trans}}</div>
+                    <select  id="organizerSingle" >
+                        <option>{{ 'This week  ' | trans }}</option>
+                        <option>{{ 'Today      ' | trans }}</option>
+                        <option>{{ 'Yesterday  ' | trans }}</option>
+                        <option>{{ 'Next 7 days' | trans }}</option>
+                    </select>
+                </div>
+               
+                <div  
+                    {{ stimulus_controller('modal-form', {
+                        formUrl: path('app_route_new'),
+                        loadingText:  'Loading'|trans
+                    })}}
+                    data-action="hidden.bs.modal->modal-form#modalHidden"
+                >
+                    <a 
+                        class="btn btn-soft-primary btn-sm me-4"
+                        data-action="modal-form#openModal"
+                    >
+                        <span class="fas fa-route me-2"></span>
+                        <span>{{ 'New Route' | trans }}</span>
+                    </a>
+                
+                    {{ include('widgets/_homeModal.html.twig', {
+                        modalTitle: "Add Route"|trans
+                    }) }}
+                </div> 
+            </div>
+            <div id="route-panel"class="bg-soft overflow-auto home-vertical-panel home-empty-panel fs--1 mb-0">
+                {{ include('home/_routeList.html.twig') }}
+            </div>
+            
             <p>Sites</p>
-            {{ include('home/_routeAddresses.html.twig') }}
+            <div id="route-address-panel" class="bg-soft home-vertical-panel home-relative-panel fs--1 mb-0">
+                {{ include('home/_routeAddresses.html.twig') }}
+
+                <div id="route-address-gutter" class="home-vertical-gutter"></div>
+            </div>
 
             <p>Orders</p>
-            {{ include('home/_orderList.html.twig', {
-                    targetName: "routeOrders",
-                    entities: routeOrders
-            }) }}
+            <div class="bg-soft home-order-panel home-relative-panel fs--1 mb-0">  
+                {{ include('home/_orderList.html.twig', {
+                        targetName: "routeOrders",
+                        entities: routeOrders
+                }) }}
+                <div id="address-order-gutter" class="home-vertical-gutter"></div>
+            </div>
         </div>
 </div>

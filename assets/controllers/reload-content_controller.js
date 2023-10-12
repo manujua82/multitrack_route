@@ -18,11 +18,14 @@ export default class extends Controller {
     routeSelectedId = null;
 
     connect() {
+        console.log(`connected`);
         this.routeSelectedId = this.routeSelectedIdValue;
         this.mapUtils = new MapUtils(this.mapObjTarget);
         this.mapUtils.init(0, 0);
 
         this.setupReSizer();
+        this.setupLeftVerticalPanel();
+        this.setupRightVerticalPanel();
     }
 
     async initMap(lat, lng) {
@@ -92,16 +95,15 @@ export default class extends Controller {
     }
 
     setupReSizer() {
-        const leftPanel = document.querySelector(".home-left-panel");
-        const rightPanel = document.querySelector(".home-right-panel");
-        const gutter = document.querySelector(".home-gutter");
+        const leftPanel = document.querySelector("#left-panel");
+        const rightPanel = document.querySelector("#right-panel");
+        const gutter = document.querySelector("#horizontal-gutter");
 
         gutter.addEventListener('mousedown',reSizer);
 
         function reSizer(e) {
             let prevX = e.x;
             const leftPanelBoundingRect = leftPanel.getBoundingClientRect();
-            console.log(leftPanel);
     
             window.addEventListener('mousemove',mousemove);
             window.addEventListener('mouseup',mouseup);
@@ -112,11 +114,84 @@ export default class extends Controller {
             }
         
             function mouseup() {
-                console.log("mouseup");
                 window.removeEventListener('mousemove', mousemove);
                 window.removeEventListener('mouseup',mouseup);
-                console.log("***mouseup*****");
             }
         }
+    }
+
+    setupLeftVerticalPanel() {
+        const routePanel = document.querySelector("#route-panel");
+        const routeAddressPanel = document.querySelector("#route-address-panel");
+
+        const routeAddressGutter = document.querySelector("#route-address-gutter");
+        const addressOrderGutter = document.querySelector('#address-order-gutter');
+        
+        routeAddressGutter.addEventListener('mousedown',reRouteAddressSizer);   
+        addressOrderGutter.addEventListener('mousedown',reAddressOrderSizer);   
+
+
+        function reRouteAddressSizer(e) {
+            let prevRouteY = e.y;
+
+            const routePanelBoundingRect = routePanel.getBoundingClientRect();
+            window.addEventListener('mousemove',mouseAddressMove);
+            window.addEventListener('mouseup',mouseAddressUp);
+
+            function mouseAddressMove(e) {
+                let newY = prevRouteY - e.y;
+                routePanel.style.height = routePanelBoundingRect.height - newY + "px";
+            }
+        
+            function mouseAddressUp() {
+                window.removeEventListener('mousemove', mouseAddressMove);
+                window.removeEventListener('mouseup',mouseAddressUp);
+            }
+        }
+
+        function reAddressOrderSizer(e) {
+            let prevY = e.y;
+
+            const routeAddressPanelBoundingRect = routeAddressPanel.getBoundingClientRect();
+            window.addEventListener('mousemove',mouseRouteAddressMove);
+            window.addEventListener('mouseup',mouseRouteAddressUp);
+
+            function mouseRouteAddressMove(e) {
+                let newY = prevY - e.y;
+                routeAddressPanel.style.height = routeAddressPanelBoundingRect.height - newY + "px";
+            }
+        
+            function mouseRouteAddressUp() {
+                window.removeEventListener('mousemove', mouseRouteAddressMove);
+                window.removeEventListener('mouseup',mouseRouteAddressUp);
+            }
+        }
+    }
+
+    setupRightVerticalPanel() {
+        const topPanel = document.querySelector("#routeMap");
+        const bottomPanel = document.querySelector("#unschedule-order-panel");
+        const verticalGutter = document.querySelector("#right-panel-vertical-gutter");
+
+        verticalGutter.addEventListener('mousedown',reVerticalSizer);
+
+        function reVerticalSizer(e) {
+            let prevY = e.y;
+            const topPanelBoundingRect = topPanel.getBoundingClientRect();
+
+            window.addEventListener('mousemove',mouseVerticalMove);
+            window.addEventListener('mouseup',mouseVerticalUp);
+
+            function mouseVerticalMove(e) {
+                let newY = prevY - e.y;
+                topPanel.style.height = topPanelBoundingRect.height - newY + "px";
+            }
+        
+            function mouseVerticalUp() {
+                window.removeEventListener('mousemove', mouseVerticalMove);
+                window.removeEventListener('mouseup',mouseVerticalUp);
+            }
+        }
+        
     }
 }
