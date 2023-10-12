@@ -10,18 +10,17 @@
                 <img src="{{ asset('assets/img/icons/logo.png') }}" alt="phoenix" width="58" />
             </div>
         </a>
-        <div class="text-center mb-6">
+        <div class="text-center mb-6" data-controller="utils">
             <h4 class="text-1000">{{'Reset new pass' | trans }}</h4>
             <p class="text-700">{{'Type new pass' | trans}}</p>
             {{ form_start(resetForm, { 'attr' : { 'class': 'mt-5' } }) }}
             <span class="inner-addon right-addon">
-                <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer" onclick="toggle_password(this)"></div>
                 {{ form_widget(resetForm.plainPassword.first, { 'attr': { 'class': 'form-control mb-2', 'placeholder': 'Type new pass'|trans }}) }}
             </span>
             <span class="inner-addon right-addon">
-                <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer; right: -232px;" onclick="toggle_password(this)"></div>
-                {{ form_widget(resetForm.plainPassword.second, { 'attr': { 'class': 'form-control mb-4', 'placeholder': 'Confirm new pass'|trans }}) }}
+                {{ form_widget(resetForm.plainPassword.second, { 'attr': { 'class': 'form-control mb-2', 'placeholder': 'Confirm new pass'|trans }}) }}
             </span>
+        <div class="uil fs-0 mb-4 uil-eye text-700" style="cursor: pointer;" data-action="click->utils#toggle_password"> {{ 'Show password' | trans }}</div>
             <button class="btn btn-primary w-100" type="submit">{{'Set pass' | trans }}</button>
             {{ form_end(resetForm) }}
         </div>
