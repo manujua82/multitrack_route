@@ -51,3 +51,8 @@ Send: Send
 'You must repeat the password': 'You must repeat the password'
 'You must accept the terms and conditions': 'You must accept the terms and conditions'
 'Passwords must be equal': 'Passwords must be equal'
+'No reset password token found': 'No reset password token found in the URL or in the session.'
+'Hi!': 'Hi!'
+'To reset your password, please visit the following link': 'To reset your password, please visit the following link'
+'This link will expire in': 'This link will expire in'
+'Cheers!': 'Cheers!'

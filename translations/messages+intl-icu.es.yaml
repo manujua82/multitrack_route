@@ -49,3 +49,8 @@ Send: Enviar
 'You must repeat the password': 'Debe repetir la clave'
 'You must accept the terms and conditions': 'Debe aceptar los términos y condiciones'
 'Passwords must be equal': 'Las claves deben ser iguales'
+'No reset password token found': 'No se encontró ningún token de restablecimiento de contraseña en la URL o en la sesión.'
+'Hi!': '¡Hola!'
+'To reset your password, please visit the following link': 'Para restablecer su contraseña, visite el siguiente enlace'
+'This link will expire in': 'Este enlace caducará en'
+'Cheers!': '¡Saludos!'
