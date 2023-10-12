@@ -35,24 +35,23 @@ class DriverType extends AbstractType
                         "message" => "Your email doesn't seems to be valid",
                     ])
                 ]
-            ])
-            ->add('plainPassword', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
-                'mapped' => false,
-                'required' => $options['require_pass'],
-                'attr' => ['autocomplete' => 'new-password'],
-                'first_options' => [
-                    'label' => 'Password',
-                    'mapped' => false,
-                    'required' => $options['require_pass'],
-                ],
-                'second_options' => [
-                    'label' => 'Repeated password',
-                    'mapped' => false,
-                ],
-                'constraints' => $this->getConstrain($options['require_pass']),
             ]);
+        $builder->add('plainPassword', RepeatedType::class, [
+            'type' => PasswordType::class,
+            'invalid_message' => 'The password fields must match.',
+            'mapped' => false,
+            'required' => $options['require_pass'],
+            'attr' => ['autocomplete' => 'new-password'],
+            'first_options' => [
+                'label' => 'Password',
+                'mapped' => false,
+            ],
+            'second_options' => [
+                'label' => 'Repeated password',
+                'mapped' => false,
+            ],
+            'constraints' => $this->getConstrain($options['require_pass']),
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

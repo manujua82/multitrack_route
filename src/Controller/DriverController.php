@@ -23,7 +23,7 @@ class DriverController extends AbstractController
         ]);
     }
 
-    #[Route('/driver/new', name: 'app_driver_new', priority: 2)]
+    #[Route('/driver/new', name: 'app_driver_new', priority:  2)]
     public function add(
         Request $request,
         DriverRepository $driverRepository,
@@ -57,11 +57,13 @@ class DriverController extends AbstractController
         Driver $driverEntity,
         Request $request,
         DriverRepository $driverRepository,
-        UserRepository $userRepository
+        UserRepository $userRepository,
     ): Response {
         $form = $this->createForm(DriverType::class, $driverEntity, array("require_pass" => false));
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
+
+            //TODO: Added changes for user passwords and/or email
 
             $driverEntity = $form->getData();
             $driverRepository->add($driverEntity, true);

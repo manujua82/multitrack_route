@@ -57,15 +57,15 @@ class OrderController extends AbstractController
 
     #[Route('/order/{orderEntity}/edit', name: 'app_order_edit', methods: ['GET', 'POST'])]
     public function edit(
+        Request $request,
         Order $orderEntity,
         OrderRepository $orderRepository,
         TranslatorInterface $translator
     ): Response
     {
-
-        $form = $this->createForm(OrderType::class, $orderEntity);
+        //, ['action' => $this->generateUrl('app_order_edit', [ "orderEntity" => $orderEntity->getId() ])]);
+        $form = $this->createForm(OrderType::class, $orderEntity, ['action' => $this->generateUrl('app_order_new')]);
         $form->get('date')->setData($orderEntity->getDate());
-
 
         if ($form->isSubmitted() && $form->isValid()) { 
             $orderEntity = $form->getData();
