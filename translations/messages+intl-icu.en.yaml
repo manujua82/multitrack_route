@@ -40,3 +40,7 @@ Actions: Actions
 'You must repeat the password': 'You must repeat the password'
 'You must accept the terms and conditions': 'You must accept the terms and conditions'
 'Passwords must be equal': 'Passwords must be equal'
+'Shipper created flash': 'Shipper {code} was Created'
+'Shipper edit flash': 'Shipper {code} was Edit'
+'Driver edit flash': 'Driver {code} was Edit'
+'Driver new flash': 'Driver {code} was created'

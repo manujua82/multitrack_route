@@ -38,3 +38,7 @@ Actions: Acciones
 'You must repeat the password': 'Debe repetir la clave'
 'You must accept the terms and conditions': 'Debe aceptar los términos y condiciones'
 'Passwords must be equal': 'Las claves deben ser iguales'
+'Shipper created flash': 'El remitente {code} fue creado'
+'Shipper edit flash': 'El remitente {code} fue editado'
+'Driver edit flash': 'El conductor {code} fue editado'
+'Driver new flash': 'El conductor {code} fue creado'

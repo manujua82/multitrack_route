@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 #[IsGranted('IS_AUTHENTICATED_FULLY')]
 class DriverController extends AbstractController
@@ -28,6 +29,7 @@ class DriverController extends AbstractController
         Request $request,
         DriverRepository $driverRepository,
         UserRepository $userRepository,
+        TranslatorInterface $translator,
     ): Response {
         $form = $this->createForm(DriverType::class, new Driver());
         $form->handleRequest($request);
@@ -43,6 +45,8 @@ class DriverController extends AbstractController
             $driverEntity->setUser($driverUser);
             $driverRepository->add($driverEntity, true);
 
+            $flashMessage = $translator->trans('Driver new flash', ['code' => $driverEntity->getName()]);
+            $this->addFlash('success', $flashMessage);
             return $this->redirectToRoute('app_driver');
         }
 
@@ -58,6 +62,7 @@ class DriverController extends AbstractController
         Request $request,
         DriverRepository $driverRepository,
         UserRepository $userRepository,
+        TranslatorInterface $translator,
     ): Response {
         $form = $this->createForm(DriverType::class, $driverEntity, array("require_pass" => false));
         $form->handleRequest($request);
@@ -72,6 +77,8 @@ class DriverController extends AbstractController
                 $userRepository->upgradePassword($driverEntity->getUser(), $form->get('plainPassword')->getData());
             }
 
+            $flashMessage = $translator->trans('Driver edit flash', ['code' => $driverEntity->getName()]);
+            $this->addFlash('success', $flashMessage);
             return $this->redirectToRoute('app_driver');
         }
 
