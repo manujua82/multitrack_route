@@ -5,17 +5,19 @@
 > 
         <div class="home-vertical-wrapper">
            
-            <div class="d-flex flex-row align-items-center justify-content-between" >
+            <div id="route-panel"class="bg-soft overflow-auto home-vertical-panel home-empty-panel fs--1 mb-0">
+                <div class="d-flex flex-row align-items-center justify-content-between" >
                 <div class="d-flex align-items-center flex-row">
-                    <div class="fw-bold me-4">{{'Routes'| trans}}</div>
-                    <select  id="organizerSingle" >
+                    <div class="fw-bold me-4 px-2 pt-2 pb-2">{{'Routes'| trans}}</div>
+                    <input class="form-control form-control-sm me-4" placeholder="Search Routes"|trans />
+                    <select class="me-4" id="organizerSingle" >
                         <option>{{ 'This week  ' | trans }}</option>
                         <option>{{ 'Today      ' | trans }}</option>
                         <option>{{ 'Yesterday  ' | trans }}</option>
                         <option>{{ 'Next 7 days' | trans }}</option>
                     </select>
                 </div>
-               
+                
                 <div  
                     {{ stimulus_controller('modal-form', {
                         formUrl: path('app_route_new'),
@@ -35,20 +37,33 @@
                         modalTitle: "Add Route"|trans
                     }) }}
                 </div> 
-            </div>
-            <div id="route-panel"class="bg-soft overflow-auto home-vertical-panel home-empty-panel fs--1 mb-0">
+                </div>
+            
                 {{ include('home/_routeList.html.twig') }}
             </div>
             
-            <p>Sites</p>
             <div id="route-address-panel" class="bg-soft home-vertical-panel home-relative-panel fs--1 mb-0">
+                <div class="bg-soft d-flex align-items-center flex-row">
+                    <div class="fw-bold me-4 px-2 pt-2 pb-2">{{'Sites'| trans}}</div>
+                    <a class="btn btn-soft-primary btn-sm me-4 ">
+                        <span class="fas fa-route me-2"></span>
+                        <span>{{ 'Optimize' | trans }}</span>
+                    </a>
+                    <a class="btn btn-soft-primary btn-sm me-4">
+                        <span class="fas fa-clock me-2"></span>
+                        <span>{{ 'Calculate ETA' | trans }}</span>
+                    </a>
+                </div>
                 {{ include('home/_routeAddresses.html.twig') }}
 
                 <div id="route-address-gutter" class="home-vertical-gutter"></div>
             </div>
 
-            <p>Orders</p>
+            
             <div class="bg-soft home-order-panel home-relative-panel fs--1 mb-0">  
+                <div class="bg-soft d-flex align-items-center flex-row px-2 pt-2 pb-2">
+                    <div class="fw-bold me-4">{{'Orders'| trans}}</div>
+                </div>
                 {{ include('home/_orderList.html.twig', {
                         targetName: "routeOrders",
                         entities: routeOrders

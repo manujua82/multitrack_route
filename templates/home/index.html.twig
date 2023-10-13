@@ -69,8 +69,11 @@
                         class="home-vertival-panel tpmap home-empty-panel"
                         data-reload-content-target="mapObj">
                     </div>
-                    <div id="unschedule-order-panel" class="home-order-panel home-relative-panel">
-                        <p>Unschedule</p>
+                    
+                    <div id="unschedule-order-panel" class="bg-soft home-order-panel home-relative-panel">
+                        <div class="bg-soft d-flex align-items-center flex-row fs--1 px-2 pt-2 pb-2">
+                            <div class="fw-bold me-4">{{'Unschedule'| trans}}</div>
+                        </div>
                         {{ include('home/_orderList.html.twig', {
                             targetName: "unscheduleOrders",
                             entities: unscheduleOrders  
