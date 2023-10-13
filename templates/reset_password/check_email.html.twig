@@ -1,0 +1,23 @@
+{% extends 'simpleBase.html.twig' %}
+
+{% block title %}{{'Password sent' | trans }}{% endblock %}
+
+{% block body %}
+    <div class="col-sm-10 col-md-8 col-lg-5 col-xxl-4">
+        <a class="d-flex flex-center text-decoration-none mb-4" href="{{ path('app_index')}}">
+            <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block">
+                <img src="{{ asset('assets/img/icons/logo.png') }}" alt="phoenix" width="58" />
+            </div>
+        </a>
+        <div class="px-xxl-5">
+            <div class="text-center mb-6">
+            <h4 class="text-1000">{{'Password sent' | trans }}</h4>
+            <p class="text-700 mb-5">
+                {{'Password send message' | trans }} <br />
+                {{'Link expire' | trans }} {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+            </p>
+        <p>{{'Password send message 2' | trans }} <a href="{{ path('app_forgot_password_request') }}">{{'try again' | trans }}</a>.</p>
+        </div>
+        </div>
+    </div>
+{% endblock %}
