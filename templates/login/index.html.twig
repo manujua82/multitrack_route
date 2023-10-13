@@ -26,10 +26,10 @@
         </div>
     </div>
 
-    <div class="mb-3 text-start form-floating">
+    <div class="mb-3 text-start" data-controller="utils">
         <label class="form-label" for="password">{{ 'password'|trans }}</label>
         <div class="form-icon-container inner-addon right-addon">
-            <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer" onclick="toggle_password(this)"></div>
+            <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer" data-action="click->utils#toggle_password"></div>
             <input class="form-control form-icon-input" id="password" name="_password" type="password" placeholder="{{ 'password'|trans }}" /><span class="fas fa-key text-900 fs--1 form-icon"></span>
             <div class="invalid-feedback"></div>
         </div>
@@ -42,6 +42,7 @@
                 <label class="form-check-label mb-0" for="remember_me">{{'Remember' | trans}}</label>
             </div>
         </div> 
+        <div class="col-auto"><a class="fs--1 fw-semi-bold" href="{{ path('app_forgot_password_request') }}">{{ 'Forgot Password?'|trans }}</a></div>
     </div>
     <button class="btn btn-primary w-100 mb-3" type="submit">{{ 'Sign In'|trans }}</button>
 </form>

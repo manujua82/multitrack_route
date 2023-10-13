@@ -1,5 +1,5 @@
 <div class="row flex-center py-5">
-    <div class="col-xl-4">
+    <div class="col-xl-4" data-controller="utils">
         {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation"}}) }}
         <div class="col-sm-6 col-md-6">
             <div class="form-check mb-3">
@@ -48,7 +48,7 @@
 
         <div class="col-sm-6 col-md-6">
             <div class="form-floating inner-addon right-addon">
-                <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer" onclick="toggle_password(this)"></div>
+                <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer" data-action="click->utils#toggle_password"></div>
                 {{ form_widget(form.plainPassword.first, { 'attr': { 'class': 'form-control', 'id':'passwordInput' ,  'placeholder': 'password'|trans }}) }}
                 {{ form_label(form.plainPassword.first, 'password'|trans, {'label_attr': {'for': 'passwordInput'}}) }}
                 <div class="invalid-feedback">{{ form_errors(form.plainPassword.first) }}</div>
@@ -57,7 +57,7 @@
 
         <div class="col-sm-6 col-md-6">
             <div class="form-floating inner-addon right-addon">
-                <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer" onclick="toggle_password(this)"></div>
+                <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer" data-action="click->utils#toggle_password"></div>
                 {{ form_widget(form.plainPassword.second, { 'attr': { 'class': 'form-control border-right-0', 'id':'repeatPasswordInput', 'placeholder': 'password'|trans }}) }}
                 {{ form_label(form.plainPassword.second, 'Repeat password'|trans, {'label_attr': {'for': 'repeatPasswordInput'}}) }}
                 <div class="invalid-feedback">{{ form_errors(form.plainPassword.second) }}</div>
