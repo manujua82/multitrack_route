@@ -64,7 +64,7 @@ class DriverType extends AbstractType
 
     private function getConstrain($isRequire)
     {
-        if ($isRequire) {
+        if (!$isRequire) {
             $result = [
                 new Length([
                     'min' => 6,
