@@ -12,7 +12,7 @@
             </tr>
         </thead>
         
-        <tbody class="list" id="members-table-body" data-sortable-target='{{ targetName }}'>
+        <tbody class="list" id="members-table-body" data-reload-content-target='{{ targetName }}'>
             {% if entities is defined %}
                 {% for entity in entities %}
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static sortable-item-wrapper">

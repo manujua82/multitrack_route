@@ -12,6 +12,76 @@
 }
 
 .tpmap {
-    min-width: 50px;
-    min-height: 400px;
+    min-width: 200px;
+    min-height: 100px;
+    height: 60%;
 }
+
+.home-tpmap {
+    min-width: 200px;
+    min-height: 100px;
+    height: 400px;
+}
+
+/* RESIZE */
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+.home-wrapper {
+    height: 85vh;
+    width: 96vw;
+    display: flex;
+}
+
+.home-vertical-wrapper {
+    height: 90vh;
+}
+  
+.home-panel {
+    /* padding: 1em; */
+    min-width: 200px;
+    width: 50%;
+}
+
+.home-vertical-panel {
+    min-height: 45px;
+    height: 30%;
+}
+
+.home-order-panel {
+    min-height: 10px;
+    height: 40%;
+}
+  
+.home-empty-panel {
+
+}
+
+.home-relative-panel {
+    position: relative;
+}
+
+.home-horizontal-gutter {
+    width: 1px;
+    height: 100%;
+    background-color: rgb(243, 192, 192);
+    border-left: 2px dotted rgb(10, 53, 245);
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: col-resize;
+}
+
+.home-vertical-gutter {
+    width: 100%;
+    height: 1px;
+    background-color: rgb(243, 192, 192);
+    border-top: 2px dotted rgb(10, 53, 245);
+    position: absolute;
+    top: 0px;
+    left: 0;
+    cursor: col-resize;
+}
+     

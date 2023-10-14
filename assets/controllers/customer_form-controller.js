@@ -1,4 +1,6 @@
 import { Controller } from 'stimulus';
+import $ from 'jquery';
+
 
 export default class extends Controller {
     connect() {
@@ -7,7 +9,6 @@ export default class extends Controller {
 
         var _addRemoveButton = this.addRemoveButton;
         collectionHolder.find('.panel').each(function () {
-            console.log('Here');
             _addRemoveButton($(this));
         });
     }
@@ -60,9 +61,7 @@ export default class extends Controller {
         const stateBoxId = `customer_addresses_${index}_state`;
         const postalcodeBoxId = `customer_addresses_${index}_postalcode`;
         const countryBoxId = `customer_addresses_${index}_country`;
-
-        console.log(cityBoxId);
-    
+            
         if (typeof(google) != "undefined"){
             const addressInput = document.getElementById(addressSearchBoxId);        
     
