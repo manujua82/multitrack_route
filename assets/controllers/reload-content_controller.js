@@ -1,4 +1,5 @@
 import { Controller } from 'stimulus';
+import {Sortable, MultiDrag} from 'sortablejs';
 import MapUtils from '../mapUtils';
 
 export default class extends Controller {
@@ -6,6 +7,8 @@ export default class extends Controller {
     static targets = [
         'content',
         'mapObj',
+        'routeOrders', 
+        'unscheduleOrders'
     ];
 
     static values = {
@@ -18,7 +21,12 @@ export default class extends Controller {
     routeSelectedId = null;
 
     connect() {
-        console.log(`connected`);
+        try {
+            Sortable?.mount(new MultiDrag())
+        } catch (error) {
+            
+        }
+
         this.routeSelectedId = this.routeSelectedIdValue;
         this.mapUtils = new MapUtils(this.mapObjTarget);
         this.mapUtils.init(0, 0);
@@ -26,6 +34,8 @@ export default class extends Controller {
         this.setupReSizer();
         this.setupLeftVerticalPanel();
         this.setupRightVerticalPanel();
+        this.makeRouteOrdersSortable();
+        this.makeUnscheduleOrdersSortable();
     }
 
     async initMap(lat, lng) {
@@ -44,16 +54,9 @@ export default class extends Controller {
         }
        
         const response = await fetch(url);
-        
-        // const responseHtml = await response.text();
-        
-        // var newElement = this.htmlToElement(responseHtml);
-        // console.log(newElement);
-        // const leftPanelElement = newElement.querySelector('#leftPanel')
-        // console.log(leftPanelElement);
-        console.log(this.mapObjTarget.innerHTML);
         target.innerHTML =  await response.text();
 
+        this.refreshScriptsBehaviors();
         this.dispatch('success');
     }
 
@@ -62,19 +65,22 @@ export default class extends Controller {
         this.fetchDashboard(routeId);
     }
 
-    async addOrderToRoute( { detail: { items }} ) {
+    async addOrderToRoute(items) {
         var orderIds = this.getRouteOrdersIds(items);
         const endpointUri = this.getEndpointUri(this.addRouteUrlValue, orderIds);
         const response =  await fetch(endpointUri);
         
         this.contentTarget.innerHTML =  await response.text();
+        this.refreshScriptsBehaviors();
     }
 
-    async removeOrderToRoute({ detail: { items }} ) {
+    async removeOrderToRoute(items) {
         var orderIds = this.getRouteOrdersIds(items);
         const endpointUri = this.getEndpointUri(this.removeRouteUrlValue, orderIds);
         const response =  await fetch(endpointUri);
         this.contentTarget.innerHTML =  await response.text();
+
+        this.refreshScriptsBehaviors();
     }
 
     getEndpointUri (baseUrl, orderIds) {
@@ -94,6 +100,66 @@ export default class extends Controller {
         return orderIds;
     }
 
+    // Refresh Script Behaviors
+    refreshScriptsBehaviors() {
+        this.setupLeftVerticalPanel();
+        this.makeRouteOrdersSortable();
+    }
+    
+
+    // Sortable
+    getSelectedItemsFormSortable(evt) {
+        var items = []
+        if (evt.items.length == 0) {
+            items.push(evt.item);
+            return items;
+        }
+        return  evt.items;
+    }
+
+    makeRouteOrdersSortable() {
+        Sortable.create(this.routeOrdersTarget, {
+            sort: false,  // sorting inside list
+            multiDrag: true,
+            selectedClass: "sortable-selected",
+            group: {
+                name: 'routeOrders',
+                put: function (to) {
+                    return true
+                }
+            },
+            // Element is dropped into the list from another list
+            onAdd: function (evt) {
+                const items = this.getSelectedItemsFormSortable(evt);
+                this.addOrderToRoute(items);
+            }.bind(this),
+
+            onRemove: function(evt){
+                const items = this.getSelectedItemsFormSortable(evt);
+                this.removeOrderToRoute(items);
+            }.bind(this),
+
+            animation: 100
+        });
+    }
+
+    makeUnscheduleOrdersSortable() {
+        Sortable.create(this.unscheduleOrdersTarget, {
+            sort: false,
+            multiDrag: true,
+            selectedClass: "sortable-selected",
+            group: {
+                name: 'unscheduleOrders',
+                put: 'routeOrders',
+                pull: function (to, from) {
+                    return true
+                }
+            },
+            animation: 100
+        });
+    }
+
+    // Resize panels functions 
     setupReSizer() {
         const leftPanel = document.querySelector("#left-panel");
         const rightPanel = document.querySelector("#right-panel");

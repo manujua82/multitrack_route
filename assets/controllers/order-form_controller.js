@@ -1,4 +1,5 @@
 import { Controller } from 'stimulus';
+import $ from 'jquery';
 
 export default class extends Controller {
 
@@ -19,14 +20,6 @@ export default class extends Controller {
 
     connect() {
         this.form = document.getElementById('order_form');
-
-        var collectionHolder =   $('#order_list');
-        collectionHolder.data('index', collectionHolder.find('.panel').length);
-        collectionHolder.find('.panel').each((index, element) => {
-            console.log($(this));
-            console.log(element);
-            this.updatePanel(index, $(this)) // TODO: Refactor 
-        });
             
         const orderTypeSelect = document.getElementById("order_type");
         orderTypeSelect.addEventListener('change', (e) => this.onOrderTypeChanged(e));
@@ -37,11 +30,13 @@ export default class extends Controller {
 
         const customer_pickup = document.getElementById('order_pickupCustomerId_autocomplete');
         customer_pickup.addEventListener('change', (e) => this.onPickupCustomerSelected(e));
-    }
 
-    updatePanel(index, panel) {
-        this.addChangeListenerToItem(index);
-        this.addRemoveButton(panel);
+        var collectionHolder = $('#order_list');
+        collectionHolder.data('index', collectionHolder.find('.panel').length);
+        collectionHolder.find('.panel').each((index, element) => {
+            this.addChangeListenerToItem(index);
+            this.addRemoveButton($(element));
+        });
     }
 
     updateFormByType(type) {
@@ -67,15 +62,11 @@ export default class extends Controller {
 
     async onCustomerSelected(e) {
             let requestBody = e.target.getAttribute('name') + '=' + e.target.value;
-            console.log("onCustomerSelected");
-            console.log(requestBody);
-            console.log(this.form.getAttribute('action'));
 
             const form_select_address = document.getElementById('order_addressId');
             const updateFormResponse = await this.updateForm(requestBody, this.form.getAttribute('action'), this.form.getAttribute('method'));
             
             const html = this.parseTextToHtml(updateFormResponse);
-            console.log(updateFormResponse);
             const new_form_select_address = html.getElementById('order_addressId');
             form_select_address.innerHTML = new_form_select_address.innerHTML;
 
@@ -97,7 +88,6 @@ export default class extends Controller {
 
     async onPickupCustomerSelected(e) {
         let requestBody = e.target.getAttribute('name') + '=' + e.target.value;
-        console.log("onPickupCustomerSelected");
 
         const updateFormResponse = await this.updateForm(requestBody, this.form.getAttribute('action'), this.form.getAttribute('method'));
        
@@ -132,7 +122,6 @@ export default class extends Controller {
         collectionHolder.data('index', index+1);
 
         var panel = $('<tr class="panel"></tr>');
-
         panel.append(newForm);
 
         // append the remove button to the new panel
@@ -217,6 +206,4 @@ export default class extends Controller {
         const html = parser.parseFromString(text, 'text/html');
         return html;
     };
-
-   
 }

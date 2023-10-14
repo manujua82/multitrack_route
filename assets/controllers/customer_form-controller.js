@@ -1,4 +1,6 @@
 import { Controller } from 'stimulus';
+import $ from 'jquery';
+
 
 export default class extends Controller {
     connect() {
@@ -7,7 +9,6 @@ export default class extends Controller {
 
         var _addRemoveButton = this.addRemoveButton;
         collectionHolder.find('.panel').each(function () {
-            console.log('Here');
             _addRemoveButton($(this));
         });
     }
