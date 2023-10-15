@@ -4,12 +4,21 @@
     
     <h2 class="text-bold text-1100 mb-5">{{ "Items" | trans }}</h2>
 
-    <div id="items">
+    <div id="items"
+         {{ stimulus_controller( 'item', {
+            refreshUrl: path('app_item')
+         }) }}>
         <div class="row align-items-center justify-content-between g-3 mb-4">
             <div class="col col-auto">
                 <div class="search-box">
                     <form class="position-relative" data-bs-toggle="search" data-bs-display="static" action="{{ path('app_item') }}" method="get">
-                        <input class="form-control search-input search" type="search" placeholder={{'Search Item'|trans}} aria-label="Search" />
+                        <input 
+                            class="form-control search-input search" 
+                            type="search" 
+                            placeholder={{'Search Item'|trans}} 
+                            aria-label="Search"
+                            data-item-target="search"
+                            data-action="item#onSearchItems"/>
                         <span class="fas fa-search search-box-icon"></span>
                     </form>
                 </div>
@@ -22,39 +31,10 @@
             </div>
         </div>
 
-        <div class="mx-n4 mx-lg-n6 px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
-            <div class="table-responsive scrollbar ms-n1 ps-1">
-                {% if items|length > 0 %}
-
-                    {{ include("item/list.html.twig", {
-                        entities: items
-                    }) }} 
-
-                    <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
-                        <div class="col-auto d-flex">
-                            <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info">
-                            </p>
-                            <a class="fw-semi-bold" href="#!" data-list-view="*">
-                                {{ 'View all' |trans }}<span class="fas fa-angle-right ms-1" data-fa-transform="down-1">
-                                </span>
-                            </a>
-                            <a class="fw-semi-bold d-none" href="#!" data-list-view="less">
-                                {{ 'View Less' |trans }}<span class="fas fa-angle-right ms-1" data-fa-transform="down-1">
-                                </span>
-                            </a>
-                        </div>
-                        <div class="col-auto d-flex">
-                            <button class="page-link" id="paginationPrev"><span class="fas fa-chevron-left"></span></button>
-                            <ul class="mb-0 pagination">
-                                {# HERE NAVIGATION #}
-                            </ul>
-                            <button class="page-link pe-0" id="paginationNext"><span class="fas fa-chevron-right"></span></button>
-                        </div>
-                    </div>
-                {% else %}
-                    {# TODO: MESSAGE FOR NO ITEMS #}
-                {% endif %}
-            </div>
-        </div>
+        <div data-item-target="itemsList">
+            {{ include("item/list.html.twig", {
+                entities: items
+            }) }}
+        </div>          
     </div>
 {% endblock %}

@@ -56,6 +56,21 @@ class ItemRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function searchByParent(string $parent): array
+    {
+        return $this->createQueryBuilder('i')
+            ->orWhere('i.code LIKE :parent')
+            ->orWhere('i.name LIKE :nameParent')
+            ->andWhere('i.company = :company')
+            ->setParameter('parent', $parent . '%')
+            ->setParameter('nameParent',  '%' . $parent . '%')
+            ->setParameter('company', $this->mainCompany)
+            ->orderBy('i.created', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+
 //    /**
 //     * @return Item[] Returns an array of Item objects
 //     */

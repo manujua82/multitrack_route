@@ -1,32 +1,64 @@
-<table class="table table-sm fs--1 mb-0">
-    <thead>
-        <tr>
-            <th class="sort align-middle" scope="col" data-sort="code" style="width:10%; min-width:200px;">{{ 'Code' |trans }}</th>
-            <th class="sort align-middle" scope="col" data-sort="name" style="width:30%; min-width:200px;">{{ 'Name' |trans }}</th>
-            <th class="align-middle pe-3" scope="col" style="width:10%; min-width:200px;">{{ 'Unit' |trans }}</th>
-            <th class="align-middle" scope="col" style="width:30%;  min-width:200px;">{{ 'Barcode' |trans }}</th>
-            <th class="align-middle" scope="col" style="width:30%;  min-width:200px;">{{ 'Price' |trans }}</th>
-            <th class="align-middle" scope="col" style="width:20%;  min-width:200px;">{{ 'Actions' |trans }}</th>
-        </tr>
-    </thead>
-    
-    <tbody class="list" id="members-table-body">
-        {% for entity in entities %}
-            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                <td class="code align-middle white-space-nowrap">{{ entity.code }}</td>
-                <td class="name align-middle white-space-nowrap">{{ entity.name }}</td>
-                <td class="unit align-middle white-space-nowrap">{{ entity.unit }}</td>
-                <td class="barcode align-middle white-space-nowrap">{{ entity.barcode }}</td>
-                <td class="barcode align-middle white-space-nowrap">{{ entity.price | format_currency('USD')}}</td>
-                <td class="actions align-middle white-space-nowrap">
-                    <a class="m-2"href="{{ path('app_item_edit', { itemEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
-                        <i class="fa fa-pencil"></i>
-                    </a> 
-                    <a href="{{ path('app_item_delete', { itemEntity: entity.id }) }}" data-original-title="Remove" data-toggle="tooltip">
-                        <i class="fa fa-trash"></i>
+<div class="mx-n4 mx-lg-n6 px-4 px-lg-6 mb-9 bg-white border-y border-300 mt-2 position-relative top-1">
+    <div class="table-responsive scrollbar ms-n1 ps-1">
+        <table class="table table-sm fs--1 mb-0">
+            <thead>
+                <tr>
+                    <th class="sort align-middle" scope="col" data-sort="code" style="width:10%; min-width:200px;">{{ 'Code' |trans }}</th>
+                    <th class="sort align-middle" scope="col" data-sort="name" style="width:30%; min-width:200px;">{{ 'Name' |trans }}</th>
+                    <th class="align-middle pe-3" scope="col" style="width:10%; min-width:200px;">{{ 'Unit' |trans }}</th>
+                    <th class="align-middle" scope="col" style="width:30%;  min-width:200px;">{{ 'Barcode' |trans }}</th>
+                    <th class="align-middle" scope="col" style="width:30%;  min-width:200px;">{{ 'Price' |trans }}</th>
+                    <th class="align-middle" scope="col" style="width:20%;  min-width:200px;">{{ 'Actions' |trans }}</th>
+                </tr>
+            </thead>
+
+            <tbody class="list" id="members-table-body">
+                {% if entities|length > 0 %}
+                    {% for entity in entities %}
+                        <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                            <td class="code align-middle white-space-nowrap">{{ entity.code }}</td>
+                            <td class="name align-middle white-space-nowrap">{{ entity.name }}</td>
+                            <td class="unit align-middle white-space-nowrap">{{ entity.unit }}</td>
+                            <td class="barcode align-middle white-space-nowrap">{{ entity.barcode }}</td>
+                            <td class="barcode align-middle white-space-nowrap">{{ entity.price | format_currency('USD')}}</td>
+                            <td class="actions align-middle white-space-nowrap">
+                                <a class="m-2"href="{{ path('app_item_edit', { itemEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
+                                    <i class="fa fa-pencil"></i>
+                                </a> 
+                                <a href="{{ path('app_item_delete', { itemEntity: entity.id }) }}" data-original-title="Remove" data-toggle="tooltip">
+                                    <i class="fa fa-trash"></i>
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    {# TODO: MESSAGE FOR NO ITEMS #}
+                {% endif %}
+            </tbody>
+        </table>
+
+        {% if entities|length > 0 %}
+            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
+                <div class="col-auto d-flex">
+                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info">
+                    </p>
+                    <a class="fw-semi-bold" href="#!" data-list-view="*">
+                        {{ 'View all' |trans }}<span class="fas fa-angle-right ms-1" data-fa-transform="down-1">
+                        </span>
                     </a>
-                </td>
-            </tr>
-        {% endfor %}
-    </tbody>
-</table>
+                    <a class="fw-semi-bold d-none" href="#!" data-list-view="less">
+                        {{ 'View Less' |trans }}<span class="fas fa-angle-right ms-1" data-fa-transform="down-1">
+                        </span>
+                    </a>
+                </div>
+                <div class="col-auto d-flex">
+                    <button class="page-link" id="paginationPrev"><span class="fas fa-chevron-left"></span></button>
+                    <ul class="mb-0 pagination">
+                        {# HERE NAVIGATION #}
+                    </ul>
+                    <button class="page-link pe-0" id="paginationNext"><span class="fas fa-chevron-right"></span></button>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>

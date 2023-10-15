@@ -15,10 +15,21 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class ItemController extends AbstractController
 {
     #[Route('/item', name: 'app_item')]
-    public function index(ItemRepository $repository): Response
+    public function index(Request $request, ItemRepository $repository): Response
     {
+        $parent = "";
+        if ($request->query->get('query')) {
+            $parent = $request->query->get('query');
+        }
+
+        if ($request->query->get('preview')) {
+            return $this->render('item/list.html.twig', [
+                'entities' => $repository->searchByParent($parent)
+            ]);
+        }
+
         return $this->render('item/index.html.twig', [
-            'items' => $repository->findAllByCompany(),
+            'items' => $repository->searchByParent($parent),
         ]);
     }
 
