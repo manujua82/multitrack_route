@@ -31,14 +31,14 @@
                         <div class="bg-soft d-flex align-items-center flex-row fs--1 px-2 pt-2 pb-2">
                             <div class="fw-bold me-4">{{'Unschedule'| trans}}</div>
                         </div>
-                        {{ include('home/_orderList.html.twig', {
-                            targetName: "unscheduleOrders",
-                            entities: unscheduleOrders  
-                        }) }}
-
+                        <div >
+                            {{ include('home/_orderList.html.twig', {
+                                targetName: "unscheduleOrders",
+                                entities: unscheduleOrders  
+                            }) }}
+                        </div>
                         <div id="right-panel-vertical-gutter" class="home-vertical-gutter"></div>
                     </div>
-                    
                 </div>
 
                 <div id="horizontal-gutter"class="home-horizontal-gutter"></div>

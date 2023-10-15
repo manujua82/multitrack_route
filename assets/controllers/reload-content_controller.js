@@ -243,7 +243,9 @@ export default class extends Controller {
 
         function reVerticalSizer(e) {
             let prevY = e.y;
+            console.log(prevY);
             const topPanelBoundingRect = topPanel.getBoundingClientRect();
+            const bottomPanelBoundingRect = bottomPanel.getBoundingClientRect();
 
             window.addEventListener('mousemove',mouseVerticalMove);
             window.addEventListener('mouseup',mouseVerticalUp);
@@ -251,6 +253,7 @@ export default class extends Controller {
             function mouseVerticalMove(e) {
                 let newY = prevY - e.y;
                 topPanel.style.height = topPanelBoundingRect.height - newY + "px";
+                bottomPanel.style.height = bottomPanelBoundingRect.height + newY + "px";
             }
         
             function mouseVerticalUp() {
