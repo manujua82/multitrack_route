@@ -11,13 +11,22 @@
         <div class="row align-items-center justify-content-between g-3 mb-4">
             <div class="col col-auto">
                 <div class="search-box">
-                    <form class="position-relative" data-bs-toggle="search" data-bs-display="static" action="{{ path('app_item') }}" method="get">
+                    <form 
+                        class="position-relative" 
+                        data-bs-toggle="search" 
+                        data-bs-display="static" 
+                        action="{{ path('app_item') }}" 
+                        method="get"
+                        data-item-target="itemFilterForm"
+                    >
                         <input 
                             class="form-control search-input search" 
                             type="search" 
+                            name="query"
                             placeholder={{'Search Item'|trans}} 
                             aria-label="Search"
                             data-item-target="search"
+                            value="{{ app.request.query.get('query') }}"
                             data-action="item#onSearchItems"/>
                         <span class="fas fa-search search-box-icon"></span>
                     </form>
@@ -32,9 +41,7 @@
         </div>
 
         <div data-item-target="itemsList">
-            {{ include("item/list.html.twig", {
-                entities: items
-            }) }}
+            {{ include("item/list.html.twig") }}
         </div>          
     </div>
 {% endblock %}

@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Item;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\SecurityBundle\Security;
 
@@ -56,7 +57,7 @@ class ItemRepository extends ServiceEntityRepository
             ->getResult();
     }
 
-    public function searchByParent(string $parent): array
+    public function getSearchByParentQueryBuilder(string $parent): QueryBuilder
     {
         return $this->createQueryBuilder('i')
             ->orWhere('i.code LIKE :parent')
@@ -65,9 +66,7 @@ class ItemRepository extends ServiceEntityRepository
             ->setParameter('parent', $parent . '%')
             ->setParameter('nameParent',  '%' . $parent . '%')
             ->setParameter('company', $this->mainCompany)
-            ->orderBy('i.created', 'DESC')
-            ->getQuery()
-            ->getResult();
+            ->orderBy('i.created', 'DESC');  
     }
 
 

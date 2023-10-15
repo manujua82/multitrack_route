@@ -9,7 +9,8 @@ export default class extends Controller {
 
     static targets = [
         'search',
-        'itemsList'
+        'itemsList',
+        'itemFilterForm'
     ];
 
     static debounces = ['onSearchItems'];
@@ -18,7 +19,7 @@ export default class extends Controller {
         useDebounce(this);
     }
 
-    async onSearchItems(event) {
+   async onSearchItems(event) {
         const params = new URLSearchParams({
             query: this.searchTarget.value,
             preview: 1

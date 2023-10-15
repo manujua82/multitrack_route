@@ -13,8 +13,8 @@
             </thead>
 
             <tbody class="list" id="members-table-body">
-                {% if entities|length > 0 %}
-                    {% for entity in entities %}
+                {% if pagination.getTotalItemCount > 0 %}
+                    {% for entity in pagination %}
                         <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                             <td class="code align-middle white-space-nowrap">{{ entity.code }}</td>
                             <td class="name align-middle white-space-nowrap">{{ entity.name }}</td>
@@ -37,28 +37,9 @@
             </tbody>
         </table>
 
-        {% if entities|length > 0 %}
-            <div class="row align-items-center justify-content-between py-2 pe-0 fs--1">
-                <div class="col-auto d-flex">
-                    <p class="mb-0 d-none d-sm-block me-3 fw-semi-bold text-900" data-list-info="data-list-info">
-                    </p>
-                    <a class="fw-semi-bold" href="#!" data-list-view="*">
-                        {{ 'View all' |trans }}<span class="fas fa-angle-right ms-1" data-fa-transform="down-1">
-                        </span>
-                    </a>
-                    <a class="fw-semi-bold d-none" href="#!" data-list-view="less">
-                        {{ 'View Less' |trans }}<span class="fas fa-angle-right ms-1" data-fa-transform="down-1">
-                        </span>
-                    </a>
-                </div>
-                <div class="col-auto d-flex">
-                    <button class="page-link" id="paginationPrev"><span class="fas fa-chevron-left"></span></button>
-                    <ul class="mb-0 pagination">
-                        {# HERE NAVIGATION #}
-                    </ul>
-                    <button class="page-link pe-0" id="paginationNext"><span class="fas fa-chevron-right"></span></button>
-                </div>
-            </div>
-        {% endif %}
+        <div class="d-flex justify-content-center mt-3">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+       
     </div>
 </div>
