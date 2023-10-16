@@ -21,10 +21,10 @@ class WarehouseType extends AbstractType
             ->add('country')
             ->add('fullAddress')
             ->add('latitude', NumberType::class, [
-                'scale' => 15
+                'scale' => 8
             ])
             ->add('longitude',NumberType::class, [
-                'scale' => 10
+                'scale' => 8
             ])
         ;
     }

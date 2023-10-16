@@ -31,7 +31,7 @@ class AddressAutocompleter implements EntityAutocompleterInterface
 
     public function getLabel(object $entity): string
     {
-        return $entity->getStreet();
+        return $entity->getFullAddress();
     }
 
     public function getValue(object $entity): string

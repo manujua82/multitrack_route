@@ -14,42 +14,49 @@ export default class extends Controller {
         'longitude',
     ];
 
+    static values = {
+        apiKey:  String,
+    }
+
     connect() {
-        const key = '';
-        const addressValue = `${this.streetTarget.value}, ${this.cityTarget.value}, ${this.stateTarget.value} ${this.postalCodeTarget.value}, ${this.countryTarget.value}`;
-        const mapUri = this.getMapUrl(key, addressValue);
-        this.mapObjTarget.innerHTML = this.getMapHtml(mapUri);
+        this.initMap(this.latitudeTarget.value,this.longitudeTarget.value);
+    }
+
+    validateCoordinate (coordinate) {
+        console.log(typeof coordinate)
+        const coordinateAsNumber = Number(coordinate);
+        if (isNaN(coordinateAsNumber)) {
+            return 0;
+        }
+        return coordinateAsNumber;
+    }
+
+    async initMap(lat, lng) {
+        if (typeof(google) != "undefined"){
+            const { Map } = await google.maps.importLibrary("maps");
+
+            const position = {
+                lat: this.validateCoordinate(lat), 
+                lng: this.validateCoordinate(lng)
+            }
+            
+            const map = new Map(this.mapObjTarget, {
+                center: position,
+                zoom: 12,
+            });
+
+            const marker = new google.maps.Marker({
+                map: map,
+                position: position,
+              });
+        }
     }
 
     async onLocationClick() {
-        // console.log(`onLocationClick`);
         const addressValue = `${this.streetTarget.value}, ${this.cityTarget.value}, ${this.stateTarget.value} ${this.postalCodeTarget.value}, ${this.countryTarget.value}`;
-        const key = '';
-        this.getGeocodingByAddress(addressValue, key);
+        this.getGeocodingByAddress(addressValue, this.apiKeyValue);
     }
-
-    getMapUrl(key, addressValue) {
-        const urlBase = 'https://www.google.com/maps/embed/v1/place';
-        const params = new URLSearchParams({
-            q: addressValue,
-            key: key,
-        });
-        return `${urlBase}?${params.toString()}`;
-    }
-
-    getMapHtml(mapUri) {
-        return `
-            <iframe
-                width="600"
-                height="450"
-                style="border:0"
-                loading="lazy"
-                allowfullscreen
-                referrerpolicy="no-referrer-when-downgrade"
-                src=${mapUri}>
-            </iframe>`;
-    }
-
+    
     async getGeocodingByAddress(address, key) {
         const urlBase = 'https://maps.googleapis.com/maps/api/geocode/json';
         const params = new URLSearchParams({
@@ -62,14 +69,10 @@ export default class extends Controller {
 
         if (geoResult && geoResult.formatted_address) {
             this.fullAddressTarget.value = geoResult.formatted_address;
-            const mapUri = this.getMapUrl(key, geoResult.formatted_address);
-            
-            console.log(`mapUri: ${mapUri}`);
-
-            this.mapObjTarget.innerHTML = this.getMapHtml(mapUri);
-
             this.latitudeTarget.value = geoResult.geometry.location.lat;
             this.longitudeTarget.value = geoResult.geometry.location.lng;
+
+            this.initMap(this.latitudeTarget.value,this.longitudeTarget.value);
         }
     }
 

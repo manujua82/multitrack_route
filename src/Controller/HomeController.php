@@ -2,11 +2,15 @@
 
 namespace App\Controller;
 
+use App\Entity\Address;
 use App\Entity\Order;
+use App\Entity\OrderStatus;
 use App\Entity\Route as EntityRoute;
+use App\Entity\RouteAddress;
 use App\Form\RouteType;
 use App\Repository\CorrelativesRepository;
 use App\Repository\OrderRepository;
+use App\Repository\RouteAddressRepository;
 use App\Repository\RouteRepository;
 use DateInterval;
 use DateTime;
@@ -24,6 +28,7 @@ class HomeController extends AbstractController
         private CorrelativesRepository $correlativesRepository,
         private RouteRepository $routeRepository,
         private OrderRepository $orderRepository,
+        private RouteAddressRepository $routeAddressRepository
     )
     {
     }
@@ -54,25 +59,29 @@ class HomeController extends AbstractController
         return $this->routeRepository->findByDateRange($from, $till);
     }
 
-    private function renderDashboard(string $template): Response
+    private function renderDashboard(string $template, EntityRoute $currentRoute = null): Response
     {
         $routes = $this->getListOfRoutes();
-        $routeSelected= null;
+        $routeSelected= $currentRoute;
         $routeOrders = null;
+        $routeAddresses = null;
         
         if (count($routes) > 0) {
-            $routeSelected=$routes[0];
+            if ($routeSelected === null ){
+                $routeSelected=$routes[0];
+            }
             $routeOrders = $this->orderRepository->getOrderByRoute($routeSelected);
+            $routeAddresses = $this->routeAddressRepository->getAddressesByRoute($routeSelected);
         }
 
         return $this->render($template, [
             'routes' => $routes,
+            'routeAddresses' => $routeAddresses,
             'routeOrders' => $routeOrders,
-            'routeSelected' => $routeSelected,
+            'routeSelectedId' => $routeSelected?->getId(),
             'unscheduleOrders' => $this->orderRepository->getOrdersByStatus('Unschedule'),
         ]);
     }
-    
 
     #[Route('/', name: 'app_index')]
     public function index(Request $request): Response
@@ -83,7 +92,13 @@ class HomeController extends AbstractController
     #[Route('/dashboard', name: 'app_dashboard_refresh',  methods: ['GET', 'POST'])]
     public function routeList(Request $request): Response
     {
-        return $this->renderDashboard('home/_homeDashboard.html.twig');
+        $currentRoute = null;
+        $routeId = $request->query->get('currentRouteId');
+        if ($routeId !== null) {
+            $currentRoute = $this->routeRepository->find( $routeId );
+        }
+        
+        return $this->renderDashboard('home/_homeDashboard.html.twig', $currentRoute);
     }
 
     #[Route('/routenew', name: 'app_route_new', methods: ['GET', 'POST'])]
@@ -144,5 +159,45 @@ class HomeController extends AbstractController
     {
         $repository->delete($routeEntity, true);
         return $this->redirectToRoute('app_index');
+    }
+
+    #[Route('/route/addOrder', name: 'app_route_addOrder', methods: ['GET', 'POST'])]
+    public function addOrderToRoute(Request $request): Response
+    {
+        $routeId = $request->query->get('routeId');
+        $orderIdsStr = $request->query->get('orderIds');
+        $orderIds = explode(",", $orderIdsStr);
+
+        $currentRoute = $this->routeRepository->find( $routeId );
+        
+        foreach ($orderIds as &$orderId) {
+            // ADDED ORDER TO ROUTE
+            $currentOrder = $this->orderRepository->find($orderId);
+            $currentOrder->setStatus(OrderStatus::SCHEDULE->value);
+            $currentRoute->addOrder($currentOrder);
+        }
+        $this->routeRepository->add($currentRoute, true);
+        
+        return $this->renderDashboard('home/_homeDashboard.html.twig', $currentRoute);
+    }
+
+    #[Route('/route/removeOrder', name: 'app_route_removeOrder', methods: ['GET', 'POST'])]
+    public function removeOrderToRoute(Request $request): Response
+    {
+        $routeId = $request->query->get('routeId');
+        $orderIdsStr = $request->query->get('orderIds');
+        $orderIds = explode(",", $orderIdsStr);
+       
+        $currentRoute = $this->routeRepository->find($routeId);
+        foreach ($orderIds as &$orderId) {
+            $currentOrder = $this->orderRepository->find($orderId);
+            $currentRoute->removeOrder($currentOrder);
+            
+            $currentOrder->setStatus(OrderStatus::UNSCHEDULE->value);
+            $currentOrder->setRoute(null);
+        }
+
+        $this->routeRepository->add($currentRoute, true);
+        return $this->renderDashboard('home/_homeDashboard.html.twig', $currentRoute);
     }
 }
