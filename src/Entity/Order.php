@@ -91,6 +91,7 @@ class Order
     private ?MainCompany $company = null;
 
     #[ORM\OneToMany(mappedBy: 'mainOrder', targetEntity: OrderItem::class, cascade: ['persist'], orphanRemoval: true)]
+    #[ORM\JoinColumn(nullable: false)]
     private Collection $orderItems;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 20, scale: 5, nullable: true)]
@@ -107,6 +108,44 @@ class Order
 
     #[ORM\Column(length: 255)]
     private ?string $status = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Customer $pickupCustomerId = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pickupCustomerName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pickupContactName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pickupCustomerEmail = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pickupCustomerPhone = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Address $pickupAddressId = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pickupAddressZone = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $pickupTimeFrom = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $pickupTimeUntil = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $pickupNote = null;
+
+    #[ORM\Column(type: Types::BIGINT, nullable: true)]
+    private ?string $pickupServiceTime = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $pickupCOD = null;
 
     public function __construct()
     {
@@ -462,6 +501,150 @@ class Order
     public function setStatus(string $status): static
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getPickupCustomerId(): ?Customer
+    {
+        return $this->pickupCustomerId;
+    }
+
+    public function setPickupCustomerId(?Customer $pickupCustomerId): static
+    {
+        $this->pickupCustomerId = $pickupCustomerId;
+
+        return $this;
+    }
+
+    public function getPickupCustomerName(): ?string
+    {
+        return $this->pickupCustomerName;
+    }
+
+    public function setPickupCustomerName(?string $pickupCustomerName): static
+    {
+        $this->pickupCustomerName = $pickupCustomerName;
+
+        return $this;
+    }
+
+    public function getPickupContactName(): ?string
+    {
+        return $this->pickupContactName;
+    }
+
+    public function setPickupContactName(?string $pickupContactName): static
+    {
+        $this->pickupContactName = $pickupContactName;
+
+        return $this;
+    }
+
+    public function getPickupCustomerEmail(): ?string
+    {
+        return $this->pickupCustomerEmail;
+    }
+
+    public function setPickupCustomerEmail(?string $pickupCustomerEmail): static
+    {
+        $this->pickupCustomerEmail = $pickupCustomerEmail;
+
+        return $this;
+    }
+
+    public function getPickupCustomerPhone(): ?string
+    {
+        return $this->pickupCustomerPhone;
+    }
+
+    public function setPickupCustomerPhone(?string $pickupCustomerPhone): static
+    {
+        $this->pickupCustomerPhone = $pickupCustomerPhone;
+
+        return $this;
+    }
+
+    public function getPickupAddressId(): ?Address
+    {
+        return $this->pickupAddressId;
+    }
+
+    public function setPickupAddressId(?Address $pickupAddressId): static
+    {
+        $this->pickupAddressId = $pickupAddressId;
+
+        return $this;
+    }
+
+    public function getPickupAddressZone(): ?string
+    {
+        return $this->pickupAddressZone;
+    }
+
+    public function setPickupAddressZone(?string $pickupAddressZone): static
+    {
+        $this->pickupAddressZone = $pickupAddressZone;
+
+        return $this;
+    }
+
+    public function getPickupTimeFrom(): ?\DateTimeInterface
+    {
+        return $this->pickupTimeFrom;
+    }
+
+    public function setPickupTimeFrom(?\DateTimeInterface $pickupTimeFrom): static
+    {
+        $this->pickupTimeFrom = $pickupTimeFrom;
+
+        return $this;
+    }
+
+    public function getPickupTimeUntil(): ?\DateTimeInterface
+    {
+        return $this->pickupTimeUntil;
+    }
+
+    public function setPickupTimeUntil(?\DateTimeInterface $pickupTimeUntil): static
+    {
+        $this->pickupTimeUntil = $pickupTimeUntil;
+
+        return $this;
+    }
+
+    public function getPickupNote(): ?string
+    {
+        return $this->pickupNote;
+    }
+
+    public function setPickupNote(?string $pickupNote): static
+    {
+        $this->pickupNote = $pickupNote;
+
+        return $this;
+    }
+
+    public function getPickupServiceTime(): ?string
+    {
+        return $this->pickupServiceTime;
+    }
+
+    public function setPickupServiceTime(?string $pickupServiceTime): static
+    {
+        $this->pickupServiceTime = $pickupServiceTime;
+
+        return $this;
+    }
+
+    public function getPickupCOD(): ?string
+    {
+        return $this->pickupCOD;
+    }
+
+    public function setPickupCOD(?string $pickupCOD): static
+    {
+        $this->pickupCOD = $pickupCOD;
 
         return $this;
     }

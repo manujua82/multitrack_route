@@ -1,0 +1,28 @@
+{% extends 'simpleBase.html.twig' %}
+
+{% block title %}{{'Reset new pass' | trans }}{% endblock %}
+
+{% block body %}
+
+    <div class="col-sm-10 col-md-8 col-lg-5 col-xl-5 col-xxl-3">
+        <a class="d-flex flex-center text-decoration-none mb-4" href="{{ path('app_index')}}">
+            <div class="d-flex align-items-center fw-bolder fs-5 d-inline-block">
+                <img src="{{ asset('assets/img/icons/logo.png') }}" alt="phoenix" width="58" />
+            </div>
+        </a>
+        <div class="text-center mb-6" data-controller="utils">
+            <h4 class="text-1000">{{'Reset new pass' | trans }}</h4>
+            <p class="text-700">{{'Type new pass' | trans}}</p>
+            {{ form_start(resetForm, { 'attr' : { 'class': 'mt-5' } }) }}
+            <span class="inner-addon right-addon">
+                {{ form_widget(resetForm.plainPassword.first, { 'attr': { 'class': 'form-control mb-2', 'placeholder': 'Type new pass'|trans }}) }}
+            </span>
+            <span class="inner-addon right-addon">
+                {{ form_widget(resetForm.plainPassword.second, { 'attr': { 'class': 'form-control mb-2', 'placeholder': 'Confirm new pass'|trans }}) }}
+            </span>
+        <div class="uil fs-0 mb-4 uil-eye text-700" style="cursor: pointer;" data-action="click->utils#toggle_password"> {{ 'Show password' | trans }}</div>
+            <button class="btn btn-primary w-100" type="submit">{{'Set pass' | trans }}</button>
+            {{ form_end(resetForm) }}
+        </div>
+    </div>
+{% endblock %}

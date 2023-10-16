@@ -14,28 +14,37 @@
 <div class="mb-3 text-start">
     {{ form_label(registrationForm.email, 'Email'|trans, {'label_attr': {'class': 'form-label'}}) }}
     {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',  'placeholder': 'Email'|trans }}) }}
-    {{ form_errors(registrationForm.email) }}
+    <div class="invalid-feedback" style="display: block !important">{{ form_errors(registrationForm.email) }}</div>
 </div>
-<div class="row g-3 mb-3">
-    <div class="col-sm-6">
+<div class="row g-3 mb-3" data-controller="utils">
+    <div class="col-sm-6 inner-addon right-addon">
+        <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer; margin-top: 20px;" data-action="click->utils#toggle_password"></div>
         {{ form_label(registrationForm.plainPassword.first, 'password'|trans, {'label_attr': {'class': 'form-label'}}) }}
         {{ form_widget(registrationForm.plainPassword.first, { 'attr': { 'class': 'form-control', 'placeholder': 'password'|trans }}) }}
-        {{ form_errors(registrationForm.plainPassword.first) }}
+        <div class="invalid-feedback" style="display: block !important">{{ form_errors(registrationForm.plainPassword.first) }}</div>
     </div>
-    <div class="col-sm-6">
+    <div class="col-sm-6 inner-addon right-addon">
+        <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer; margin-top: 20px;" data-action="click->utils#toggle_password"></div>
         {{ form_label(registrationForm.plainPassword.second, 'password'|trans, {'label_attr': {'class': 'form-label'}}) }}
         {{ form_widget(registrationForm.plainPassword.second, { 'attr': { 'class': 'form-control', 'placeholder': 'password'|trans }}) }}
-        {{ form_errors(registrationForm.plainPassword.second) }}
+        <div class="invalid-feedback" style="display: block !important">{{ form_errors(registrationForm.plainPassword.second) }}</div>
     </div>
 </div>
 
 <div class="form-check mb-3">
     {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input', 'type': 'checkbox'}}) }}
     <label class="form-label fs--1 text-none" for="termsService">I accept the <a href="#!">terms </a>and <a href="#!">privacy policy</a></label>
+    <div class="invalid-feedback"></div>
 </div>
 
 <button type="submit" class="btn btn-primary w-100 mb-3">{{ 'signUp'|trans }}</button>
 <div class="text-center"><a class="fs--1 fw-bold" href="{{ path('app_login') }}">{{ 'Sign in to an existing account'|trans }}</a></div>
 {{ form_end(registrationForm) }}   
-    
+<div {{ stimulus_controller('register', {
+    errorEmailMessage: 'Please enter an email' | trans,
+    errorPassFirstMessage: 'Password is required' | trans,
+    errorPassSecondMessage: 'You must repeat the password' | trans,
+    errorAgreeTermsMessage: 'You must accept the terms and conditions' | trans,
+    errorPassEqualMessage: 'Passwords must be equal' | trans
+    })}} />
 {% endblock %}

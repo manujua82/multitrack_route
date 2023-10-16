@@ -4,6 +4,13 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.phoenix = factory(global.bootstrap));
 })(this, (function (bootstrap) { 'use strict';
 
+
+  window.dispatchMapsEvent = function (...args) {
+    const event = document.createEvent("Events")
+    event.initEvent("google-maps-callback", true, true)
+    event.args = args
+    window.dispatchEvent(event)
+  }
   /* -------------------------------------------------------------------------- */
   /*                                    Utils                                   */
   /* -------------------------------------------------------------------------- */

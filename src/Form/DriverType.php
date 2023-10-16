@@ -31,39 +31,27 @@ class DriverType extends AbstractType
                     new NotBlank([
                         'message' => 'Please provide a valid email',
                     ]),
-                    new Email( [
+                    new Email([
                         "message" => "Your email doesn't seems to be valid",
                     ])
                 ]
-            ])
-            ->add('plainPassword', RepeatedType::class, [
-                // instead of being set onto the object directly,
-                // this is read and encoded in the controller
-                'type' => PasswordType::class,
-                'invalid_message' => 'The password fields must match.',
-                'mapped' => false,
-                'required' => $options['require_pass'],
-                'attr' => ['autocomplete' => 'new-password'],
-                'first_options' => [
-                    'label' => 'Password',
-                    'mapped' => false,
-                ],
-                'second_options' => [
-                    'label' => 'Repeated password',
-                    'mapped' => false,
-                ],
-                'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                ],
             ]);
+        $builder->add('plainPassword', RepeatedType::class, [
+            'type' => PasswordType::class,
+            'invalid_message' => 'The password fields must match.',
+            'mapped' => false,
+            'required' => $options['require_pass'],
+            'attr' => ['autocomplete' => 'new-password'],
+            'first_options' => [
+                'label' => 'Password',
+                'mapped' => false,
+            ],
+            'second_options' => [
+                'label' => 'Repeated password',
+                'mapped' => false,
+            ],
+            'constraints' => $this->getConstrain($options['require_pass']),
+        ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -72,5 +60,31 @@ class DriverType extends AbstractType
             'data_class' => Driver::class,
             'require_pass' => true,
         ]);
+    }
+
+    private function getConstrain($isRequire)
+    {
+        if (!$isRequire) {
+            $result = [
+                new Length([
+                    'min' => 6,
+                    'minMessage' => 'Your password should be at least {{ limit }} characters',
+                    'max' => 4096,
+                ])
+            ];
+        } else {
+            $result = [
+                new NotBlank([
+                    'message' => 'Please enter a password',
+                ]),
+                new Length([
+                    'min' => 6,
+                    'minMessage' => 'Your password should be at least {{ limit }} characters',
+                    'max' => 4096,
+                ])
+            ];
+        }
+
+        return $result;
     }
 }

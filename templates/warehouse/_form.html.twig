@@ -1,84 +1,99 @@
 <div 
-    class="row flex-center py-5"  
-    {{ stimulus_controller('display-address')}}>
+    class="py-5"  
+    {{ stimulus_controller('display-address', {
+        apiKey: google_map_api
+    })}}
+    data-action="google-maps-callback@window->display-address#initMap"
+>
     
-     
-    <div class="col-xl-4" >
-        {{ form_start(form,{'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation"}}) }}
-        <div class="col-sm-6 col-md-12">
-            <div class="form-floating">
-                {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'floatingInputGrid', 'type':'text', 'placeholder': 'Name'|trans }}) }}
-                {{ form_label(form.name,  'Name'|trans, {'label_attr': {'class': 'form-label', 'for': 'floatingInputGrid'}}) }}
-                <div class="invalid-feedback">{{ form_errors(form.name) }}</div>
-            </div>
-        </div>
-        
-        <div class="col-sm-6 col-md-12">
-            <div class="form-floating">
-                {{ form_widget(form.street, { 'attr': { 'class': 'form-control', 'id':'floatingInputStreet', 'data-display-address-target':'street', 'type':'text', 'placeholder': 'Street'|trans }}) }}
-                {{ form_label(form.street, 'Street'|trans, {'label_attr': {'for': 'floatingInputStreet'}}) }}
+    {{ form_start(form,{'attr': { 'novalidate': 'novalidate', 'class': "needs-validation"}}) }}
+    
+    
+    <div class="row">
+        <div class="col-xl-4" >
+            <div class="row g-3 mb-6">
+                <div class="col-sm-6 col-md-12">
+                    <div class="form-floating">
+                        {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'floatingInputGrid', 'type':'text', 'placeholder': 'Name'|trans }}) }}
+                        {{ form_label(form.name,  'Name'|trans, {'label_attr': {'class': 'form-label', 'for': 'floatingInputGrid'}}) }}
+                        <div class="invalid-feedback">{{ form_errors(form.name) }}</div>
+                    </div>
+                </div>
+                
+                <div class="col-sm-6 col-md-12">
+                    <div class="form-floating">
+                        {{ form_widget(form.street, { 'attr': { 'class': 'form-control', 'id':'floatingInputStreet', 'data-display-address-target':'street', 'type':'text', 'placeholder': 'Street'|trans }}) }}
+                        {{ form_label(form.street, 'Street'|trans, {'label_attr': {'for': 'floatingInputStreet'}}) }}
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-floating">
+                        {{ form_widget(form.city, { 'attr': { 'class': 'form-control', 'id':'floatingInputCity', 'type':'text', 'data-display-address-target':'city', 'placeholder': 'City'|trans }}) }}
+                        {{ form_label(form.city,  'City'|trans, {'label_attr': {'for': 'floatingInputCity'}}) }}
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-floating">
+                        {{ form_widget(form.state, { 'attr': { 'class': 'form-control', 'id':'floatingInputState', 'type':'text', 'data-display-address-target':'state', 'placeholder': 'State'|trans }}) }}
+                        {{ form_label(form.state,  'State'|trans, {'label_attr': {'for': 'floatingInputState'}}) }}
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-floating">
+                        {{ form_widget(form.postalCode, { 'attr': { 'class': 'form-control', 'id':'floatingInputPostalCode', 'type':'text', 'data-display-address-target':'postalCode', 'placeholder': 'Postal Code'|trans }}) }}
+                        {{ form_label(form.postalCode,  'Postal Code'|trans, {'label_attr': {'for': 'floatingInputPostalCode'}}) }}
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-floating">
+                        {{ form_widget(form.country, { 'attr': { 'class': 'form-control', 'id':'floatingInputCountry', 'type':'text', 'data-display-address-target':'country', 'placeholder': 'Country'|trans }}) }}
+                        {{ form_label(form.country,  'Country'|trans, {'label_attr': {'for': 'floatingInputCountry'}}) }}
+                    </div>
+                </div>
+
+                <div class="col-sm-4 col-md-10">
+                    <div class="form-floating">
+                        {{ form_widget(form.fullAddress, { 'attr': { 'class': 'form-control', 'id':'floatingInputFullAddress', 'type':'text', 'data-display-address-target':'fullAddress', 'placeholder': 'Full Address'|trans }}) }}
+                        {{ form_label(form.fullAddress, 'Full Address'|trans, {'label_attr': {'for': 'floatingInputFullAddress'}}) }}
+                        <div class="invalid-feedback">{{ form_errors(form.fullAddress) }}</div>
+                    </div>
+                </div>
+
+                <div class="col-sm-2 col-md-2">
+                    <a class="btn btn-phoenix-primary" data-action="display-address#onLocationClick">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </a>
+                </div>
+
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-floating">
+                        {{ form_widget(form.latitude, { 'attr': { 'class': 'form-control', 'id':'floatingInputLatitude', 'type':'number', 'step':'any', 'data-display-address-target':'latitude', 'placeholder': 'Latitude'|trans }}) }}
+                        {{ form_label(form.latitude,  'Latitude'|trans, {'label_attr': {'for': 'floatingInputLatitude'}}) }}
+                        <div class="invalid-feedback">{{ form_errors(form.latitude) }}</div>
+                    </div>
+                </div>
+
+                <div class="col-sm-6 col-md-6">
+                    <div class="form-floating">
+                        {{ form_widget(form.longitude, { 'attr': { 'class': 'form-control', 'id':'floatingInputLongitude', 'type':'number',  'step':'any', 'data-display-address-target':'longitude', 'placeholder': 'Longitude'|trans }}) }}
+                        {{ form_label(form.longitude,  'Longitude'|trans, {'label_attr': {'for': 'floatingInputLongitude'}}) }}
+                        <div class="invalid-feedback">{{ form_errors(form.longitude) }}</div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="col-sm-6 col-md-6">
-            <div class="form-floating">
-                {{ form_widget(form.city, { 'attr': { 'class': 'form-control', 'id':'floatingInputCity', 'type':'text', 'data-display-address-target':'city', 'placeholder': 'City'|trans }}) }}
-                {{ form_label(form.city,  'City'|trans, {'label_attr': {'for': 'floatingInputCity'}}) }}
-            </div>
+        <div class="home-tpmap col-xl-4"
+            data-display-address-target="mapObj">
         </div>
+    </div>
 
-        <div class="col-sm-6 col-md-6">
-            <div class="form-floating">
-                {{ form_widget(form.state, { 'attr': { 'class': 'form-control', 'id':'floatingInputState', 'type':'text', 'data-display-address-target':'state', 'placeholder': 'State'|trans }}) }}
-                {{ form_label(form.state,  'State'|trans, {'label_attr': {'for': 'floatingInputState'}}) }}
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-6">
-            <div class="form-floating">
-                {{ form_widget(form.postalCode, { 'attr': { 'class': 'form-control', 'id':'floatingInputPostalCode', 'type':'text', 'data-display-address-target':'postalCode', 'placeholder': 'Postal Code'|trans }}) }}
-                {{ form_label(form.postalCode,  'Postal Code'|trans, {'label_attr': {'for': 'floatingInputPostalCode'}}) }}
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-6">
-            <div class="form-floating">
-                {{ form_widget(form.country, { 'attr': { 'class': 'form-control', 'id':'floatingInputCountry', 'type':'text', 'data-display-address-target':'country', 'placeholder': 'Country'|trans }}) }}
-                {{ form_label(form.country,  'Country'|trans, {'label_attr': {'for': 'floatingInputCountry'}}) }}
-            </div>
-        </div>
-
-        <div class="col-sm-4 col-md-10">
-            <div class="form-floating">
-                {{ form_widget(form.fullAddress, { 'attr': { 'class': 'form-control', 'id':'floatingInputFullAddress', 'type':'text', 'data-display-address-target':'fullAddress', 'placeholder': 'Full Address'|trans }}) }}
-                {{ form_label(form.fullAddress, 'Full Address'|trans, {'label_attr': {'for': 'floatingInputFullAddress'}}) }}
-                <div class="invalid-feedback">{{ form_errors(form.fullAddress) }}</div>
-            </div>
-        </div>
-
-        <div class="col-sm-2 col-md-2">
-            <a class="btn btn-phoenix-primary" data-action="display-address#onLocationClick">
-                <i class="fas fa-map-marker-alt"></i>
-            </a>
-        </div>
-
-        <div class="col-sm-6 col-md-6">
-            <div class="form-floating">
-                {{ form_widget(form.latitude, { 'attr': { 'class': 'form-control', 'id':'floatingInputLatitude', 'type':'number', 'step':'any', 'data-display-address-target':'latitude', 'placeholder': 'Latitude'|trans }}) }}
-                {{ form_label(form.latitude,  'Latitude'|trans, {'label_attr': {'for': 'floatingInputLatitude'}}) }}
-                <div class="invalid-feedback">{{ form_errors(form.latitude) }}</div>
-            </div>
-        </div>
-
-        <div class="col-sm-6 col-md-6">
-            <div class="form-floating">
-                {{ form_widget(form.longitude, { 'attr': { 'class': 'form-control', 'id':'floatingInputLongitude', 'type':'number',  'step':'any', 'data-display-address-target':'longitude', 'placeholder': 'Longitude'|trans }}) }}
-                {{ form_label(form.longitude,  'Longitude'|trans, {'label_attr': {'for': 'floatingInputLongitude'}}) }}
-                <div class="invalid-feedback">{{ form_errors(form.longitude) }}</div>
-            </div>
-        </div>
-
-        <div class="col-12 gy-6">
+    <div class="row">
+      <div class="col-xl-8 gy-6">
             <div class="row g-3 justify-content-end">
                 <div class="col-auto">
                     <a href="{{ path('app_warehouse') }}" class="btn btn-phoenix-primary px-5">{{ 'Cancel' |trans }}</a>
@@ -88,12 +103,8 @@
                 </div>
             </div>
         </div>
-
-       {{ form_end(form) }}
     </div>
 
-    <div class="col-xl-4"
-        data-display-address-target="mapObj">
-    </div>
+    {{ form_end(form) }}
      
 </div>
