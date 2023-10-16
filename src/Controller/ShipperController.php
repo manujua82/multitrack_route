@@ -34,7 +34,7 @@ class ShipperController extends AbstractController
             $newShipper = $form->getData();
             $repository->add($newShipper, true);   
 
-            $flashMessage = $translator->trans('Shipper %code% was created', ['%code%' => $newShipper->getCode()]);
+            $flashMessage = $translator->trans('Shipper created flash', ['code' => $newShipper->getCode()]);
             $this->addFlash('success', $flashMessage);
             return $this->redirectToRoute('app_shipper');
         }
@@ -58,7 +58,7 @@ class ShipperController extends AbstractController
             $newShipper = $form->getData();
             $repository->add($newShipper, true);   
 
-            $flashMessage = $translator->trans('Shipper %code% was Edit', ['%code%' => $newShipper->getCode()]);
+            $flashMessage = $translator->trans('Shipper edit flash', ['code' => $newShipper->getCode()]);
             $this->addFlash('success', $flashMessage);
             return $this->redirectToRoute('app_shipper');
         }

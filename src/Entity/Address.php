@@ -35,11 +35,11 @@ class Address
     #[ORM\Column(length: 510, nullable: true)]
     private ?string $fullAddress = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 10, nullable: true)]
-    private ?string $latitude = null;
+    #[ORM\Column]
+    private ?float $latitude = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 10, nullable: true)]
-    private ?string $longitude = null;
+    #[ORM\Column]
+    private ?float $longitude = null;
 
     #[ORM\ManyToOne(inversedBy: 'address')]
     #[ORM\JoinColumn(nullable: false)]
@@ -195,6 +195,6 @@ class Address
     }
 
     public function __toString() {
-        return $this->street . ", " . $this->city . ", " . $this->state . " " . $this->postalcode;
+        return $this->fullAddress;
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Address;
+use App\Entity\RouteAddress;
 use App\Repository\RouteRepository;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -55,11 +57,15 @@ class Route
     #[ORM\Column(length: 255)]
     private ?string $status = null;
 
+    #[ORM\OneToMany(mappedBy: 'route', targetEntity: RouteAddress::class, cascade: ['persist'], orphanRemoval: true)]
+    private Collection $addresses;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
         $this->created = new DateTime();
         $this->status = RouteStatus::NONE->value;
+        $this->addresses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,6 +170,9 @@ class Route
         if (!$this->orders->contains($order)) {
             $this->orders->add($order);
             $order->setRoute($this);
+
+            $this->addAddress($order, $order->getAddressId());
+            $this->addAddress($order, $order->getPickupAddressId());
         }
 
         return $this;
@@ -176,8 +185,9 @@ class Route
             if ($order->getRoute() === $this) {
                 $order->setRoute(null);
             }
-        }
 
+            $this->removeAddressesFromOrder($order->getId());
+        }
         return $this;
     }
 
@@ -227,5 +237,93 @@ class Route
         $this->status = $status;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, RouteAddress>
+     */
+    public function getAddresses(): Collection
+    {
+        return $this->addresses;
+    }
+
+    private function isAddressAdded(?Address $address): ?RouteAddress
+    {
+        foreach($this->addresses as $value) {
+            if ($value->getFullAddress() === $address->getFullAddress()) {
+                return $value;
+            }
+        }
+        return null;
+    }
+
+    private function createRouteAddress(Order $order, Address $address, int $position): RouteAddress
+    {
+        $newRouteAddress =  new RouteAddress();
+        $newRouteAddress->addOrderId($order->getId());
+        $newRouteAddress->setPosition($position);
+        $newRouteAddress->setFullAddress($address->getFullAddress());
+        $newRouteAddress->setLatitude($address->getLatitude());
+        $newRouteAddress->setLongitude($address->getLongitude());
+        $newRouteAddress->setRoute($this);
+
+        return $newRouteAddress;
+    }
+
+    private function addAddress(Order $order, ?Address $address): static
+    {
+        if (!isset($address)) { 
+            return $this;
+        }
+
+        $routeAddress = $this->isAddressAdded($address);
+        if (isset($routeAddress)) {
+            $routeAddress->addOrderId($order->getId());
+        } else {
+            $lastAddressPosition = $this->addressCount();
+            $newAddress = $this->createRouteAddress($order, $address, $lastAddressPosition+1);
+            $this->addresses->add($newAddress);
+        }
+
+        return $this;
+    }
+
+    private function removeAddressesFromOrder(string $orderId): void
+    {
+        $addressesWithOrderId = $this->addresses->filter(function ($address) use ($orderId) : bool {
+            $orderIds = $address->getOrderIds();
+            return in_array($orderId, $orderIds);
+        });
+
+        foreach($addressesWithOrderId as $address) {
+            $orderIds = $address->getOrderIds();
+            $orderIds =array_diff($orderIds, [$orderId]);
+
+            if (count($orderIds) === 0) {
+                if ($this->addresses->removeElement($address)) {
+                    if ($address->getRoute() === $this) {
+                        $address->setRoute(null);
+                    }
+                }
+            } else {
+                $address->setOrderIds($orderIds);
+            }
+        }
+    }
+
+    public function removeAddress(RouteAddress $address): static
+    {
+        if ($this->addresses->removeElement($address)) {
+            // set the owning side to null (unless already changed)
+            if ($address->getRoute() === $this) {
+                $address->setRoute(null);
+            }
+        }
+        return $this;
+    }
+
+    public function addressCount(): int 
+    {
+        return count($this->addresses);
     }
 }

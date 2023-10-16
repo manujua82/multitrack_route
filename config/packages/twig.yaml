@@ -2,6 +2,8 @@ twig:
     default_path: '%kernel.project_dir%/templates'
     globals:
         photo_directory: '/uploads/photos'
+        google_map_api: '%env(GOOGLE_MAP_API)%'
+   
 
 when@test:
     twig:

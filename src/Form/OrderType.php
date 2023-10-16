@@ -34,14 +34,6 @@ class OrderType extends AbstractType
                 'mapped' => false,
                 'widget' => 'single_text', 
             ])
-            ->add('barcode')
-            ->add('shipFrom', WarehouseAutocompleteField:: class)
-            ->add('shipper', ShipperAutocompleteField::class)
-            ->add('customerId', CustomerAutocompleteField::class)
-            ->add('addressZone')
-            ->add('note')
-            ->add('serviceTime')
-            ->add('cod')
             ->add('priority', ChoiceType::class, [
                 'choices'  => [
                     'High' => "HIGHT",
@@ -49,10 +41,28 @@ class OrderType extends AbstractType
                     'Low' => "LOW",
                 ],
             ])
+            ->add('barcode')
+            ->add('shipFrom', WarehouseAutocompleteField:: class)
+            ->add('shipper', ShipperAutocompleteField::class)
+            
+            ->add('customerId', CustomerAutocompleteField::class)
+            ->add('addressZone')
+            ->add('note')
+            ->add('serviceTime')
+            ->add('cod')
+
+            ->add('pickupCustomerId', CustomerAutocompleteField::class, [
+                'required' => false,
+            ])
+            ->add('pickupAddressZone')
+            ->add('pickupNote')
+            ->add('pickupServiceTime')
+            ->add('pickupCOD')
+            
+
             ->add('weight', NumberType::class)
             ->add('volume', NumberType::class)
             ->add('pkg', NumberType::class)
-
             ->add('orderItems', CollectionType::class, [
                 'entry_type' => OrderItemType::class,
                 'label' => ' ',
@@ -62,15 +72,53 @@ class OrderType extends AbstractType
             ])
         ;
 
+        $formPickupModifier = function (FormInterface $form, Customer $customer = null): void {
+            $addresses = (null === $customer) ? [] : $customer->getAddresses();
+            $form->add('pickupAddressId', EntityType::class, [
+                'class' => Address::class,
+                'required' => false,
+                'placeholder' => '',
+                'choices' => $addresses,
+            ]);
+            
+            $custContact=  (null === $customer) ? "" : $customer->getContact();
+            $form->add('pickupContactName', null,[
+                'empty_data' => $custContact
+            ]);
+
+            $custEmail=  (null === $customer) ? "" : $customer->getEmail();
+            $form->add('pickupCustomerEmail', null,[
+                'empty_data' => $custEmail
+            ]);
+
+            $custPhone =  (null === $customer) ? "" : $customer->getPhone();
+            $form->add('pickupCustomerPhone', null,[
+                'empty_data' => $custPhone
+            ]);
+
+            $custTimeFrom =  (null === $customer) ? "" : $customer->getTimeFrom()->format('H:i:a');
+            $form->add('pickupTimeFrom', null , [
+                'mapped' => false,
+                'widget' => 'single_text', 
+                'html5' => false,
+            ]);
+
+            $custTimeUntil =  (null === $customer) ? "" : $customer->getTimeUntil()->format('H:i:a');
+            $form->add('pickupTimeUntil', null , [
+                'mapped' => false,
+                'widget' => 'single_text', 
+                'html5' => false,
+            ]);
+        };
+
         $formModifier = function (FormInterface $form, Customer $customer = null): void {
             $addresses = (null === $customer) ? [] : $customer->getAddresses();
-
             $form->add('addressId', EntityType::class, [
                 'class' => Address::class,
                 'placeholder' => '',
                 'choices' => $addresses,
             ]);
-
+            
             $custContact=  (null === $customer) ? "" : $customer->getContact();
             $form->add('contactName', null,[
                 'empty_data' => $custContact
@@ -91,7 +139,6 @@ class OrderType extends AbstractType
                 'mapped' => false,
                 'widget' => 'single_text', 
                 'html5' => false,
-                'empty_data'  => $custTimeFrom,
             ]);
 
             $custTimeUntil =  (null === $customer) ? "" : $customer->getTimeUntil()->format('H:i:a');
@@ -99,15 +146,15 @@ class OrderType extends AbstractType
                 'mapped' => false,
                 'widget' => 'single_text', 
                 'html5' => false,
-                'empty_data'  => $custTimeUntil,
             ]);
         };
 
         $builder->addEventListener(
             FormEvents::PRE_SET_DATA,
-            function (FormEvent $event) use ($formModifier): void {
+            function (FormEvent $event) use ($formModifier, &$formPickupModifier): void {
                 $orderData = $event->getData();
                 $formModifier($event->getForm(), $orderData->getCustomerId());
+                $formPickupModifier($event->getForm(), $orderData->getPickupCustomerId());
             }
         );
 
@@ -120,6 +167,18 @@ class OrderType extends AbstractType
                 // since we've added the listener to the child, we'll have to pass on
                 // the parent to the callback function!
                 $formModifier($form, $customerData);
+            }
+        );
+
+        $builder->get('pickupCustomerId')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formPickupModifier): void {                
+                $customerData = $event->getForm()->getData();
+                $form = $event->getForm()->getParent();
+
+                // since we've added the listener to the child, we'll have to pass on
+                // the parent to the callback function!
+                $formPickupModifier($form, $customerData);
             }
         );
 
