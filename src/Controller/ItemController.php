@@ -10,15 +10,35 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 
 class ItemController extends AbstractController
 {
     #[Route('/item', name: 'app_item')]
-    public function index(ItemRepository $repository): Response
+    public function index(Request $request, ItemRepository $repository,  PaginatorInterface $paginator): Response
     {
+        $parent = "";
+        if ($request->query->get('query')) {
+            $parent = $request->query->get('query');
+        }
+
+        $queryBuilder = $repository->getSearchByParentQueryBuilder($parent);
+        
+        $pagination = $paginator->paginate(
+            $queryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            20 /*limit per page*/
+        );
+
+        if ($request->query->get('preview') &&  !$request->query->get('page')) {
+            return $this->render('item/list.html.twig', [
+                'pagination' => $pagination,
+            ]);
+        }
+
         return $this->render('item/index.html.twig', [
-            'items' => $repository->findAllByCompany(),
+            'pagination' => $pagination,
         ]);
     }
 
