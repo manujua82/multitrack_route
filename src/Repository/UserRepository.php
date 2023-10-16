@@ -6,11 +6,11 @@ use App\Entity\MainCompany;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Bundle\SecurityBundle\Security;
 
 /**
  * @extends ServiceEntityRepository<User>
@@ -34,7 +34,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     ) {
         $this->userPasswordHasher = $userPasswordHasher;
         parent::__construct($registry, User::class);
-        $this->mainCompany = $security->getUser()->getMainCompany();
+        //$this->mainCompany = $security->getUser()->getMainCompany();
     }
 
     /**
@@ -74,14 +74,15 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $newUser;
     }
 
-    public function findAllByCompany(): array
+    public function findAllByCompany(
+        MainCompany $company
+        ): array
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.company = :company')
+            ->andWhere('c.mainCompany = :company')
             ->andWhere('c.roles = :roles')
-            ->setParameter('company', $this->mainCompany)
+            ->setParameter('company', $company)
             ->setParameter('roles', '')
-            ->orderBy('c.created', 'DESC')
             ->getQuery()
             ->getResult();
     }
