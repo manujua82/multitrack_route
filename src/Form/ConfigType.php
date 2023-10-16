@@ -6,7 +6,7 @@ use Symfony\UX\Dropzone\Form\DropzoneType;
 use App\Entity\MainCompany;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,8 +14,17 @@ class ConfigType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $imageConstraints = [
+            new Image([
+                'maxSize' => '5M'
+            ])
+        ];
         $builder
-            ->add('photo', DropzoneType::class, ["required" => false])
+            ->add('photo', DropzoneType::class, [
+                "required" => false,
+                'mapped' => false,
+                'constraints' => $imageConstraints,
+            ])
             ->add('dateFormat', ChoiceType::class, [
                 'choices'  => [
                     'dd.MM.yyyy' => "(dd.MM.yyyy)",

@@ -23,19 +23,19 @@ class MainCompany
     private ?string $name = null;
 
     #[ORM\Column(length: 30, nullable: true)]
-    private ?string $dateFormat = null;
+    private ?string $routeDateFormat = null;
 
     #[ORM\Column(length: 20, nullable: true)]
-    private ?string $timeFormat = null;
+    private ?string $routeTimeFormat = null;
 
     #[ORM\Column(length: 30, nullable: true)]
-    private ?string $unitDistance = null;
+    private ?string $routeUnitDistance = null;
 
     #[ORM\Column(length: 10, nullable: true)]
-    private ?string $unitWeight = null;
+    private ?string $routeUnitWeight = null;
 
     #[ORM\Column(length: 10, nullable: true)]
-    private ?string $unitVolume = null;
+    private ?string $routeUnitVolume = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $photo = null;
@@ -90,11 +90,11 @@ class MainCompany
         $this->drivers = new ArrayCollection();
         $this->warehouses = new ArrayCollection();
         $this->vehicles = new ArrayCollection();
-        $this->dateFormat = 'dd.MM.yyyy';
-        $this->timeFormat = '12H';
-        $this->unitDistance = 'Miles';
-        $this->unitWeight = 'Lb';
-        $this->unitVolume = 'Pkg';
+        $this->routeDateFormat = 'dd.MM.yyyy';
+        $this->routeTimeFormat = '12H';
+        $this->routeUnitDistance = 'Miles';
+        $this->routeUnitWeight = 'Lb';
+        $this->routeUnitVolume = 'Pkg';
     }
 
     public function getId(): ?int
@@ -302,60 +302,60 @@ class MainCompany
 
     public function getDateFormat(): ?string
     {
-        return $this->dateFormat;
+        return $this->routeDateFormat;
     }
 
-    public function setDateFormat(?string $dateFormat): static
+    public function setDateFormat(?string $routeDateFormat): static
     {
-        $this->dateFormat = $dateFormat;
+        $this->routeDateFormat = $routeDateFormat;
 
         return $this;
     }
 
     public function getTimeFormat(): ?string
     {
-        return $this->timeFormat;
+        return $this->routeTimeFormat;
     }
 
-    public function setTimeFormat(?string $timeFormat): static
+    public function setTimeFormat(?string $routeTimeFormat): static
     {
-        $this->timeFormat = $timeFormat;
+        $this->routeTimeFormat = $routeTimeFormat;
 
         return $this;
     }
 
     public function getUnitDistance(): ?string
     {
-        return $this->unitDistance;
+        return $this->routeUnitDistance;
     }
 
-    public function setUnitDistance(?string $unitDistance): static
+    public function setUnitDistance(?string $routeUnitDistance): static
     {
-        $this->unitDistance = $unitDistance;
+        $this->routeUnitDistance = $routeUnitDistance;
 
         return $this;
     }
 
     public function getUnitWeight(): ?string
     {
-        return $this->unitWeight;
+        return $this->routeUnitWeight;
     }
 
-    public function setUnitWeight(?string $unitWeight): static
+    public function setUnitWeight(?string $routeUnitWeight): static
     {
-        $this->unitWeight = $unitWeight;
+        $this->routeUnitWeight = $routeUnitWeight;
 
         return $this;
     }
 
     public function getUnitVolume(): ?string
     {
-        return $this->unitVolume;
+        return $this->routeUnitVolume;
     }
 
-    public function setUnitVolume(?string $unitVolume): static
+    public function setUnitVolume(?string $routeUnitVolume): static
     {
-        $this->unitVolume = $unitVolume;
+        $this->routeUnitVolume = $routeUnitVolume;
 
         return $this;
     }
