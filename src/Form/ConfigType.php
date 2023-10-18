@@ -2,12 +2,13 @@
 
 namespace App\Form;
 
-use Symfony\UX\Dropzone\Form\DropzoneType;
 use App\Entity\MainCompany;
+use Symfony\UX\Dropzone\Form\DropzoneType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Validator\Constraints\Image;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ConfigType extends AbstractType
@@ -24,6 +25,10 @@ class ConfigType extends AbstractType
                 "required" => false,
                 'mapped' => false,
                 'constraints' => $imageConstraints,
+            ])
+            ->add('delete', HiddenType::class, [
+                "required" => false,
+                'mapped' => false
             ])
             ->add('dateFormat', ChoiceType::class, [
                 'choices'  => [

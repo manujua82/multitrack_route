@@ -22,11 +22,15 @@ class ConfigController extends AbstractController
         SluggerInterface $slugger
     ): Response {
         $mainCompanyEntity = $repository->config();
+        $fileAct = $mainCompanyEntity->getPhoto();
         $form = $this->createForm(ConfigType::class, $mainCompanyEntity);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $mainCompanyEntity = $form->getData();
             $photoFile = $form->get('photo')->getData();
+            $deleteImage = $form->get('delete');
+            $directory = $this->getParameter('photo_directory');
+            $fileRemove = $directory.'/'.$fileAct;
 
             if ($photoFile) {
                 $originalFilename = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -36,17 +40,25 @@ class ConfigController extends AbstractController
 
                 try {
                     $photoFile->move(
-                        $this->getParameter('photo_directory'),
+                        $directory,  
                         $newFilename
                     );
+                    if(is_file($fileRemove)){
+                        unlink($fileRemove);
+                    }
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
                 $mainCompanyEntity->setPhoto($newFilename);
+            }else if($deleteImage){
+                if(is_file($fileRemove)){
+                    unlink($fileRemove);
+                    $mainCompanyEntity->setPhoto("");
+                }
             }
 
             $repository->add($mainCompanyEntity, true);
-            $flashMessage = $translator->trans('Company edited');
+            $flashMessage = $translator->trans('Setup successfully saved');
             $this->addFlash('success', $flashMessage);
 
             return $this->redirectToRoute('app_config');

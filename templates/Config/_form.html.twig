@@ -15,10 +15,20 @@
 
                  <div class="row g-2">
                     <div class="col-12">
-                    {# TODO: MOSTRAR IMAGEN ACTUAL #}
-                    {# <img src="{{photo_directory}}/{{form.vars.data.photo}}" /> #}
-                        {{ form_label(form.photo, 'Photo'|trans, {'label_attr': {'class': 'form-label','for': 'photoInput'}}) }}
-                        {{ form_widget(form.photo, { 'attr': { 'class': 'form-select', 'id':'photoInput', 'type':'text' }}) }}
+                    {% set display = 'display: box' %}
+                            {{ form_label(form.photo, 'Photo'|trans, {'label_attr': {'class': 'form-label','for': 'photoInput'}}) }}
+                            {% if form.vars.data.photo is not empty %}
+                            <span id="previewImage">
+                                <img src="{{photo_directory}}/{{form.vars.data.photo}}" style="aspect-ratio: 4/2; width:100%; object-fit: cover;" />
+                                <button id="deleteImage" class="btn btn-primary" style="position: absolute; right: 35px; top: 110px;">
+                                    <span class="fa fa-trash"></span>
+                                </button>
+                            </span>
+                            {% set display = 'display: none' %}
+                            {% endif %}
+                            <span style="{{display}}" id="imageUpload">
+                            {{ form_widget(form.photo, { 'attr': { 'class': 'form-select', 'id':'photoInput', 'type':'text' }}) }}
+                            </span>
                     </div>
                     <div class="col-12">
                         {{ form_label(form.dateFormat, 'Date Format'|trans, {'label_attr': {'class': 'form-label','for': 'dateInput'}}) }}
@@ -56,4 +66,5 @@
          </div>
      {{ form_end(form) }}
     </div>
+    <div {{ stimulus_controller('config')}} />
 </div>
