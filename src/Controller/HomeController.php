@@ -78,6 +78,7 @@ class HomeController extends AbstractController
             'routes' => $routes,
             'routeAddresses' => $routeAddresses,
             'routeOrders' => $routeOrders,
+            'currentRoute' => $routeSelected,
             'routeSelectedId' => $routeSelected?->getId(),
             'unscheduleOrders' => $this->orderRepository->getOrdersByStatus('Unschedule'),
         ]);

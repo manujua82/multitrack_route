@@ -7,6 +7,7 @@ export default class extends Controller {
     static targets = [
         'content',
         'mapObj',
+        'sites',
         'routeOrders', 
         'unscheduleOrders'
     ];
@@ -29,11 +30,12 @@ export default class extends Controller {
 
         this.routeSelectedId = this.routeSelectedIdValue;
         this.mapUtils = new MapUtils(this.mapObjTarget);
-        this.mapUtils.init(0, 0);
+        this.mapUtils.init(25.9295136, -80.1244299);
 
         this.setupReSizer();
         this.setupLeftVerticalPanel();
         this.setupRightVerticalPanel();
+        this.makeRouteSiteSortable();
         this.makeRouteOrdersSortable();
         this.makeUnscheduleOrdersSortable();
     }
@@ -102,12 +104,34 @@ export default class extends Controller {
 
     // Refresh Script Behaviors
     refreshScriptsBehaviors() {
+        this.makeRouteSiteSortable();
         this.setupLeftVerticalPanel();
         this.makeRouteOrdersSortable();
     }
     
 
     // Sortable
+
+    sortSites() {
+        var body = [];
+        var all = this.sitesTarget.getElementsByTagName("tr");
+        for (var i=0, max=all.length; i < max; i++) {
+            
+            const position = i+1; 
+
+            var obj = new Object();
+            obj.id = all[i].getAttribute('id');
+            obj.position = i+1; 
+
+            body.push(obj);
+
+            all[i].getElementsByTagName('td')[0].innerHTML = position;
+       }
+
+       console.log(JSON.stringify(body, "", 4));
+        
+    }
+    
     getSelectedItemsFormSortable(evt) {
         var items = []
         if (evt.items.length == 0) {
@@ -115,6 +139,16 @@ export default class extends Controller {
             return items;
         }
         return  evt.items;
+    }
+
+    makeRouteSiteSortable() {
+        Sortable.create(this.sitesTarget, {
+            group: 'sites',
+            onUpdate: function (evt) {
+               this.sortSites();
+            }.bind(this),
+            animation: 100
+        });
     }
 
     makeRouteOrdersSortable() {

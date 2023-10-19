@@ -251,7 +251,7 @@
         <script src="{{ asset('vendors/leaflet.markercluster/leaflet.markercluster.js') }}"></script>
         <script src="{{ asset('vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js') }}"></script>
         <script src="{{ asset('assets/js/ecommerce-dashboard.js') }}"></script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key={{google_map_api}}&libraries=places&callback=dispatchMapsEvent"></script>
+        <script async defer src="https://maps.googleapis.com/maps/api/js?key={{google_map_api}}&libraries=places,geometry&callback=dispatchMapsEvent"></script>
          {{ encore_entry_script_tags('app') }}
 
         {% block javascripts %}
