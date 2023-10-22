@@ -1,9 +1,12 @@
 {% import _self as formMacros %}
 
 {% macro printAddressRow(addressForm) %}
-    <td class="align-middle">{{ form_widget(addressForm.fullAddress, { 'attr': { 'class': 'form-control form-control-sm', 'placeholder': 'Enter a place'|trans, 'type':'text',  }}) }}</td>        
+    <td class="align-middle">                       
+        {{ form_widget(addressForm.fullAddress, { 'attr': { 'class': 'form-control form-control-sm', 'placeholder': 'Enter a place'|trans, 'type':'text',  }}) }}
+    </td>        
     <td class="align-middle ps-3">{{ form_widget(addressForm.latitude, { 'attr': { 'class': 'form-control form-control-sm', 'type':'number', 'step':'any', 'placeholder': 'Latitude'|trans,  'readonly': '' }}) }}</td>
     <td class="align-middle ps-3">{{ form_widget(addressForm.longitude, { 'attr': { 'class': 'form-control form-control-sm', 'type':'number', 'step':'any', 'placeholder': 'Latitude'|trans,  'readonly': '' }}) }}</td>
+
     <td class="align-middle ps-3">{{ form_widget(addressForm.street, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text', 'style':'display:none;' }}) }}</td>
     <td class="align-middle">{{ form_widget(addressForm.city, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text', 'style':'display:none;' }}) }}</td>
     <td class="align-middle">{{ form_widget(addressForm.state, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text', 'style':'display:none;' }}) }}</td>
@@ -11,9 +14,10 @@
     <td class="align-middle">{{ form_widget(addressForm.country, { 'attr': { 'class': 'form-control form-control-sm', 'type':'text', 'style':'display:none;' }}) }}</td>
 {% endmacro %} 
  
+ 
  <div 
     class="row flex-center py-5"
-    {{ stimulus_controller('customer-form')}}
+     {{ stimulus_controller('customer-form')}}
 >
     <div class="col-xl-6">
         {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "needs-validation"}}) }}

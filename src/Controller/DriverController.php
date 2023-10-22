@@ -24,12 +24,11 @@ class DriverController extends AbstractController
         ]);
     }
 
-    #[Route('/driver/new', name: 'app_driver_new', priority:  2)]
+    #[Route('/driver/new', name: 'app_driver_new', priority: 2)]
     public function add(
         Request $request,
         DriverRepository $driverRepository,
         UserRepository $userRepository,
-        TranslatorInterface $translator,
     ): Response {
         $form = $this->createForm(DriverType::class, new Driver());
         $form->handleRequest($request);
@@ -62,7 +61,6 @@ class DriverController extends AbstractController
         Request $request,
         DriverRepository $driverRepository,
         UserRepository $userRepository,
-        TranslatorInterface $translator,
     ): Response {
         $form = $this->createForm(DriverType::class, $driverEntity, array("require_pass" => false));
         $form->handleRequest($request);
@@ -73,12 +71,8 @@ class DriverController extends AbstractController
             $driverEntity = $form->getData();
             $driverRepository->add($driverEntity, true);
 
-            if ($form->get('plainPassword')->getData()) {
-                $userRepository->upgradePassword($driverEntity->getUser(), $form->get('plainPassword')->getData());
-            }
+            $userRepository->upgradePassword($driverEntity->getUser(), $form->get('plainPassword')->getData());
 
-            $flashMessage = $translator->trans('Driver edit flash', ['code' => $driverEntity->getName()]);
-            $this->addFlash('success', $flashMessage);
             return $this->redirectToRoute('app_driver');
         }
 

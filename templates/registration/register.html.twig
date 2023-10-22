@@ -16,15 +16,15 @@
     {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control',  'placeholder': 'Email'|trans }}) }}
     <div class="invalid-feedback" style="display: block !important">{{ form_errors(registrationForm.email) }}</div>
 </div>
-<div class="row g-3 mb-3" data-controller="utils">
+<div class="row g-3 mb-3">
     <div class="col-sm-6 inner-addon right-addon">
-        <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer; margin-top: 20px;" data-action="click->utils#toggle_password"></div>
+        <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer; margin-top: 20px;" onclick="toggle_password(this)"></div>
         {{ form_label(registrationForm.plainPassword.first, 'password'|trans, {'label_attr': {'class': 'form-label'}}) }}
         {{ form_widget(registrationForm.plainPassword.first, { 'attr': { 'class': 'form-control', 'placeholder': 'password'|trans }}) }}
         <div class="invalid-feedback" style="display: block !important">{{ form_errors(registrationForm.plainPassword.first) }}</div>
     </div>
     <div class="col-sm-6 inner-addon right-addon">
-        <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer; margin-top: 20px;" data-action="click->utils#toggle_password"></div>
+        <div class="uil fs-0 me-2 uil-eye" style="cursor: pointer; margin-top: 20px;" onclick="toggle_password(this)"></div>
         {{ form_label(registrationForm.plainPassword.second, 'password'|trans, {'label_attr': {'class': 'form-label'}}) }}
         {{ form_widget(registrationForm.plainPassword.second, { 'attr': { 'class': 'form-control', 'placeholder': 'password'|trans }}) }}
         <div class="invalid-feedback" style="display: block !important">{{ form_errors(registrationForm.plainPassword.second) }}</div>

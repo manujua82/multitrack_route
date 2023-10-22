@@ -9,32 +9,12 @@
             removeRouteUrl: path('app_route_removeOrder'),
             routeSelectedId: routeSelectedId
         }) }}
-        data-action="modal-form:success->reload-content#refreshContent route-dashboard:routeClicked->reload-content#refreshContent google-maps-callback@window->reload-content#initMap"
+        data-action="modal-form:success->reload-content#refreshContent route-dashboard:routeClicked->reload-content#refreshContent sortable:addedOrder->reload-content#addOrderToRoute sortable:removedOrder->reload-content#removeOrderToRoute"
     >
-        <div class="home-wrapper" >
-            <div
-                id="left-panel"
-                class="home-panel home-empty-panel" 
-                data-reload-content-target="content" > 
-                {{ include('home/_homeDashboard.html.twig')}}
-            </div> 
-            
-            <div  id="right-panel" class="home-panel home-relative-panel">
-                <div class="home-vertical-wrapper">
-                    <div  
-                        id="routeMap"
-                        class="home-vertival-panel tpmap home-empty-panel"
-                        data-reload-content-target="mapObj">
-                    </div>
-                    
-                    <div id="unschedule-order-panel" class="bg-soft home-order-panel home-relative-panel">
-                        <div class="bg-soft d-flex align-items-center flex-row fs--1 px-2 pt-2 pb-2">
-                            <div class="fw-bold me-4">{{'Unschedule'| trans}}</div>
-                        </div>
-                        {{ include('home/_orderList.html.twig', {
-                            targetName: "unscheduleOrders",
-                            entities: unscheduleOrders  
-                        }) }}
+        <div data-reload-content-target="content" >    
+             {{ include('home/_homeDashboard.html.twig')}}
+        </div> 
+    </div>
 
                         <div id="right-panel-vertical-gutter" class="home-vertical-gutter"></div>
                     </div>
