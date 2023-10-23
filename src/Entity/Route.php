@@ -336,4 +336,13 @@ class Route
     {
         return count($this->addresses);
     }
+
+    public function arrangeAddresses(Array $sites): void
+    {
+        foreach ($this->addresses as $address) {
+            $key = array_search($address->getId(), array_column($sites, 'id'));
+            $site = $sites[$key];
+            $address->setPosition($site['position']);
+        }
+    }
 }

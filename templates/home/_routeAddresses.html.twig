@@ -17,7 +17,7 @@
                 <td class="align-middle white-space-nowrap"></td>
             </tr>
         {% endif %}
-        <tbody class="list" id="sites-table-body" data-reload-content-target="sites">
+        <tbody class="list" id="sites-table-body" data-reload-content-target="sites" routeId="{{currentRoute.id}}">
             {% if routeAddresses is defined %}
                 {% for site in routeAddresses %}
                     <tr id="{{ site.id}}">

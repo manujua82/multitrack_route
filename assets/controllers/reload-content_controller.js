@@ -16,12 +16,13 @@ export default class extends Controller {
         url:  String,
         addRouteUrl: String,
         removeRouteUrl: String,
+        arrangeSiteUrl: String,
         routeSelectedId: String
     }
 
     routeSelectedId = null;
 
-    connect() {
+    async connect() {
         try {
             Sortable?.mount(new MultiDrag())
         } catch (error) {
@@ -30,7 +31,7 @@ export default class extends Controller {
 
         this.routeSelectedId = this.routeSelectedIdValue;
         this.mapUtils = new MapUtils(this.mapObjTarget);
-        this.mapUtils.init(25.9295136, -80.1244299);
+        await this.mapUtils.init(25.9295136, -80.1244299);
 
         this.setupReSizer();
         this.setupLeftVerticalPanel();
@@ -41,7 +42,7 @@ export default class extends Controller {
     }
 
     async initMap(lat, lng) {
-        this.mapUtils.init(lat, lng);
+        // this.mapUtils.init(lat, lng);
     }
 
     async fetchDashboard(currentRouteId = null) {
@@ -112,24 +113,40 @@ export default class extends Controller {
 
     // Sortable
 
-    sortSites() {
-        var body = [];
-        var all = this.sitesTarget.getElementsByTagName("tr");
-        for (var i=0, max=all.length; i < max; i++) {
+    async sortSites() {
+        try {
+            var body = [];
+            var all = this.sitesTarget.getElementsByTagName("tr");
             
-            const position = i+1; 
+            for (var i=0, max=all.length; i < max; i++) {
+                const position = i+1; 
+                var obj = new Object();
+                obj.id = all[i].getAttribute('id');
+                obj.position = position; 
+                all[i].getElementsByTagName('td')[0].innerHTML =  position;
+                
+                body.push(obj);
+            }
 
-            var obj = new Object();
-            obj.id = all[i].getAttribute('id');
-            obj.position = i+1; 
-
-            body.push(obj);
-
-            all[i].getElementsByTagName('td')[0].innerHTML = position;
-       }
-
-       console.log(JSON.stringify(body, "", 4));
-        
+            const response = await fetch(this.arrangeSiteUrlValue, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    routeId: this.sitesTarget.getAttribute("routeId"),
+                    arrangeSites: body
+                })
+            });
+            
+            const bodyResponse = await response.json();
+            if (!bodyResponse.success) {
+                throw new Error('Something wrong');
+            }
+            
+        } catch (e) {
+            console.error(e);
+        }
     }
     
     getSelectedItemsFormSortable(evt) {

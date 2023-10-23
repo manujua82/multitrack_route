@@ -18,13 +18,17 @@ export default class extends Controller {
         apiKey:  String,
     }
 
-    connect() {
+    async connect() {        
         this.mapUtils = new MapUtils(this.mapObjTarget);
-        this.mapUtils.init(this.latitudeTarget.value,this.longitudeTarget.value);
+        await this.mapUtils.init(this.latitudeTarget.value,this.longitudeTarget.value);
+        this.mapUtils.addMarker(this.latitudeTarget.value,this.longitudeTarget.value);
     }
 
     async initMap(lat, lng) {
-        this.mapUtils.init(lat, lng);
+        if (!this.mapUtils.isReady()){
+            await this.mapUtils.init(this.latitudeTarget.value,this.longitudeTarget.value);
+            this.mapUtils.addMarker(this.latitudeTarget.value,this.longitudeTarget.value);
+        }
     }
 
     async onLocationClick() {
@@ -35,7 +39,9 @@ export default class extends Controller {
             this.latitudeTarget.value = geoResult.geometry.location.lat;
             this.longitudeTarget.value = geoResult.geometry.location.lng;
 
-            this.mapUtils.init(this.latitudeTarget.value,this.longitudeTarget.value);
+            this.mapUtils.resetMarkets();
+            this.mapUtils.setCenter(geoResult.geometry.location.lat, geoResult.geometry.location.lng);
+            this.mapUtils.addMarker(geoResult.geometry.location.lat, geoResult.geometry.location.lng);
         }
     }
 }
