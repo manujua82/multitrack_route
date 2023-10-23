@@ -1,0 +1,114 @@
+<div class="row flex-center py-5">
+    <div class="col-xl-6">
+        {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation" }}) }}
+        <div class="card mb-2">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-2">
+                    <h3>{{ 'User' |trans }}</h3>
+                </div>
+
+                <div class="row g-2">
+                    <div class="col-sm-6 col-md-6">
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.active, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                            {{ form_label(form.active,  'Active'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                        </div>
+                    </div> 
+
+                    <div class="col-sm-6 col-md-12">
+                        <div class="form-floating">
+                            {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'floatingInputGrid', 'type':'text', 'placeholder': 'Full name'|trans }}) }}
+                            {{ form_label(form.name,  'Full name'|trans, {'label_attr': {'class': 'orm-label', 'for': 'floatingInputGrid'}}) }}
+                            <div class="invalid-feedback">{{ form_errors(form.name) }}</div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-md-12">
+                        <div class="form-floating">
+                            {{ form_widget(form.email, { 'attr': { 'class': 'form-control', 'id':'floatingInputGrid', 'type':'text', 'placeholder': 'Full name'|trans }}) }}
+                            {{ form_label(form.email,  'Email'|trans, {'label_attr': {'class': 'orm-label', 'for': 'floatingInputGrid'}}) }}
+                            <div class="invalid-feedback">{{ form_errors(form.email) }}</div>
+                        </div>
+                    </div>
+                        
+                    <div class="col-sm-6 col-md-12">
+                        {{ form_label(form.rolegroup,  'Role'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'role-type'}}) }}
+                        {{ form_widget(form.rolegroup, { 'attr': { 'class': 'form-select', 'id':'role-type', 'type':'text'}}) }}
+                        {{ form_errors(form.rolegroup) }}
+                    </div>
+                </div>
+
+                <div class="mb-6"></div> 
+
+                <div class="row">
+                    <div id="header_list"class="d-sm-flex align-items-center">
+                        <h3>{{ 'Permissions' |trans }}</h3>
+                    </div>
+                        
+                    <div class="mb-4"></div> 
+
+                    <div class="col-sm-3 col-md-3">
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.roleAllowViewRoute, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                            {{ form_label(form.roleAllowViewRoute,  'Allow View Routes'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.roleAllowViewOrders, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                            {{ form_label(form.roleAllowViewOrders,  'Allow View Orders'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.roleAllowViewVehicule, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                            {{ form_label(form.roleAllowViewVehicule,  'Allow View Vehicule'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.roleAllowViewDirectories, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                            {{ form_label(form.roleAllowViewDirectories,  'Allow View Directories'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.roleAllowUserManagment, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                            {{ form_label(form.roleAllowUserManagment,  'Allow User Managment'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.roleAllowDuplicate, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                            {{ form_label(form.roleAllowDuplicate,  'Allow Duplicate'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.roleAllowEditOrders, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                            {{ form_label(form.roleAllowEditOrders,  'Allow Edit Orders'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.roleAllowEditCompOrders, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                            {{ form_label(form.roleAllowEditCompOrders,  'Allow Edit Completed Orders'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.roleAllowEditDirectories, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                            {{ form_label(form.roleAllowEditDirectories,  'Allow Edit Directories'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-3 col-md-3">
+                        <div class="form-check mb-3">
+                            {{ form_widget(form.roleAllowAllShippers, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                            {{ form_label(form.roleAllowAllShippers,  'All Shippers'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                        </div>
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div {{ stimulus_controller('permissions') }} </div>
+</div>

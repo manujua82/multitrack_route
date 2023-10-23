@@ -76,13 +76,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
     public function findAllByCompany(
         MainCompany $company
-        ): array
-    {
+    ): array {
         return $this->createQueryBuilder('c')
             ->andWhere('c.mainCompany = :company')
-            ->andWhere('c.roles = :roles')
             ->setParameter('company', $company)
-            ->setParameter('roles', '')
             ->getQuery()
             ->getResult();
     }

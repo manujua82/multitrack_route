@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\UserProfile;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +20,11 @@ class UserProfileRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, UserProfile::class);
+    }
+
+    public function createProfile(User $user, string $name, string $bio, string $websiteUrl)
+    {
+
     }
 
 //    /**
