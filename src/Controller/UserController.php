@@ -30,8 +30,15 @@ class UserController extends AbstractController
     ): Response {
         $form = $this->createForm(UserType::class, new User());
         $form->handleRequest($request);
+        $company = $this->getUser()->getMainCompany();
         if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
+            $driverUser = $userRepository->createUser(
+                $driverEntity->getEmail(),
+                $form->get('plainPassword')->getData(),
+                $company,
+                ['ROLE_DRIVER']
+            );
             $userRepository->add($userEntity, true);
 
             return $this->redirectToRoute('app_user');

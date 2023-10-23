@@ -24,6 +24,16 @@ class UserProfileRepository extends ServiceEntityRepository
 
     public function createProfile(User $user, string $name, string $bio, string $websiteUrl)
     {
+        $newUserProfile = new UserProfile();
+        $newUserProfile->setName($name);
+        $newUserProfile->setUser($user);
+        $newUserProfile->setBio($bio);
+        $newUserProfile->setWebsiteUrl($websiteUrl);
+        
+        $this->getEntityManager()->persist($newUserProfile);
+        $this->getEntityManager()->flush();
+
+        return $newUserProfile;
 
     }
 
