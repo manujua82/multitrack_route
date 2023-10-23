@@ -31,26 +31,32 @@
 }
 
 .home-wrapper {
-    height: 90%;
-    width: 96vw;
-    background: #333;
-    border: 6px solid #666;
+    height: 43vw;
+    width: 100vw;
+    border: 2px dotted rgb(10, 53, 245);
+
     display: flex;
 }
 
 .home-vertical-wrapper {
-    height: 90vh;
+    height: 82vh;
 }
   
-.home-panel {
+.home-left-panel {
     /* padding: 1em; */
     min-width: 50px;
-    width: 50%;
+    width: 60%;
+}
+
+.home-right-panel {
+    /* padding: 1em; */
+    min-width: 50px;
+    width: 40%;
 }
 
 .home-vertical-panel {
     min-height: 45px;
-    height: 30%;
+    height: 33%;
 }
 
 .home-order-panel {
@@ -70,7 +76,7 @@
 .home-horizontal-gutter {
     width: 1px;
     height: 100%;
-    background-color: rgb(243, 192, 192);
+    /* background-color: rgb(243, 192, 192); */
     border-left: 2px dotted rgb(10, 53, 245);
     position: absolute;
     top: 0;

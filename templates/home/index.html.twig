@@ -2,6 +2,7 @@
 
 {% block body %}
     <div 
+        class="mt-n5 ms-n6 home-wrapper"
         {{ stimulus_controller('reload-content',  {
             url: path('app_dashboard_refresh'),
             addRouteUrl: path('app_route_addOrder'),
@@ -11,15 +12,14 @@
         }) }}
         data-action="modal-form:success->reload-content#refreshContent route-dashboard:routeClicked->reload-content#refreshContent google-maps-callback@window->reload-content#initMap"
     >
-        <div class="home-wrapper" >
             <div
                 id="left-panel"
-                class="home-panel home-empty-panel" 
+                class="home-left-panel home-empty-panel" 
                 data-reload-content-target="content" > 
                 {{ include('home/_homeDashboard.html.twig')}}
             </div> 
             
-            <div  id="right-panel" class="home-panel home-relative-panel">
+            <div  id="right-panel" class="home-right-panel home-relative-panel">
                 <div class="home-vertical-wrapper">
                     <div  
                         id="routeMap"
@@ -43,7 +43,5 @@
 
                 <div id="horizontal-gutter"class="home-horizontal-gutter"></div>
             </div>
-            
-        </div>
     </div>
 {% endblock %}  
