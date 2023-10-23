@@ -78,6 +78,7 @@ class HomeController extends AbstractController
             'routes' => $routes,
             'routeAddresses' => $routeAddresses,
             'routeOrders' => $routeOrders,
+            'currentRoute' => $routeSelected,
             'routeSelectedId' => $routeSelected?->getId(),
             'unscheduleOrders' => $this->orderRepository->getOrdersByStatus('Unschedule'),
         ]);
@@ -199,5 +200,26 @@ class HomeController extends AbstractController
 
         $this->routeRepository->add($currentRoute, true);
         return $this->renderDashboard('home/_homeDashboard.html.twig', $currentRoute);
+    }
+
+    #[Route('/route/arrangeSite', name: 'app_route_arrangeSites', methods: ['GET', 'POST'])]
+    public function arrangeRouteSite(Request $request)
+    {
+        $parameters = json_decode($request->getContent(), true);
+        $routeId = $parameters['routeId'];
+        $arrangeSites =  $parameters['arrangeSites'];
+
+        $currentRoute = $this->routeRepository->find($routeId);
+        if($currentRoute) {
+            $currentRoute->arrangeAddresses($arrangeSites);
+            $this->routeRepository->add($currentRoute, true);
+            return $this->json([
+                'success' => true
+            ]);
+        } else {
+            return $this->json([
+                'success' => false
+            ]);
+        }
     }
 }

@@ -187,6 +187,7 @@ class Route
             }
 
             $this->removeAddressesFromOrder($order->getId());
+            $this->updateAddressesPosition();
         }
         return $this;
     }
@@ -297,7 +298,7 @@ class Route
 
         foreach($addressesWithOrderId as $address) {
             $orderIds = $address->getOrderIds();
-            $orderIds =array_diff($orderIds, [$orderId]);
+            $orderIds = array_diff($orderIds, [$orderId]);
 
             if (count($orderIds) === 0) {
                 if ($this->addresses->removeElement($address)) {
@@ -308,6 +309,15 @@ class Route
             } else {
                 $address->setOrderIds($orderIds);
             }
+        }
+    }
+
+    private function updateAddressesPosition() 
+    {
+        $position = 1;
+        foreach($this->addresses as $address) {
+            $address->setPosition($position);
+            $position++;
         }
     }
 
@@ -325,5 +335,14 @@ class Route
     public function addressCount(): int 
     {
         return count($this->addresses);
+    }
+
+    public function arrangeAddresses(Array $sites): void
+    {
+        foreach ($this->addresses as $address) {
+            $key = array_search($address->getId(), array_column($sites, 'id'));
+            $site = $sites[$key];
+            $address->setPosition($site['position']);
+        }
     }
 }

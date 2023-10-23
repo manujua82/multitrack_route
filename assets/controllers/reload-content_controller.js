@@ -7,6 +7,7 @@ export default class extends Controller {
     static targets = [
         'content',
         'mapObj',
+        'sites',
         'routeOrders', 
         'unscheduleOrders'
     ];
@@ -15,12 +16,13 @@ export default class extends Controller {
         url:  String,
         addRouteUrl: String,
         removeRouteUrl: String,
+        arrangeSiteUrl: String,
         routeSelectedId: String
     }
 
     routeSelectedId = null;
 
-    connect() {
+    async connect() {
         try {
             Sortable?.mount(new MultiDrag())
         } catch (error) {
@@ -29,17 +31,18 @@ export default class extends Controller {
 
         this.routeSelectedId = this.routeSelectedIdValue;
         this.mapUtils = new MapUtils(this.mapObjTarget);
-        this.mapUtils.init(0, 0);
+        await this.mapUtils.init(25.9295136, -80.1244299);
 
         this.setupReSizer();
         this.setupLeftVerticalPanel();
         this.setupRightVerticalPanel();
+        this.makeRouteSiteSortable();
         this.makeRouteOrdersSortable();
         this.makeUnscheduleOrdersSortable();
     }
 
     async initMap(lat, lng) {
-        this.mapUtils.init(lat, lng);
+        // this.mapUtils.init(lat, lng);
     }
 
     async fetchDashboard(currentRouteId = null) {
@@ -102,12 +105,50 @@ export default class extends Controller {
 
     // Refresh Script Behaviors
     refreshScriptsBehaviors() {
+        this.makeRouteSiteSortable();
         this.setupLeftVerticalPanel();
         this.makeRouteOrdersSortable();
     }
     
 
     // Sortable
+
+    async sortSites() {
+        try {
+            var body = [];
+            var all = this.sitesTarget.getElementsByTagName("tr");
+            
+            for (var i=0, max=all.length; i < max; i++) {
+                const position = i+1; 
+                var obj = new Object();
+                obj.id = all[i].getAttribute('id');
+                obj.position = position; 
+                all[i].getElementsByTagName('td')[0].innerHTML =  position;
+                
+                body.push(obj);
+            }
+
+            const response = await fetch(this.arrangeSiteUrlValue, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    routeId: this.sitesTarget.getAttribute("routeId"),
+                    arrangeSites: body
+                })
+            });
+            
+            const bodyResponse = await response.json();
+            if (!bodyResponse.success) {
+                throw new Error('Something wrong');
+            }
+            
+        } catch (e) {
+            console.error(e);
+        }
+    }
+    
     getSelectedItemsFormSortable(evt) {
         var items = []
         if (evt.items.length == 0) {
@@ -115,6 +156,16 @@ export default class extends Controller {
             return items;
         }
         return  evt.items;
+    }
+
+    makeRouteSiteSortable() {
+        Sortable.create(this.sitesTarget, {
+            group: 'sites',
+            onUpdate: function (evt) {
+               this.sortSites();
+            }.bind(this),
+            animation: 100
+        });
     }
 
     makeRouteOrdersSortable() {
@@ -170,6 +221,7 @@ export default class extends Controller {
         function reSizer(e) {
             let prevX = e.x;
             const leftPanelBoundingRect = leftPanel.getBoundingClientRect();
+            const rightPanelBoundingRect = rightPanel.getBoundingClientRect();
     
             window.addEventListener('mousemove',mousemove);
             window.addEventListener('mouseup',mouseup);
@@ -177,6 +229,8 @@ export default class extends Controller {
             function mousemove(e) {
                 let newX = prevX - e.x;
                 leftPanel.style.width = leftPanelBoundingRect.width - newX + "px";
+                rightPanel.style.width = rightPanelBoundingRect.width + newX + "px";
+                
             }
         
             function mouseup() {
@@ -189,6 +243,7 @@ export default class extends Controller {
     setupLeftVerticalPanel() {
         const routePanel = document.querySelector("#route-panel");
         const routeAddressPanel = document.querySelector("#route-address-panel");
+        const routeOrderPanel = document.querySelector("#route-order-panel");
 
         const routeAddressGutter = document.querySelector("#route-address-gutter");
         const addressOrderGutter = document.querySelector('#address-order-gutter');
@@ -196,17 +251,23 @@ export default class extends Controller {
         routeAddressGutter.addEventListener('mousedown',reRouteAddressSizer);   
         addressOrderGutter.addEventListener('mousedown',reAddressOrderSizer);   
 
-
         function reRouteAddressSizer(e) {
             let prevRouteY = e.y;
 
             const routePanelBoundingRect = routePanel.getBoundingClientRect();
+            const addressPanelBoundingRect = routeAddressPanel.getBoundingClientRect();
+            
             window.addEventListener('mousemove',mouseAddressMove);
             window.addEventListener('mouseup',mouseAddressUp);
 
             function mouseAddressMove(e) {
                 let newY = prevRouteY - e.y;
-                routePanel.style.height = routePanelBoundingRect.height - newY + "px";
+                
+                if (!(addressPanelBoundingRect.height + newY <= 50  || routePanelBoundingRect.height - newY <=50 )){
+                    routePanel.style.height = routePanelBoundingRect.height - newY + "px";
+                    routeAddressPanel.style.height = addressPanelBoundingRect.height + newY + "px";
+                }
+               
             }
         
             function mouseAddressUp() {
@@ -218,13 +279,25 @@ export default class extends Controller {
         function reAddressOrderSizer(e) {
             let prevY = e.y;
 
+            const routePanelBoundingRect = routePanel.getBoundingClientRect();
             const routeAddressPanelBoundingRect = routeAddressPanel.getBoundingClientRect();
+            const orderPanelBoundingRect = routeOrderPanel.getBoundingClientRect();
+            
             window.addEventListener('mousemove',mouseRouteAddressMove);
             window.addEventListener('mouseup',mouseRouteAddressUp);
 
             function mouseRouteAddressMove(e) {
                 let newY = prevY - e.y;
-                routeAddressPanel.style.height = routeAddressPanelBoundingRect.height - newY + "px";
+                console.log(`
+                newY: ${newY}
+                routeAddressPanelBoundingRect: ${routeAddressPanelBoundingRect.height - newY}
+                `);
+                
+                if (routeAddressPanelBoundingRect.height - newY > 50 &&  orderPanelBoundingRect.height + newY > 150 ) {
+                    routeAddressPanel.style.height = routeAddressPanelBoundingRect.height - newY + "px";
+                    routeOrderPanel.style.height = orderPanelBoundingRect.height + newY + "px";
+                }
+                
             }
         
             function mouseRouteAddressUp() {
@@ -243,7 +316,9 @@ export default class extends Controller {
 
         function reVerticalSizer(e) {
             let prevY = e.y;
+            console.log(prevY);
             const topPanelBoundingRect = topPanel.getBoundingClientRect();
+            const bottomPanelBoundingRect = bottomPanel.getBoundingClientRect();
 
             window.addEventListener('mousemove',mouseVerticalMove);
             window.addEventListener('mouseup',mouseVerticalUp);
@@ -251,6 +326,7 @@ export default class extends Controller {
             function mouseVerticalMove(e) {
                 let newY = prevY - e.y;
                 topPanel.style.height = topPanelBoundingRect.height - newY + "px";
+                bottomPanel.style.height = bottomPanelBoundingRect.height + newY + "px";
             }
         
             function mouseVerticalUp() {
