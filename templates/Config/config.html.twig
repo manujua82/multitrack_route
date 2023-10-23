@@ -1,4 +1,72 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-    {{ include('config/_form.html.twig') }}
+<div class="row flex-center py-5">
+    <div class="col-xl-4">
+    {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "needs-validation"}}) }}
+        <div class="card mb-2">
+            <div class="card-body">
+                <div class="row">
+                    <div class="d-sm-flex justify-content-between">
+                        <h3>{{ 'Configuración' |trans }}</h3>
+                        <div class="d-flex mb-3">
+                            <button type="submit" class="btn btn-primary">{{ 'Save' |trans }}</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-2">
+                    <div class="col-12">
+                    {% set display = 'display: box' %}
+                            {{ form_label(form.photo, 'Photo'|trans, {'label_attr': {'class': 'form-label','for': 'photoInput'}}) }}
+                            {% if form.vars.data.photo is not empty %}
+                            <span id="previewImage">
+                                <img src="{{photo_directory}}/{{form.vars.data.photo}}" style="aspect-ratio: 4/2; width:100%; object-fit: contain;" />
+                                <button id="deleteImage" class="btn btn-primary" style="position: absolute; right: 35px; top: 110px;">
+                                    <span class="fa fa-trash"></span>
+                                </button>
+                            </span>
+                            {% set display = 'display: none' %}
+                            {% endif %}
+                            <span style="{{display}}" id="imageUpload">
+                            {{ form_widget(form.photo, { 'attr': { 'class': 'form-select', 'id':'photoInput', 'type':'text' }}) }}
+                            </span>
+                    </div>
+                    <div class="col-12">
+                        {{ form_label(form.dateFormat, 'Date Format'|trans, {'label_attr': {'class': 'form-label','for': 'dateInput'}}) }}
+                        {{ form_widget(form.dateFormat, { 'attr': { 'class': 'form-select', 'id':'dateInput', 'type':'text' }}) }}
+                    </div>
+                    <div class="col-12">
+                        {{ form_label(form.timeFormat, 'Time Format'|trans, {'label_attr': {'class': 'form-label','for': 'timeInput'}}) }}
+                        {{ form_widget(form.timeFormat, { 'attr': { 'class': 'form-select', 'id':'timeInput', 'type':'text' }}) }}
+                    </div>
+                </div>
+
+                <div class="mb-6"></div> 
+
+                <div class="row">
+                    <div class="d-sm-flex justify-content-between">
+                        <h3>{{ 'Unidades' |trans }}</h3>
+                    </div>
+                </div>
+
+                <div class="row g-2">
+                    <div class="col-12">
+                        {{ form_label(form.unitDistance, 'Distance'|trans, {'label_attr': {'class': 'form-label','for': 'distanceInput'}}) }}
+                        {{ form_widget(form.unitDistance, { 'attr': { 'class': 'form-select', 'id':'distanceInput', 'type':'text' }}) }}
+                    </div>
+                    <div class="col-12">
+                        {{ form_label(form.unitWeight, 'Weight'|trans, {'label_attr': {'class': 'form-label','for': 'weightInput'}}) }}
+                        {{ form_widget(form.unitWeight, { 'attr': { 'class': 'form-select', 'id':'weightInput', 'type':'text' }}) }}
+                    </div>
+                    <div class="col-12">
+                        {{ form_label(form.unitVolume, 'Volume'|trans, {'label_attr': {'class': 'form-label','for': 'volumeInput'}}) }}
+                        {{ form_widget(form.unitVolume, { 'attr': { 'class': 'form-select', 'id':'volumeInput', 'type':'text' }}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {{ form_end(form) }}
+    </div>
+    <div {{ stimulus_controller('config')}} />
+</div>
 {% endblock %}

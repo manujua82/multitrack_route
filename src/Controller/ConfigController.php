@@ -46,9 +46,7 @@ class ConfigController extends AbstractController
                     if(is_file($fileRemove)){
                         unlink($fileRemove);
                     }
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
+                } catch (FileException $e) { }
                 $mainCompanyEntity->setPhoto($newFilename);
             }else if($deleteImage){
                 if(is_file($fileRemove)){
