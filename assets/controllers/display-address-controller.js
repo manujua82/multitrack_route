@@ -18,37 +18,16 @@ export default class extends Controller {
         apiKey:  String,
     }
 
-    connect() {
-        this.initMap(this.latitudeTarget.value,this.longitudeTarget.value);
-    }
-
-    validateCoordinate (coordinate) {
-        console.log(typeof coordinate)
-        const coordinateAsNumber = Number(coordinate);
-        if (isNaN(coordinateAsNumber)) {
-            return 0;
-        }
-        return coordinateAsNumber;
+    async connect() {        
+        this.mapUtils = new MapUtils(this.mapObjTarget);
+        await this.mapUtils.init(this.latitudeTarget.value,this.longitudeTarget.value);
+        this.mapUtils.addMarker(this.latitudeTarget.value,this.longitudeTarget.value);
     }
 
     async initMap(lat, lng) {
-        if (typeof(google) != "undefined"){
-            const { Map } = await google.maps.importLibrary("maps");
-
-            const position = {
-                lat: this.validateCoordinate(lat), 
-                lng: this.validateCoordinate(lng)
-            }
-            
-            const map = new Map(this.mapObjTarget, {
-                center: position,
-                zoom: 12,
-            });
-
-            const marker = new google.maps.Marker({
-                map: map,
-                position: position,
-              });
+        if (!this.mapUtils.isReady()){
+            await this.mapUtils.init(this.latitudeTarget.value,this.longitudeTarget.value);
+            this.mapUtils.addMarker(this.latitudeTarget.value,this.longitudeTarget.value);
         }
     }
 
@@ -72,7 +51,9 @@ export default class extends Controller {
             this.latitudeTarget.value = geoResult.geometry.location.lat;
             this.longitudeTarget.value = geoResult.geometry.location.lng;
 
-            this.initMap(this.latitudeTarget.value,this.longitudeTarget.value);
+            this.mapUtils.resetMarkets();
+            this.mapUtils.setCenter(geoResult.geometry.location.lat, geoResult.geometry.location.lng);
+            this.mapUtils.addMarker(geoResult.geometry.location.lat, geoResult.geometry.location.lng);
         }
     }
 }

@@ -2,44 +2,41 @@
     {{ stimulus_controller('route-dashboard', {
         routeSelectedId: routeSelectedId
     }) }}
->
-    <div >    
-        <div class="row dashboard-header">
-            <div class="col-12">
-                <div class="row align-items-center justify-content-between g-3 mb-3">
-                    <div class="col-12 col-md-auto">
+> 
+        <div class="home-vertical-wrapper">
+            <div id="route-panel" class="bg-soft overflow-auto home-vertical-panel home-empty-panel fs--1 mb-0">
+                <div class="d-flex flex-row align-items-center justify-content-between" >
+                    <div class="d-flex align-items-center flex-row">
+                        <div class="fw-bold me-4 px-2 pt-2 pb-2">{{'Routes'| trans}}</div>
+                        <input class="form-control form-control-sm me-4" placeholder="Search Routes"|trans />
+                        <select class="me-4" id="organizerSingle" >
+                            <option>{{ 'This week  ' | trans }}</option>
+                            <option>{{ 'Today      ' | trans }}</option>
+                            <option>{{ 'Yesterday  ' | trans }}</option>
+                            <option>{{ 'Next 7 days' | trans }}</option>
+                        </select>
                     </div>
-                    <div class="col-12 col-md-auto">
-                        <div class="d-flex">
-                            <div  
-                                {{ stimulus_controller('modal-form', {
-                                    formUrl: path('app_route_new'),
-                                    loadingText:  'Loading'|trans
-                                })}}
-                                data-action="hidden.bs.modal->modal-form#modalHidden"
-                            >
-                                <a 
-                                    class="btn btn-primary px-3 px-sm-5 me-2"
-                                    data-action="modal-form#openModal"
-                                >
-                                    <span class="fas fa-route me-2"></span>
-                                    <span>{{ 'Add Route' | trans }}</span>
-                                </a>
-                            
-                                {{ include('widgets/_homeModal.html.twig', {
-                                    modalTitle: "Add Route"|trans
-                                }) }}
-                            </div>
-
-                            <div>
-                                <a class="btn btn-phoenix-secondary px-3 px-sm-5 me-2">
-                                    <span class="fab fa-first-order me-sm-2"></span>
-                                    <span class="d-none d-sm-inline">{{ 'Add Order' | trans }}</span>
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
+                    
+                    <div  
+                        {{ stimulus_controller('modal-form', {
+                            formUrl: path('app_route_new'),
+                            loadingText:  'Loading'|trans
+                        })}}
+                        data-action="hidden.bs.modal->modal-form#modalHidden"
+                        
+                    >
+                        <a 
+                            class="btn btn-soft-primary btn-sm me-4"
+                            data-action="modal-form#openModal"
+                        >
+                            <span class="fas fa-route me-2"></span>
+                            <span>{{ 'New Route' | trans }}</span>
+                        </a>
+                    
+                        {{ include('widgets/_homeModal.html.twig', {
+                            modalTitle: "Add Route"|trans
+                        }) }}
+                    </div> 
                 </div>
             
                 {{ include('home/_routeList.html.twig') }}
@@ -50,14 +47,10 @@
             class="row"
             {{ stimulus_controller('sortable') }}>
             
-            <div class="col-md-6 col-lg-6 col-xl-6">
-                <p>Routes</p>
-                {{ include('home/_routeList.html.twig') }}
-
-                <p>Sites</p>
-                 {{ include('home/_routeAddresses.html.twig') }}
-
-                <p>Orders</p>
+            <div id="route-order-panel" class="bg-soft home-order-panel home-relative-panel fs--1 mb-0">  
+                <div class="bg-soft d-flex align-items-center flex-row">
+                    <div class="fw-bold me-4">{{'Orders'| trans}}</div>
+                </div>
                 {{ include('home/_orderList.html.twig', {
                         targetName: "routeOrders",
                         entities: routeOrders

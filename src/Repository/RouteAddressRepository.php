@@ -29,6 +29,7 @@ class RouteAddressRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('ra')
             ->andWhere('ra.route = :route')
             ->setParameter('route', $route)
+            ->addOrderBy('ra.position', 'ASC')
             ->getQuery()
             ->getResult();
     }
