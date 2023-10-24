@@ -64,6 +64,9 @@ class MainCompany
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $contact = null;
 
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: RoutingSetup::class, orphanRemoval: true)]
+    private Collection $routingSetups;
+
     public function __construct()
     {
         $this->Users = new ArrayCollection();
@@ -72,6 +75,7 @@ class MainCompany
         $this->drivers = new ArrayCollection();
         $this->warehouses = new ArrayCollection();
         $this->vehicles = new ArrayCollection();
+        $this->routingSetups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -345,6 +349,36 @@ class MainCompany
     public function setContact(?string $contact): static
     {
         $this->contact = $contact;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, RoutingSetup>
+     */
+    public function getRoutingSetups(): Collection
+    {
+        return $this->routingSetups;
+    }
+
+    public function addRoutingSetup(RoutingSetup $routingSetup): static
+    {
+        if (!$this->routingSetups->contains($routingSetup)) {
+            $this->routingSetups->add($routingSetup);
+            $routingSetup->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRoutingSetup(RoutingSetup $routingSetup): static
+    {
+        if ($this->routingSetups->removeElement($routingSetup)) {
+            // set the owning side to null (unless already changed)
+            if ($routingSetup->getCompany() === $this) {
+                $routingSetup->setCompany(null);
+            }
+        }
 
         return $this;
     }

@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="row flex-center py-5">
+        <div class="col-xl-4">
+            {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "needs-validation"}}) }}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-2">
+                            <h3>{{ 'Routing and optimization' |trans }}</h3>
+                            <button type="submit" class="btn btn-primary">{{ 'Save' |trans }}</button>
+                        </div>
+                        <div class="mb-3">
+                            {{ form_label(form.startTime, 'Route start time'|trans, {'label_attr': {'class': 'form-label','for': 'startTime'}}) }}
+                            {{ form_widget(form.startTime, { 'attr': { 'class': 'form-control datetimepicker', 'id':'startTime', 'type':'text', 'placeholder': 'hour : minute'|trans, 'data-options': '{"enableTime":true,"noCalendar":true,"dateFormat":"H:i","disableMobile":true}' }}) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(form.stopDuration, 'Service duration'|trans, {'label_attr': {'class': 'form-label','for': 'stopDuration'}}) }}
+                            {{ form_widget(form.stopDuration, { 'attr': { 'class': 'form-control', 'type':'number', 'id':'stopDuration' }}) }}
+                        </div>
+
+                        <div class="d-flex align-items-center mt-5 mb-2">
+                            <h3>{{ 'Route rates' |trans }}</h3>
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(form.costPerDistance, 'Cost per distance'|trans, {'label_attr': {'class': 'form-label','for': 'costPerDistance'}}) }}
+                            {{ form_widget(form.costPerDistance, { 'attr': { 'class': 'form-control', 'type':'number', 'id': 'costPerDistance' }}) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(form.costPerHour, 'Cost per hour'|trans, {'label_attr': {'class': 'form-label','for': 'costPerHour'}}) }}
+                            {{ form_widget(form.costPerHour, { 'attr': { 'class': 'form-control', 'type':'number', 'id': 'costPerHour' }}) }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form_label(form.baseFare, 'Base fare'|trans, {'label_attr': {'class': 'form-label','for': 'baseFare'}}) }}
+                            {{ form_widget(form.baseFare, { 'attr': { 'class': 'form-control', 'type':'number', 'id': 'baseFare' }}) }}
+                        </div>
+
+                        <div class="d-flex align-items-center mt-5 mb-2">
+                            <h3>{{ 'Strategy' |trans }}</h3>
+                        </div>
+
+                        <div class="mb-3 form-check form-switch">
+                            {{ form_label(form.driverHomeLocation, 'Use Driver Home Location'|trans, {'label_attr': {'class': 'form-check-label','for': 'diverHome'}}) }}
+                            {{ form_widget(form.driverHomeLocation, { 'attr': { 'class': 'form-check-input', 'type':'checkbox', 'id': 'diverHome' }}) }}
+                        </div>
+
+                        <div class="mb-3 form-check form-switch">
+                            {{ form_label(form.startFromDeport, 'Start From Depot'|trans, {'label_attr': {'class': 'form-check-label','for': 'startDepot'}}) }}
+                            {{ form_widget(form.startFromDeport, { 'attr': { 'class': 'form-check-input', 'type':'checkbox', 'id': 'startDepot' }}) }}
+                        </div>
+
+                        <div class="mb-3 form-check form-switch">
+                            {{ form_label(form.endFromDepot, 'End at Depot'|trans, {'label_attr': {'class': 'form-check-label','for': 'endDepot'}}) }}
+                            {{ form_widget(form.endFromDepot, { 'attr': { 'class': 'form-check-input', 'type':'checkbox', 'id': 'endDepot' }}) }}
+                        </div>
+                    </div>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

@@ -3,6 +3,7 @@
         <thead>
             <tr>
                 <th style="display:none;">{{ 'Id.' |trans }}</th>
+                <th style="border-top align-middle"></th>
                 <th class="border-top align-middle" scope="col"  style="width:15%;">{{ 'Order No.' |trans }}</th>
                 <th class="border-top align-middle" scope="col" style="width:15%;">{{ 'Date' |trans }}</th>
                 <th class="border-top align-middle" scope="col" style="width:20%;">{{ 'Ship From' |trans }}</th>
@@ -17,6 +18,7 @@
                 {% for entity in entities %}
                     <tr class="hover-actions-trigger btn-reveal-trigger position-static sortable-item-wrapper">
                         <td style="display:none;">{{ entity.id }}</th>
+                        <td class="align-middle white-space-nowrap text-center"><span class="sortable-handle"><i class="fa-solid fa-up-down-left-right"></i></span></td>
                         <td class="number align-middle white-space-nowrap">{{ entity.number }}</td>
                         <td class="date align-middle white-space-nowrap">{{ entity.date |date('d-m-Y')  }}</td>
                         <td class="align-middle white-space-nowrap">{{ entity.shipFrom.name}}</td>
