@@ -3,7 +3,8 @@
     <table class="table table-sm table-hover fs--1 mb-0">
         <thead>
             <tr>
-                <th class="border-top align-middle text-center" scope="col" >{{ 'Position' |trans }}</th>
+                <th class="border-top align-middle" scope="col" ></th>
+                <th class="border-top align-middle" scope="col" >{{ '#' |trans }}</th>
                 <th class="border-top align-middle" scope="col" >{{ 'Address' |trans }}</th>
                 <th class="border-top align-middle" scope="col" >{{ 'ETA' |trans }}</th>
                 <th class="border-top align-middle" scope="col" >{{ 'Millage' |trans }}</th>
@@ -12,6 +13,7 @@
         {% if currentRoute.startFromDepot %}
             <tr>
                 <td class="align-middle white-space-nowrap text-center"><i class="fa-solid fa-warehouse"></i></td>
+                <td class="align-middle white-space-nowrap"></td>
                 <td class="align-middle white-space-nowrap">{{ currentRoute.shipFrom.fullAddress}}</td>
                 <td class="align-middle white-space-nowrap"></td>
                 <td class="align-middle white-space-nowrap"></td>
@@ -21,7 +23,8 @@
             {% if routeAddresses is defined %}
                 {% for site in routeAddresses %}
                     <tr id="{{ site.id}}">
-                        <td class="align-middle white-space-nowrap text-center">{{ site.position}}</td>
+                        <td class="align-middle white-space-nowrap text-center"><span class="sortable-handle"><i class="fa-solid fa-up-down-left-right"></i></span></td>
+                        <td class="align-middle white-space-nowrap">{{ site.position}}</td>
                         <td class="align-middle white-space-nowrap">{{ site.fullAddress}}</td>
                         <td class="align-middle white-space-nowrap">{{ site.eta}}</td>
                         <td class="align-middle white-space-nowrap">{{ site.millage}}</td>
@@ -32,6 +35,7 @@
         {% if currentRoute.endAtDepot %}
             <tr>
                 <td class="align-middle white-space-nowrap text-center"><i class="fa-solid fa-warehouse"></i></td>
+                <td class="align-middle white-space-nowrap"></td>
                 <td class="align-middle white-space-nowrap">{{ currentRoute.shipFrom.fullAddress}}</td>
                 <td class="align-middle white-space-nowrap"></td>
                 <td class="align-middle white-space-nowrap"></td>

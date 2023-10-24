@@ -42,7 +42,7 @@ export default class extends Controller {
     }
 
     async initMap(lat, lng) {
-        // this.mapUtils.init(lat, lng);
+        await this.mapUtils.init(25.9295136, -80.1244299);
     }
 
     async fetchDashboard(currentRouteId = null) {
@@ -123,8 +123,7 @@ export default class extends Controller {
                 var obj = new Object();
                 obj.id = all[i].getAttribute('id');
                 obj.position = position; 
-                all[i].getElementsByTagName('td')[0].innerHTML =  position;
-                
+                all[i].getElementsByTagName('td')[1].innerHTML =  position;
                 body.push(obj);
             }
 
@@ -161,6 +160,7 @@ export default class extends Controller {
     makeRouteSiteSortable() {
         Sortable.create(this.sitesTarget, {
             group: 'sites',
+            handle: '.sortable-handle',
             onUpdate: function (evt) {
                this.sortSites();
             }.bind(this),
@@ -171,6 +171,7 @@ export default class extends Controller {
     makeRouteOrdersSortable() {
         Sortable.create(this.routeOrdersTarget, {
             sort: false,  // sorting inside list
+            handle: '.sortable-handle',
             multiDrag: true,
             selectedClass: "sortable-selected",
             group: {
@@ -198,6 +199,7 @@ export default class extends Controller {
         Sortable.create(this.unscheduleOrdersTarget, {
             sort: false,
             multiDrag: true,
+            handle: '.sortable-handle',
             selectedClass: "sortable-selected",
             group: {
                 name: 'unscheduleOrders',

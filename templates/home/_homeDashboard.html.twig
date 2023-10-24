@@ -4,12 +4,13 @@
     }) }}
 > 
         <div class="home-vertical-wrapper">
-            <div id="route-panel" class="bg-soft overflow-auto home-vertical-panel home-empty-panel fs--1 mb-0">
-                <div class="d-flex flex-row align-items-center justify-content-between" >
+            <div id="route-panel" class="bg-soft overflow-auto home-vertical-panel home-empty-panel fs--1 ms-2 mb-0">
+                
+                <div class="d-flex flex-row align-items-center justify-content-between mt-2 mb-2">
                     <div class="d-flex align-items-center flex-row">
-                        <div class="fw-bold me-4 px-2 pt-2 pb-2">{{'Routes'| trans}}</div>
-                        <input class="form-control form-control-sm me-4" placeholder="Search Routes"|trans />
-                        <select class="me-4" id="organizerSingle" >
+                        <div class="fw-bold fs-sm-0 ms-2">{{'Routes'| trans}}</div>
+                        <input class="form-control form-control-sm mx-4" placeholder="Search Routes"|trans />
+                        <select class="mx-2 form-select form-select-sm" aria-label=".form-select-sm" id="organizerSingle" >
                             <option>{{ 'This week  ' | trans }}</option>
                             <option>{{ 'Today      ' | trans }}</option>
                             <option>{{ 'Yesterday  ' | trans }}</option>
@@ -26,7 +27,7 @@
                         
                     >
                         <a 
-                            class="btn btn-soft-primary btn-sm me-4"
+                            class="btn btn-primary btn-sm me-4"
                             data-action="modal-form#openModal"
                         >
                             <span class="fas fa-route me-2"></span>
@@ -42,33 +43,37 @@
                 {{ include('home/_routeList.html.twig') }}
             </div>
             
-            <div id="route-address-panel" class="bg-soft home-vertical-panel home-relative-panel fs--1 mb-0">
-                <div class="bg-soft d-flex align-items-center flex-row">
-                    <div class="fw-bold me-4 px-2 pt-2 pb-2">{{'Sites'| trans}}</div>
-                    <a class="btn btn-soft-primary btn-sm me-4 ">
-                        <span class="fas fa-route me-2"></span>
-                        <span>{{ 'Optimize' | trans }}</span>
-                    </a>
-                    <a class="btn btn-soft-primary btn-sm me-4">
-                        <span class="fas fa-clock me-2"></span>
-                        <span>{{ 'Calculate ETA' | trans }}</span>
-                    </a>
+            <div id="route-address-panel" class="bg-soft home-vertical-panel home-relative-panel fs--1 ms-2 mb-0">
+                <div class="d-flex flex-row align-items-center  justify-content-between mt-2 mb-2">
+                    <div class="fw-bold fs-sm-0 ms-2">{{'Sites'| trans}}</div>
+                    <div>
+                        <a class="btn btn-primary btn-sm me-4 ">
+                            <span class="fas fa-route me-2"></span>
+                            <span>{{ 'Optimize' | trans }}</span>
+                        </a>
+                        <a class="btn btn-primary btn-sm me-4">
+                            <span class="fas fa-clock me-2"></span>
+                            <span>{{ 'Calculate ETA' | trans }}</span>
+                        </a>
+                    </div>
                 </div>
                 {{ include('home/_routeAddresses.html.twig') }}
 
-                <div id="route-address-gutter" class="home-vertical-gutter"></div>
+                <div id="route-address-gutter" class="home-vertical-gutter mt-n2"></div>
             </div>
 
             
-            <div id="route-order-panel" class="bg-soft home-order-panel home-relative-panel fs--1 mb-0">  
-                <div class="bg-soft d-flex align-items-center flex-row">
-                    <div class="fw-bold me-4">{{'Orders'| trans}}</div>
+            <div id="route-order-panel" class="bg-soft home-vertical-panel home-relative-panel ms-2 mb-0 fs--1">
+                <div class="mt-2">
+                    <div class="bg-soft d-flex align-items-center flex-row mt-2 mb-2">
+                        <div class="fw-bold fs-sm-0 ms-2 mt-2">{{'Orders'| trans}}</div>
+                    </div>
+                    {{ include('home/_orderList.html.twig', {
+                            targetName: "routeOrders",
+                            entities: routeOrders
+                    }) }}
+                    <div id="address-order-gutter" class="home-vertical-gutter"></div>
                 </div>
-                {{ include('home/_orderList.html.twig', {
-                        targetName: "routeOrders",
-                        entities: routeOrders
-                }) }}
-                <div id="address-order-gutter" class="home-vertical-gutter"></div>
-            </div>
+            </div>  
         </div>
 </div>

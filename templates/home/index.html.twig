@@ -19,7 +19,7 @@
                 {{ include('home/_homeDashboard.html.twig')}}
             </div> 
             
-            <div  id="right-panel" class="home-right-panel home-relative-panel">
+            <div id="right-panel" class="home-right-panel home-relative-panel">
                 <div class="home-vertical-wrapper">
                     <div  
                         id="routeMap"
@@ -27,11 +27,18 @@
                         data-reload-content-target="mapObj">
                     </div>
                     
-                    <div id="unschedule-order-panel" class="bg-soft home-order-panel home-relative-panel">
-                        <div class="bg-soft d-flex align-items-center flex-row fs--1 px-2 pt-2 pb-2">
-                            <div class="fw-bold me-4">{{'Unschedule'| trans}}</div>
+                    <div id="unschedule-order-panel" class="bg-soft home-order-panel home-relative-panel ms-2 mb-0">
+                        <div class="d-flex flex-row align-items-center justify-content-between mt-2 mb-2">
+                            <div class="fw-bold fs-sm-0 ms-2">{{'Unschedule'| trans}}</div>     
+                            <a 
+                                class="btn btn-primary btn-sm me-4"
+                                data-action="modal-form#openModal"
+                            >
+                                <span class="fas fa-route me-2"></span>
+                                <span>{{ 'New Order' | trans }}</span>
+                            </a>
                         </div>
-                        <div >
+                        <div>
                             {{ include('home/_orderList.html.twig', {
                                 targetName: "unscheduleOrders",
                                 entities: unscheduleOrders  
