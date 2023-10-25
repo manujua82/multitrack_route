@@ -1,0 +1,214 @@
+{
+    "permissions": {
+        "shipper-manager": { 
+            "viewRoute": {
+                "default": true,
+                "active": false
+            },
+            "viewOrders": {
+                "default": true,
+                "active": true
+            },
+            "viewVehicule": {
+                "default": true,
+                "active": false
+            },
+            "viewDirectories": {
+                "default": true,
+                "active": false
+            },
+            "editDirectories": {
+                "default": true,
+                "active": false
+            },
+            "userManagment": {
+                "default": false,
+                "active": false
+            },
+            "duplicate": {
+                "default": true,
+                "active": false
+            },
+            "editOrders": {
+                "default": true,
+                "active": true
+            },
+            "editCompOrders": {
+                "default": false,
+                "active": false
+            },
+            "allShippers": {
+                "default": true,
+                "active": true
+            }
+        },
+        "carrier": { 
+            "viewRoute": {
+                "default": true,
+                "active": true
+            },
+            "viewOrders": {
+                "default": true,
+                "active": true
+            },
+            "viewVehicule": {
+                "default": true,
+                "active": true
+            },
+            "viewDirectories": {
+                "default": true,
+                "active": false
+            },
+            "editDirectories": {
+                "default": true,
+                "active": false
+            },
+            "userManagment": {
+                "default": false,
+                "active": false
+            },
+            "duplicate": {
+                "default": true,
+                "active": false
+            },
+            "editOrders": {
+                "default": true,
+                "active": true
+            },
+            "editCompOrders": {
+                "default": false,
+                "active": false
+            },
+            "allShippers": {
+                "default": true,
+                "active": true
+            }
+        },
+        "dispatcher": { 
+            "viewRoute": {
+                "default": true,
+                "active": true
+            },
+            "viewOrders": {
+                "default": true,
+                "active": true
+            },
+            "viewVehicule": {
+                "default": true,
+                "active": true
+            },
+            "viewDirectories": {
+                "default": true,
+                "active": true
+            },
+            "editDirectories": {
+                "default": true,
+                "active": true
+            },
+            "userManagment": {
+                "default": false,
+                "active": true
+            },
+            "duplicate": {
+                "default": true,
+                "active": true
+            },
+            "editOrders": {
+                "default": true,
+                "active": true
+            },
+            "editCompOrders": {
+                "default": false,
+                "active": true
+            },
+            "allShippers": {
+                "default": true,
+                "active": true
+            }
+        },
+        "view-only": { 
+            "viewRoute": {
+                "default": true,
+                "active": true
+            },
+            "viewOrders": {
+                "default": true,
+                "active": true
+            },
+            "viewVehicule": {
+                "default": true,
+                "active": true
+            },
+            "viewDirectories": {
+                "default": true,
+                "active": true
+            },
+            "editDirectories": {
+                "default": true,
+                "active": false
+            },
+            "userManagment": {
+                "default": false,
+                "active": false
+            },
+            "duplicate": {
+                "default": true,
+                "active": false
+            },
+            "editOrders": {
+                "default": true,
+                "active": false
+            },
+            "editCompOrders": {
+                "default": false,
+                "active": false
+            },
+            "allShippers": {
+                "default": true,
+                "active": true
+            }
+        },
+        "admin": { 
+            "viewRoute": {
+                "default": true,
+                "active": false
+            },
+            "viewOrders": {
+                "default": true,
+                "active": false
+            },
+            "viewVehicule": {
+                "default": true,
+                "active": false
+            },
+            "viewDirectories": {
+                "default": true,
+                "active": false
+            },
+            "editDirectories": {
+                "default": true,
+                "active": false
+            },
+            "userManagment": {
+                "default": true,
+                "active": false
+            },
+            "duplicate": {
+                "default": true,
+                "active": false
+            },
+            "editOrders": {
+                "default": true,
+                "active": false
+            },
+            "editCompOrders": {
+                "default": true,
+                "active": false
+            },
+            "allShippers": {
+                "default": true,
+                "active": false
+            }
+        }
+    }
+}

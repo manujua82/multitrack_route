@@ -2,7 +2,9 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\UserProfile;
+use App\Entity\MainCompany;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,6 +21,28 @@ class UserProfileRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, UserProfile::class);
+    }
+    
+    public function create(string $name, string $rolegroup, User $user)
+    {
+        $newUser = new UserProfile();
+        $newUser->setName($name);
+        $newUser->setRolegroup($rolegroup);
+        $newUser->setUser($user);
+        $this->getEntityManager()->persist($newUser);
+        $this->getEntityManager()->flush();
+
+        return $newUser;
+    }
+    
+    public function update(UserProfile $entity, string $name, string $rolegroup)
+    {
+        $entity->setName($name);
+        $entity->setRolegroup($rolegroup);
+        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->flush();
+
+        return $entity;
     }
 
 //    /**

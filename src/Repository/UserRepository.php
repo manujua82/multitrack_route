@@ -25,8 +25,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 {
     private UserPasswordHasherInterface $userPasswordHasher;
 
-    public function __construct(ManagerRegistry $registry, UserPasswordHasherInterface $userPasswordHasher)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        UserPasswordHasherInterface $userPasswordHasher
+    ) {
         $this->userPasswordHasher = $userPasswordHasher;
         parent::__construct($registry, User::class);
     }
@@ -66,6 +68,31 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->getEntityManager()->flush();
 
         return $newUser;
+    }
+
+    public function add(User $entity, MainCompany $company, bool $edit = false): void
+    {
+        if($company) $entity->setMainCompany($company);
+        
+        if(!$edit){
+            $entity->setPassword(
+                $this->userPasswordHasher->hashPassword(
+                    $entity,
+                    'REGISTER_DEFAULT_USER'
+                )
+            );
+        }
+        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->flush();
+    }
+
+    public function findAllByCompany(MainCompany $company): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.mainCompany = :company')
+            ->setParameter('company', $company)
+            ->getQuery()
+            ->getResult();
     }
 
     //    /**

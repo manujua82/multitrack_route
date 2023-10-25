@@ -16,7 +16,7 @@ class UserProfile
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 1024)]
+    #[ORM\Column(length: 1024, nullable: true)]
     private ?string $bio = null;
 
     #[ORM\Column(length: 255, nullable: true)]
@@ -27,6 +27,9 @@ class UserProfile
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $location = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $rolegroup = null;
 
     #[ORM\OneToOne(inversedBy: 'userProfile', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
@@ -93,6 +96,18 @@ class UserProfile
     public function setLocation(?string $location): static
     {
         $this->location = $location;
+
+        return $this;
+    }
+
+    public function getRolegroup(): ?string
+    {
+        return $this->rolegroup;
+    }
+
+    public function setRolegroup(?string $rolegroup): static
+    {
+        $this->rolegroup = $rolegroup;
 
         return $this;
     }
