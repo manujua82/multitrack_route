@@ -86,6 +86,9 @@ class MainCompany
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: RoutingSetup::class, orphanRemoval: true)]
     private Collection $routingSetups;
 
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: NotificationSetup::class, orphanRemoval: true)]
+    private Collection $notificationSetups;
+
     public function __construct()
     {
         $this->Users = new ArrayCollection();
@@ -100,6 +103,7 @@ class MainCompany
         $this->routeUnitDistance = 'Miles';
         $this->routeUnitWeight = 'Lb';
         $this->routeUnitVolume = 'Pkg';
+        $this->notificationSetups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -473,6 +477,36 @@ class MainCompany
             // set the owning side to null (unless already changed)
             if ($routingSetup->getCompany() === $this) {
                 $routingSetup->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NotificationSetup>
+     */
+    public function getNotificationSetups(): Collection
+    {
+        return $this->notificationSetups;
+    }
+
+    public function addNotificationSetup(NotificationSetup $notificationSetup): static
+    {
+        if (!$this->notificationSetups->contains($notificationSetup)) {
+            $this->notificationSetups->add($notificationSetup);
+            $notificationSetup->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotificationSetup(NotificationSetup $notificationSetup): static
+    {
+        if ($this->notificationSetups->removeElement($notificationSetup)) {
+            // set the owning side to null (unless already changed)
+            if ($notificationSetup->getCompany() === $this) {
+                $notificationSetup->setCompany(null);
             }
         }
 

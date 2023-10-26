@@ -6,8 +6,9 @@
         {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "needs-validation"}}) }}
             <div class="card mb-3">
                 <div class="card-body">
-                    <div class="d-flex align-items-center mb-5">
+                     <div class="d-flex align-items-center justify-content-between mb-2">
                         <h3>{{ 'Account' |trans }}</h3>
+                        <button type="submit" class="btn btn-primary">{{ 'Save' |trans }}</button>
                     </div>
                      <div class="mb-3">
                         {{ form_label(form.email, 'Email Address'|trans, {'label_attr': {'class': 'form-label','for': 'emailInput'}}) }}
@@ -54,14 +55,6 @@
                             {{ form_label(form.country, 'Country'|trans, {'label_attr': {'class': 'form-label','for': 'countryInput'}}) }}
                             {{ form_widget(form.country, { 'attr': { 'class': 'form-control', 'id':'countryInput', 'type':'text' }}) }}
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-12 gy-3">
-                <div class="row g-3 justify-content-end">
-                    <div class="col-auto">
-                        <button type="submit" class="btn btn-primary px-8">{{ 'Save' |trans }}</button>
                     </div>
                 </div>
             </div>

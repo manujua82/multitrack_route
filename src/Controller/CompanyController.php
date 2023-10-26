@@ -23,7 +23,7 @@ class CompanyController extends AbstractController
             $companyEntity = $form->getData();
             $repository->add($companyEntity, true);  
 
-            return $this->redirectToRoute('app_index');
+            return $this->redirectToRoute('app_company');
         }
         return $this->render('company/company.html.twig', [
             'form' => $form->createView(),

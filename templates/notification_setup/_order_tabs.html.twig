@@ -1,0 +1,30 @@
+{% embed 'widgets/_tabs.html.twig' %}
+    {% block tabs %}
+        {% embed 'widgets/_tab.html.twig' with { route: 'app_notification_schedule' } %}
+            {% block content %}
+                {{  'at Scheduled' |trans }}
+            {% endblock %}
+            {% block path %}
+                {{ path('app_notification_schedule') }}
+            {% endblock %}
+        {% endembed %}
+
+        {% embed 'widgets/_tab.html.twig' with { route: 'app_notification_atRouteStart' } %}
+            {% block content %}
+                {{  'at Route Start' |trans }}
+            {% endblock %}
+            {% block path %}
+                {{ path('app_notification_atRouteStart') }}
+            {% endblock %}
+        {% endembed %}
+
+         {% embed 'widgets/_tab.html.twig' with { route: 'app_notification_atDelivered' } %}
+            {% block content %}
+                {{  'at Delivered' |trans }}
+            {% endblock %}
+            {% block path %}
+                {{ path('app_notification_atDelivered') }}
+            {% endblock %}
+        {% endembed %}
+    {% endblock %}
+{% endembed %}
