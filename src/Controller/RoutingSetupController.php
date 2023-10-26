@@ -19,17 +19,12 @@ class RoutingSetupController extends AbstractController
     ): Response
     {
         $routingSetup = $repository->getRoutingSetup();
-        if ($routingSetup === null) {
-            $routingSetup = new RoutingSetup();
-        }
-
         $form = $this->createForm(RoutingSetupType::class, $routingSetup);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) { 
             $setupEntity = $form->getData();
-            dd( $setupEntity);
             $repository->add($setupEntity, true);  
-            return $this->redirectToRoute('app_index');
+            return $this->redirectToRoute('app_routing_setup');
         }
         return $this->render('routing_setup/index.html.twig', [
             'form' => $form->createView(),

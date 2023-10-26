@@ -3,8 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\NotificationSetup;
+use App\Entity\OrderStatus;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bundle\SecurityBundle\Security;
+
 
 /**
  * @extends ServiceEntityRepository<NotificationSetup>
@@ -16,33 +19,40 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class NotificationSetupRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    private $mainCompany;
+
+    public function __construct(
+        ManagerRegistry $registry,
+        Security $security
+    )
     {
         parent::__construct($registry, NotificationSetup::class);
+        $this->mainCompany = $security->getUser()->getMainCompany();
+
     }
 
-//    /**
-//     * @return NotificationSetup[] Returns an array of NotificationSetup objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('n')
-//            ->andWhere('n.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('n.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function add(NotificationSetup $entity, bool $flush = false): void
+    {
+        $entity->setCompany($this->mainCompany);
+        $this->getEntityManager()->persist($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 
-//    public function findOneBySomeField($value): ?NotificationSetup
-//    {
-//        return $this->createQueryBuilder('n')
-//            ->andWhere('n.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function getNotificationBy(string $documentType, string $documentStatus) {
+        $qb = $this->createQueryBuilder('ns')
+        ->andWhere('ns.company = :company')
+        ->setParameter('company', $this->mainCompany)
+        ->andWhere('ns.documentType = :documentType')
+        ->setParameter('documentType', $documentType)
+        ->andWhere('ns.documentStatus = :documentStatus')
+        ->setParameter('documentStatus', $documentStatus);
+
+        $response =  $qb->getQuery()->getResult();
+        if ($response) {
+            return $response[0];
+        }
+        return new NotificationSetup($documentType, $documentStatus);
+    }
 }

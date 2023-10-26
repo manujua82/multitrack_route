@@ -30,6 +30,12 @@ class NotificationSetup
     #[ORM\JoinColumn(nullable: false)]
     private ?MainCompany $company = null;
 
+    public function __construct($documentType, $documentStatus = "none")
+    {
+        $this->documentType = $documentType;
+        $this->documentStatus = $documentStatus;
+    }
+
     public function getId(): ?int
     {
         return $this->id;
