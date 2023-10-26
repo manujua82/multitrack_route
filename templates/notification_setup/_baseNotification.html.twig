@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <h2 class="text-bold text-1100 mb-5">{{ 'Notifications' | trans }}</h2>
+    
+    {{ include('notification_setup/_order_tabs.html.twig') }}
+
+    {% block notificationForm %}
+    {% endblock %}
+{% endblock %}

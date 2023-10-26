@@ -10,36 +10,40 @@
                 <th class="border-top align-middle" scope="col" >{{ 'Millage' |trans }}</th>
             </tr>
         </thead>
-        {% if currentRoute.startFromDepot %}
-            <tr>
-                <td class="align-middle white-space-nowrap text-center"><i class="fa-solid fa-warehouse"></i></td>
-                <td class="align-middle white-space-nowrap"></td>
-                <td class="align-middle white-space-nowrap">{{ currentRoute.shipFrom.fullAddress}}</td>
-                <td class="align-middle white-space-nowrap"></td>
-                <td class="align-middle white-space-nowrap"></td>
-            </tr>
-        {% endif %}
-        <tbody class="list" id="sites-table-body" data-reload-content-target="sites" routeId="{{currentRoute.id}}">
-            {% if routeAddresses is defined %}
-                {% for site in routeAddresses %}
-                    <tr id="{{ site.id}}">
-                        <td class="align-middle white-space-nowrap text-center"><span class="sortable-handle"><i class="fa-solid fa-up-down-left-right"></i></span></td>
-                        <td class="align-middle white-space-nowrap">{{ site.position}}</td>
-                        <td class="align-middle white-space-nowrap">{{ site.fullAddress}}</td>
-                        <td class="align-middle white-space-nowrap">{{ site.eta}}</td>
-                        <td class="align-middle white-space-nowrap">{{ site.millage}}</td>
-                    </tr>
-                {% endfor %}
+        {% if currentRoute is not null %}
+            {% if currentRoute.startFromDepo %}
+                <tr>
+                    <td class="align-middle white-space-nowrap text-center"><i class="fa-solid fa-warehouse"></i></td>
+                    <td class="align-middle white-space-nowrap"></td>
+                    <td class="align-middle white-space-nowrap">{{ currentRoute.shipFrom.fullAddress}}</td>
+                    <td class="align-middle white-space-nowrap"></td>
+                    <td class="align-middle white-space-nowrap"></td>
+                </tr>
             {% endif %}
-        </tbody>
-        {% if currentRoute.endAtDepot %}
-            <tr>
-                <td class="align-middle white-space-nowrap text-center"><i class="fa-solid fa-warehouse"></i></td>
-                <td class="align-middle white-space-nowrap"></td>
-                <td class="align-middle white-space-nowrap">{{ currentRoute.shipFrom.fullAddress}}</td>
-                <td class="align-middle white-space-nowrap"></td>
-                <td class="align-middle white-space-nowrap"></td>
-            </tr>
-        {% endif %}
+       
+            {% if routeAddresses is defined %}
+                <tbody class="list" id="sites-table-body" data-reload-content-target="sites" routeId="{{currentRoute.id}}">
+                    {% for site in routeAddresses %}
+                        <tr id="{{ site.id}}">
+                            <td class="align-middle white-space-nowrap text-center"><span class="sortable-handle"><i class="fa-solid fa-up-down-left-right"></i></span></td>
+                            <td class="align-middle white-space-nowrap">{{ site.position}}</td>
+                            <td class="align-middle white-space-nowrap">{{ site.fullAddress}}</td>
+                            <td class="align-middle white-space-nowrap">{{ site.eta}}</td>
+                            <td class="align-middle white-space-nowrap">{{ site.millage}}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            {% endif %}
+
+            {% if currentRoute.endAtDepot %}
+                <tr>
+                    <td class="align-middle white-space-nowrap text-center"><i class="fa-solid fa-warehouse"></i></td>
+                    <td class="align-middle white-space-nowrap"></td>
+                    <td class="align-middle white-space-nowrap">{{ currentRoute.shipFrom.fullAddress}}</td>
+                    <td class="align-middle white-space-nowrap"></td>
+                    <td class="align-middle white-space-nowrap"></td>
+                </tr>
+            {% endif %}
+        {% endif %} 
     </table>
 </div>
