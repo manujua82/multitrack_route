@@ -64,8 +64,30 @@ class MainCompany
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $contact = null;
 
+    #[ORM\Column(length: 30, nullable: true)]
+    private ?string $routeDateFormat = null;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    private ?string $routeTimeFormat = null;
+
+    #[ORM\Column(length: 30, nullable: true)]
+    private ?string $routeUnitDistance = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $routeUnitWeight = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $routeUnitVolume = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photo = null;
+
+
     #[ORM\OneToMany(mappedBy: 'company', targetEntity: RoutingSetup::class, orphanRemoval: true)]
     private Collection $routingSetups;
+
+    #[ORM\OneToMany(mappedBy: 'company', targetEntity: NotificationSetup::class, orphanRemoval: true)]
+    private Collection $notificationSetups;
 
     public function __construct()
     {
@@ -76,6 +98,12 @@ class MainCompany
         $this->warehouses = new ArrayCollection();
         $this->vehicles = new ArrayCollection();
         $this->routingSetups = new ArrayCollection();
+        $this->routeDateFormat = 'dd.MM.yyyy';
+        $this->routeTimeFormat = '12H';
+        $this->routeUnitDistance = 'Miles';
+        $this->routeUnitWeight = 'Lb';
+        $this->routeUnitVolume = 'Pkg';
+        $this->notificationSetups = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -91,6 +119,78 @@ class MainCompany
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDateFormat(): ?string
+    {
+        return $this->routeDateFormat;
+    }
+
+    public function setDateFormat(?string $routeDateFormat): static
+    {
+        $this->routeDateFormat = $routeDateFormat;
+
+        return $this;
+    }
+
+    public function getTimeFormat(): ?string
+    {
+        return $this->routeTimeFormat;
+    }
+
+    public function setTimeFormat(?string $routeTimeFormat): static
+    {
+        $this->routeTimeFormat = $routeTimeFormat;
+
+        return $this;
+    }
+
+    public function getUnitDistance(): ?string
+    {
+        return $this->routeUnitDistance;
+    }
+
+    public function setUnitDistance(?string $routeUnitDistance): static
+    {
+        $this->routeUnitDistance = $routeUnitDistance;
+
+        return $this;
+    }
+
+    public function getUnitWeight(): ?string
+    {
+        return $this->routeUnitWeight;
+    }
+
+    public function setUnitWeight(?string $routeUnitWeight): static
+    {
+        $this->routeUnitWeight = $routeUnitWeight;
+
+        return $this;
+    }
+
+    public function getUnitVolume(): ?string
+    {
+        return $this->routeUnitVolume;
+    }
+
+    public function setUnitVolume(?string $routeUnitVolume): static
+    {
+        $this->routeUnitVolume = $routeUnitVolume;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): static
+    {
+        $this->photo = $photo;
 
         return $this;
     }
@@ -377,6 +477,36 @@ class MainCompany
             // set the owning side to null (unless already changed)
             if ($routingSetup->getCompany() === $this) {
                 $routingSetup->setCompany(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, NotificationSetup>
+     */
+    public function getNotificationSetups(): Collection
+    {
+        return $this->notificationSetups;
+    }
+
+    public function addNotificationSetup(NotificationSetup $notificationSetup): static
+    {
+        if (!$this->notificationSetups->contains($notificationSetup)) {
+            $this->notificationSetups->add($notificationSetup);
+            $notificationSetup->setCompany($this);
+        }
+
+        return $this;
+    }
+
+    public function removeNotificationSetup(NotificationSetup $notificationSetup): static
+    {
+        if ($this->notificationSetups->removeElement($notificationSetup)) {
+            // set the owning side to null (unless already changed)
+            if ($notificationSetup->getCompany() === $this) {
+                $notificationSetup->setCompany(null);
             }
         }
 

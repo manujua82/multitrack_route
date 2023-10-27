@@ -47,6 +47,6 @@ class RoutingSetupRepository extends ServiceEntityRepository
         if ($response) {
             return $response[0];
         }
-        return null;
+        return new RoutingSetup();
     }
 }

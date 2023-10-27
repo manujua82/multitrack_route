@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html>
-	<head>
+    <head>
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
         <title>
-			{% block title %}
+            {% block title %}
                 Route Premium
-			{% endblock %}
-		</title>
-
-
+                                                			
+                                            
+                            
+            {% endblock %}
+        </title>
         <!-- ===============================================-->
         <!--    Favicons-->
         <!-- ===============================================-->
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/favicons/apple-touch-icon.png') }}">
-        <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img/favicons/favicon-32x32.png') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('assets/img/favicons/apple-touch-icon.png') }}"> <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('assets/img/favicons/favicon-32x32.png') }}">
         <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('assets/img/favicons/favicon-16x16.png') }}">
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicons/favicon.ico') }}">
         <link rel="manifest" href="{{ asset('assets/img/favicons/manifest.json') }}">
@@ -25,13 +24,10 @@
         <script src="{{ asset('vendors/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
         <script src="{{ asset('vendors/simplebar/simplebar.min.js') }}"></script>
         <script src="{{ asset('assets/js/config.js') }}"></script>
-
-       
         <!-- ===============================================-->
         <!--    Stylesheets-->
         <!-- ===============================================-->
-        <link href="{{ asset('vendors/simplebar/simplebar.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('assets/css/theme-rtl.min.css') }}" type="text/css" rel="stylesheet" id="style-rtl">
+        <link href="{{ asset('vendors/simplebar/simplebar.min.css') }}" rel="stylesheet"> <link href="{{ asset('assets/css/theme-rtl.min.css') }}" type="text/css" rel="stylesheet" id="style-rtl">
         <link href="{{ asset('assets/css/theme.css') }}" type="text/css" rel="stylesheet" id="style-default">
         <link href="{{ asset('assets/css/user-rtl.min.css') }}" type="text/css" rel="stylesheet" id="user-style-rtl">
         <link href="{{ asset('assets/css/user.min.css') }}" type="text/css" rel="stylesheet" id="user-style-default">
@@ -41,7 +37,6 @@
         <link href="{{ asset('vendors/leaflet/leaflet.css') }}" rel="stylesheet">
         <link href="{{ asset('vendors/leaflet.markercluster/MarkerCluster.css') }}" rel="stylesheet">
         <link href="{{ asset('vendors/leaflet.markercluster/MarkerCluster.Default.css') }}" rel="stylesheet">
-
         <script>
             var phoenixIsRTL = window.config.config.phoenixIsRTL;
             if (phoenixIsRTL) {
@@ -57,41 +52,45 @@
                 userLinkRTL.setAttribute('disabled', true);
             }
         </script>
-
         {{ encore_entry_link_tags('app') }}
-        {% block stylesheets %}
-        {% endblock %}
-	</head>
+        {% block stylesheets %}{% endblock %}
+    </head>
     <body>
         <main class="main" id="top">
             <nav class="navbar navbar-top fixed-top navbar-expand-lg" id="navbarTop" data-navbar-top="combo" data-move-target="#navbarToplNav">
                 <div class="navbar-logo">
-                    <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse" aria-controls="navbarTopCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
+                    <button class="btn navbar-toggler navbar-toggler-humburger-icon hover-bg-transparent" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTopCollapse" aria-controls="navbarTopCollapse" aria-expanded="false" aria-label="Toggle Navigation">
+                        <span class="navbar-toggle-icon">
+                            <span class="toggle-line"></span>
+                        </span>
+                    </button>
                     <a class="navbar-brand me-1 me-sm-3" href="#">
                         <div class="d-flex align-items-center">
-                            <div class="d-flex align-items-center"><img src="{{ asset('assets/img/icons/logo.png') }}" alt="phoenix" width="27" />
-                                <p class="logo-text ms-2 d-none d-sm-block">Trackingpremium</p>
+                            <div class="d-flex align-items-center">
+                                <img src="{{ asset('assets/img/icons/logo.png') }}" alt="phoenix" width="27" />
+                                <p class="logo-text ms-2 d-none d-sm-block">
+                                    Trackingpremium
+                                                                                                        
+                                                                    
+                                </p>
                             </div>
                         </div>
                     </a>
                 </div>
-
                 <div class="collapse navbar-collapse navbar-top-collapse order-1 order-lg-0 justify-content-center" id="navbarTopCollapse">
                     <ul class="navbar-nav navbar-nav-top" data-dropdown-on-hover="data-dropdown-on-hover">
                         <li class="nav-item">
-                            <a class="nav-link lh-1" href="{{ path('app_index')}}" role="button">
+                            <a class="nav-link lh-1" href="{{ path('app_index') }}" role="button">
                                 <span class="uil fs-0 me-2 uil-chart-pie"></span>
                                 {{ 'Home'|trans }}
                             </a>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link lh-1" href="{{ path('app_order')}}" role="button">
+                            <a class="nav-link lh-1" href="{{ path('app_order') }}" role="button">
                                 <span class="uil fs-0 me-2 uil-book"></span>
                                 {{ 'Orders'|trans }}
                             </a>
                         </li>
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <span class="uil fs-0 me-2 uil-book"></span>
@@ -99,58 +98,63 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 shadow border border-300">
                                 <li class="card position-relative border-0">
-                                    <a class="dropdown-item" href="{{ path('app_item')}}">
-                                        <div class="dropdown-item-wrapper"><span class="me-2 fas fa-box"></span>{{ 'Items'|trans }}
+                                    <a class="dropdown-item" href="{{ path('app_item') }}">
+                                        <div class="dropdown-item-wrapper">
+                                            <span class="me-2 fas fa-box"></span>
+                                            {{ 'Items'|trans }}
                                         </div>
                                     </a>
                                 </li>
-
-
                                 <li class="card position-relative border-0">
-                                    <a class="dropdown-item" href="{{ path('app_warehouse')}}">
-                                        <div class="dropdown-item-wrapper"><span class="me-2 fa fa-warehouse"></span>{{ 'Warehouses'|trans }}
+                                    <a class="dropdown-item" href="{{ path('app_warehouse') }}">
+                                        <div class="dropdown-item-wrapper">
+                                            <span class="me-2 fa fa-warehouse"></span>
+                                            {{ 'Warehouses'|trans }}
                                         </div>
                                     </a>
                                 </li>
-
                                 <li class="card position-relative border-0">
-                                    <a class="dropdown-item" href="{{ path('app_carrier')}}">
-                                        <div class="dropdown-item-wrapper"><span class="me-2 fa fa-building"></span>{{ 'Carriers'|trans }}
+                                    <a class="dropdown-item" href="{{ path('app_carrier') }}">
+                                        <div class="dropdown-item-wrapper">
+                                            <span class="me-2 fa fa-building"></span>
+                                            {{ 'Carriers'|trans }}
                                         </div>
                                     </a>
                                 </li>
-
                                 <li class="card position-relative border-0">
-                                    <a class="dropdown-item" href="{{ path('app_vehicle')}}">
-                                        <div class="dropdown-item-wrapper"><span class="me-2 fas fa-truck"></span>{{ 'Vehicles'|trans }}
+                                    <a class="dropdown-item" href="{{ path('app_vehicle') }}">
+                                        <div class="dropdown-item-wrapper">
+                                            <span class="me-2 fas fa-truck"></span>
+                                            {{ 'Vehicles'|trans }}
                                         </div>
                                     </a>
                                 </li>
-
                                 <li class="card position-relative border-0">
-                                    <a class="dropdown-item" href="{{ path('app_driver')}}">
-                                        <div class="dropdown-item-wrapper"><span class="me-2 far fa-id-card"></span>{{ 'Drivers'|trans }}
+                                    <a class="dropdown-item" href="{{ path('app_driver') }}">
+                                        <div class="dropdown-item-wrapper">
+                                            <span class="me-2 far fa-user-circle"></span>
+                                            {{ 'Drivers'|trans }}
                                         </div>
                                     </a>
                                 </li>
-
                                 <li class="card position-relative border-0">
-                                    <a class="dropdown-item" href="{{ path('app_customer')}}">
-                                        <div class="dropdown-item-wrapper"><span class="me-2 far fa-id-card"></span>{{ 'Customers'|trans }}
+                                    <a class="dropdown-item" href="{{ path('app_customer') }}">
+                                        <div class="dropdown-item-wrapper">
+                                            <span class="me-2 fab fa-black-tie"></span>
+                                            {{ 'Customers'|trans }}
                                         </div>
                                     </a>
                                 </li>
-
                                 <li class="card position-relative border-0">
-                                    <a class="dropdown-item" href="{{ path('app_shipper')}}">
-                                        <div class="dropdown-item-wrapper"><span class="me-2 far fa-id-card"></span>{{ 'Shippers'|trans }}
+                                    <a class="dropdown-item" href="{{ path('app_shipper') }}">
+                                        <div class="dropdown-item-wrapper">
+                                            <span class="me-2 fas fa-dolly"></span>
+                                            {{ 'Shippers'|trans }}
                                         </div>
                                     </a>
                                 </li>
-
                             </ul>
                         </li>
-
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle lh-1" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                                 <span class="uil fs-0 me-2 uil-setting"></span>
@@ -158,22 +162,41 @@
                             </a>
                             <ul class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 shadow border border-300">
                                 <li class="card position-relative border-0">
-                                    <a class="dropdown-item" href="{{ path('app_reason_rejection_site')}}">
-                                        <div class="dropdown-item-wrapper"><span class="me-2 far fa-id-card"></span>{{ 'Reson Rejections'|trans }}
+                                    <a class="dropdown-item" href="{{ path('app_reason_rejection_site') }}">
+                                        <div class="dropdown-item-wrapper">
+                                            <span class="me-2 far fa-list-alt"></span>
+                                            {{ 'Reson Rejections'|trans }}
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="card position-relative border-0">
+                                    <a class="dropdown-item" href="{{ path('app_company') }}">
+                                        <div class="dropdown-item-wrapper">
+                                            <span class="me-2 fas fa-book-reader"></span>
+                                            {{ 'Profile'|trans }}
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="card position-relative border-0">
+                                    <a class="dropdown-item" href="{{ path('app_config') }}">
+                                        <div class="dropdown-item-wrapper">
+                                            <span class="me-2 fab fa-whmcs"></span>
+                                            {{ 'Company'|trans }}
+                                        </div>
+                                    </a>
+                                </li>
+                                <li class="card position-relative border-0">
+                                    <a class="dropdown-item" href="{{ path('app_routing_setup') }}">
+                                        <div class="dropdown-item-wrapper">
+                                            <span class="me-2 fas fa-truck"></span>
+                                            {{ 'Routing'|trans }}
                                         </div>
                                     </a>
                                 </li>
 
                                 <li class="card position-relative border-0">
-                                    <a class="dropdown-item" href="{{ path('app_company')}}">
-                                        <div class="dropdown-item-wrapper"><span class="me-2 far fa-id-card"></span>{{ 'Profile'|trans }}
-                                        </div>
-                                    </a>
-                                </li>
-
-                                <li class="card position-relative border-0">
-                                    <a class="dropdown-item" href="{{ path('app_routing_setup')}}">
-                                        <div class="dropdown-item-wrapper"><span class="me-2 fas fa-truck"></span>{{ 'Routing'|trans }}
+                                    <a class="dropdown-item" href="{{ path('app_notification_schedule')}}">
+                                        <div class="dropdown-item-wrapper"><span class="me-2 fas fa-bell"></span>{{ 'Notifications'|trans }}
                                         </div>
                                     </a>
                                 </li>
@@ -188,36 +211,42 @@
                         </li>
                     </ul>
                 </div>
-
                 <ul class="navbar-nav navbar-nav-icons flex-row">
                     <li class="nav-item dropdown">
                         <a class="nav-link lh-1 pe-0" id="navbarDropdownUser" href="#!" role="button" data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-haspopup="true" aria-expanded="false">
                             <div class="avatar avatar-l ">
                                 <div class="circle">
-                                    <span class="initials">{{app.user.email|slice(0, 2)}}</span>
+                                    <span class="initials">
+                                        {{ app.user.email|slice(0, 2) }}
+                                    </span>
                                 </div>
-                                {# <img class="rounded-circle " src="../assets/img/team/40x40/57.webp" alt="" /> #}
+                            {# <img class="rounded-circle " src="../assets/img/team/40x40/57.webp" alt="" /> #}
                             </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end navbar-dropdown-caret py-0 dropdown-profile shadow border border-300" aria-labelledby="navbarDropdownUser">
                             <div class="card position-relative border-0">
                                 <div class="card-body p-0">
                                     <div class="text-center pt-4 pb-3">
-                                        <h6 class="mt-2 text-black">{{ app.user.email }}</h6>
+                                        <h6 class="mt-2 text-black">
+                                            {{ app.user.email }}
+                                        </h6>
                                     </div>
                                 </div>
-                               
-                                <div class="card-footer p-0 border-top">
-                                    </br>
-                                    <div class="px-3"> <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="{{ path('app_logout') }}"> <span class="me-2" data-feather="log-out"> </span>{{ 'Sign Out'|trans }}</a></div>
-                                    </br>
+                                <div class="card-footer p-0 border-top"></br>
+                                <div class="px-3">
+                                    <a class="btn btn-phoenix-secondary d-flex flex-center w-100" href="{{ path('app_logout') }}">
+                                        <span class="me-2" data-feather="log-out"></span>
+                                        {{ 'Sign Out'|trans }}
+                                    </a>
                                 </div>
-                            </div>
+                            </br>
                         </div>
                     </li>
-                </ul>
-            </nav>
-            <script>
+                </div>
+            </div>
+        </li>
+    </body>
+</html></ul></nav><script>
                 var navbarTopShape = window.config.config.phoenixNavbarTopShape;
                 var navbarPosition = window.config.config.phoenixNavbarPosition;
 
@@ -229,47 +258,11 @@
 
                 var documentElement = document.documentElement;
                 documentElement.classList.add('navbar-combo')
-            </script>
-        
-            <div class="content">
-                {% for message in app.flashes('success') %}
-                    <div class="alert alert-soft-success d-flex align-items-center" role="alert">
-                        <span class="fas fa-check-circle text-success fs-3 me-3"></span>
-                        <p class="mb-0 flex-1">{{ message }}</p>
-
-                        <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-                {% block body %}{% endblock %}
-            </div>
-        </main>
-
-        
-        <!-- ===============================================-->
-        <!--    JavaScripts-->
-        <!-- ===============================================-->
-        <script src="{{ asset('vendors/bootstrap/bootstrap.min.js') }}"></script>
-        <script src="{{ asset('vendors/choices/choices.min.js') }}"></script>
-        <script src="{{ asset('vendors/anchorjs/anchor.min.js') }}"></script>
-        <script src="{{ asset('vendors/is/is.min.js') }}"></script>
-        <script src="{{ asset('vendors/fontawesome/all.min.js') }}"></script>
-        <script src="{{ asset('vendors/lodash/lodash.min.js') }}"></script>
-        <script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script>
-        <script src="{{ asset('vendors/list.js/list.min.js') }}"></script>
-        <script src="{{ asset('vendors/feather-icons/feather.min.js') }}"></script>
-        <script src="{{ asset('vendors/dayjs/dayjs.min.js') }}"></script>
-        <script src="{{ asset('vendors/prism/prism.js') }}"></script>
-        <script src="{{ asset('assets/js/phoenix.js') }}"></script>
-        <script src="{{ asset('vendors/leaflet/leaflet.js') }}"></script>
-        <script src="{{ asset('vendors/leaflet.markercluster/leaflet.markercluster.js') }}"></script>
-        <script src="{{ asset('vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js') }}"></script>
-        <script src="{{ asset('assets/js/ecommerce-dashboard.js') }}"></script>
-        <script async defer src="https://maps.googleapis.com/maps/api/js?key={{google_map_api}}&libraries=places,geometry&callback=dispatchMapsEvent"></script>
-         {{ encore_entry_script_tags('app') }}
-
-        {% block javascripts %}
-
-
-        {% endblock %}
-    </body>
-</html>
+            </script><div class="content">{% for message in app.flashes('success') %}
+<div class="alert alert-soft-success d-flex align-items-center" role="alert">
+    <span class="fas fa-check-circle text-success fs-3 me-3"></span>
+    <p class="mb-0 flex-1">
+        {{ message }}
+    </p>
+    <button class="btn-close" type="button" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>{% endfor %}{% block body %}{% endblock %}</div></main><!-- ===============================================--><!--    JavaScripts--><!-- ===============================================--><script src="{{ asset('vendors/bootstrap/bootstrap.min.js') }}"></script><script src="{{ asset('vendors/choices/choices.min.js') }}"></script><script src="{{ asset('vendors/anchorjs/anchor.min.js') }}"></script><script src="{{ asset('vendors/is/is.min.js') }}"></script><script src="{{ asset('vendors/fontawesome/all.min.js') }}"></script><script src="{{ asset('vendors/lodash/lodash.min.js') }}"></script><script src="https://polyfill.io/v3/polyfill.min.js?features=window.scroll"></script><script src="{{ asset('vendors/list.js/list.min.js') }}"></script><script src="{{ asset('vendors/feather-icons/feather.min.js') }}"></script><script src="{{ asset('vendors/dayjs/dayjs.min.js') }}"></script><script src="{{ asset('vendors/prism/prism.js') }}"></script><script src="{{ asset('assets/js/phoenix.js') }}"></script><script src="{{ asset('vendors/leaflet/leaflet.js') }}"></script><script src="{{ asset('vendors/leaflet.markercluster/leaflet.markercluster.js') }}"></script><script src="{{ asset('vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js') }}"></script><script src="{{ asset('assets/js/ecommerce-dashboard.js') }}"></script><script async defer src="https://maps.googleapis.com/maps/api/js?key={{ google_map_api }}&libraries=places,geometry&callback=dispatchMapsEvent"></script>{{ encore_entry_script_tags('app') }}{% block javascripts %}{% endblock %}</body></html>

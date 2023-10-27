@@ -1,0 +1,27 @@
+{% embed 'notification_setup/_baseNotification.html.twig' %}
+    {% block notificationForm %}
+        <div class="card email-content">
+            <div class="card-body">
+                {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "d-flex flex-column needs-validation"}}) }}
+                    <div class="col-12">
+                        {{ form_widget(form.emailSubject, { 'attr': { 'class': 'form-control', 'type':'text', 'placeholder': 'Subject'|trans }}) }}
+                        {{ form_errors(form.emailSubject) }}
+                    </div>
+                    <div class="mb-3 flex-1">
+                        {{ form_widget(form.emailBody, { 'attr': { 'class': 'tinymce email-textarea', 'name':'content', 'data-tinymce': '{"height":"100%"}' }}) }}
+                        {{ form_errors(form.emailBody) }}
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex">
+                            <button class="btn btn-primary fs--2" type="submit">{{ 'Save' | trans }}<span class="fa-solid fa-paper-plane ms-1"></span></button>
+                        </div>
+                    </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    {% endblock %}
+{% endembed %}
+
+{% block javascripts %}
+        <script src="{{ asset('vendors/tinymce/tinymce.min.js') }}"></script>
+{% endblock %}
