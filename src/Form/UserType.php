@@ -20,13 +20,16 @@ class UserType extends AbstractType
             ->add('active', CheckboxType::class, [
                 'required' => false
             ])
-            ->add('name', null, [
+            ->add('name')
+            ->add('rols', null, [
                 'mapped' => false,
-                'data' => $options['edit'] ? $options['profile']->getName() : ''
+                'required' => false,
+                'data' => $options['edit'] ? $options['roles'] : '',
+                "row_attr" => [
+                    "style" => "display: none;"
+                ]
             ])
             ->add('rolegroup', ChoiceType::class, [
-                'mapped' => false,
-                'data' => $options['edit'] ? $options['profile']->getRolegroup() : '',
                 'choices'  => [
                     "View only" => 'view-only',
                     "Dispatcher" => 'dispatcher',
@@ -93,8 +96,7 @@ class UserType extends AbstractType
         $resolver->setDefaults([
             'data_class' => User::class,
             'edit' => false,
-            'profile' => null
+            'roles' => null
         ]);
     }
-
 }

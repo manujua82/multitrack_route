@@ -62,6 +62,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 $password
             )
         );
+        $newUser->setActive(true);
+        $newUser->setDeleted(false);
         $newUser->setMainCompany($company);
         $newUser->setRoles($roles);
         $this->getEntityManager()->persist($newUser);
@@ -70,11 +72,16 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $newUser;
     }
 
-    public function add(User $entity, MainCompany $company, bool $edit = false): void
+    public function add(User $entity, MainCompany $company, array $roles, bool $edit = false): void
     {
-        if($company) $entity->setMainCompany($company);
-        
-        if(!$edit){
+        if ($company) $entity->setMainCompany($company);
+
+        $entity->setAgreedTerms();
+        $roles = array_filter($roles);
+        $roles[] = 'ROL_ADMIN';
+        $entity->setRoles($roles);
+
+        if (!$edit) {
             $entity->setPassword(
                 $this->userPasswordHasher->hashPassword(
                     $entity,
@@ -90,9 +97,17 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.mainCompany = :company')
+            ->andWhere('c.rolegroup IS NOT NULL')
+            ->andWhere('c.deleted = 0')
             ->setParameter('company', $company)
             ->getQuery()
             ->getResult();
+    }
+
+    public function delete(User $entity): void
+    {
+        $entity->setDeleted(1);
+        $this->getEntityManager()->flush();
     }
 
     //    /**

@@ -87,4 +87,7 @@ Send: Enviar
 'Role': 'Rol'
 'user_email_title': '¡Hola! ¡Nuevo usuario creado!'
 'user_email_body': 'Tu usuario fue creado exitosamente, ahora debes crear tu contraseña, puedes hacerlo siguiendo el siguiente enlace: '
+'User create flash': 'El usuario {code} fue creado'
 'User edit flash': 'El usuario {code} fue editado'
+'User delete flash': 'El usuario {code} fue eliminado'
+'User create error flash': 'Error enviando el correo de usuario, intente nuevamente'

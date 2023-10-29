@@ -21,6 +21,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $name = null;
+
     #[ORM\Column(length: 180, unique: true)]
     #[Assert\NotBlank(message: 'Please enter an email')]
     #[Assert\Email(message: 'The email {{ value }} is not a valid email.')]
@@ -36,9 +39,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?UserProfile $userProfile = null;
-
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Driver $driver = null;
 
     #[ORM\ManyToOne(inversedBy: 'Users')]
@@ -51,6 +51,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $active = true;
 
+    #[ORM\Column]
+    private ?bool $deleted = false;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $rolegroup = null;
+
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $bannedUntil = null;
 
@@ -60,6 +66,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(?string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -118,6 +136,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getRolegroup(): ?string
+    {
+        return $this->rolegroup;
+    }
+
+    public function setRolegroup(?string $rolegroup): static
+    {
+        $this->rolegroup = $rolegroup;
+
+        return $this;
+    }
+
     /**
      * @see UserInterface
      */
@@ -125,23 +155,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    public function getUserProfile(): ?UserProfile
-    {
-        return $this->userProfile;
-    }
-
-    public function setUserProfile(UserProfile $userProfile): static
-    {
-        // set the owning side of the relation if necessary
-        if ($userProfile->getUser() !== $this) {
-            $userProfile->setUser($this);
-        }
-
-        $this->userProfile = $userProfile;
-
-        return $this;
     }
 
     public function getDriver(): ?Driver
@@ -184,7 +197,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-    
+
     public function isActive(): ?bool
     {
         return $this->active;
@@ -193,6 +206,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setActive(bool $active): static
     {
         $this->active = $active;
+
+        return $this;
+    }
+
+    public function isDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(bool $deleted): static
+    {
+        $this->deleted = $deleted;
 
         return $this;
     }

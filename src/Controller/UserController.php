@@ -43,35 +43,21 @@ class UserController extends AbstractController
     public function add(
         Request $request,
         UserRepository $userRepository,
-        UserProfileRepository $userProfileRepository,
-        MailerInterface $mailer
+        MailerInterface $mailer,
+        TranslatorInterface $translator
     ): Response {
         $form = $this->createForm(UserType::class, new User());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
-            $userRepository->add($userEntity, $this->mainCompany);
-            $userProfileRepository = $userProfileRepository->create(
-                $form->get('name')->getData(),
-                $form->get('rolegroup')->getData(),
-                $userEntity
-            );
+            $rolesForm = $form->get('rols')->getData();
+            $roles = explode(",", $rolesForm);
+            $userRepository->add($userEntity, $this->mainCompany, $roles);
 
-            try {
-                $passToken = $this->resetPasswordHelper->generateResetToken($userEntity);
-                $email = (new TemplatedEmail())
-                    ->from(new Address('test@localhost.com', 'Route'))
-                    ->to($userEntity->getEmail())
-                    ->subject('Your password reset request')
-                    ->htmlTemplate('user/password_email.html.twig')
-                    ->context([
-                        'resetToken' => $passToken,
-                    ]);
+            $this->sendEmail($userEntity, $mailer, $translator);
 
-                $mailer->send($email);
-            } catch (ResetPasswordExceptionInterface $e) {
-            }
-
+            $flashMessage = $translator->trans('User create flash', ['code' => $userEntity->getName()]);
+            $this->addFlash('success', $flashMessage);
             return $this->redirectToRoute('app_user');
         }
 
@@ -85,23 +71,19 @@ class UserController extends AbstractController
         User $userEntity,
         Request $request,
         UserRepository $userRepository,
-        UserProfileRepository $userProfileRepository,
         TranslatorInterface $translator,
     ): Response {
-        $form = $this->createForm(UserType::class, $userEntity, array("edit" => true, "profile" => $userEntity->getUserProfile()));
+        $roles = implode(",", $userEntity->getRoles());
+        $form = $this->createForm(UserType::class, $userEntity, array("edit" => true, "roles" => $roles));
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
-            $userRepository->add($userEntity, $userEntity->getMainCompany(), true);
+            $rolesForm = $form->get('rols')->getData();
+            $roles = explode(",", $rolesForm);
+            $userRepository->add($userEntity, $userEntity->getMainCompany(), $roles, true);
 
-            $userProfileRepository = $userProfileRepository->update(
-                $userEntity->getUserProfile(),
-                $form->get('name')->getData(),
-                $form->get('rolegroup')->getData()
-            );
-
-            $flashMessage = $translator->trans('User edit flash', ['code' => $userEntity->getUserProfile()->getName()]);
+            $flashMessage = $translator->trans('User edit flash', ['code' => $userEntity->getName()]);
             $this->addFlash('success', $flashMessage);
             return $this->redirectToRoute('app_user');
         }
@@ -110,5 +92,39 @@ class UserController extends AbstractController
         return $this->render('user/edit.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/user/{userEntity}/delete', name: 'app_user_delete')]
+    public function delete(
+        User $userEntity,
+        UserRepository $repository,
+        TranslatorInterface $translator
+    ): Response {
+        $flashMessage = $translator->trans('User delete flash', ['code' => $userEntity->getName()]);
+        $this->addFlash('success', $flashMessage);
+
+        $repository->delete($userEntity, true);
+        return $this->redirectToRoute('app_user');
+    }
+
+    public function sendEmail($userEntity, MailerInterface $mailer, TranslatorInterface $translator)
+    {
+        try {
+            $passToken = $this->resetPasswordHelper->generateResetToken($userEntity);
+            $email = (new TemplatedEmail())
+                ->from(new Address('test@localhost.com', 'Route'))
+                ->to($userEntity->getEmail())
+                ->subject('Your password reset request')
+                ->htmlTemplate('user/password_email.html.twig')
+                ->context([
+                    'resetToken' => $passToken,
+                ]);
+
+            $mailer->send($email);
+        } catch (ResetPasswordExceptionInterface $e) {
+            $flashMessage = $translator->trans('User create error flash');
+            $this->addFlash('error', $flashMessage);
+            return $this->redirectToRoute('app_user');
+        }
     }
 }

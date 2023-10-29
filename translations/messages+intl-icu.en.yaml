@@ -89,4 +89,7 @@ Send: Send
 'Role': 'Role'
 'user_email_title': 'Hi! New user created!'
 'user_email_body': 'Your user was created successfully, now you must create your password, you can do so by following the link below:  '
+'User create flash': 'User {code} was Created'
 'User edit flash': 'User {code} was Edit'
+'User delete flash': 'User {code} was Deleted'
+'User create error flash': 'Error sending user email, try again'

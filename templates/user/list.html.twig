@@ -1,11 +1,21 @@
 <table class="table table-sm fs--1 mb-0">
     <thead>
         <tr>
-            <th class="sort align-middle" scope="col" data-sort="email" style="width:10%; min-width:200px;"> {{ 'Email' |trans }}</th>
-            <th class="sort align-middle" scope="col" data-sort="name" style="width:10%; min-width:200px;"> {{ 'Name' |trans }}</th>
-            <th class="sort align-middle" scope="col" data-sort="rol" style="width:10%; min-width:200px;"> {{ 'Rol' |trans }}</th>
-        <th class="sort align-middle" scope="col" data-sort="active" style="width:10%; min-width:200px;"> {{ 'Active' |trans }}</th>
-            <th class="align-middle" scope="col" style="width:20%;  min-width:200px;">{{ 'Actions' |trans }}</th>
+            <th class="sort align-middle" scope="col" data-sort="email" style="width:10%; min-width:200px;">
+                {{ 'Email' |trans }}
+            </th>
+            <th class="sort align-middle" scope="col" data-sort="name" style="width:10%; min-width:200px;">
+                {{ 'Name' |trans }}
+            </th>
+            <th class="sort align-middle" scope="col" data-sort="rol" style="width:10%; min-width:200px;">
+                {{ 'Rol' |trans }}
+            </th>
+            <th class="sort align-middle" scope="col" data-sort="active" style="width:10%; min-width:200px;">
+                {{ 'Active' |trans }}
+            </th>
+            <th class="align-middle" scope="col" style="width:20%;  min-width:200px;">
+                {{ 'Actions' |trans }}
+            </th>
         </tr>
     </thead>
     <tbody class="list" id="members-table-body">
@@ -15,25 +25,27 @@
             {% else %}
                 {% set activeClass = 'fa fa-close' %}
             {% endif %}
-            {% if entity.userProfile is not empty %}
-                {% set name = entity.userProfile.name %}
-                {% set rolegroup = entity.userProfile.rolegroup %}
-            {% else %}
-                {% set name = 'N/D' %}
-                {% set rolegroup = 'N/D' %}
-            {% endif %}
             <tr class="hover-actions-trigger btn-reveal-trigger position-static">
                 <td class="email align-middle white-space-nowrap">
                     <a class="fw-semi-bold" href="mailto:{{ entity.email }}">
                         {{ entity.email }}
                     </a>
                 </td>
-                <td class="name align-middle white-space-nowrap">{{name}}</td>
-                <td class="rol align-middle white-space-nowrap">{{rolegroup}}</td>
-                <td class="active  align-middle text-center white-space-nowrap"><i class="{{activeClass}}"></i></td>
+                <td class="name align-middle white-space-nowrap">
+                    {{ entity.name }}
+                </td>
+                <td class="rol align-middle white-space-nowrap">
+                    {{ entity.rolegroup }}
+                </td>
+                <td class="active  align-middle text-center white-space-nowrap">
+                    <i class="{{ activeClass }}"></i>
+                </td>
                 <td class="actions align-middle white-space-nowrap">
                     <a class="m-2" href="{{ path('app_user_edit', { userEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
                         <i class="fa fa-pencil"></i>
+                    </a>
+                    <a href="{{ path('app_user_delete', { userEntity: entity.id }) }}" data-original-title="Remove" data-toggle="tooltip">
+                        <i class="fa fa-trash"></i>
                     </a>
                 </td>
             </tr>
