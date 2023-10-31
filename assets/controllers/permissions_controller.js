@@ -7,40 +7,34 @@ export default class extends Controller {
     let rolesDefault = [];
     $.getJSON("/assets/permissions.json", function (data) {
       dataJson = data;
-      const rolesuser = $("#user_rols").val();
-      rolesDefault = rolesuser.split(",");
+      const rolesUser = $("#user_userRoles").val();
+      rolesDefault = rolesUser.split(",");
       activeCheckbox(
-        $("#user_rolegroup").val(),
+        $("#user_roleGroup").val(),
         rolesDefault.length > 1 ? rolesDefault : null
       );
-      getRoles();
+      populateRolesSelectInput();
     });
-    $("#user_rolegroup").on("change", function () {
+    $("#user_roleGroup").on("change", function () {
       const val = $(this).val();
       activeCheckbox(val);
-      getRoles();
+      populateRolesSelectInput();
     });
     $(".form-check-input").on("change", function () {
-      getRoles();
+      populateRolesSelectInput();
     });
 
-    function activeCheckbox(val, defVal = null) {
+    function activeCheckbox(val, userPermissions = null) {
       const permissions = dataJson.permissions[val];
       if (Object.keys(permissions).length > 0) {
         for (const values in permissions) {
-          const id = formatId(values);
-          if (defVal) {
-            if (defVal.includes(permissions[values].rol)) {
-              setActiveInactiveCheck(id, true, permissions[values].active);
-            } else if (permissions[values].active) {
-              setActiveInactiveCheck(id, false, permissions[values].active);
-            } else {
-              setActiveInactiveCheck(
-                id,
-                permissions[values].default,
-                permissions[values].active
-              );
-            }
+          const id = formatPermissionId(values);
+          if (userPermissions) {
+            setActiveInactiveCheck(
+              id,
+              userPermissions.includes(permissions[values].rol),
+              permissions[values].active
+            );
           } else {
             setActiveInactiveCheck(
               id,
@@ -63,13 +57,13 @@ export default class extends Controller {
       }
     }
 
-    function getRoles() {
+    function populateRolesSelectInput() {
       const roles = [];
-      const val = $("#user_rolegroup").val();
+      const val = $("#user_roleGroup").val();
       const permissions = dataJson.permissions[val];
       if (Object.keys(permissions).length > 0) {
         for (const values in permissions) {
-          const id = formatId(values);
+          const id = formatPermissionId(values);
           if ($("#" + id).is(":checked")) {
             roles.push(permissions[values].rol);
           }
@@ -78,7 +72,7 @@ export default class extends Controller {
       $("#user_rols").val(roles.toString());
     }
 
-    function formatId(text) {
+    function formatPermissionId(text) {
       const capitalize = text.charAt(0).toUpperCase() + text.slice(1);
       const result = "user_roleAllow" + capitalize;
       return result;

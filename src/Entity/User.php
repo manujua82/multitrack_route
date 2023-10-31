@@ -55,7 +55,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $deleted = false;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $rolegroup = null;
+    private ?string $roleGroup = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $bannedUntil = null;
@@ -136,14 +136,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getRolegroup(): ?string
+    public function getRoleGroup(): ?string
     {
-        return $this->rolegroup;
+        return $this->roleGroup;
     }
 
-    public function setRolegroup(?string $rolegroup): static
+    public function setRoleGroup(?string $roleGroup): static
     {
-        $this->rolegroup = $rolegroup;
+        $this->roleGroup = $roleGroup;
 
         return $this;
     }

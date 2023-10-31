@@ -31,9 +31,9 @@
                     </div>
 
                     <div class="col-sm-6 col-md-12">
-                        {{ form_label(form.rolegroup,  'Role'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'role-type'}}) }}
-                        {{ form_widget(form.rolegroup, { 'attr': { 'class': 'form-select', 'id':'role-type', 'type':'text'}}) }}
-                        {{ form_errors(form.rolegroup) }}
+                        {{ form_label(form.roleGroup,  'Role'|trans, {'label_attr': {'class': 'text-1000 fw-bold mb-2', 'for': 'role-type'}}) }}
+                        {{ form_widget(form.roleGroup, { 'attr': { 'class': 'form-select', 'id':'role-type', 'type':'text'}}) }}
+                        {{ form_errors(form.roleGroup) }}
                     </div>
                 </div>
 
@@ -60,8 +60,8 @@
                     </div>
                     <div class="col-sm-3 col-md-3">
                         <div class="form-check mb-3">
-                            {{ form_widget(form.roleAllowViewVehicule, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
-                            {{ form_label(form.roleAllowViewVehicule,  'Allow View Vehicule'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                            {{ form_widget(form.roleAllowViewVehicle, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                            {{ form_label(form.roleAllowViewVehicle,  'Allow View Vehicle'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
                         </div>
                     </div>
                     <div class="col-sm-3 col-md-3">
@@ -72,8 +72,8 @@
                     </div>
                     <div class="col-sm-3 col-md-3">
                         <div class="form-check mb-3">
-                            {{ form_widget(form.roleAllowUserManagment, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
-                            {{ form_label(form.roleAllowUserManagment,  'Allow User Managment'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                            {{ form_widget(form.roleAllowUserManagement, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                            {{ form_label(form.roleAllowUserManagement,  'Allow User Management'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
                         </div>
                     </div>
                     <div class="col-sm-3 col-md-3">

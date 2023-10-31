@@ -11,8 +11,8 @@
                 "default": true,
                 "active": true
             },
-            "viewVehicule": {
-                "rol": "ROLE_VIEW_VEHICULE",
+            "viewVehicle": {
+                "rol": "ROLE_VIEW_VEHICLE",
                 "default": true,
                 "active": false
             },
@@ -26,8 +26,8 @@
                 "default": true,
                 "active": false
             },
-            "userManagment": {
-                "rol": "ROLE_USER_MANAGMENT",
+            "userManagement": {
+                "rol": "ROLE_USER_MANAGEMENT",
                 "default": false,
                 "active": false
             },
@@ -63,8 +63,8 @@
                 "default": true,
                 "active": true
             },
-            "viewVehicule": {
-                "rol": "ROLE_VIEW_VEHICULE",
+            "viewVehicle": {
+                "rol": "ROLE_VIEW_VEHICLE",
                 "default": true,
                 "active": true
             },
@@ -78,8 +78,8 @@
                 "default": true,
                 "active": false
             },
-            "userManagment": {
-                "rol": "ROLE_USER_MANAGMENT",
+            "userManagement": {
+                "rol": "ROLE_USER_MANAGEMENT",
                 "default": false,
                 "active": false
             },
@@ -115,8 +115,8 @@
                 "default": true,
                 "active": true
             },
-            "viewVehicule": {
-                "rol": "ROLE_VIEW_VEHICULE",
+            "viewVehicle": {
+                "rol": "ROLE_VIEW_VEHICLE",
                 "default": true,
                 "active": true
             },
@@ -130,8 +130,8 @@
                 "default": true,
                 "active": true
             },
-            "userManagment": {
-                "rol": "ROLE_USER_MANAGMENT",
+            "userManagement": {
+                "rol": "ROLE_USER_MANAGEMENT",
                 "default": false,
                 "active": true
             },
@@ -167,8 +167,8 @@
                 "default": true,
                 "active": true
             },
-            "viewVehicule": {
-                "rol": "ROLE_VIEW_VEHICULE",
+            "viewVehicle": {
+                "rol": "ROLE_VIEW_VEHICLE",
                 "default": true,
                 "active": true
             },
@@ -182,8 +182,8 @@
                 "default": true,
                 "active": false
             },
-            "userManagment": {
-                "rol": "ROLE_USER_MANAGMENT",
+            "userManagement": {
+                "rol": "ROLE_USER_MANAGEMENT",
                 "default": false,
                 "active": false
             },
@@ -219,8 +219,8 @@
                 "default": true,
                 "active": false
             },
-            "viewVehicule": {
-                "rol": "ROLE_VIEW_VEHICULE",
+            "viewVehicle": {
+                "rol": "ROLE_VIEW_VEHICLE",
                 "default": true,
                 "active": false
             },
@@ -234,8 +234,8 @@
                 "default": true,
                 "active": false
             },
-            "userManagment": {
-                "rol": "ROLE_USER_MANAGMENT",
+            "userManagement": {
+                "rol": "ROLE_USER_MANAGEMENT",
                 "default": true,
                 "active": false
             },

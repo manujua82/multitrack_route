@@ -50,9 +50,10 @@ class UserController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
-            $rolesForm = $form->get('rols')->getData();
-            $roles = explode(",", $rolesForm);
-            $userRepository->add($userEntity, $this->mainCompany, $roles);
+            $userEntity = $this->setRoles($userEntity, $form->get('userRoles')->getData(), $form->get('roleGroup')->getData());
+            $userEntity->setMainCompany($this->mainCompany);
+
+            $userRepository->add($userEntity, $this->mainCompany);
 
             $this->sendEmail($userEntity, $mailer, $translator);
 
@@ -79,9 +80,8 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
-            $rolesForm = $form->get('rols')->getData();
-            $roles = explode(",", $rolesForm);
-            $userRepository->add($userEntity, $userEntity->getMainCompany(), $roles, true);
+            $userEntity = $this->setRoles($userEntity, $form->get('userRoles')->getData(), $form->get('roleGroup')->getData());
+            $userRepository->add($userEntity, true);
 
             $flashMessage = $translator->trans('User edit flash', ['code' => $userEntity->getName()]);
             $this->addFlash('success', $flashMessage);
@@ -103,7 +103,7 @@ class UserController extends AbstractController
         $flashMessage = $translator->trans('User delete flash', ['code' => $userEntity->getName()]);
         $this->addFlash('success', $flashMessage);
 
-        $repository->delete($userEntity, true);
+        $repository->delete($userEntity);
         return $this->redirectToRoute('app_user');
     }
 
@@ -114,7 +114,7 @@ class UserController extends AbstractController
             $email = (new TemplatedEmail())
                 ->from(new Address('test@localhost.com', 'Route'))
                 ->to($userEntity->getEmail())
-                ->subject('Your password reset request')
+                ->subject($translator->trans('User create title'))
                 ->htmlTemplate('user/password_email.html.twig')
                 ->context([
                     'resetToken' => $passToken,
@@ -126,5 +126,16 @@ class UserController extends AbstractController
             $this->addFlash('error', $flashMessage);
             return $this->redirectToRoute('app_user');
         }
+    }
+
+    private function setRoles($entity, $roles, $roleGroup): User
+    {
+        if ($roleGroup == 'admin') {
+            $roles = ['ROLE_ADMIN'];
+        } else {
+            $roles = explode(",", $roles);
+        }
+        $entity->setRoles($roles);
+        return $entity;
     }
 }

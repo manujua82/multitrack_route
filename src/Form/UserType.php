@@ -21,7 +21,7 @@ class UserType extends AbstractType
                 'required' => false
             ])
             ->add('name')
-            ->add('rols', null, [
+            ->add('userRoles', null, [
                 'mapped' => false,
                 'required' => false,
                 'data' => $options['edit'] ? $options['roles'] : '',
@@ -29,7 +29,7 @@ class UserType extends AbstractType
                     "style" => "display: none;"
                 ]
             ])
-            ->add('rolegroup', ChoiceType::class, [
+            ->add('roleGroup', ChoiceType::class, [
                 'choices'  => [
                     "View only" => 'view-only',
                     "Dispatcher" => 'dispatcher',
@@ -53,7 +53,7 @@ class UserType extends AbstractType
                 'mapped' => false,
                 'required' => false
             ])
-            ->add('roleAllowUserManagment', CheckboxType::class, [
+            ->add('roleAllowUserManagement', CheckboxType::class, [
                 'mapped' => false,
                 'required' => false
             ])
@@ -65,7 +65,7 @@ class UserType extends AbstractType
                 'mapped' => false,
                 'required' => false
             ])
-            ->add('roleAllowViewVehicule', CheckboxType::class, [
+            ->add('roleAllowViewVehicle', CheckboxType::class, [
                 'mapped' => false,
                 'required' => false
             ])
