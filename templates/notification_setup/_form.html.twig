@@ -1,22 +1,46 @@
 {% embed 'notification_setup/_baseNotification.html.twig' %}
     {% block notificationForm %}
-        <div class="card email-content">
-            <div class="card-body">
-                {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "d-flex flex-column needs-validation"}}) }}
-                    <div class="col-12">
-                        {{ form_widget(form.emailSubject, { 'attr': { 'class': 'form-control', 'type':'text', 'placeholder': 'Subject'|trans }}) }}
-                        {{ form_errors(form.emailSubject) }}
-                    </div>
-                    <div class="mb-3 flex-1">
-                        {{ form_widget(form.emailBody, { 'attr': { 'class': 'tinymce email-textarea', 'name':'content', 'data-tinymce': '{"height":"100%"}' }}) }}
-                        {{ form_errors(form.emailBody) }}
-                    </div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="d-flex">
-                            <button class="btn btn-primary fs--2" type="submit">{{ 'Save' | trans }}<span class="fa-solid fa-paper-plane ms-1"></span></button>
+
+           
+        <div class="email-content">
+            <div class="row g-lg-6 mb-8">
+                <div class="col">
+                    <div class="card email-content">
+                        <div class="card-body">
+                            {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "d-flex flex-column h-100 needs-validation"}}) }}
+                                <div class="row g-3 mb-2 px-2">
+                                    {{ form_widget(form.emailSubject, { 'attr': { 'class': 'form-control', 'type':'text', 'placeholder': 'Subject'|trans }}) }}
+                                    {{ form_errors(form.emailSubject) }}
+                                </div>
+                                <div class="mb-3 flex-1">
+                                    {{ form_widget(form.emailBody, { 'attr': { 'class': 'tinymce email-textarea lh-base', 'name':'content', 'data-tinymce': '{"height":"100%"}' }}) }}
+                                    {{ form_errors(form.emailBody) }}
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex">
+                                        <button class="btn btn-primary fs--2" type="submit">{{ 'Save' | trans }}<span class="fa-solid fa-paper-plane ms-1"></span></button>
+                                    </div>
+                                </div>
+                            {{ form_end(form) }}
                         </div>
                     </div>
-                {{ form_end(form) }}
+                </div>
+                <div class="col-3 d-none d-xxl-block">
+                    <div class="scrollbar email-content">
+                        <div class="px-lg-1" data-controller="utils">
+                            <ul class="list-group">
+                                {% for placeHolder in placeHolders %}
+                                    <li class="list-group-item d-flex align-items-center flex-1 me-2" >
+                                        <button class="btn btn-sm p-0 me-2" type="button"  data-action="click->utils#copyToClipboard">
+                                            <i class="far fa-copy" value={{placeHolder}}></i>
+                                        </button>
+                                        {{ '{' ~ placeHolder ~ '}' }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     {% endblock %}
