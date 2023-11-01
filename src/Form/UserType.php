@@ -21,7 +21,7 @@ class UserType extends AbstractType
                 'required' => false
             ])
             ->add('name')
-            ->add('userRoles', null, [
+            ->add('rolesUser', null, [
                 'mapped' => false,
                 'required' => false,
                 'data' => $options['edit'] ? $options['roles'] : '',

@@ -7,7 +7,7 @@ export default class extends Controller {
     let rolesDefault = [];
     $.getJSON("/assets/permissions.json", function (data) {
       dataJson = data;
-      const rolesUser = $("#user_userRoles").val();
+      const rolesUser = $("#user_rolesUser").val();
       rolesDefault = rolesUser.split(",");
       activeCheckbox(
         $("#user_roleGroup").val(),
@@ -26,13 +26,16 @@ export default class extends Controller {
 
     function activeCheckbox(val, userPermissions = null) {
       const permissions = dataJson.permissions[val];
+      const roleGroup = $("#user_roleGroup").val();
       if (Object.keys(permissions).length > 0) {
         for (const values in permissions) {
           const id = formatPermissionId(values);
           if (userPermissions) {
             setActiveInactiveCheck(
               id,
-              userPermissions.includes(permissions[values].rol),
+              roleGroup == "admin"
+                ? true
+                : userPermissions.includes(permissions[values].rol),
               permissions[values].active
             );
           } else {
@@ -69,7 +72,7 @@ export default class extends Controller {
           }
         }
       }
-      $("#user_rols").val(roles.toString());
+      $("#user_rolesUser").val(roles.toString());
     }
 
     function formatPermissionId(text) {

@@ -72,18 +72,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $newUser;
     }
 
-    public function add(User $entity, bool $edit = false, bool $flush = true): void
+    public function add(User $entity, bool $flush = true): void
     {
-        $entity->setAgreedTerms();
-
-        if (!$edit) {
-            $entity->setPassword(
-                $this->userPasswordHasher->hashPassword(
-                    $entity,
-                    'REGISTER_DEFAULT_USER'
-                )
-            );
-        }
         $this->getEntityManager()->persist($entity);
         if ($flush) {
             $this->getEntityManager()->flush();

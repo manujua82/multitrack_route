@@ -18,6 +18,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\ResetPassword\Exception\ResetPasswordExceptionInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserController extends AbstractController
 {
@@ -44,16 +45,24 @@ class UserController extends AbstractController
         Request $request,
         UserRepository $userRepository,
         MailerInterface $mailer,
-        TranslatorInterface $translator
+        TranslatorInterface $translator,
+        UserPasswordHasherInterface $userPasswordHasher
     ): Response {
         $form = $this->createForm(UserType::class, new User());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
-            $userEntity = $this->setRoles($userEntity, $form->get('userRoles')->getData(), $form->get('roleGroup')->getData());
+            $userEntity->setStringRoles($form->get('roleGroup')->getData(), $form->get('rolesUser')->getData());
             $userEntity->setMainCompany($this->mainCompany);
+            $userEntity->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $userEntity,
+                    'REGISTER_DEFAULT_USER'
+                )
+            );
+            $userEntity->setAgreedTerms();
 
-            $userRepository->add($userEntity, $this->mainCompany);
+            $userRepository->add($userEntity);
 
             $this->sendEmail($userEntity, $mailer, $translator);
 
@@ -80,7 +89,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
-            $userEntity = $this->setRoles($userEntity, $form->get('userRoles')->getData(), $form->get('roleGroup')->getData());
+            $userEntity->setStringRoles($form->get('roleGroup')->getData(), $form->get('rolesUser')->getData());
             $userRepository->add($userEntity, true);
 
             $flashMessage = $translator->trans('User edit flash', ['code' => $userEntity->getName()]);
@@ -126,16 +135,5 @@ class UserController extends AbstractController
             $this->addFlash('error', $flashMessage);
             return $this->redirectToRoute('app_user');
         }
-    }
-
-    private function setRoles($entity, $roles, $roleGroup): User
-    {
-        if ($roleGroup == 'admin') {
-            $roles = ['ROLE_ADMIN'];
-        } else {
-            $roles = explode(",", $roles);
-        }
-        $entity->setRoles($roles);
-        return $entity;
     }
 }
