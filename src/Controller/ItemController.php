@@ -18,15 +18,9 @@ class ItemController extends AbstractController
     #[Route('/item', name: 'app_item')]
     public function index(Request $request, ItemRepository $repository,  PaginatorInterface $paginator): Response
     {
-        $parent = "";
-        if ($request->query->get('query')) {
-            $parent = $request->query->get('query');
-        }
-
-        $queryBuilder = $repository->getSearchByParentQueryBuilder($parent);
-        
+        $parent = $request->query->get('query', "");        
         $pagination = $paginator->paginate(
-            $queryBuilder, /* query NOT result */
+            $repository->getSearchByParentQueryBuilder($parent),
             $request->query->getInt('page', 1), /*page number*/
             20 /*limit per page*/
         );
