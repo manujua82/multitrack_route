@@ -36,12 +36,16 @@ class DriverController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $driverEntity = $form->getData();
             $company = $this->getUser()->getMainCompany();
+           
+           
             $driverUser = $userRepository->createUser(
                 $driverEntity->getEmail(),
                 $form->get('plainPassword')->getData(),
                 $company,
                 ['ROLE_DRIVER']
             );
+
+            
             $driverEntity->setUser($driverUser);
             $driverRepository->add($driverEntity, true);
 

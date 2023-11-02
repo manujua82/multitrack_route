@@ -62,7 +62,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE,  nullable: true)]
     private ?\DateTimeInterface $agreedTermsAt = null;
-
+    
     public function getId(): ?int
     {
         return $this->id;

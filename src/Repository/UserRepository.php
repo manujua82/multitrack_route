@@ -66,6 +66,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $newUser->setDeleted(false);
         $newUser->setMainCompany($company);
         $newUser->setRoles($roles);
+        
         $this->getEntityManager()->persist($newUser);
         $this->getEntityManager()->flush();
 
@@ -85,42 +86,8 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return $this->createQueryBuilder('c')
             ->andWhere('c.mainCompany = :company')
             ->andWhere('c.roleGroup IS NOT NULL')
-            ->andWhere('c.deleted = 0')
             ->setParameter('company', $company)
             ->getQuery()
             ->getResult();
     }
-
-    public function delete(User $entity, bool $flush = true): void
-    {
-        $entity->setDeleted(1);
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    //    /**
-    //     * @return User[] Returns an array of User objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?User
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }
