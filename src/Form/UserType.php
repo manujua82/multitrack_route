@@ -18,7 +18,8 @@ class UserType extends AbstractType
     {
         $builder
             ->add('active', CheckboxType::class, [
-                'required' => false
+                'required' => false,
+                'data' => true
             ])
             ->add('name')
             ->add('rolesUser', null, [

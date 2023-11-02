@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Repository\UserRepository;
-use App\Repository\UserProfileRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -90,7 +89,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
             $userEntity->setStringRoles($form->get('roleGroup')->getData(), $form->get('rolesUser')->getData());
-            $userRepository->add($userEntity, true);
+            $userRepository->add($userEntity);
 
             $flashMessage = $translator->trans('User edit flash', ['code' => $userEntity->getName()]);
             $this->addFlash('success', $flashMessage);
@@ -109,10 +108,12 @@ class UserController extends AbstractController
         UserRepository $repository,
         TranslatorInterface $translator
     ): Response {
-        $flashMessage = $translator->trans('User delete flash', ['code' => $userEntity->getName()]);
+        $userEntity->setActive(false);
+        $repository->add($userEntity);
+
+        $flashMessage = $translator->trans('User was disabled', ['code' => $userEntity->getName()]);
         $this->addFlash('success', $flashMessage);
 
-        $repository->delete($userEntity);
         return $this->redirectToRoute('app_user');
     }
 
