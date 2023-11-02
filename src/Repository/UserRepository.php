@@ -25,8 +25,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 {
     private UserPasswordHasherInterface $userPasswordHasher;
 
-    public function __construct(ManagerRegistry $registry, UserPasswordHasherInterface $userPasswordHasher)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        UserPasswordHasherInterface $userPasswordHasher
+    ) {
         $this->userPasswordHasher = $userPasswordHasher;
         parent::__construct($registry, User::class);
     }
@@ -60,12 +62,41 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 $password
             )
         );
+        $newUser->setActive(true);
+        $newUser->setDeleted(false);
         $newUser->setMainCompany($company);
         $newUser->setRoles($roles);
         $this->getEntityManager()->persist($newUser);
         $this->getEntityManager()->flush();
 
         return $newUser;
+    }
+
+    public function add(User $entity, bool $flush = true): void
+    {
+        $this->getEntityManager()->persist($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
+
+    public function findAllByCompany(MainCompany $company): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.mainCompany = :company')
+            ->andWhere('c.roleGroup IS NOT NULL')
+            ->andWhere('c.deleted = 0')
+            ->setParameter('company', $company)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function delete(User $entity, bool $flush = true): void
+    {
+        $entity->setDeleted(1);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
 
     //    /**
