@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Customer;
 use Symfony\Bundle\SecurityBundle\Security;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -53,6 +54,18 @@ class CustomerRepository extends ServiceEntityRepository
             ->orderBy('c.created', 'DESC')
             ->getQuery()
             ->getResult();
+    }
+
+    public function searchByQuery(string $parent): QueryBuilder
+    {
+        return $this->createQueryBuilder('c')
+            ->orWhere('c.code LIKE :parent')
+            ->orWhere('c.name LIKE :nameParent')   
+            ->andWhere('c.company = :company')
+            ->setParameter('parent', $parent . '%')
+            ->setParameter('nameParent',  '%' . $parent . '%')
+            ->setParameter('company', $this->mainCompany)
+            ->orderBy('c.created', 'DESC');
     }
 
 //    /**
