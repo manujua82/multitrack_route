@@ -13,24 +13,32 @@
     </thead>
     
     <tbody class="list" id="members-table-body">
-        {% for entity in entities %}
-            <tr class="hover-actions-trigger btn-reveal-trigger position-static">
-                <td class="number align-middle white-space-nowrap">{{ entity.number }}</td>
-                <td class="type align-middle white-space-nowrap">{{ entity.type }}</td>
-                <td class="date align-middle white-space-nowrap">{{ entity.date |date('d-m-Y')  }}</td>
-                <td class="align-middle white-space-nowrap">{{ entity.shipFrom.name}}</td>
-                <td class="align-middle white-space-nowrap">{{ entity.customerId }}</td>
-                <td class="align-middle white-space-nowrap">{{ entity.addressId }}</td>
-                <td class="align-middle white-space-nowrap">{{ entity.status }}</td>
-                <td class="actions align-middle white-space-nowrap">
-                    <a class="me-2" href="{{ path('app_order_edit', { orderEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
-                        <i class="fa fa-pen-to-square"></i>
-                    </a> 
-                    <a href="{{ path('app_order_delete', { orderEntity: entity.id }) }}" data-original-title="Remove" data-toggle="tooltip">
-                        <i class="fa fa-trash"></i>
-                    </a>
-                </td>
-            </tr>
-        {% endfor %}
+        {% if orders.getTotalItemCount > 0 %}
+            {% for entity in orders %}
+                <tr class="hover-actions-trigger btn-reveal-trigger position-static">
+                    <td class="number align-middle white-space-nowrap">{{ entity.number }}</td>
+                    <td class="type align-middle white-space-nowrap">{{ entity.type }}</td>
+                    <td class="date align-middle white-space-nowrap">{{ entity.date |date('d-m-Y')  }}</td>
+                    <td class="align-middle white-space-nowrap">{{ entity.shipFrom.name}}</td>
+                    <td class="align-middle white-space-nowrap">{{ entity.customerId }}</td>
+                    <td class="align-middle white-space-nowrap">{{ entity.addressId }}</td>
+                    <td class="align-middle white-space-nowrap">{{ entity.status }}</td>
+                    <td class="actions align-middle white-space-nowrap">
+                        <a class="me-2" href="{{ path('app_order_edit', { orderEntity: entity.id }) }}" data-original-title="Edit" data-toggle="tooltip">
+                            <i class="fa fa-pen-to-square"></i>
+                        </a> 
+                        <a href="{{ path('app_order_delete', { orderEntity: entity.id }) }}" data-original-title="Remove" data-toggle="tooltip">
+                            <i class="fa fa-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            {# TODO: MESSAGE FOR NO ITEMS #}
+        {% endif %}
     </tbody>
 </table>
+
+<div class="d-flex justify-content-center mt-3">
+    {{ knp_pagination_render(orders) }}
+</div>

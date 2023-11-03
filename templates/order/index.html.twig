@@ -1,15 +1,56 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ include('widgets/baseListHeader.html.twig',  { 
-        entityName: 'Orders',
-        entities: orders,
-        viewListPath: "order/list.html.twig",
-        createEntityPath: 'app_order_new', 
-        valueNames: '["number", "customer"]'
-    }) }}
-{% endblock %}
+    <h2 class="text-bold text-1100 mb-5">{{ "Orders" | trans }}</h2>
 
+    <div id="orders">
+        <div class="row align-items-center justify-content-between g-3 mb-4">
+            <div class="col col-6">
+                <form 
+                    class="position-relative" 
+                    data-bs-toggle="search" 
+                    data-bs-display="static" 
+                    action="{{ path('app_order') }}" 
+                    method="get"
+                    data-order-target="orderFilterForm"
+                >
+                    <div class="row align-items-center g-3">
+                        <div class="search-box col-sm-6 col-md-6">
+                            <input 
+                                class="form-control search-input search" 
+                                type="search" 
+                                name="query"
+                                placeholder={{'Search Order'|trans}} 
+                                aria-label="Search"
+                                data-order-target="search"
+                                value="{{ app.request.query.get('query') }}"
+                                data-action="order#onSearchItems"/>
+                            <span class="fas fa-search search-box-icon"></span>
+                        </div> 
 
-{% block javascripts %}
+                        <div class="col-sm-6 col-md-6">
+                            <input 
+                                class="form-control datetimepicker" 
+                                id="timepicker2" 
+                                type="text" 
+                                placeholder="d/m/y to d/m/y" 
+                                data-options='{"mode":"range","dateFormat":"d/m/y","disableMobile":true}' 
+                            />
+                        </div>
+                    </div>
+                </form>
+                
+            </div>
+            <div class="col-6">
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-link text-900 me-4 px-0"><span class="fa-solid fa-file-import fs--1 me-2"></span>{{ 'Import' | trans }}</button>
+                    <button class="btn btn-primary" onclick="location.href='{{ path('app_order_new') }}';"><span class="fas fa-plus me-2"></span>{{ 'Add Order' | trans }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div data-order-target="orderList">
+            {{ include("order/list.html.twig") }}
+        </div>          
+    </div>
 {% endblock %}

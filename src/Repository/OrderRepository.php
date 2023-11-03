@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Order;
 use App\Entity\Route;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\SecurityBundle\Security;
 
@@ -47,7 +48,7 @@ class OrderRepository extends ServiceEntityRepository
         }
     }
 
-    private function getBaseOrdersList()
+    private function getBaseOrdersList(): QueryBuilder
     {
         return $this->createQueryBuilder('o')
             ->leftJoin('o.shipFrom', 'w')
@@ -69,6 +70,13 @@ class OrderRepository extends ServiceEntityRepository
         return $baseQuery->getQuery()->getResult();
     }
 
+    public function searchByFilters(): QueryBuilder
+    {
+        $baseQuery = $this->getBaseOrdersList();
+        // TODO: apply Filters
+        return $baseQuery;
+    }
+
     public function getOrdersByStatus(string $status): array
     {
         $baseQuery =  $this->getBaseOrdersList();
@@ -85,31 +93,4 @@ class OrderRepository extends ServiceEntityRepository
                   ->setParameter('route', $route);
         return $baseQuery->getQuery()->getResult();
     }
-
-
-
-//    /**
-//     * @return Order[] Returns an array of Order objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Order
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
