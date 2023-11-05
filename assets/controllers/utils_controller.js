@@ -1,4 +1,5 @@
 import { Controller } from 'stimulus';
+import Swal from 'sweetalert2';
 
 export default class extends Controller { 
 
@@ -18,4 +19,22 @@ export default class extends Controller {
             }
         }
     }
+
+    copyToClipboard(item) {
+        const element = item.target;
+        const copyText = element.getAttribute("value");
+
+        if (copyText) {
+            navigator.clipboard.writeText(`{${copyText}}`);
+            Swal.fire({
+                position: 'top',
+                icon: 'info',
+                title: `{${copyText}} tag copied to clipboard`,
+                showConfirmButton: false,
+                timer: 1500
+            });
+        }
+       
+    }
+
 }

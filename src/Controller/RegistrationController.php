@@ -92,6 +92,10 @@ class RegistrationController extends AbstractController
         $this->registerCorrelatives($entityManager, $company);
 
         $user->setMainCompany($company);
+        $user->setActive(true);
+        $user->setDeleted(false);
+        $user->setRoleGroup('admin');
+        $user->setRoles(['ROLE_ADMIN']);
         $user->setPassword(
             $userPasswordHasher->hashPassword(
                 $user,

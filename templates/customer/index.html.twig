@@ -1,11 +1,46 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ include('widgets/baseListHeader.html.twig',  { 
-        entityName: 'Customers',
-        entities: customers,
-        viewListPath: "customer/list.html.twig",
-        createEntityPath: 'app_customer_new',
-        valueNames: '["code","name","contact","email"]'
-    }) }}
+    <h2 class="text-bold text-1100 mb-5">{{ "Customers" | trans }}</h2>
+    <div id="customers"
+        {{ stimulus_controller('customer', {
+            refreshUrl: path('app_customer')
+        }) }}
+    >
+        <div class="row align-items-center justify-content-between g-3 mb-4">
+            <div class="col col-auto">
+                <div class="search-box">
+                    <form 
+                        class="position-relative" 
+                        data-bs-toggle="search" 
+                        data-bs-display="static" 
+                        action="{{ path('app_customer') }}" 
+                        method="get"
+                        data-customer-target="customerFilterForm"
+                    >
+                        <input 
+                            class="form-control search-input search" 
+                            type="search" 
+                            name="query"
+                            placeholder={{'Search Customer'|trans}} 
+                            aria-label="Search"
+                            data-customer-target="search"
+                            value="{{ app.request.query.get('query') }}"
+                            data-action="customer#onSearchCustomers"/>
+                        <span class="fas fa-search search-box-icon"></span>
+                    </form>
+                </div>
+            </div>
+            <div class="col-auto">
+                <div class="d-flex align-items-center">
+                    <button class="btn btn-link text-900 me-4 px-0"><span class="fa-solid fa-file-import fs--1 me-2"></span>{{ 'Import' | trans }}</button>
+                    <button class="btn btn-primary" onclick="location.href='{{ path('app_customer_new') }}';"><span class="fas fa-plus me-2"></span>{{ 'Add Customer' | trans }}</button>
+                </div>
+            </div>
+        </div>
+
+        <div data-customer-target="customerList">
+            {{ include("customer/list.html.twig") }}
+        </div>          
+    </div>
 {% endblock %}

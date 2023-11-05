@@ -13,6 +13,31 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class NotificationSetupController extends AbstractController
 {
+    private $placeHolders;
+
+    public function __construct()
+    {
+        $this->placeHolders = [
+            "order_number",
+            "order_alternative_number",
+            "order_type",
+            "order_address",
+            "order_shipper",
+            "order_note",
+            "order_cdo",
+            "order_time_from",
+            "order_time_till",
+
+            "driver_name",
+            "driver_phone",
+
+            "customer_name",
+            
+            "route_date",
+            "eta_date",
+            "eta_time"
+        ];
+    }
 
     private function renderOrderNotificationForm( $request, $repository, $status, $redirectRoute){
         $notification = $repository->getNotificationBy("ORDER", $status);
@@ -27,6 +52,7 @@ class NotificationSetupController extends AbstractController
 
         return $this->render( 'notification_setup/_form.html.twig', [
             'form' => $form->createView(),
+            'placeHolders' => $this->placeHolders
         ]);
     }
     #[Route('/notification/scheduled', name: 'app_notification_schedule')]

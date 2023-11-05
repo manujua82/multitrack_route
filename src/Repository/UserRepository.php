@@ -25,8 +25,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 {
     private UserPasswordHasherInterface $userPasswordHasher;
 
-    public function __construct(ManagerRegistry $registry, UserPasswordHasherInterface $userPasswordHasher)
-    {
+    public function __construct(
+        ManagerRegistry $registry,
+        UserPasswordHasherInterface $userPasswordHasher
+    ) {
         $this->userPasswordHasher = $userPasswordHasher;
         parent::__construct($registry, User::class);
     }
@@ -60,36 +62,32 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
                 $password
             )
         );
+        $newUser->setActive(true);
+        $newUser->setDeleted(false);
         $newUser->setMainCompany($company);
         $newUser->setRoles($roles);
+        
         $this->getEntityManager()->persist($newUser);
         $this->getEntityManager()->flush();
 
         return $newUser;
     }
 
-    //    /**
-    //     * @return User[] Returns an array of User objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function add(User $entity, bool $flush = true): void
+    {
+        $this->getEntityManager()->persist($entity);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 
-    //    public function findOneBySomeField($value): ?User
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function findAllByCompany(MainCompany $company): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.mainCompany = :company')
+            ->andWhere('c.roleGroup IS NOT NULL')
+            ->setParameter('company', $company)
+            ->getQuery()
+            ->getResult();
+    }
 }
