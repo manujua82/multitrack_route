@@ -37,17 +37,17 @@ class OrderController extends AbstractController
             $filters = $filersForm->getData();
         } 
         
-        if ($request->query->get('preview')) {
-            $filters = $filersForm->getData();
-            $filters->search = $request->query->get('query');
-            $filters->dateRange =  $request->query->get('selectedDates');
-        }
+        // if ($request->query->get('preview')) {
+        //     $filters = $filersForm->getData();
+        //     $filters->search = $request->query->get('query');
+        //     $filters->dateRange =  $request->query->get('selectedDates');
+        // }
         
         $queryBuilder = $repository->searchByFilters($filters);
         $pagination = $paginatorInterface->paginate(
             $queryBuilder, /* query NOT result */
             $request->query->getInt('page', 1), /*page number*/
-            1 /*limit per page*/
+            15 /*limit per page*/
         );
         
         return $this->render($template, [

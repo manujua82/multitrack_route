@@ -4,9 +4,7 @@
     <h2 class="text-bold text-1100 mb-5">{{ "Orders" | trans }}</h2>
 
     <div id="orders" 
-        {{ stimulus_controller( 'order-list', {
-            refreshUrl: path('app_order')
-         }) }}>
+        {{ stimulus_controller( 'order-list') }}>
         <div class="row g-3 justify-content-between mb-4">
             <div class="col-auto">
                 <div class="d-md-flex justify-content-between">
@@ -17,39 +15,8 @@
                 </div>
             </div>
             <div class="col-auto">
-                <div class="d-flex">
-                    <div class="search-box me-2">
-                        <form class="position-relative" data-bs-toggle="search" data-bs-display="static">
-                            <input 
-                                class="form-control search-input search" 
-                                type="search" 
-                                name="query"
-                                placeholder={{'Search Order'|trans}}
-                                aria-label="Search" 
-                                data-order-list-target="search"
-                                value="{{ app.request.query.get('query') }}"
-                                data-action="order-list#onSearchOrder"
-                            />
-                            <span class="fas fa-search search-box-icon"></span>
-                        </form>
-                    </div>
-                    <div class="flatpickr-input-container me-2">
-                        <input 
-                            class="form-control ps-6 datetimepicker" 
-                            name="datepicker" 
-                            type="text"
-                            data-order-list-target="dateRange"
-                            value="{{ app.request.query.get('date') }}"
-                            data-options ='{ "mode":"range","dateFormat":"M j, Y","disableMobile":true}'
-                            data-action="order-list#onDateRange"
-                        />
-                        <span class="uil uil-calendar-alt flatpickr-icon text-700"></span>
-                    </div>
-                    <button class="btn px-3 btn-phoenix-secondary" type="button" data-bs-toggle="modal" data-bs-target="#filterModal" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent"><span class="fa-solid fa-filter text-primary" data-fa-transform="down-3"></span></button>
-                  
-                    {{ include("order/_filtersForm.html.twig") }}
-                </div>
-              </div>
+                {{ include("order/_filtersForm.html.twig") }}
+            </div>
         </div>
 
         <div data-order-list-target="orderList">

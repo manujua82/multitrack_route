@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use DateInterval;
+
 class OrderFilters
 {
     public ?string $search = null;

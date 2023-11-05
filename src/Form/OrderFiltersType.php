@@ -16,6 +16,10 @@ class OrderFiltersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('search')
+            ->add('dateRange', TextType::class, [
+                'attr' => ['class' => 'form-control ps-6  datetimepicker'],
+            ])
             ->add('types', ChoiceType::class, [
                 'choices'  => [
                     'Delivery' => "Delivery",
