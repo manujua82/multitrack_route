@@ -89,6 +89,18 @@ class UserType extends AbstractType
             ->add('roleAllowAllShippers', CheckboxType::class, [
                 'mapped' => false,
                 'required' => false
+            ])
+            ->add('roleCanAddOrders', CheckboxType::class, [
+                'mapped' => false,
+                'required' => false
+            ])
+            ->add('roleCanEditOrders', CheckboxType::class, [
+                'mapped' => false,
+                'required' => false
+            ])
+            ->add('roleCanDeleteOrders', CheckboxType::class, [
+                'mapped' => false,
+                'required' => false
             ]);
     }
 

@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Shipper;
+use App\Entity\User;
 use App\Form\ShipperType;
+use App\Form\UserType;
 use App\Repository\ShipperRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ShipperController extends AbstractController
-{   
+{
     #[Route('/shipper', name: 'app_shipper')]
     public function index(ShipperRepository $repository): Response
     {
@@ -23,16 +26,15 @@ class ShipperController extends AbstractController
 
     #[Route('/shipper/new', name: 'app_shipper_new')]
     public function add(
-        Request $request, 
+        Request $request,
         ShipperRepository $repository,
         TranslatorInterface $translator
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(ShipperType::class, new Shipper());
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) { 
+        if ($form->isSubmitted() && $form->isValid()) {
             $newShipper = $form->getData();
-            $repository->add($newShipper, true);   
+            $repository->add($newShipper, true);
 
             $flashMessage = $translator->trans('Shipper created flash', ['code' => $newShipper->getCode()]);
             $this->addFlash('success', $flashMessage);
@@ -46,17 +48,16 @@ class ShipperController extends AbstractController
 
     #[Route('/shipper/{shipperEntity}/edit', name: 'app_shipper_edit')]
     public function edit(
-        Shipper $shipperEntity, 
-        Request $request, 
+        Shipper $shipperEntity,
+        Request $request,
         ShipperRepository $repository,
         TranslatorInterface $translator
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(ShipperType::class, $shipperEntity);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) { 
+        if ($form->isSubmitted() && $form->isValid()) {
             $newShipper = $form->getData();
-            $repository->add($newShipper, true);   
+            $repository->add($newShipper, true);
 
             $flashMessage = $translator->trans('Shipper edit flash', ['code' => $newShipper->getCode()]);
             $this->addFlash('success', $flashMessage);
@@ -65,20 +66,36 @@ class ShipperController extends AbstractController
 
         return $this->render('shipper/_form.html.twig', [
             'form' => $form->createView(),
+            'entity' => $shipperEntity
         ]);
     }
 
     #[Route('/shipper/{shipperEntity}/delete', name: 'app_shipper_delete')]
     public function delete(
-        Shipper $shipperEntity, 
+        Shipper $shipperEntity,
         ShipperRepository $repository,
         TranslatorInterface $translator
-    ): Response
-    {
+    ): Response {
         $flashMessage = $translator->trans('Shipper %code% was deleted', ['%code%' => $shipperEntity->getCode()]);
         $this->addFlash('success', $flashMessage);
 
         $repository->delete($shipperEntity, true);
         return $this->redirectToRoute('app_shipper');
+    }
+
+    #[Route('/shipper/{shipperEntity}/addUSer', name: 'app_shipper_add_user')]
+    public function newUser(
+        Shipper $shipperEntity,
+        UserRepository $userRepository,
+        Request $request,
+        ShipperRepository $repository,
+        TranslatorInterface $translator
+    ): Response {
+        $form = $this->createForm(UserType::class, new User());
+        $form->handleRequest($request);
+
+        return $this->render('shipper/new_user.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

@@ -1,4 +1,7 @@
 {% extends 'base.html.twig' %}
+{% block title %}
+    {{ 'Edit user' |trans }}
+{% endblock %}
 {% block body %}
-    {{ include('user/_form.html.twig') }}
+    {{ include('user/_form.html.twig', {'width': 6, 'classWhite': 'card', 'type': 'userForm'}) }}
 {% endblock %}
