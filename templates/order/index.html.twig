@@ -1,15 +1,26 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ include('widgets/baseListHeader.html.twig',  { 
-        entityName: 'Orders',
-        entities: orders,
-        viewListPath: "order/list.html.twig",
-        createEntityPath: 'app_order_new', 
-        valueNames: '["number", "customer"]'
-    }) }}
-{% endblock %}
+    <h2 class="text-bold text-1100 mb-5">{{ "Orders" | trans }}</h2>
 
+    <div id="orders" 
+        {{ stimulus_controller( 'order-list') }}>
+        <div class="row g-3 justify-content-between mb-4">
+            <div class="col-auto">
+                <div class="d-md-flex justify-content-between">
+                    <div>
+                        <button class="btn btn-primary  me-4" onclick="location.href='{{ path('app_order_new') }}';"><span class="fas fa-plus me-2"></span>{{ 'Add Order' | trans }}</button>
+                        <button class="btn btn-link text-900 px-0"><span class="fa-solid fa-file-import fs--1 me-2"></span>{{ 'Import' | trans }}</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-auto">
+                {{ include("order/_filtersForm.html.twig") }}
+            </div>
+        </div>
 
-{% block javascripts %}
+        <div data-order-list-target="orderList">
+            {{ include("order/list.html.twig") }}
+        </div>          
+    </div>
 {% endblock %}

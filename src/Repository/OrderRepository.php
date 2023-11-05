@@ -3,8 +3,10 @@
 namespace App\Repository;
 
 use App\Entity\Order;
+use App\Entity\OrderFilters;
 use App\Entity\Route;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\SecurityBundle\Security;
 
@@ -47,7 +49,7 @@ class OrderRepository extends ServiceEntityRepository
         }
     }
 
-    private function getBaseOrdersList()
+    private function getBaseOrdersList(): QueryBuilder
     {
         return $this->createQueryBuilder('o')
             ->leftJoin('o.shipFrom', 'w')
@@ -69,6 +71,48 @@ class OrderRepository extends ServiceEntityRepository
         return $baseQuery->getQuery()->getResult();
     }
 
+    public function searchByFilters(?OrderFilters $filters): QueryBuilder
+    {
+        $baseQuery = $this->getBaseOrdersList();
+        
+        if (!is_null($filters)) {
+
+            if ( !(is_null($filters->search) || trim($filters->search) === '')) {
+                $baseQuery->andWhere('o.number LIKE :search');
+                $baseQuery->setParameter('search',  '%' . $filters->search . '%');
+            }
+
+            $dateRange = $filters->getDateRange();
+            if (count($dateRange) > 0) {
+                $baseQuery->andWhere('o.date BETWEEN :start AND :end')
+                ->setParameter('start', $filters->getFistRangeValue($dateRange))
+                ->setParameter('end', $filters->getLastRangeValue($dateRange));
+            }
+
+            if(count($filters->types) > 0 ) {
+                $baseQuery->andWhere('o.type IN (:types)');
+                $baseQuery->setParameter('types', $filters->types);
+            }
+    
+            if(count($filters->status) > 0 ) {
+                $baseQuery->andWhere('o.status IN (:status)');
+                $baseQuery->setParameter('status', $filters->status);
+            }
+
+            if(!is_null($filters->depot)) {
+                $baseQuery->andWhere('o.shipFrom IN (:depot)');
+                $baseQuery->setParameter('depot', $filters->depot);
+            }
+
+            if(!is_null($filters->customer)) {
+                $baseQuery->andWhere('o.customerId IN (:customer)');
+                $baseQuery->setParameter('customer', $filters->customer);
+            }
+        }
+        
+        return $baseQuery;
+    }
+
     public function getOrdersByStatus(string $status): array
     {
         $baseQuery =  $this->getBaseOrdersList();
@@ -85,31 +129,4 @@ class OrderRepository extends ServiceEntityRepository
                   ->setParameter('route', $route);
         return $baseQuery->getQuery()->getResult();
     }
-
-
-
-//    /**
-//     * @return Order[] Returns an array of Order objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Order
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
 }
