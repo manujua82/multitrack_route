@@ -37,12 +37,6 @@ class OrderController extends AbstractController
             $filters = $filersForm->getData();
         } 
         
-        // if ($request->query->get('preview')) {
-        //     $filters = $filersForm->getData();
-        //     $filters->search = $request->query->get('query');
-        //     $filters->dateRange =  $request->query->get('selectedDates');
-        // }
-        
         $queryBuilder = $repository->searchByFilters($filters);
         $pagination = $paginatorInterface->paginate(
             $queryBuilder, /* query NOT result */

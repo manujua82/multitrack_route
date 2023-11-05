@@ -82,6 +82,13 @@ class OrderRepository extends ServiceEntityRepository
                 $baseQuery->setParameter('search',  '%' . $filters->search . '%');
             }
 
+            $dateRange = $filters->getDateRange();
+            if (count($dateRange) > 0) {
+                $baseQuery->andWhere('o.date BETWEEN :start AND :end')
+                ->setParameter('start', $filters->getFistRangeValue($dateRange))
+                ->setParameter('end', $filters->getLastRangeValue($dateRange));
+            }
+
             if(count($filters->types) > 0 ) {
                 $baseQuery->andWhere('o.type IN (:types)');
                 $baseQuery->setParameter('types', $filters->types);
