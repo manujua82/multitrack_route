@@ -1,0 +1,35 @@
+<div class="modal fade" id="filterModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border">
+            {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "needs-validation", 'id': 'order-filter-form' }}) }}
+
+            <div class="modal-header border-180 p-4">
+                 <h5 class="modal-title text-1000 fs-2 lh-sm">{{"Filters"|trans}}</h5>
+                <button class="btn p-1 text-900" type="button" data-bs-dismiss="modal" aria-label="Close"><span class="fas fa-times fs--1"></span></button>
+            </div>
+             <div class="modal-body pt-4 pb-2 px-4">
+                <div class="mb-3">
+                    {{ form_label(form.types,  'Type'|trans, {'label_attr': {'class': 'form-label', 'for': 'filter-type'}}) }}
+                    {{ form_widget(form.types, { 'attr': { 'class': 'form-select', 'id':'filter-type', 'multiple':'true'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.status,  'Status'|trans, {'label_attr': {'class': 'form-label', 'for': 'filter-status'}}) }}
+                    {{ form_widget(form.status, { 'attr': { 'class': 'form-select', 'id':'filter-status', 'multiple':'true'}}) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.depot,  'Depot'|trans, {'label_attr': {'class': 'form-label', 'for': 'filter-depot'}}) }}
+                    {{ form_widget(form.depot) }}
+                </div>
+                <div class="mb-3">
+                    {{ form_label(form.customer,  'Customer'|trans, {'label_attr': {'class': 'form-label', 'for': 'filter-customer'}}) }}
+                    {{ form_widget(form.customer) }}
+                </div>
+             </div>
+            <div class="modal-footer d-flex justify-content-end align-items-center px-4 pb-4 border-0 pt-3">
+                <button class="btn btn-sm btn-phoenix-primary px-4 fs--2 my-0" type="submit"> <span class="fas fa-arrows-rotate me-2 fs--2"></span>{{ "Reset"|trans }}</button>
+                <button class="btn btn-sm btn-primary px-9 fs--2 my-0" type="submit">{{ "Done"|trans}}</button>
+            </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>

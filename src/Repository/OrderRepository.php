@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Order;
+use App\Entity\OrderFilters;
 use App\Entity\Route;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
@@ -70,10 +71,38 @@ class OrderRepository extends ServiceEntityRepository
         return $baseQuery->getQuery()->getResult();
     }
 
-    public function searchByFilters(): QueryBuilder
+    public function searchByFilters(?OrderFilters $filters): QueryBuilder
     {
         $baseQuery = $this->getBaseOrdersList();
-        // TODO: apply Filters
+        
+        if (!is_null($filters)) {
+
+            if ( !(is_null($filters->search) || trim($filters->search) === '')) {
+                $baseQuery->andWhere('o.number LIKE :search');
+                $baseQuery->setParameter('search',  '%' . $filters->search . '%');
+            }
+
+            if(count($filters->types) > 0 ) {
+                $baseQuery->andWhere('o.type IN (:types)');
+                $baseQuery->setParameter('types', $filters->types);
+            }
+    
+            if(count($filters->status) > 0 ) {
+                $baseQuery->andWhere('o.status IN (:status)');
+                $baseQuery->setParameter('status', $filters->status);
+            }
+
+            if(!is_null($filters->depot)) {
+                $baseQuery->andWhere('o.shipFrom IN (:depot)');
+                $baseQuery->setParameter('depot', $filters->depot);
+            }
+
+            if(!is_null($filters->customer)) {
+                $baseQuery->andWhere('o.customerId IN (:customer)');
+                $baseQuery->setParameter('customer', $filters->customer);
+            }
+        }
+        
         return $baseQuery;
     }
 
