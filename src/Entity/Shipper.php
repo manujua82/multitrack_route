@@ -5,6 +5,8 @@ namespace App\Entity;
 use DateTime;
 use App\Repository\ShipperRepository;
 use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -37,9 +39,13 @@ class Shipper
     #[ORM\JoinColumn(nullable: false)]
     private ?MainCompany $company = null;
 
+    #[ORM\OneToMany(mappedBy: 'shipper', targetEntity: User::class)]
+    private Collection $users;
+
     public function __construct()
     {
         $this->created = new DateTime();
+        $this->users = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -119,8 +125,38 @@ class Shipper
         return $this;
     }
 
-    public function __toString() {
-        return $this->name;
+
+    /**
+     * @return Collection<int, Vehicle>
+     */
+    public function getUsers(): Collection
+    {
+        return $this->users;
     }
 
+    public function addUser(User $user): static
+    {
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
+            $user->setShipper($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(User $user): static
+    {
+        if ($this->users->removeElement($user)) {
+            if ($user->getShipper() === $this) {
+                $user->getShipper(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

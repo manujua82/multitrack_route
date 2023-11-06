@@ -12,10 +12,19 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class ShipperController extends AbstractController
 {
+    private $mainCompany;
+
+    public function __construct(Security $security)
+    {
+        $this->mainCompany = $security->getUser()->getMainCompany();
+    }
+
     #[Route('/shipper', name: 'app_shipper')]
     public function index(ShipperRepository $repository): Response
     {
@@ -42,7 +51,7 @@ class ShipperController extends AbstractController
         }
 
         return $this->render('shipper/_form.html.twig', [
-            'form' => $form->createView(),
+            'formShipper' => $form->createView(),
         ]);
     }
 
@@ -65,7 +74,7 @@ class ShipperController extends AbstractController
         }
 
         return $this->render('shipper/_form.html.twig', [
-            'form' => $form->createView(),
+            'formShipper' => $form->createView(),
             'entity' => $shipperEntity
         ]);
     }
@@ -88,11 +97,28 @@ class ShipperController extends AbstractController
         Shipper $shipperEntity,
         UserRepository $userRepository,
         Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
         ShipperRepository $repository,
         TranslatorInterface $translator
     ): Response {
         $form = $this->createForm(UserType::class, new User());
         $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userEntity = $form->getData();
+            $userEntity->setStringRoles('shipper', $form->get('rolesUser')->getData());
+            $userEntity->setMainCompany($this->mainCompany);
+            $userEntity->setRoleGroup('shipper');
+            $userEntity->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $userEntity,
+                    'REGISTER_DEFAULT_USER'
+                )
+            );
+            $userEntity->setAgreedTerms();
+
+            $userRepository->add($userEntity);
+            $repository->addUser($shipperEntity, $userEntity);
+        }
 
         return $this->render('shipper/new_user.html.twig', [
             'form' => $form->createView(),

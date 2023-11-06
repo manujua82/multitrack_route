@@ -334,6 +334,73 @@
                 "default": false,
                 "active": false
             }
+        },
+        "shipper": { 
+            "viewRoute": {
+                "rol": "ROLE_VIEW_ROUTE",
+                "default": false,
+                "active": false
+            },
+            "viewOrders": {
+                "rol": "ROLE_VIEW_ORDERS",
+                "default": false,
+                "active": false
+            },
+            "viewVehicle": {
+                "rol": "ROLE_VIEW_VEHICLE",
+                "default": false,
+                "active": false
+            },
+            "viewDirectories": {
+                "rol": "ROLE_VIEW_DIRECTORIES",
+                "default": false,
+                "active": false
+            },
+            "editDirectories": {
+                "rol": "ROLE_EDIT_DIRECTORIES",
+                "default": false,
+                "active": false
+            },
+            "userManagement": {
+                "rol": "ROLE_USER_MANAGEMENT",
+                "default": false,
+                "active": false
+            },
+            "duplicate": {
+                "rol": "ROLE_DUPLICATE",
+                "default": false,
+                "active": false
+            },
+            "editOrders": {
+                "rol": "ROLE_EDIT_ORDERS",
+                "default": false,
+                "active": false
+            },
+            "editCompOrders": {
+                "rol": "ROLE_EDIT_COMPLETED_ORDERS",
+                "default": false,
+                "active": false
+            },
+            "allShippers": {
+                "rol": "ROLE_ALL_SHIPPERS",
+                "default": false,
+                "active": false
+            },
+            "canAddOrders": {
+                "rol": "ROLE_CAN_ADD_ORDERS",
+                "default": true,
+                "active": true
+            },
+            "canEditOrders": {
+                "rol": "ROLE_CAN_EDIT_ORDERS",
+                "default": true,
+                "active": true
+            },
+            "canDeleteOrders": {
+                "rol": "ROLE_CAN_DELETE_ORDERS",
+                "default": true,
+                "active": true
+            }
         }
     }
 }

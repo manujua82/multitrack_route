@@ -2,8 +2,8 @@
 
 {% block body %}
 <div class="row flex-center py-5">
-    <div class="col-xl-4">
-          {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation"}}) }}
+    <div class="{% if entity is defined %} col-xl-8 {% else %} col-xl-4 {% endif %}">
+          {{ form_start(formShipper, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation"}}) }}
            <div class="card mb-2">
                <div class="card-body">
                     <div class="d-flex align-items-center mb-2">
@@ -12,49 +12,54 @@
         
                     <div class="row g-2">
                          <div class="col-sm-6 col-md-12">
-                            {{ form_label(form.code,  'Code'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputCode'}}) }}
-                            {{ form_widget(form.code, { 'attr': { 'class': 'form-control', 'id':'inputCode', 'type':'text', 'placeholder': 'Code'|trans }}) }}
-                            {{ form_errors(form.code) }}
+                            {{ form_label(formShipper.code,  'Code'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputCode'}}) }}
+                            {{ form_widget(formShipper.code, { 'attr': { 'class': 'form-control', 'id':'inputCode', 'type':'text', 'placeholder': 'Code'|trans }}) }}
+                            {{ form_errors(formShipper.code) }}
                          </div>
 
                          <div class="col-sm-6 col-md-12">
-                            {{ form_label(form.name,  'Name'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputName'}}) }}
-                            {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'id':'inputCode', 'type':'text', 'placeholder': 'Name'|trans }}) }}
-                            {{ form_errors(form.name) }}
+                            {{ form_label(formShipper.name,  'Name'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputName'}}) }}
+                            {{ form_widget(formShipper.name, { 'attr': { 'class': 'form-control', 'id':'inputCode', 'type':'text', 'placeholder': 'Name'|trans }}) }}
+                            {{ form_errors(formShipper.name) }}
                          </div>
 
                           <div class="col-sm-6 col-md-12">
-                            {{ form_label(form.email,  'Email'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputEmail'}}) }}
-                            {{ form_widget(form.email, { 'attr': { 'class': 'form-control', 'id':'inputEmail', 'type':'text', 'placeholder': 'Email'|trans }}) }}
-                            {{ form_errors(form.email) }}
+                            {{ form_label(formShipper.email,  'Email'|trans, {'label_attr': {'class': 'form-label', 'for': 'inputEmail'}}) }}
+                            {{ form_widget(formShipper.email, { 'attr': { 'class': 'form-control', 'id':'inputEmail', 'type':'text', 'placeholder': 'Email'|trans }}) }}
+                            {{ form_errors(formShipper.email) }}
                          </div>
 
                         <div class="col-sm-6 col-md-12">
-                            {{ form_widget(form.sendNotification, { 'attr': { 'class': 'form-check-input',  'type':'radio','id':'inputNotification', 'checked':'checked'}}) }}
-                            {{ form_label(form.sendNotification,  'Send Notification'|trans, {'label_attr': {'class': 'form-check-label',  'for': 'inputNotification' }}) }}
+                            {{ form_widget(formShipper.sendNotification, { 'attr': { 'class': 'form-check-input',  'type':'radio','id':'inputNotification', 'checked':'checked'}}) }}
+                            {{ form_label(formShipper.sendNotification,  'Send Notification'|trans, {'label_attr': {'class': 'form-check-label',  'for': 'inputNotification' }}) }}
                         </div>
                     
-                        <div  
-                            {{ stimulus_controller('modal-form', {
-                                formUrl: path('app_shipper_add_user', { shipperEntity: entity.id }),
-                                loadingText:  'Loading'|trans
-                            })}}
-                            data-action="hidden.bs.modal->modal-form#modalHidden"
-                            
-                        >
-                            <a 
-                                class="btn btn-primary btn-sm me-4"
-                                data-action="modal-form#openModal"
+                        {% if entity is defined %}
+                        <div class="d-flex flex-row-reverse">
+                            <div  
+                                {{ stimulus_controller('modal-form', {
+                                    formUrl: path('app_shipper_add_user', { shipperEntity: entity.id }),
+                                    loadingText:  'Loading'|trans
+                                })}}
+                                data-action="hidden.bs.modal->modal-form#modalHidden"
+                                
                             >
-                                <span class="fas fa-route me-2"></span>
-                                <span>{{ 'New User' | trans }}</span>
-                            </a>
-                        
-                            {{ include('widgets/_homeModal.html.twig', {
-                                modalTitle: "Add User"|trans
-                            }) }}
+                                <a 
+                                    class="btn btn-primary btn-sm me-4"
+                                    data-action="modal-form#openModal"
+                                >
+                                    <span class="far fa-user me-2"></span>
+                                    <span>{{ 'New User' | trans }}</span>
+                                </a>
+                            
+                                {{ include('widgets/_homeModal.html.twig', {
+                                    modalTitle: "Add User"|trans
+                                }) }}
+                            </div>
                         </div>
-                         <div class="col-12 gy-6">
+                        {{ include('shipper/_userList.html.twig') }}
+                        {% endif %}
+                         <div class="col-12 gy-12">
                             <div class="row g-3 justify-content-end">
                                 <div class="col-auto">
                                     <a href="{{ path('app_shipper') }}" class="btn btn-phoenix-primary px-5">{{ 'Cancel' |trans }}</a>
@@ -67,7 +72,7 @@
                     </div>
                </div>
           </div>
-          {{ form_end(form) }}
+          {{ form_end(formShipper) }}
      </div>
 </div>
 {% endblock %}

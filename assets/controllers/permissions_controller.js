@@ -2,9 +2,23 @@ import { Controller } from "stimulus";
 import $ from "jquery";
 
 export default class extends Controller {
+  static values = {
+    origin: String,
+  };
+
   connect() {
     let dataJson = {};
     let rolesDefault = [];
+
+    if (this.originValue == "user") {
+      $("#user_roleGroup option[value='shipper']").each(function () {
+        $(this).remove();
+      });
+    } else {
+      $("#user_roleGroup option[value !='shipper']").each(function () {
+        $(this).remove();
+      });
+    }
     $.getJSON("/assets/permissions.json", function (data) {
       dataJson = data;
       const rolesUser = $("#user_rolesUser").val();
@@ -67,11 +81,13 @@ export default class extends Controller {
       if (Object.keys(permissions).length > 0) {
         for (const values in permissions) {
           const id = formatPermissionId(values);
+          console.log("#id", id);
           if ($("#" + id).is(":checked")) {
             roles.push(permissions[values].rol);
           }
         }
       }
+      console.log("roles.toString()", roles.toString());
       $("#user_rolesUser").val(roles.toString());
     }
 

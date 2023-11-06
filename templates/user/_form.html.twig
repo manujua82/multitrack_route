@@ -113,20 +113,20 @@
                     <div class="row" {% if type == 'userForm' %} style="display: none" {% endif %}>
                         <div class="col-sm-3 col-md-3">
                             <div class="form-check mb-3">
-                                {{ form_widget(form.roleCanAddOrders, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
-                                {{ form_label(form.roleCanAddOrders,  'Can add orders'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                                {{ form_widget(form.roleAllowCanAddOrders, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                                {{ form_label(form.roleAllowCanAddOrders,  'Can add orders'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3">
                             <div class="form-check mb-3">
-                                {{ form_widget(form.roleCanEditOrders, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
-                                {{ form_label(form.roleCanEditOrders,  'Can edit orders'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                                {{ form_widget(form.roleAllowCanEditOrders, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                                {{ form_label(form.roleAllowCanEditOrders,  'Can edit orders'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
                             </div>
                         </div>
                         <div class="col-sm-3 col-md-3">
                             <div class="form-check mb-3">
-                                {{ form_widget(form.roleCanDeleteOrders, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
-                                {{ form_label(form.roleCanDeleteOrders,  'Can delete orders'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
+                                {{ form_widget(form.roleAllowCanDeleteOrders, {'attr': {'class': 'form-check-input', 'type': 'checkbox', 'id':'activeInput'}}) }}
+                                {{ form_label(form.roleAllowCanDeleteOrders,  'Can delete orders'|trans, {'label_attr': {'class': 'form-label fs--1 text-none','for': 'floatingInputZone'}}) }}
                             </div>
                         </div>
                     </div>
@@ -147,5 +147,5 @@
         </div>
     </div>
     {{ form_end(form) }}
-    <div {{ stimulus_controller('permissions') }} </div>
+    <div {{ stimulus_controller('permissions', {'origin' : type == 'userForm' ? 'user' : 'shipper'}) }} </div>
 </div>
