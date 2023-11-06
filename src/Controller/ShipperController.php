@@ -64,6 +64,7 @@ class ShipperController extends AbstractController
     ): Response {
         $form = $this->createForm(ShipperType::class, $shipperEntity);
         $form->handleRequest($request);
+
         if ($form->isSubmitted() && $form->isValid()) {
             $newShipper = $form->getData();
             $repository->add($newShipper, true);
@@ -98,16 +99,14 @@ class ShipperController extends AbstractController
         UserRepository $userRepository,
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        ShipperRepository $repository,
-        TranslatorInterface $translator
+        ShipperRepository $repository
     ): Response {
         $form = $this->createForm(UserType::class, new User());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
-            $userEntity->setStringRoles('shipper', $form->get('rolesUser')->getData());
+            $userEntity->setStringRoles($form->get('roleGroup')->getData(), $form->get('rolesUser')->getData());
             $userEntity->setMainCompany($this->mainCompany);
-            $userEntity->setRoleGroup('shipper');
             $userEntity->setPassword(
                 $userPasswordHasher->hashPassword(
                     $userEntity,
@@ -122,6 +121,28 @@ class ShipperController extends AbstractController
 
         return $this->render('shipper/new_user.html.twig', [
             'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/shipper/{userEntity}/editUser', name: 'app_shipper_edit_user')]
+    public function editUser(
+        User $userEntity,
+        Request $request,
+        UserRepository $userRepository,
+    ): Response {
+        $roles = implode(",", $userEntity->getRoles());
+        $form = $this->createForm(UserType::class, $userEntity, array("edit" => true, "roles" => $roles));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userEntity = $form->getData();
+            $userEntity->setStringRoles($form->get('roleGroup')->getData(), $form->get('rolesUser')->getData());
+            $userRepository->add($userEntity);
+        }
+
+        $userEntity = $form->getData();
+        return $this->render('shipper/new_user.html.twig', [
+            'form' => $form->createView()
         ]);
     }
 }

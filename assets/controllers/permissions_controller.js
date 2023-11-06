@@ -81,13 +81,11 @@ export default class extends Controller {
       if (Object.keys(permissions).length > 0) {
         for (const values in permissions) {
           const id = formatPermissionId(values);
-          console.log("#id", id);
           if ($("#" + id).is(":checked")) {
             roles.push(permissions[values].rol);
           }
         }
       }
-      console.log("roles.toString()", roles.toString());
       $("#user_rolesUser").val(roles.toString());
     }
 
