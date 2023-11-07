@@ -9,8 +9,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
+#[IsGranted('ROLE_ADMIN')]
 class ReasonRejectionController extends AbstractController
 {
     private $TYPES = [

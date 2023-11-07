@@ -11,11 +11,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class CustomerController extends AbstractController
 {
     #[Route('/customer', name: 'app_customer')]
+    #[IsGranted('ROLE_VIEW_DIRECTORIES')]
     public function index(
         Request $request,
         CustomerRepository $repository, 
@@ -41,6 +44,7 @@ class CustomerController extends AbstractController
     }
 
     #[Route('/customer/new', name: 'app_customer_new')]
+    #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function add(
         Request $request, 
         CustomerRepository $repository,
@@ -67,6 +71,7 @@ class CustomerController extends AbstractController
     }
 
     #[Route('/customer/{customerEntity}/edit', name: 'app_customer_edit')]
+    #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function edit(
         Customer $customerEntity,
         Request $request, 
@@ -90,6 +95,7 @@ class CustomerController extends AbstractController
 
 
     #[Route('/customer/{customerEntity}/delete', name: 'app_customer_delete')]
+    #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function delete(
         Customer $customerEntity,
         CustomerRepository $repository,
