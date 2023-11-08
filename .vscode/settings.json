@@ -1,5 +1,6 @@
 {
     "cSpell.words": [
         "Autocompleter"
-    ]
+    ],
+    "editor.tabSize": 4,
 }

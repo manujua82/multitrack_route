@@ -17,6 +17,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 class DriverController extends AbstractController
 {
     #[Route('/driver', name: 'app_driver')]
+    #[IsGranted('ROLE_VIEW_DIRECTORIES')]
     public function index(DriverRepository $driverRepository): Response
     {
         return $this->render('driver/index.html.twig', [
@@ -25,6 +26,7 @@ class DriverController extends AbstractController
     }
 
     #[Route('/driver/new', name: 'app_driver_new', priority:  2)]
+    #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function add(
         Request $request,
         DriverRepository $driverRepository,
@@ -61,6 +63,7 @@ class DriverController extends AbstractController
     }
 
     #[Route('/driver/{driverEntity}/edit', name: 'app_driver_edit')]
+    #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function edit(
         Driver $driverEntity,
         Request $request,
@@ -93,6 +96,7 @@ class DriverController extends AbstractController
     }
 
     #[Route('/driver/{driverEntity}/delete', name: 'app_driver_delete')]
+    #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function delete(Driver $driverEntity, Request $request, DriverRepository $driverRepository): Response
     {
         $driverRepository->delete($driverEntity, true);

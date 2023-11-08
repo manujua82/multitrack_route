@@ -66,10 +66,7 @@ class UserType extends AbstractType
                 'mapped' => false,
                 'required' => false
             ])
-            ->add('roleAllowViewVehicle', CheckboxType::class, [
-                'mapped' => false,
-                'required' => false
-            ])
+           
             ->add('roleAllowEditOrders', CheckboxType::class, [
                 'mapped' => false,
                 'required' => false
@@ -83,10 +80,6 @@ class UserType extends AbstractType
                 'required' => false
             ])
             ->add('roleAllowEditDirectories', CheckboxType::class, [
-                'mapped' => false,
-                'required' => false
-            ])
-            ->add('roleAllowAllShippers', CheckboxType::class, [
                 'mapped' => false,
                 'required' => false
             ]);

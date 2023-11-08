@@ -16,11 +16,14 @@ use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class OrderController extends AbstractController
 {
     #[Route('/order', name: 'app_order',  methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_VIEW_ROUTE')]
     public function index(
         Request $request,
         OrderRepository $repository,
@@ -51,6 +54,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/order/new', name: 'app_order_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_EDIT_ROUTE')]
     public function add(
         Request $request,
         CorrelativesRepository $correlativesRepository,
@@ -82,6 +86,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/order/{orderEntity}/edit', name: 'app_order_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_EDIT_ROUTE')]
     public function edit(
         Request $request,
         Order $orderEntity,
@@ -109,6 +114,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/order/{orderEntity}/delete', name: 'app_order_delete')]
+    #[IsGranted('ROLE_EDIT_ROUTE')]
     public function delete(
         Order $orderEntity,
         OrderRepository $repository,

@@ -15,7 +15,9 @@ use SymfonyCasts\Bundle\ResetPassword\ResetPasswordHelperInterface;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class UserController extends AbstractController
 {
     use ResetPasswordControllerTrait;
@@ -32,6 +34,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/user', name: 'app_user')]
+    #[IsGranted('ROLE_USER_MANAGEMENT')]
     public function index(UserRepository $repository): Response
     {
         return $this->render('user/index.html.twig', [
@@ -40,14 +43,17 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/new', name: 'app_user_new')]
+    #[IsGranted('ROLE_USER_MANAGEMENT')]
     public function add(
         Request $request,
         UserRepository $userRepository,
         TranslatorInterface $translator,
         UserPasswordHasherInterface $userPasswordHasher
     ): Response {
+        
         $form = $this->createForm(UserType::class, new User());
         $form->handleRequest($request);
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
             $userEntity->setStringRoles($form->get('roleGroup')->getData(), $form->get('rolesUser')->getData());
@@ -75,6 +81,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/{userEntity}/edit', name: 'app_user_edit')]
+    #[IsGranted('ROLE_USER_MANAGEMENT')]
     public function edit(
         User $userEntity,
         Request $request,
@@ -102,6 +109,7 @@ class UserController extends AbstractController
     }
 
     #[Route('/user/{userEntity}/delete', name: 'app_user_delete')]
+    #[IsGranted('ROLE_USER_MANAGEMENT')]
     public function delete(
         User $userEntity,
         UserRepository $repository,

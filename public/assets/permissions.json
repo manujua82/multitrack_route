@@ -6,25 +6,15 @@
                 "default": true,
                 "active": false
             },
-            "viewOrders": {
-                "rol": "ROLE_VIEW_ORDERS",
-                "default": true,
-                "active": true
-            },
-            "viewVehicle": {
-                "rol": "ROLE_VIEW_VEHICLE",
-                "default": true,
-                "active": false
-            },
             "viewDirectories": {
                 "rol": "ROLE_VIEW_DIRECTORIES",
                 "default": true,
                 "active": false
             },
-            "editDirectories": {
-                "rol": "ROLE_EDIT_DIRECTORIES",
+            "viewOrders": {
+                "rol": "ROLE_VIEW_ORDERS",
                 "default": true,
-                "active": false
+                "active": true
             },
             "userManagement": {
                 "rol": "ROLE_USER_MANAGEMENT",
@@ -33,6 +23,11 @@
             },
             "duplicate": {
                 "rol": "ROLE_DUPLICATE",
+                "default": true,
+                "active": false
+            },
+            "editDirectories": {
+                "rol": "ROLE_EDIT_DIRECTORIES",
                 "default": true,
                 "active": false
             },
@@ -58,25 +53,15 @@
                 "default": true,
                 "active": true
             },
-            "viewOrders": {
-                "rol": "ROLE_VIEW_ORDERS",
-                "default": true,
-                "active": true
-            },
-            "viewVehicle": {
-                "rol": "ROLE_VIEW_VEHICLE",
-                "default": true,
-                "active": true
-            },
             "viewDirectories": {
                 "rol": "ROLE_VIEW_DIRECTORIES",
                 "default": true,
                 "active": false
             },
-            "editDirectories": {
-                "rol": "ROLE_EDIT_DIRECTORIES",
+            "viewOrders": {
+                "rol": "ROLE_VIEW_ORDERS",
                 "default": true,
-                "active": false
+                "active": true
             },
             "userManagement": {
                 "rol": "ROLE_USER_MANAGEMENT",
@@ -85,6 +70,11 @@
             },
             "duplicate": {
                 "rol": "ROLE_DUPLICATE",
+                "default": true,
+                "active": false
+            },
+            "editDirectories": {
+                "rol": "ROLE_EDIT_DIRECTORIES",
                 "default": true,
                 "active": false
             },
@@ -97,11 +87,6 @@
                 "rol": "ROLE_EDIT_COMPLETED_ORDERS",
                 "default": false,
                 "active": false
-            },
-            "allShippers": {
-                "rol": "ROLE_ALL_SHIPPERS",
-                "default": true,
-                "active": true
             }
         },
         "dispatcher": { 
@@ -110,23 +95,13 @@
                 "default": true,
                 "active": true
             },
-            "viewOrders": {
-                "rol": "ROLE_VIEW_ORDERS",
-                "default": true,
-                "active": true
-            },
-            "viewVehicle": {
-                "rol": "ROLE_VIEW_VEHICLE",
-                "default": true,
-                "active": true
-            },
             "viewDirectories": {
                 "rol": "ROLE_VIEW_DIRECTORIES",
                 "default": true,
                 "active": true
             },
-            "editDirectories": {
-                "rol": "ROLE_EDIT_DIRECTORIES",
+            "viewOrders": {
+                "rol": "ROLE_VIEW_ORDERS",
                 "default": true,
                 "active": true
             },
@@ -140,6 +115,11 @@
                 "default": true,
                 "active": true
             },
+            "editDirectories": {
+                "rol": "ROLE_EDIT_DIRECTORIES",
+                "default": true,
+                "active": true
+            },
             "editOrders": {
                 "rol": "ROLE_EDIT_ORDERS",
                 "default": true,
@@ -148,11 +128,6 @@
             "editCompOrders": {
                 "rol": "ROLE_EDIT_COMPLETED_ORDERS",
                 "default": false,
-                "active": true
-            },
-            "allShippers": {
-                "rol": "ROLE_ALL_SHIPPERS",
-                "default": true,
                 "active": true
             }
         },
@@ -162,25 +137,15 @@
                 "default": true,
                 "active": true
             },
-            "viewOrders": {
-                "rol": "ROLE_VIEW_ORDERS",
-                "default": true,
-                "active": true
-            },
-            "viewVehicle": {
-                "rol": "ROLE_VIEW_VEHICLE",
-                "default": true,
-                "active": true
-            },
             "viewDirectories": {
                 "rol": "ROLE_VIEW_DIRECTORIES",
                 "default": true,
                 "active": true
             },
-            "editDirectories": {
-                "rol": "ROLE_EDIT_DIRECTORIES",
+            "viewOrders": {
+                "rol": "ROLE_VIEW_ORDERS",
                 "default": true,
-                "active": false
+                "active": true
             },
             "userManagement": {
                 "rol": "ROLE_USER_MANAGEMENT",
@@ -192,6 +157,11 @@
                 "default": true,
                 "active": false
             },
+            "editDirectories": {
+                "rol": "ROLE_EDIT_DIRECTORIES",
+                "default": true,
+                "active": false
+            }, 
             "editOrders": {
                 "rol": "ROLE_EDIT_ORDERS",
                 "default": true,
@@ -201,11 +171,6 @@
                 "rol": "ROLE_EDIT_COMPLETED_ORDERS",
                 "default": false,
                 "active": false
-            },
-            "allShippers": {
-                "rol": "ROLE_ALL_SHIPPERS",
-                "default": true,
-                "active": true
             }
         },
         "admin": { 
@@ -214,23 +179,13 @@
                 "default": true,
                 "active": false
             },
-            "viewOrders": {
-                "rol": "ROLE_VIEW_ORDERS",
-                "default": true,
-                "active": false
-            },
-            "viewVehicle": {
-                "rol": "ROLE_VIEW_VEHICLE",
-                "default": true,
-                "active": false
-            },
             "viewDirectories": {
                 "rol": "ROLE_VIEW_DIRECTORIES",
                 "default": true,
                 "active": false
             },
-            "editDirectories": {
-                "rol": "ROLE_EDIT_DIRECTORIES",
+            "viewOrders": {
+                "rol": "ROLE_VIEW_ORDERS",
                 "default": true,
                 "active": false
             },
@@ -244,6 +199,11 @@
                 "default": true,
                 "active": false
             },
+            "editDirectories": {
+                "rol": "ROLE_EDIT_DIRECTORIES",
+                "default": true,
+                "active": false
+            },
             "editOrders": {
                 "rol": "ROLE_EDIT_ORDERS",
                 "default": true,
@@ -251,11 +211,6 @@
             },
             "editCompOrders": {
                 "rol": "ROLE_EDIT_COMPLETED_ORDERS",
-                "default": true,
-                "active": false
-            },
-            "allShippers": {
-                "rol": "ROLE_ALL_SHIPPERS",
                 "default": true,
                 "active": false
             }

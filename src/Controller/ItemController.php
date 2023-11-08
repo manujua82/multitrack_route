@@ -11,11 +11,13 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class ItemController extends AbstractController
 {
     #[Route('/item', name: 'app_item')]
+    #[IsGranted('ROLE_VIEW_DIRECTORIES')]
     public function index(Request $request, ItemRepository $repository,  PaginatorInterface $paginator): Response
     {
         $parent = $request->query->get('query', "");        
@@ -37,6 +39,7 @@ class ItemController extends AbstractController
     }
 
     #[Route('/item/new', name: 'app_item_new')]
+    #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function add(
         Request $request, 
         ItemRepository $repository,
@@ -60,6 +63,7 @@ class ItemController extends AbstractController
     }
 
     #[Route('/item/{itemEntity}/edit', name: 'app_item_edit')]
+    #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function edit(
         Item $itemEntity, 
         Request $request, 
@@ -85,6 +89,7 @@ class ItemController extends AbstractController
     }
 
     #[Route('/item/{itemEntity}/delete', name: 'app_item_delete')]
+    #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function delete(
         Item $itemEntity, 
         Request $request, 
