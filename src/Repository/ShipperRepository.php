@@ -54,37 +54,4 @@ class ShipperRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-
-    public function addUser(Shipper $entity, User $user, bool $flush = true): void
-    {
-        $entity->addUser($user);
-        if ($flush) {
-            $this->getEntityManager()->flush();
-        }
-    }
-
-    //    /**
-    //     * @return Shipper[] Returns an array of Shipper objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
-
-    //    public function findOneBySomeField($value): ?Shipper
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
 }

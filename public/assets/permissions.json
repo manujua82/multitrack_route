@@ -52,7 +52,7 @@
                 "active": true
             },
             "canAddOrders": {
-                "rol": "ROLE_CAN_ADD_ORDERS",
+                "rol": "ROL_SHIPPER_ADD_ORDERS",
                 "default": false,
                 "active": false
             },
@@ -119,7 +119,7 @@
                 "active": true
             },
             "canAddOrders": {
-                "rol": "ROLE_CAN_ADD_ORDERS",
+                "rol": "ROL_SHIPPER_ADD_ORDERS",
                 "default": false,
                 "active": false
             },
@@ -186,7 +186,7 @@
                 "active": true
             },
             "canAddOrders": {
-                "rol": "ROLE_CAN_ADD_ORDERS",
+                "rol": "ROL_SHIPPER_ADD_ORDERS",
                 "default": false,
                 "active": false
             },
@@ -253,7 +253,7 @@
                 "active": true
             },
             "canAddOrders": {
-                "rol": "ROLE_CAN_ADD_ORDERS",
+                "rol": "ROL_SHIPPER_ADD_ORDERS",
                 "default": false,
                 "active": false
             },
@@ -320,7 +320,7 @@
                 "active": false
             },
             "canAddOrders": {
-                "rol": "ROLE_CAN_ADD_ORDERS",
+                "rol": "ROL_SHIPPER_ADD_ORDERS",
                 "default": false,
                 "active": false
             },
@@ -387,7 +387,7 @@
                 "active": false
             },
             "canAddOrders": {
-                "rol": "ROLE_CAN_ADD_ORDERS",
+                "rol": "ROL_SHIPPER_ADD_ORDERS",
                 "default": true,
                 "active": true
             },

@@ -127,7 +127,7 @@ class Shipper
 
 
     /**
-     * @return Collection<int, Vehicle>
+     * @return Collection<int, User>
      */
     public function getUsers(): Collection
     {

@@ -36,14 +36,14 @@ class ShipperController extends AbstractController
     #[Route('/shipper/new', name: 'app_shipper_new')]
     public function add(
         Request $request,
-        ShipperRepository $repository,
+        ShipperRepository $shipperRepository,
         TranslatorInterface $translator
     ): Response {
         $form = $this->createForm(ShipperType::class, new Shipper());
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $newShipper = $form->getData();
-            $repository->add($newShipper, true);
+            $shipperRepository->add($newShipper, true);
 
             $flashMessage = $translator->trans('Shipper created flash', ['code' => $newShipper->getCode()]);
             $this->addFlash('success', $flashMessage);
@@ -83,13 +83,17 @@ class ShipperController extends AbstractController
     #[Route('/shipper/{shipperEntity}/delete', name: 'app_shipper_delete')]
     public function delete(
         Shipper $shipperEntity,
-        ShipperRepository $repository,
+        ShipperRepository $shipperRepository,
+        UserRepository $userRepository,
         TranslatorInterface $translator
     ): Response {
         $flashMessage = $translator->trans('Shipper %code% was deleted', ['%code%' => $shipperEntity->getCode()]);
         $this->addFlash('success', $flashMessage);
 
-        $repository->delete($shipperEntity, true);
+        foreach ($shipperEntity->getUsers() as $user) {
+            $userRepository->delete($user, false);
+        }
+        $shipperRepository->delete($shipperEntity, true);
         return $this->redirectToRoute('app_shipper');
     }
 
@@ -99,7 +103,7 @@ class ShipperController extends AbstractController
         UserRepository $userRepository,
         Request $request,
         UserPasswordHasherInterface $userPasswordHasher,
-        ShipperRepository $repository
+        ShipperRepository $shipperRepository
     ): Response {
         $form = $this->createForm(UserType::class, new User());
         $form->handleRequest($request);
@@ -116,7 +120,8 @@ class ShipperController extends AbstractController
             $userEntity->setAgreedTerms();
 
             $userRepository->add($userEntity);
-            $repository->addUser($shipperEntity, $userEntity);
+            $shipperEntity->addUser($userEntity);
+            $shipperRepository->add($shipperEntity, true);
         }
 
         return $this->render('shipper/new_user.html.twig', [
@@ -144,5 +149,18 @@ class ShipperController extends AbstractController
         return $this->render('shipper/new_user.html.twig', [
             'form' => $form->createView()
         ]);
+    }
+
+    #[Route('/shipper/{userEntity}/deleteUser', name: 'app_shipper_delete_user')]
+    public function deleteUser(
+        User $userEntity,
+        Shipper $shipperEntity,
+        UserRepository $userRepository,
+    ): Response {
+        $shipperEntity = $userEntity->getShipper();
+        $shipperEntity->removeUser($userEntity);
+        $userRepository->delete($userEntity);
+
+        return $this->redirectToRoute('app_shipper');
     }
 }
