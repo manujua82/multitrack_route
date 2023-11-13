@@ -10,9 +10,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use JsonSerializable;
+use ApiPlatform\Metadata\ApiResource;
+
 
 #[ORM\Entity(repositoryClass: CarrierRepository::class)]
 #[UniqueEntity(fields: ['code'], message: 'There is already a carrier with this code')]
+#[ApiResource]
 class Carrier implements JsonSerializable
 {
     #[ORM\Id]

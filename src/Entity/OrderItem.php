@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\OrderItemRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: OrderItemRepository::class)]
+#[ApiResource]
 class OrderItem
 {
     #[ORM\Id]
