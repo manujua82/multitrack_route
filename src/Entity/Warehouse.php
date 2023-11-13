@@ -9,10 +9,13 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use ApiPlatform\Metadata\ApiResource;
+
 
 
 #[ORM\Entity(repositoryClass: WarehouseRepository::class)]
 #[UniqueEntity(fields: ['name'], message: 'There is already a depot with this name')]
+#[ApiResource]
 class Warehouse
 {
     #[ORM\Id]

@@ -9,9 +9,10 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
-
+use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
+#[ApiResource]
 class Customer
 {
     #[ORM\Id]

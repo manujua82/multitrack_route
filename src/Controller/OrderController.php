@@ -54,7 +54,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/order/new', name: 'app_order_new', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_EDIT_ROUTE')]
+    #[IsGranted('ROLE_EDIT_ORDER')]
     public function add(
         Request $request,
         CorrelativesRepository $correlativesRepository,
@@ -86,7 +86,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/order/{orderEntity}/edit', name: 'app_order_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_EDIT_ROUTE')]
+    #[IsGranted('ROLE_EDIT_ORDER')]
     public function edit(
         Request $request,
         Order $orderEntity,
@@ -114,7 +114,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/order/{orderEntity}/delete', name: 'app_order_delete')]
-    #[IsGranted('ROLE_EDIT_ROUTE')]
+    #[IsGranted('ROLE_EDIT_ORDER')]
     public function delete(
         Order $orderEntity,
         OrderRepository $repository,

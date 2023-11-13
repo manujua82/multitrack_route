@@ -5,8 +5,10 @@ namespace App\Entity;
 use App\Repository\NotificationSetupRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
 
 #[ORM\Entity(repositoryClass: NotificationSetupRepository::class)]
+#[ApiResource]
 class NotificationSetup
 {
     #[ORM\Id]

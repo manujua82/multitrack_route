@@ -7,9 +7,12 @@ use App\Repository\ItemRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use ApiPlatform\Metadata\ApiResource;
+
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
 #[UniqueEntity(fields: ['code'], message: 'There is already a item with this code')]
+#[ApiResource]
 class Item
 {
     #[ORM\Id]
