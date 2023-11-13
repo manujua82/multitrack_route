@@ -2,29 +2,59 @@
 
 namespace App\Controller;
 
+use ApiPlatform\Doctrine\Odm\Filter\OrderFilter;
 use App\Entity\Order;
+use App\Entity\OrderFilters;
+use App\Form\OrderFiltersType;
 use App\Form\OrderType;
 use App\Repository\CorrelativesRepository;
 use App\Repository\OrderRepository;
 use DateTime;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class OrderController extends AbstractController
 {
-    #[Route('/order', name: 'app_order')]
-    public function index(OrderRepository $repository): Response
+    #[Route('/order', name: 'app_order',  methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_VIEW_ROUTE')]
+    public function index(
+        Request $request,
+        OrderRepository $repository,
+        PaginatorInterface $paginatorInterface
+    ): Response
     {
-        return $this->render('order/index.html.twig', [
-            'orders' => $repository->findAllByCompany(),
+        
+        $template = (($request->query->get('preview')) && !$request->query->get('page')) ? 'order/list.html.twig' : 'order/index.html.twig';
+
+        $filters = new OrderFilters();
+        $filersForm = $this->createForm(OrderFiltersType::class, $filters, ['action' => $this->generateUrl('app_order')]);
+        $filersForm->handleRequest($request);
+        if ($filersForm->isSubmitted() && $filersForm->isValid()) { 
+            $filters = $filersForm->getData();
+        } 
+        
+        $queryBuilder = $repository->searchByFilters($filters);
+        $pagination = $paginatorInterface->paginate(
+            $queryBuilder, /* query NOT result */
+            $request->query->getInt('page', 1), /*page number*/
+            15 /*limit per page*/
+        );
+        
+        return $this->render($template, [
+            'orders' => $pagination,
+            'form' => $filersForm,
         ]);
     }
 
     #[Route('/order/new', name: 'app_order_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_EDIT_ROUTE')]
     public function add(
         Request $request,
         CorrelativesRepository $correlativesRepository,
@@ -56,6 +86,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/order/{orderEntity}/edit', name: 'app_order_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_EDIT_ROUTE')]
     public function edit(
         Request $request,
         Order $orderEntity,
@@ -83,6 +114,7 @@ class OrderController extends AbstractController
     }
 
     #[Route('/order/{orderEntity}/delete', name: 'app_order_delete')]
+    #[IsGranted('ROLE_EDIT_ROUTE')]
     public function delete(
         Order $orderEntity,
         OrderRepository $repository,

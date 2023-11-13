@@ -85,6 +85,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/', name: 'app_index')]
+    #[IsGranted('ROLE_VIEW_ROUTE')]
     public function index(Request $request): Response
     {
         return $this->renderDashboard('home/index.html.twig');
@@ -103,6 +104,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/routenew', name: 'app_route_new', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_VIEW_ROUTE')]
     public function routeNew(Request $request, RouteRepository $repository): Response
     {
         $route = new EntityRoute();
@@ -131,6 +133,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/route/{routeEntity}/edit', name: 'app_route_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_VIEW_ROUTE')]
     public function routeEdit(EntityRoute $routeEntity, Request $request, RouteRepository $repository): Response
     { 
         $form = $this->createForm(RouteType::class, $routeEntity);
@@ -156,6 +159,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/route/{routeEntity}/delete', name: 'app_route_delete')]
+    #[IsGranted('ROLE_VIEW_ROUTE')]
     public function routeDelete(EntityRoute $routeEntity, RouteRepository $repository): Response
     {
         $repository->delete($routeEntity, true);
@@ -163,6 +167,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/route/addOrder', name: 'app_route_addOrder', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_VIEW_ROUTE')]
     public function addOrderToRoute(Request $request): Response
     {
         $routeId = $request->query->get('routeId');
@@ -183,6 +188,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/route/removeOrder', name: 'app_route_removeOrder', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_VIEW_ROUTE')]
     public function removeOrderToRoute(Request $request): Response
     {
         $routeId = $request->query->get('routeId');
@@ -203,6 +209,7 @@ class HomeController extends AbstractController
     }
 
     #[Route('/route/arrangeSite', name: 'app_route_arrangeSites', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_VIEW_ROUTE')]
     public function arrangeRouteSite(Request $request)
     {
         $parameters = json_decode($request->getContent(), true);

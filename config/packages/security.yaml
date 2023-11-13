@@ -42,14 +42,15 @@ security:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/reset-password, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/, roles: ROLE_VIEW_ROUTE }
         # - { path: ^/profile, roles: ROLE_USER }
 
-    # role_hierarchy:
-    #     ROLE_ADMIN: [ROLE_EDITOR]
-    #     ROLE_EDITOR: [ROLE_COMMENTER]
-    #     ROLE_COMMENTER: [ROLE_USER]
-
+    role_hierarchy:
+        ROLE_ADMIN: [ROLE_USER_MANAGEMENT, ROLE_DUPLICATE, ROLE_EDIT_DIRECTORIES, ROLE_EDIT_COMPLETED_ORDERS, ROLE_DUPLICATE]
+        ROLE_DUPLICATE: [ROLE_EDIT_ORDER, ROLE_VIEW_ROUTE]
+        ROLE_EDIT_COMPLETED_ORDERS: [ROLE_EDIT_ORDER]
+        ROLE_EDIT_ORDER: [ROLE_VIEW_ORDERS]
+        ROLE_EDIT_DIRECTORIES: [ROLE_VIEW_DIRECTORIES]
 
 when@test:
     security:

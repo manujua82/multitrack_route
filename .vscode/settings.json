@@ -1,4 +1,6 @@
 {
-  "cSpell.words": ["Autocompleter", "inversed"],
-  "editor.tabSize": 4
+    "cSpell.words": [
+        "Autocompleter"
+    ],
+    "editor.tabSize": 4,
 }

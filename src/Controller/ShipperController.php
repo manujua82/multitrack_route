@@ -13,9 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\SecurityBundle\Security;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class ShipperController extends AbstractController
 {
     private $mainCompany;
@@ -26,6 +28,7 @@ class ShipperController extends AbstractController
     }
 
     #[Route('/shipper', name: 'app_shipper')]
+    #[IsGranted('ROLE_VIEW_DIRECTORIES')]
     public function index(ShipperRepository $repository): Response
     {
         return $this->render('shipper/index.html.twig', [
@@ -34,6 +37,7 @@ class ShipperController extends AbstractController
     }
 
     #[Route('/shipper/new', name: 'app_shipper_new')]
+    #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function add(
         Request $request,
         ShipperRepository $shipperRepository,
@@ -56,6 +60,7 @@ class ShipperController extends AbstractController
     }
 
     #[Route('/shipper/{shipperEntity}/edit', name: 'app_shipper_edit')]
+    #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function edit(
         Shipper $shipperEntity,
         Request $request,
@@ -81,6 +86,7 @@ class ShipperController extends AbstractController
     }
 
     #[Route('/shipper/{shipperEntity}/delete', name: 'app_shipper_delete')]
+    #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function delete(
         Shipper $shipperEntity,
         ShipperRepository $shipperRepository,

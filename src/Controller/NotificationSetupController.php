@@ -10,7 +10,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[IsGranted('IS_AUTHENTICATED_FULLY')]
 class NotificationSetupController extends AbstractController
 {
     private $placeHolders;
@@ -55,7 +57,9 @@ class NotificationSetupController extends AbstractController
             'placeHolders' => $this->placeHolders
         ]);
     }
+    
     #[Route('/notification/scheduled', name: 'app_notification_schedule')]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(
         Request $request,
         NotificationSetupRepository $repository
@@ -70,6 +74,7 @@ class NotificationSetupController extends AbstractController
     }
 
     #[Route('/notification/route-start', name: 'app_notification_atRouteStart')]
+    #[IsGranted('ROLE_ADMIN')]
     public function atRouteStart(
         Request $request,
         NotificationSetupRepository $repository
@@ -84,6 +89,7 @@ class NotificationSetupController extends AbstractController
     }
 
     #[Route('/notification/delivered', name: 'app_notification_atDelivered')]
+    #[IsGranted('ROLE_ADMIN')]
     public function atDelivered(
         Request $request,
         NotificationSetupRepository $repository
