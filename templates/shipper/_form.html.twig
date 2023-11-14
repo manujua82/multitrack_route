@@ -35,29 +35,28 @@
                         </div>
                     
                         {% if entity is defined %}
-                        <div class="d-flex flex-row-reverse">
-                            <div  
-                                {{ stimulus_controller('modal-form', {
-                                    formUrl: path('app_shipper_add_user', { shipperEntity: entity.id }),
-                                    loadingText:  'Loading'|trans
-                                })}}
-                                data-action="hidden.bs.modal->modal-form#modalHidden"
-                                
-                            >
-                                <a 
-                                    class="btn btn-primary btn-sm me-4"
-                                    data-action="modal-form#openModal"
+                            <div class="d-flex flex-row-reverse">
+                                <div  
+                                    {{ stimulus_controller('modal-form', {
+                                        formUrl: path('app_shipper_add_user', { shipperEntity: entity.id }),
+                                        loadingText:  'Loading'|trans
+                                    })}}
+                                    data-action="hidden.bs.modal->modal-form#modalHidden"
                                 >
-                                    <span class="far fa-user me-2"></span>
-                                    <span>{{ 'New User' | trans }}</span>
-                                </a>
-                            
-                                {{ include('widgets/_homeModal.html.twig', {
-                                    modalTitle: "Add User"|trans
-                                }) }}
+                                    <a 
+                                        class="btn btn-primary btn-sm me-4"
+                                        data-action="modal-form#openModal"
+                                    >
+                                        <span class="far fa-user me-2"></span>
+                                        <span>{{ 'New User' | trans }}</span>
+                                    </a>
+                                
+                                    {{ include('widgets/_homeModal.html.twig', {
+                                        modalTitle: "Add User"|trans
+                                    }) }}
+                                </div>
                             </div>
-                        </div>
-                        {{ include('shipper/_userList.html.twig') }}
+                            {{ include('shipper/_userList.html.twig') }}
                         {% endif %}
                          <div class="col-12 gy-12">
                             <div class="row g-3 justify-content-end">

@@ -41,11 +41,6 @@
                 "default": false,
                 "active": false
             },
-            "allShippers": {
-                "rol": "ROLE_ALL_SHIPPERS",
-                "default": true,
-                "active": true
-            },
             "canAddOrders": {
                 "rol": "ROL_SHIPPER_ADD_ORDERS",
                 "default": false,
@@ -145,11 +140,6 @@
                 "default": false,
                 "active": true
             },
-            "allShippers": {
-                "rol": "ROLE_ALL_SHIPPERS",
-                "default": true,
-                "active": true
-            },
             "canAddOrders": {
                 "rol": "ROL_SHIPPER_ADD_ORDERS",
                 "default": false,
@@ -206,11 +196,6 @@
                 "rol": "ROLE_EDIT_COMPLETED_ORDERS",
                 "default": false,
                 "active": false
-            },
-            "allShippers": {
-                "rol": "ROLE_ALL_SHIPPERS",
-                "default": true,
-                "active": true
             },
             "canAddOrders": {
                 "rol": "ROL_SHIPPER_ADD_ORDERS",
@@ -328,11 +313,6 @@
             },
             "editCompOrders": {
                 "rol": "ROLE_EDIT_COMPLETED_ORDERS",
-                "default": false,
-                "active": false
-            },
-            "allShippers": {
-                "rol": "ROLE_ALL_SHIPPERS",
                 "default": false,
                 "active": false
             },

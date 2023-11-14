@@ -103,7 +103,7 @@ class ShipperController extends AbstractController
         return $this->redirectToRoute('app_shipper');
     }
 
-    #[Route('/shipper/{shipperEntity}/addUSer', name: 'app_shipper_add_user')]
+    #[Route('/shipper/{shipperEntity}/addUser', name: 'app_shipper_add_user', methods: ['GET', 'POST'])]
     public function newUser(
         Shipper $shipperEntity,
         UserRepository $userRepository,
@@ -113,6 +113,7 @@ class ShipperController extends AbstractController
     ): Response {
         $form = $this->createForm(UserType::class, new User());
         $form->handleRequest($request);
+        
         if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
             $userEntity->setStringRoles($form->get('roleGroup')->getData(), $form->get('rolesUser')->getData());
@@ -132,7 +133,10 @@ class ShipperController extends AbstractController
 
         return $this->render('shipper/new_user.html.twig', [
             'form' => $form->createView(),
-        ]);
+        ], new Response(
+            null,
+            $form->isSubmitted() && !$form->isValid() ? 422 : 200,
+        ));
     }
 
     #[Route('/shipper/{userEntity}/editUser', name: 'app_shipper_edit_user')]
