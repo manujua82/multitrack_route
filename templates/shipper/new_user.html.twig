@@ -1,3 +1,4 @@
 {{ form_start(form, {'attr': { 'novalidate': 'novalidate', 'class': "row g-3 mb-6 needs-validation", 'id': 'route_form'}}) }}
     {{ include('user/_bodyForm.html.twig', {'width': 12, 'classWhite': '', 'type': 'shipper'}) }}
 {{ form_end(form) }}
+<div {{ stimulus_controller('permissions', {'origin' : 'shipper'}) }} </div>

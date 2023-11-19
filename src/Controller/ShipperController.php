@@ -113,7 +113,7 @@ class ShipperController extends AbstractController
     ): Response {
         $form = $this->createForm(UserType::class, new User());
         $form->handleRequest($request);
-        
+
         if ($form->isSubmitted() && $form->isValid()) {
             $userEntity = $form->getData();
             $userEntity->setStringRoles($form->get('roleGroup')->getData(), $form->get('rolesUser')->getData());
@@ -161,16 +161,24 @@ class ShipperController extends AbstractController
         ]);
     }
 
+    #[Route('/shipper/{shipperEntity}/listUser', name: 'app_shipper_list_user')]
+    public function listUser(Shipper $shipperEntity): Response
+    {
+        return $this->render('shipper/_userList.html.twig', [
+            'entity' => $shipperEntity
+        ]);
+    }
+
     #[Route('/shipper/{userEntity}/deleteUser', name: 'app_shipper_delete_user')]
     public function deleteUser(
         User $userEntity,
-        Shipper $shipperEntity,
         UserRepository $userRepository,
+        ShipperRepository $shipperRepository,
     ): Response {
         $shipperEntity = $userEntity->getShipper();
-        $shipperEntity->removeUser($userEntity);
+        $shipperRepository->removeUser($shipperEntity, $userEntity);
         $userRepository->delete($userEntity);
 
-        return $this->redirectToRoute('app_shipper');
+        return $this->redirectToRoute('app_shipper_edit', ['shipperEntity' => $shipperEntity->getId()]);
     }
 }

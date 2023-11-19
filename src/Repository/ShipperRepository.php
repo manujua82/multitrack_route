@@ -54,4 +54,12 @@ class ShipperRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+
+    public function removeUser(Shipper $entity, User $user, bool $flush = false): void
+    {
+        $entity->removeUser($user);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

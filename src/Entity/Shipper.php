@@ -148,7 +148,7 @@ class Shipper
     {
         if ($this->users->removeElement($user)) {
             if ($user->getShipper() === $this) {
-                $user->getShipper(null);
+                $user->setShipper(null);
             }
         }
 

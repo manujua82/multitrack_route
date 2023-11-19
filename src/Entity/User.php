@@ -64,6 +64,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?\DateTimeInterface $agreedTermsAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Shipper $shipper = null;
 
     public function getId(): ?int
@@ -194,7 +195,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->shipper;
     }
 
-    public function setShipper(Shipper $shipper): static
+    public function setShipper(?Shipper $shipper): static
     {
         $this->shipper = $shipper;
 
