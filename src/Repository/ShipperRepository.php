@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Shipper;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -22,8 +23,7 @@ class ShipperRepository extends ServiceEntityRepository
     public function __construct(
         ManagerRegistry $registry,
         Security $security
-    )
-    {
+    ) {
         parent::__construct($registry, Shipper::class);
         $this->mainCompany = $security->getUser()->getMainCompany();
     }
@@ -55,28 +55,11 @@ class ShipperRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Shipper[] Returns an array of Shipper objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('s.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?Shipper
-//    {
-//        return $this->createQueryBuilder('s')
-//            ->andWhere('s.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
+    public function removeUser(Shipper $entity, User $user, bool $flush = false): void
+    {
+        $entity->removeUser($user);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
+    }
 }

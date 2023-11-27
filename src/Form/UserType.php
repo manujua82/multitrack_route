@@ -37,6 +37,7 @@ class UserType extends AbstractType
                     "Carrier" => 'carrier',
                     "Shipper Manager" => 'shipper-manager',
                     "Admin" => 'admin',
+                    "Shipper" => 'shipper',
                 ],
             ])
             ->add('email', EmailType::class, [
@@ -80,6 +81,18 @@ class UserType extends AbstractType
                 'required' => false
             ])
             ->add('roleAllowEditDirectories', CheckboxType::class, [
+                'mapped' => false,
+                'required' => false
+            ])
+            ->add('roleAllowCanAddOrders', CheckboxType::class, [
+                'mapped' => false,
+                'required' => false
+            ])
+            ->add('roleAllowCanEditOrders', CheckboxType::class, [
+                'mapped' => false,
+                'required' => false
+            ])
+            ->add('roleAllowCanDeleteOrders', CheckboxType::class, [
                 'mapped' => false,
                 'required' => false
             ]);

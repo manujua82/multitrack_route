@@ -2,11 +2,8 @@
 
 namespace App\Controller;
 
-use App\Entity\Address;
-use App\Entity\Order;
 use App\Entity\OrderStatus;
 use App\Entity\Route as EntityRoute;
-use App\Entity\RouteAddress;
 use App\Form\RouteType;
 use App\Repository\CorrelativesRepository;
 use App\Repository\OrderRepository;

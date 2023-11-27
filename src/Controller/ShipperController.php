@@ -3,18 +3,30 @@
 namespace App\Controller;
 
 use App\Entity\Shipper;
+use App\Entity\User;
 use App\Form\ShipperType;
+use App\Form\UserType;
 use App\Repository\ShipperRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Contracts\Translation\TranslatorInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[IsGranted('IS_AUTHENTICATED_FULLY')]
 class ShipperController extends AbstractController
-{   
+{
+    private $mainCompany;
+
+    public function __construct(Security $security)
+    {
+        $this->mainCompany = $security->getUser()->getMainCompany();
+    }
+
     #[Route('/shipper', name: 'app_shipper')]
     #[IsGranted('ROLE_VIEW_DIRECTORIES')]
     public function index(ShipperRepository $repository): Response
@@ -27,16 +39,15 @@ class ShipperController extends AbstractController
     #[Route('/shipper/new', name: 'app_shipper_new')]
     #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function add(
-        Request $request, 
-        ShipperRepository $repository,
+        Request $request,
+        ShipperRepository $shipperRepository,
         TranslatorInterface $translator
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(ShipperType::class, new Shipper());
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) { 
+        if ($form->isSubmitted() && $form->isValid()) {
             $newShipper = $form->getData();
-            $repository->add($newShipper, true);   
+            $shipperRepository->add($newShipper, true);
 
             $flashMessage = $translator->trans('Shipper created flash', ['code' => $newShipper->getCode()]);
             $this->addFlash('success', $flashMessage);
@@ -44,24 +55,24 @@ class ShipperController extends AbstractController
         }
 
         return $this->render('shipper/_form.html.twig', [
-            'form' => $form->createView(),
+            'formShipper' => $form->createView(),
         ]);
     }
 
     #[Route('/shipper/{shipperEntity}/edit', name: 'app_shipper_edit')]
     #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function edit(
-        Shipper $shipperEntity, 
-        Request $request, 
+        Shipper $shipperEntity,
+        Request $request,
         ShipperRepository $repository,
         TranslatorInterface $translator
-    ): Response
-    {
+    ): Response {
         $form = $this->createForm(ShipperType::class, $shipperEntity);
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) { 
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $newShipper = $form->getData();
-            $repository->add($newShipper, true);   
+            $repository->add($newShipper, true);
 
             $flashMessage = $translator->trans('Shipper edit flash', ['code' => $newShipper->getCode()]);
             $this->addFlash('success', $flashMessage);
@@ -69,22 +80,105 @@ class ShipperController extends AbstractController
         }
 
         return $this->render('shipper/_form.html.twig', [
-            'form' => $form->createView(),
+            'formShipper' => $form->createView(),
+            'entity' => $shipperEntity
         ]);
     }
 
     #[Route('/shipper/{shipperEntity}/delete', name: 'app_shipper_delete')]
     #[IsGranted('ROLE_EDIT_DIRECTORIES')]
     public function delete(
-        Shipper $shipperEntity, 
-        ShipperRepository $repository,
+        Shipper $shipperEntity,
+        ShipperRepository $shipperRepository,
+        UserRepository $userRepository,
         TranslatorInterface $translator
-    ): Response
-    {
+    ): Response {
         $flashMessage = $translator->trans('Shipper %code% was deleted', ['%code%' => $shipperEntity->getCode()]);
         $this->addFlash('success', $flashMessage);
 
-        $repository->delete($shipperEntity, true);
+        foreach ($shipperEntity->getUsers() as $user) {
+            $userRepository->delete($user, false);
+        }
+        $shipperRepository->delete($shipperEntity, true);
         return $this->redirectToRoute('app_shipper');
+    }
+
+    #[Route('/shipper/{shipperEntity}/addUser', name: 'app_shipper_add_user', methods: ['GET', 'POST'])]
+    public function newUser(
+        Shipper $shipperEntity,
+        UserRepository $userRepository,
+        Request $request,
+        UserPasswordHasherInterface $userPasswordHasher,
+        ShipperRepository $shipperRepository
+    ): Response {
+        $form = $this->createForm(UserType::class, new User());
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userEntity = $form->getData();
+            $userEntity->setStringRoles($form->get('roleGroup')->getData(), $form->get('rolesUser')->getData());
+            $userEntity->setMainCompany($this->mainCompany);
+            $userEntity->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $userEntity,
+                    'REGISTER_DEFAULT_USER'
+                )
+            );
+            $userEntity->setAgreedTerms();
+
+            $userRepository->add($userEntity);
+            $shipperEntity->addUser($userEntity);
+            $shipperRepository->add($shipperEntity, true);
+        }
+
+        return $this->render('shipper/new_user.html.twig', [
+            'form' => $form->createView(),
+        ], new Response(
+            null,
+            $form->isSubmitted() && !$form->isValid() ? 422 : 200,
+        ));
+    }
+
+    #[Route('/shipper/{userEntity}/editUser', name: 'app_shipper_edit_user')]
+    public function editUser(
+        User $userEntity,
+        Request $request,
+        UserRepository $userRepository,
+    ): Response {
+        $roles = implode(",", $userEntity->getRoles());
+        $form = $this->createForm(UserType::class, $userEntity, array("edit" => true, "roles" => $roles));
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $userEntity = $form->getData();
+            $userEntity->setStringRoles($form->get('roleGroup')->getData(), $form->get('rolesUser')->getData());
+            $userRepository->add($userEntity);
+        }
+
+        $userEntity = $form->getData();
+        return $this->render('shipper/new_user.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/shipper/{shipperEntity}/listUser', name: 'app_shipper_list_user')]
+    public function listUser(Shipper $shipperEntity): Response
+    {
+        return $this->render('shipper/_userList.html.twig', [
+            'entity' => $shipperEntity
+        ]);
+    }
+
+    #[Route('/shipper/{userEntity}/deleteUser', name: 'app_shipper_delete_user')]
+    public function deleteUser(
+        User $userEntity,
+        UserRepository $userRepository,
+        ShipperRepository $shipperRepository,
+    ): Response {
+        $shipperEntity = $userEntity->getShipper();
+        $shipperRepository->removeUser($shipperEntity, $userEntity);
+        $userRepository->delete($userEntity);
+
+        return $this->redirectToRoute('app_shipper_edit', ['shipperEntity' => $shipperEntity->getId()]);
     }
 }

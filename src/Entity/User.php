@@ -62,7 +62,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE,  nullable: true)]
     private ?\DateTimeInterface $agreedTermsAt = null;
-    
+
+    #[ORM\ManyToOne(inversedBy: 'users')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Shipper $shipper = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -182,6 +186,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         }
 
         $this->driver = $driver;
+
+        return $this;
+    }
+
+    public function getShipper(): ?Shipper
+    {
+        return $this->shipper;
+    }
+
+    public function setShipper(?Shipper $shipper): static
+    {
+        $this->shipper = $shipper;
 
         return $this;
     }

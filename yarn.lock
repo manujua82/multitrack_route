@@ -1059,6 +1059,9 @@
 "@symfony/ux-autocomplete@file:vendor/symfony/ux-autocomplete/assets":
   version "1.0.0"
 
+"@symfony/ux-dropzone@file:vendor/symfony/ux-dropzone/assets":
+  version "1.1.0"
+
 "@symfony/ux-live-component@file:vendor/symfony/ux-live-component/assets":
   version "1.0.0"
   dependencies:

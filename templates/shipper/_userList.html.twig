@@ -1,0 +1,46 @@
+<div 
+    id="users" 
+    {# USED TO EDIT USERS #}
+    {{ stimulus_controller('modal-form', {
+        loadingText:  'Loading'|trans
+    }) }}
+    > 
+    <div class="table-responsive scrollbar ms-n1 ps-1">
+        <table 
+        class="table table-sm table-hover fs--1 mb-0"  
+        data-route-dashboard-target="routeTable"
+        >
+            <thead>
+                <tr>
+                    <th class="sort border-top" data-sort="no">{{ 'Name' |trans }}</th>
+                    <th class="sort border-top" data-sort="date">{{ 'Email' |trans }}</th>
+                <th class="sort border-top text-end align-middle pe-0 ps-4" style="max-width:20px; width:18px;" scope="col"></th>
+                </tr>
+            </thead>
+            {% if entity is not null %}
+                {% if entity.users %}
+                    <tbody class="list" id="users-table-body" data-reload-content-target="users">
+                        {% for user in entity.users %}
+                            <tr id="{{ user.id}}">
+                                <td class="align-middle white-space-nowrap">{{ user.name}}</td>
+                                <td class="align-middle white-space-nowrap">{{ user.email}}</td>
+                                <td class="align-middle white-space-nowrap text-end pe-0 ps-4 btn-reveal-trigger">
+                                    <a class="m-2" data-action="modal-form#editIconEntity" data-value="{{ path('app_shipper_edit_user', { userEntity: user.id }) }}">
+                                        <i class="fa fa-pencil"></i>
+                                    </a> 
+                                    <a href="{{ path('app_shipper_delete_user', { userEntity: user.id }) }}" data-original-title="Remove" data-toggle="tooltip">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                {% endif %}
+            {% endif %}
+        </table>
+    </div>
+
+    {{ include('widgets/_homeModal.html.twig', {
+        modalTitle: "Edit User"|trans
+    }) }}
+</div>

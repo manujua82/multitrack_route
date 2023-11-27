@@ -66,7 +66,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $newUser->setDeleted(false);
         $newUser->setMainCompany($company);
         $newUser->setRoles($roles);
-        
+
         $this->getEntityManager()->persist($newUser);
         $this->getEntityManager()->flush();
 
@@ -89,5 +89,13 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('company', $company)
             ->getQuery()
             ->getResult();
+    }
+
+    public function delete(User $entity, bool $flush = true): void
+    {
+        $entity->setDeleted(true);
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
 }
