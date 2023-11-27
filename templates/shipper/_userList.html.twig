@@ -25,13 +25,12 @@
                                 <td class="align-middle white-space-nowrap">{{ user.name}}</td>
                                 <td class="align-middle white-space-nowrap">{{ user.email}}</td>
                                 <td class="align-middle white-space-nowrap text-end pe-0 ps-4 btn-reveal-trigger">
-                                <button class="btn btn-sm dropdown-toggle dropdown-caret-none transition-none btn-reveal fs--2" type="button" data-bs-toggle="dropdown" data-boundary="window" aria-haspopup="true" aria-expanded="false" data-bs-reference="parent">
-                                        <span class="fas fa-ellipsis-h fs--2"></span>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-end py-2">
-                                        <a class="dropdown-item" data-action="modal-form#editEntity" data-value="{{ path('app_shipper_edit_user', { userEntity: user.id }) }}">{{ 'Edit' | trans}}</a>
-                                        <a class="dropdown-item text-danger" href="{{ path('app_shipper_delete_user', { userEntity: user.id }) }}">{{ 'Delete' | trans}}</a>
-                                    </div>
+                                    <a class="m-2" data-action="modal-form#editIconEntity" data-value="{{ path('app_shipper_edit_user', { userEntity: user.id }) }}">
+                                        <i class="fa fa-pencil"></i>
+                                    </a> 
+                                    <a href="{{ path('app_shipper_delete_user', { userEntity: user.id }) }}" data-original-title="Remove" data-toggle="tooltip">
+                                        <i class="fa fa-trash"></i>
+                                    </a>
                                 </td>
                             </tr>
                         {% endfor %}

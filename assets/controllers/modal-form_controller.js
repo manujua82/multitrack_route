@@ -32,6 +32,16 @@ export default class extends Controller {
     this.populateFormModal("POST");
   }
 
+  async editIconEntity(event) {
+    let dataValue = event.target.dataset.value;
+    if (!dataValue) dataValue = event.target.parentElement.dataset.value;
+    if (!dataValue)
+      dataValue = event.target.parentElement.parentElement.dataset.value;
+
+    this.formUrlValue = dataValue;
+    this.populateFormModal("POST");
+  }
+
   async submitForm(event) {
     event.preventDefault();
     const $form = $(this.modalBodyTarget).find("form");
